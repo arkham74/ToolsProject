@@ -2,7 +2,7 @@
 using UnityEditor.AssetImporters;
 using UnityEngine;
 
-namespace TextureChannelPacker
+namespace TextureChannelPacker.Editor
 {
 	[CustomEditor(typeof(TextureChannelPacker))]
 	public class TextureChannelPackerEditor : ScriptedImporterEditor

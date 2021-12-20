@@ -6,12 +6,6 @@ using Unity.Jobs;
 using UnityEditor.AssetImporters;
 using UnityEngine;
 
-// ReSharper disable InconsistentNaming
-// ReSharper disable ConvertToConstant.Global
-// ReSharper disable UnassignedField.Global
-// ReSharper disable FieldCanBeMadeReadOnly.Global
-// ReSharper disable MemberCanBePrivate.Global
-
 namespace TextureChannelPacker
 {
 	[ScriptedImporter(1, "texpack")]
