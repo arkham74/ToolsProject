@@ -1,0 +1,25 @@
+#pragma kernel CSMain
+#include "SimplexNoise.hlsl"
+
+float _Size;
+float _Scale;
+float _InvertedSizeScale;
+float3 _Offset;
+
+RWStructuredBuffer<float4> _Noise;
+
+void SetPosition (uint3 id, float4 value)
+{
+	if (id.x < _Size && id.y < _Size && id.z < _Size)
+	{
+		_Noise[id.x + _Size * (id.y + _Size * id.z)] = value;
+	}
+}
+
+[numthreads(4,4,4)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+	float3 pos = id * _InvertedSizeScale + _Offset;
+	float noise = snoise(pos);
+	SetPosition(id, noise);
+}
