@@ -19,6 +19,10 @@ namespace TextureChannelPacker.Editor
 		private SerializedProperty wrapModeProp;
 		private SerializedProperty filterModeProp;
 		private SerializedProperty anisoLevelProp;
+		private SerializedProperty redInvertProp;
+		private SerializedProperty greenInvertProp;
+		private SerializedProperty blueInvertProp;
+		private SerializedProperty alphaInvertProp;
 
 		[MenuItem("Assets/Create/Texture Packer")]
 		public static void CreateNewAsset()
@@ -41,6 +45,10 @@ namespace TextureChannelPacker.Editor
 			wrapModeProp = serializedObject.FindProperty("wrapMode");
 			filterModeProp = serializedObject.FindProperty("filterMode");
 			anisoLevelProp = serializedObject.FindProperty("anisoLevel");
+			redInvertProp = serializedObject.FindProperty("redInvert");
+			greenInvertProp = serializedObject.FindProperty("greenInvert");
+			blueInvertProp = serializedObject.FindProperty("blueInvert");
+			alphaInvertProp = serializedObject.FindProperty("alphaInvert");
 		}
 
 		public override void OnInspectorGUI()
@@ -50,22 +58,26 @@ namespace TextureChannelPacker.Editor
 			EditorGUILayout.Separator();
 
 			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.PropertyField(redChannelProp);
+			EditorGUILayout.PropertyField(redInvertProp, new GUIContent("Red"));
+			EditorGUILayout.PropertyField(redChannelProp, GUIContent.none);
 			EditorGUILayout.PropertyField(redTexProp, GUIContent.none);
 			EditorGUILayout.EndHorizontal();
 
 			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.PropertyField(greenChannelProp);
+			EditorGUILayout.PropertyField(greenInvertProp, new GUIContent("Green"));
+			EditorGUILayout.PropertyField(greenChannelProp, GUIContent.none);
 			EditorGUILayout.PropertyField(greenTexProp, GUIContent.none);
 			EditorGUILayout.EndHorizontal();
 
 			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.PropertyField(blueChannelProp);
+			EditorGUILayout.PropertyField(blueInvertProp, new GUIContent("Blue"));
+			EditorGUILayout.PropertyField(blueChannelProp, GUIContent.none);
 			EditorGUILayout.PropertyField(blueTexProp, GUIContent.none);
 			EditorGUILayout.EndHorizontal();
 
 			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.PropertyField(alphaChannelProp);
+			EditorGUILayout.PropertyField(alphaInvertProp, new GUIContent("Alpha"));
+			EditorGUILayout.PropertyField(alphaChannelProp, GUIContent.none);
 			EditorGUILayout.PropertyField(alphaTexProp, GUIContent.none);
 			EditorGUILayout.EndHorizontal();
 

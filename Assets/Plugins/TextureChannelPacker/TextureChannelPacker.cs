@@ -30,6 +30,11 @@ namespace TextureChannelPacker
 		public Channel blueChannel = Channel.Blue;
 		public Channel alphaChannel = Channel.Alpha;
 
+		public bool redInvert;
+		public bool greenInvert;
+		public bool blueInvert;
+		public bool alphaInvert;
+
 		public TextureWrapMode wrapMode = TextureWrapMode.Repeat;
 		public FilterMode filterMode = FilterMode.Bilinear;
 		[Range(0, 16)] public int anisoLevel = 1;
@@ -62,10 +67,10 @@ namespace TextureChannelPacker
 
 			for (int i = 0; i < colors.Length; i++)
 			{
-				byte r = GetChannel(i, redcolors, redChannel);
-				byte g = GetChannel(i, greencolors, greenChannel);
-				byte b = GetChannel(i, bluecolors, blueChannel);
-				byte a = GetChannel(i, alphacolors, alphaChannel);
+				byte r = GetChannel(i, redcolors, redChannel, redInvert);
+				byte g = GetChannel(i, greencolors, greenChannel, greenInvert);
+				byte b = GetChannel(i, bluecolors, blueChannel, blueInvert);
+				byte a = GetChannel(i, alphacolors, alphaChannel, alphaInvert);
 				colors[i] = new Color32(r, g, b, a);
 			}
 
@@ -80,10 +85,10 @@ namespace TextureChannelPacker
 			return tex ? tex : def;
 		}
 
-		private static byte GetChannel(int i, IReadOnlyList<Color32> colors, Channel channel)
+		private static byte GetChannel(int i, IReadOnlyList<Color32> colors, Channel channel, bool invert)
 		{
 			Color32 color = colors[i];
-			return channel switch
+			byte c = channel switch
 			{
 				Channel.Red => color.r,
 				Channel.Green => color.g,
@@ -91,6 +96,9 @@ namespace TextureChannelPacker
 				Channel.Alpha => color.a,
 				_ => (byte) 0,
 			};
+
+			byte inverted = (byte) (255 - c);
+			return invert ? inverted : c;
 		}
 
 		//https://pastebin.com/qkkhWs2J
