@@ -17,7 +17,7 @@ namespace GradientTexture
 	public class GradientTexture : ScriptedImporter
 	{
 		public Gradient gradient = new Gradient();
-		public int size = 32;
+		public Vector2Int size = new Vector2Int(512, 32);
 		public TextureFormat format = TextureFormat.RGBA32;
 		public TextureWrapMode wrapMode = TextureWrapMode.Clamp;
 		public FilterMode filterMode = FilterMode.Bilinear;
@@ -25,13 +25,23 @@ namespace GradientTexture
 
 		public override void OnImportAsset(AssetImportContext ctx)
 		{
-			Texture2D texture = new Texture2D(size, 1, format, false, true)
+			Texture2D texture = new Texture2D(size.x, size.y, format, false, true)
 			{
 				wrapMode = wrapMode,
 				filterMode = filterMode,
 				anisoLevel = anisoLevel
 			};
-			Color[] pixels = Enumerable.Range(0, size).Select(i => gradient.Evaluate((float) i / size)).ToArray();
+			Color[] pixels = new Color[size.x * size.y];
+
+			for (int x = 0; x < size.x; x++)
+			{
+				Color pixel = gradient.Evaluate((float) x / size.x);
+				for (int y = 0; y < size.y; y++)
+				{
+					pixels[y * size.x + x] = pixel;
+				}
+			}
+
 			texture.SetPixels(pixels);
 			ctx.AddObjectToAsset("Gradient Texture", texture);
 			ctx.SetMainObject(texture);
