@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: 599744a1156bf7a448290d90cbea847e
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 646a71ce6a1692c42819ea85566e9d28, type: 3}
+  size: {x: 512, y: 512}
+  redTex: {fileID: 2800000, guid: b1dd26df52033c14cb5d15b95921062b, type: 3}
+  greenTex: {fileID: 2800000, guid: 7fd75a3259638fd46a19c844d8eaacfd, type: 3}
+  blueTex: {fileID: 2800000, guid: 8703464cc03c1694fbacb98764c4173d, type: 3}
+  alphaTex: {fileID: 2800000, guid: d4c4d2bb6c86f7b4dbb9c337fe374f4e, type: 3}
+  redChannel: 0
+  greenChannel: 1
+  blueChannel: 2
+  alphaChannel: 0
+  redInvert: 0
+  greenInvert: 0
+  blueInvert: 0
+  alphaInvert: 0
+  wrapMode: 0
+  filterMode: 1
+  anisoLevel: 1

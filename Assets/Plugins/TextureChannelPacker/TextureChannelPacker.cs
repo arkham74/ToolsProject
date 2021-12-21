@@ -82,7 +82,12 @@ namespace TextureChannelPacker
 
 		private static Texture2D GetTexture(Texture2D tex, Texture2D def)
 		{
-			return tex ? tex : def;
+			if (tex && !tex.isReadable)
+			{
+				Debug.LogWarning($"{tex} is not readable");
+			}
+
+			return tex && tex.isReadable ? tex : def;
 		}
 
 		private static byte GetChannel(int i, IReadOnlyList<Color32> colors, Channel channel, bool invert)
