@@ -24,6 +24,13 @@ namespace TextureChannelPacker.Editor
 		private SerializedProperty blueInvertProp;
 		private SerializedProperty alphaInvertProp;
 
+		private readonly GUIContent redContent = new GUIContent("Red");
+		private readonly GUIContent greenContent = new GUIContent("Green");
+		private readonly GUIContent blueContent = new GUIContent("Blue");
+		private readonly GUIContent alphaContent = new GUIContent("Alpha");
+		private readonly GUILayoutOption width = GUILayout.Width(100);
+		private readonly GUILayoutOption height = GUILayout.Height(100);
+
 		[MenuItem("Assets/Create/Texture Packer")]
 		public static void CreateNewAsset()
 		{
@@ -58,25 +65,25 @@ namespace TextureChannelPacker.Editor
 			EditorGUILayout.Separator();
 
 			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.PropertyField(redInvertProp, new GUIContent("Red"));
+			EditorGUILayout.PropertyField(redInvertProp, redContent);
 			EditorGUILayout.PropertyField(redChannelProp, GUIContent.none);
 			EditorGUILayout.PropertyField(redTexProp, GUIContent.none);
 			EditorGUILayout.EndHorizontal();
 
 			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.PropertyField(greenInvertProp, new GUIContent("Green"));
+			EditorGUILayout.PropertyField(greenInvertProp, greenContent);
 			EditorGUILayout.PropertyField(greenChannelProp, GUIContent.none);
 			EditorGUILayout.PropertyField(greenTexProp, GUIContent.none);
 			EditorGUILayout.EndHorizontal();
 
 			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.PropertyField(blueInvertProp, new GUIContent("Blue"));
+			EditorGUILayout.PropertyField(blueInvertProp, blueContent);
 			EditorGUILayout.PropertyField(blueChannelProp, GUIContent.none);
 			EditorGUILayout.PropertyField(blueTexProp, GUIContent.none);
 			EditorGUILayout.EndHorizontal();
 
 			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.PropertyField(alphaInvertProp, new GUIContent("Alpha"));
+			EditorGUILayout.PropertyField(alphaInvertProp, alphaContent);
 			EditorGUILayout.PropertyField(alphaChannelProp, GUIContent.none);
 			EditorGUILayout.PropertyField(alphaTexProp, GUIContent.none);
 			EditorGUILayout.EndHorizontal();
@@ -85,6 +92,19 @@ namespace TextureChannelPacker.Editor
 			EditorGUILayout.PropertyField(wrapModeProp);
 			EditorGUILayout.PropertyField(filterModeProp);
 			EditorGUILayout.PropertyField(anisoLevelProp);
+			EditorGUILayout.Separator();
+
+			EditorGUILayout.BeginHorizontal();
+			GUIContent redPrev = new GUIContent(redTexProp.objectReferenceValue as Texture2D);
+			GUIContent greenPrev = new GUIContent(greenTexProp.objectReferenceValue as Texture2D);
+			GUIContent bluePrev = new GUIContent(blueTexProp.objectReferenceValue as Texture2D);
+			GUIContent alphaPrev = new GUIContent(alphaTexProp.objectReferenceValue as Texture2D);
+			EditorGUILayout.LabelField(redPrev, width, height);
+			EditorGUILayout.LabelField(greenPrev, width, height);
+			EditorGUILayout.LabelField(bluePrev, width, height);
+			EditorGUILayout.LabelField(alphaPrev, width, height);
+			EditorGUILayout.EndHorizontal();
+
 			serializedObject.ApplyModifiedProperties();
 			ApplyRevertGUI();
 		}

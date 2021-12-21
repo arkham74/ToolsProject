@@ -1,8 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Unity.Collections;
-using Unity.Jobs;
 using UnityEditor.AssetImporters;
 using UnityEngine;
 
@@ -41,7 +37,9 @@ namespace TextureChannelPacker
 
 		public override void OnImportAsset(AssetImportContext ctx)
 		{
-			Texture2D texture = new Texture2D(size.x, size.y)
+			int sizeX = Mathf.Max(1, size.x);
+			int sizeY = Mathf.Max(1, size.y);
+			Texture2D texture = new Texture2D(sizeX, sizeY)
 			{
 				filterMode = filterMode,
 				wrapMode = wrapMode,
@@ -53,13 +51,12 @@ namespace TextureChannelPacker
 			Texture2D bTex = GetTexture(blueTex, Texture2D.blackTexture);
 			Texture2D aTex = GetTexture(alphaTex, Texture2D.whiteTexture);
 
-			Texture2D red = Scale(rTex, size.x, size.y, filterMode);
-			Texture2D green = Scale(gTex, size.x, size.y, filterMode);
-			Texture2D blue = Scale(bTex, size.x, size.y, filterMode);
-			Texture2D alpha = Scale(aTex, size.x, size.y, filterMode);
+			Texture2D red = Scale(rTex, sizeX, sizeY, filterMode);
+			Texture2D green = Scale(gTex, sizeX, sizeY, filterMode);
+			Texture2D blue = Scale(bTex, sizeX, sizeY, filterMode);
+			Texture2D alpha = Scale(aTex, sizeX, sizeY, filterMode);
 
-			Color32[] colors = new Color32[size.x * size.y];
-
+			Color32[] colors = new Color32[sizeX * sizeY];
 			Color32[] redcolors = red.GetPixels32();
 			Color32[] greencolors = green.GetPixels32();
 			Color32[] bluecolors = blue.GetPixels32();
@@ -82,26 +79,14 @@ namespace TextureChannelPacker
 
 		private static Texture2D GetTexture(Texture2D tex, Texture2D def)
 		{
-			if (tex && !tex.isReadable)
-			{
-				Debug.LogWarning($"{tex} is not readable");
-			}
-
+			if (tex && !tex.isReadable) Debug.LogWarning($"{tex} is not readable");
 			return tex && tex.isReadable ? tex : def;
 		}
 
 		private static byte GetChannel(int i, IReadOnlyList<Color32> colors, Channel channel, bool invert)
 		{
 			Color32 color = colors[i];
-			byte c = channel switch
-			{
-				Channel.Red => color.r,
-				Channel.Green => color.g,
-				Channel.Blue => color.b,
-				Channel.Alpha => color.a,
-				_ => (byte) 0,
-			};
-
+			byte c = color[(int) channel];
 			byte inverted = (byte) (255 - c);
 			return invert ? inverted : c;
 		}

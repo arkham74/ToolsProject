@@ -8,10 +8,10 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 646a71ce6a1692c42819ea85566e9d28, type: 3}
-  size: {x: 4096, y: 4096}
-  redTex: {fileID: 2800000, guid: d1970b08aa19347429446c3532dfed3c, type: 3}
-  greenTex: {fileID: 2800000, guid: d1970b08aa19347429446c3532dfed3c, type: 3}
-  blueTex: {fileID: 2800000, guid: d1970b08aa19347429446c3532dfed3c, type: 3}
+  size: {x: 1, y: 1}
+  redTex: {fileID: 2800000, guid: a2789d9cefc3b564e9f8d58c157abea5, type: 3}
+  greenTex: {fileID: 2800000, guid: 28f5fc49b4278744c8d8534860ce63cc, type: 3}
+  blueTex: {fileID: 2800000, guid: 1dc54ba7f2eae924590e19df70a52b3e, type: 3}
   alphaTex: {fileID: 2800000, guid: 31f1e1730a632f14bbf855f87e3992c7, type: 3}
   redChannel: 0
   greenChannel: 1
@@ -20,7 +20,7 @@ ScriptedImporter:
   redInvert: 0
   greenInvert: 0
   blueInvert: 0
-  alphaInvert: 1
+  alphaInvert: 0
   wrapMode: 0
   filterMode: 1
   anisoLevel: 1
