@@ -1,0 +1,73 @@
+﻿using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
+using TMPro;
+using UnityEngine;
+
+public static partial class DOTweenExtensions
+{
+	public static TweenerCore<Vector3, Vector3, VectorOptions> AnimateEnable(this Transform transform,
+		float duration = 0.25f, float delay = 0, Ease ease = Ease.OutBack, bool timeScaleIndependent = false,
+		float end = 1f)
+	{
+		transform.gameObject.Enable();
+		return AnimateShow(transform, duration, delay, ease, timeScaleIndependent, end);
+	}
+
+	public static TweenerCore<Vector3, Vector3, VectorOptions> AnimateDisable(this Transform transform,
+		float duration = 0.25f, float delay = 0, Ease ease = Ease.InBack, bool timeScaleIndependent = false)
+	{
+		return AnimateHide(transform, duration, delay, ease, timeScaleIndependent).OnComplete(transform.gameObject.Disable);
+	}
+
+	public static TweenerCore<Vector3, Vector3, VectorOptions> AnimateShow(this Transform transform,
+		float duration = 0.25f, float delay = 0, Ease ease = Ease.OutBack, bool timeScaleIndependent = false,
+		float end = 1f)
+	{
+		transform.DOKill(true);
+		return transform.DOScale(end, duration).SetEase(ease).SetUpdate(timeScaleIndependent).From(0).SetDelay(delay);
+	}
+
+	public static TweenerCore<Vector3, Vector3, VectorOptions> AnimateHide(this Transform transform,
+		float duration = 0.25f, float delay = 0, Ease ease = Ease.InBack, bool timeScaleIndependent = false)
+	{
+		transform.DOKill(true);
+		return transform.DOScale(0, duration).SetEase(ease).SetUpdate(timeScaleIndependent).SetDelay(delay);
+	}
+
+	public static void AnimateDestroy(this Transform transform)
+	{
+		transform.AnimateHide().OnComplete(transform.gameObject.Destroy);
+	}
+
+	public static TweenerCore<string, string, StringOptions> DOText(this TextMeshProUGUI target, string endValue,
+		float duration, bool richTextEnabled = true, ScrambleMode scrambleMode = ScrambleMode.None,
+		string scrambleChars = null)
+	{
+		if (endValue == null)
+		{
+			if (Debugger.logPriority > 0)
+			{
+				Debugger.LogWarning(
+					"You can't pass a NULL string to DOText: an empty string will be used instead to avoid errors");
+			}
+
+			endValue = "";
+		}
+
+		TweenerCore<string, string, StringOptions> t = DOTween.To(() => target.text, x => target.text = x, endValue,
+			duration);
+		t.SetOptions(richTextEnabled, scrambleMode, scrambleChars).SetTarget(target);
+		return t;
+	}
+
+	public static TweenerCore<int, int, NoOptions> DONumbers(this TextMeshProUGUI target, int endValue, float duration,
+		string @string = "{0}")
+	{
+		target.text = "0";
+		TweenerCore<int, int, NoOptions> t = DOTween.To(() => int.Parse(target.text),
+			x => target.text = string.Format(@string, x), endValue, duration);
+		t.SetTarget(target);
+		return t;
+	}
+}
