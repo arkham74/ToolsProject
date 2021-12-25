@@ -6,21 +6,6 @@ using UnityEngine;
 // ReSharper disable MemberCanBePrivate.Global
 public static class Tools
 {
-#if UNITY_EDITOR
-	public static T[] FindAssetsByType<T>() where T : Object
-	{
-		string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
-		T[] assets = new T[guids.Length];
-		for (int i = 0; i < guids.Length; i++)
-		{
-			string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
-			assets[i] = AssetDatabase.LoadAssetAtPath<T>(assetPath);
-		}
-
-		return assets;
-	}
-#endif
-
 	public static int RandomPosNeg()
 	{
 		return Random.Range(0, 2) * 2 - 1;
@@ -65,13 +50,22 @@ public static class Tools
 	{
 		Color32 color32 = color.ToColor32();
 		Color32[] pixels = Enumerable.Repeat(color32, width * height).ToArray();
-		Texture2D tex =
-			new Texture2D(width, height, tf, mipCount, linear)
-			{
-				filterMode = fm, name = $"Tex_{width}x{height}_{color.ToHtml()}"
-			};
+		Texture2D tex = new Texture2D(width, height, tf, mipCount, linear)
+		{
+			filterMode = fm,
+			name = $"Tex_{width}x{height}_{color.ToHtml()}"
+		};
 		tex.SetPixels32(pixels);
 		tex.Apply();
 		return tex;
+	}
+
+	public static Vector3 GetHexCorner(Vector3 center, float size, int i)
+	{
+		int angleDeg = 60 * i;
+		float angleRad = Mathf.Deg2Rad * angleDeg;
+		float centerX = center.x + size * Mathf.Cos(angleRad);
+		float centerY = center.y + size * Mathf.Sin(angleRad);
+		return new Vector3(centerX, 0, centerY);
 	}
 }

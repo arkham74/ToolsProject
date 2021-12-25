@@ -8,13 +8,19 @@ using UnityEngine;
 
 public static class VectorExtensions
 {
+	/// <summary>
+	/// Direction from two vectors2
+	/// </summary>
+	/// <param name="v"></param>
+	/// <param name="target"></param>
+	/// <returns></returns>
 	public static Vector2 To(this Vector2 v, Vector2 target)
 	{
 		return target - v;
 	}
 
 	/// <summary>
-	/// Direction from two vectors
+	/// Direction from two vectors3
 	/// </summary>
 	/// <param name="v"></param>
 	/// <param name="target"></param>
@@ -25,7 +31,7 @@ public static class VectorExtensions
 	}
 
 	/// <summary>
-	/// Normalized direction from two vectors
+	/// Normalized direction from two vectors2
 	/// </summary>
 	/// <param name="v"></param>
 	/// <param name="target"></param>
@@ -35,6 +41,12 @@ public static class VectorExtensions
 		return (target - v).normalized;
 	}
 
+	/// <summary>
+	/// Normalized direction from two vectors3
+	/// </summary>
+	/// <param name="v"></param>
+	/// <param name="target"></param>
+	/// <returns></returns>
 	public static Vector3 DirTo(this Vector3 v, Vector3 target)
 	{
 		return (target - v).normalized;
@@ -280,6 +292,21 @@ public static class VectorExtensions
 		return new Vector3(Mathf.Round(v.x), Mathf.Round(v.y), Mathf.Round(v.z));
 	}
 
+	public static Vector3Int CeilInt(this Vector3 v)
+	{
+		return new Vector3Int(Mathf.CeilToInt(v.x), Mathf.CeilToInt(v.y), Mathf.CeilToInt(v.z));
+	}
+
+	public static Vector3Int FloorInt(this Vector3 v)
+	{
+		return new Vector3Int(Mathf.FloorToInt(v.x), Mathf.FloorToInt(v.y), Mathf.FloorToInt(v.z));
+	}
+
+	public static Vector3Int RoundInt(this Vector3 v)
+	{
+		return new Vector3Int(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y), Mathf.RoundToInt(v.z));
+	}
+
 	public static Vector2 InvertX(this Vector2 v)
 	{
 		return v.SetX(-v.x);
@@ -313,6 +340,11 @@ public static class VectorExtensions
 	public static Vector3 XYtoXZ(this Vector2 v, float y = 0)
 	{
 		return new Vector3(v.x, y, v.y);
+	}
+
+	public static Vector2 XZtoXY(this Vector3 v)
+	{
+		return new Vector2(v.x, v.z);
 	}
 
 	public static Vector3 XYtoZY(this Vector2 v, float x = 0)

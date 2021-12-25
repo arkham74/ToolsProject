@@ -1,16 +1,8 @@
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable PossibleMultipleEnumeration
-public static class ToolsEditor
+public static class GizmosTools
 {
-	public static T ObjectField<T>(string label, Object obj, bool allowSceneObjects = false,
-		params GUILayoutOption[] options) where T : Object
-	{
-		return (T) EditorGUILayout.ObjectField(label, obj, typeof(T), allowSceneObjects, options);
-	}
-
 	public static void DrawWireSphere(Vector3 position, Quaternion rotation, float radius)
 	{
 		Handles.DrawWireDisc(position, rotation * Vector3.up, radius);
@@ -38,6 +30,37 @@ public static class ToolsEditor
 			//draw center
 			Handles.DrawWireDisc(Vector3.up * pointOffset, Vector3.up, radius);
 			Handles.DrawWireDisc(Vector3.down * pointOffset, Vector3.up, radius);
+		}
+	}
+
+	public static void DrawHex(Vector3 position, float radius)
+	{
+		for (int i = 1; i < 7; i++)
+		{
+			Vector3 corner = Tools.GetHexCorner(position, radius, i - 1);
+			Vector3 next = Tools.GetHexCorner(position, radius, i);
+			Gizmos.DrawLine(corner, next);
+		}
+	}
+
+	public static void DrawHex(Vector3 position, float radius, float height)
+	{
+		if (Mathf.Approximately(height, 0))
+		{
+			DrawHex(position, radius);
+		}
+
+		Vector3 offset = Vector3.up * height * 0.5f;
+		for (int i = 1; i < 7; i++)
+		{
+			Vector3 cornerTop = Tools.GetHexCorner(position, radius, i - 1) + offset;
+			Vector3 nextTop = Tools.GetHexCorner(position, radius, i) + offset;
+			Vector3 cornerBot = Tools.GetHexCorner(position, radius, i - 1) - offset;
+			Vector3 nextBot = Tools.GetHexCorner(position, radius, i) - offset;
+
+			Gizmos.DrawLine(cornerTop, nextTop);
+			Gizmos.DrawLine(cornerBot, nextBot);
+			Gizmos.DrawLine(cornerTop, cornerBot);
 		}
 	}
 }
