@@ -5,13 +5,16 @@ public static class GizmosTools
 {
 	public static void DrawWireSphere(Vector3 position, Quaternion rotation, float radius)
 	{
+#if UNITY_EDITOR
 		Handles.DrawWireDisc(position, rotation * Vector3.up, radius);
 		Handles.DrawWireDisc(position, rotation * Vector3.right, radius);
 		Handles.DrawWireDisc(position, rotation * Vector3.forward, radius);
+#endif
 	}
 
 	public static void DrawWireCapsule(Vector3 position, Quaternion rotation, float radius, float height)
 	{
+#if UNITY_EDITOR
 		Matrix4x4 angleMatrix = Matrix4x4.TRS(position, rotation, Handles.matrix.lossyScale);
 		using (new Handles.DrawingScope(angleMatrix))
 		{
@@ -31,20 +34,24 @@ public static class GizmosTools
 			Handles.DrawWireDisc(Vector3.up * pointOffset, Vector3.up, radius);
 			Handles.DrawWireDisc(Vector3.down * pointOffset, Vector3.up, radius);
 		}
+#endif
 	}
 
 	public static void DrawHex(Vector3 position, float radius)
 	{
+#if UNITY_EDITOR
 		for (int i = 1; i < 7; i++)
 		{
 			Vector3 corner = Tools.GetHexCorner(position, radius, i - 1);
 			Vector3 next = Tools.GetHexCorner(position, radius, i);
 			Gizmos.DrawLine(corner, next);
 		}
+#endif
 	}
 
 	public static void DrawHex(Vector3 position, float radius, float height)
 	{
+#if UNITY_EDITOR
 		if (Mathf.Approximately(height, 0))
 		{
 			DrawHex(position, radius);
@@ -62,5 +69,6 @@ public static class GizmosTools
 			Gizmos.DrawLine(cornerBot, nextBot);
 			Gizmos.DrawLine(cornerTop, cornerBot);
 		}
+#endif
 	}
 }

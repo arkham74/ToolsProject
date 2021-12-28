@@ -62,10 +62,10 @@ public static class Tools
 
 	public static Vector3 GetHexCorner(Vector3 center, float size, int i)
 	{
-		int angleDeg = 60 * i;
+		float angleDeg = 60f * i;
 		float angleRad = Mathf.Deg2Rad * angleDeg;
 		float centerX = center.x + size * Mathf.Cos(angleRad);
-		float centerY = center.y + size * Mathf.Sin(angleRad);
-		return new Vector3(centerX, 0, centerY);
+		float centerZ = center.z + size * Mathf.Sin(angleRad);
+		return new Vector3(centerX, 0, centerZ);
 	}
 }
