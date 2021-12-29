@@ -4,9 +4,9 @@ using UnityEngine.Rendering;
 #if TOOLS_URP
 namespace UnityEngine.Rendering.Universal
 {
-	public class BlitToFromTargetFeature : ScriptableRendererFeature
+	public class DownscaleFeature : ScriptableRendererFeature
 	{
-		private class BlitToFromTargetPass : ScriptableRenderPass
+		private class DownscaleFeaturePass : ScriptableRenderPass
 		{
 			public string profilerTag;
 			public int targetRes = 180;
@@ -67,16 +67,18 @@ namespace UnityEngine.Rendering.Universal
 			}
 		}
 
-		private BlitToFromTargetPass scriptablePass;
+		private DownscaleFeaturePass scriptablePass;
 		[Min(1)] public int targetRes = 180;
 		public RenderPassEvent renderPassEvent = RenderPassEvent.AfterRenderingTransparents;
 
 		/// <inheritdoc/>
 		public override void Create()
 		{
-			scriptablePass = new BlitToFromTargetPass
+			scriptablePass = new DownscaleFeaturePass
 			{
-				profilerTag = name, targetRes = targetRes, renderPassEvent = renderPassEvent
+				profilerTag = name,
+				targetRes = targetRes,
+				renderPassEvent = renderPassEvent
 			};
 		}
 

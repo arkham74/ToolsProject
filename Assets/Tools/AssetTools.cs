@@ -1,8 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-public class AssetTools
+public static class AssetTools
 {
+#if UNITY_EDITOR
 	public static T[] FindAssetsByType<T>() where T : Object
 	{
 		string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
@@ -15,4 +16,10 @@ public class AssetTools
 
 		return assets;
 	}
+
+	public static T FindAssetByType<T>() where T : Object
+	{
+		return FindAssetsByType<T>()[0];
+	}
+#endif
 }

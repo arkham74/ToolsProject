@@ -149,8 +149,7 @@ public static class ComponentExtensions
 
 	public static void SetNormalizedValueWithoutNotify(this Slider slider, float normalized)
 	{
-		float minValue = slider.minValue;
-		float realValue = normalized * (slider.maxValue - minValue) + minValue;
+		float realValue = Mathf.Lerp(slider.minValue, slider.maxValue, normalized);
 		slider.SetValueWithoutNotify(realValue);
 	}
 
@@ -177,26 +176,6 @@ public static class ComponentExtensions
 	public static float Distance(this Transform v1, Vector3 v2)
 	{
 		return Vector3.Distance(v1.position, v2);
-	}
-
-	public static void SetStringText(this TextMeshProUGUI text, string value)
-	{
-		text.text = value.SplitCamelCase();
-	}
-
-	public static void SetBoolText(this TextMeshProUGUI text, bool value)
-	{
-		text.text = value ? "ON" : "OFF";
-	}
-
-	public static void SetPercentText(this TextMeshProUGUI text, float value)
-	{
-		text.text = $"{value * 100:0}%";
-	}
-
-	public static void SetNumberText(this TextMeshProUGUI text, float value)
-	{
-		text.text = $"{value:0}";
 	}
 
 	public static void StartColor(this ParticleSystem particleSystem, Color color)
