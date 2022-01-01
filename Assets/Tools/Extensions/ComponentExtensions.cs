@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
+using DG.Tweening;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -231,17 +232,6 @@ public static class ComponentExtensions
 			0 - (viewportLocalPosition.y + childLocalPosition.y));
 	}
 
-	public static void SnapTo(this ScrollRect scroller, RectTransform child)
-	{
-		Canvas.ForceUpdateCanvases();
-		Vector3 contentPos = scroller.transform.InverseTransformPoint(scroller.content.position);
-		Vector3 childPos = scroller.transform.InverseTransformPoint(child.position);
-		Vector3 endPos = contentPos - childPos;
-		endPos.y -= 540 / 2 - 32 / 2;
-		endPos.x = 0;
-		scroller.content.anchoredPosition = endPos;
-	}
-
 	public static void SelectButton(this Selectable selectable)
 	{
 		selectable.StartCoroutine(SelectButtonE(selectable));
@@ -303,5 +293,47 @@ public static class ComponentExtensions
 		WheelFrictionCurve sidewaysFriction = wheelCollider.sidewaysFriction;
 		sidewaysFriction.stiffness = mult;
 		wheelCollider.sidewaysFriction = sidewaysFriction;
+	}
+
+	public static void SnapTo(this ScrollRect scroller, RectTransform target)
+	{
+		Canvas.ForceUpdateCanvases();
+
+		Vector2 contentPos = scroller.transform.InverseTransformPoint(scroller.content.position);
+		Vector2 childPos = scroller.transform.InverseTransformPoint(target.position);
+		Vector2 endPos = contentPos - childPos;
+
+		if (!scroller.horizontal)
+		{
+			endPos.x = contentPos.x;
+		}
+
+		if (!scroller.vertical)
+		{
+			endPos.y = contentPos.y;
+		}
+
+		scroller.content.anchoredPosition = endPos;
+	}
+
+	public static void ScrollTo(this ScrollRect scroller, RectTransform target, float duration = 0.5f)
+	{
+		Canvas.ForceUpdateCanvases();
+
+		Vector2 contentPos = scroller.transform.InverseTransformPoint(scroller.content.position);
+		Vector2 childPos = scroller.transform.InverseTransformPoint(target.position);
+		Vector2 endPos = contentPos - childPos;
+
+		if (!scroller.horizontal)
+		{
+			endPos.x = contentPos.x;
+		}
+
+		if (!scroller.vertical)
+		{
+			endPos.y = contentPos.y;
+		}
+
+		DOTween.To(() => scroller.content.anchoredPosition, x => scroller.content.anchoredPosition = x, endPos, duration);
 	}
 }
