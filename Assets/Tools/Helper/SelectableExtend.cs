@@ -22,14 +22,12 @@ using UnityEngine.InputSystem;
 
 [ExecuteAlways]
 public class SelectableExtend : MonoBehaviour, IPointerEnterHandler, ISubmitHandler, IPointerClickHandler,
-	ISelectHandler, IDeselectHandler
+	ISelectHandler, IDeselectHandler, IPointerExitHandler
 {
 	public Selectable selectable;
 	public SelectableData data;
 	private Image image;
 	private bool skipSound;
-
-	public bool MouseSelected { get; private set; }
 
 #if UNITY_EDITOR
 	private void Reset()
@@ -63,24 +61,40 @@ public class SelectableExtend : MonoBehaviour, IPointerEnterHandler, ISubmitHand
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		if (selectable.interactable)
+		HighLight();
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		if (EventSystem.current.currentSelectedGameObject != selectable.gameObject)
 		{
-			MouseSelected = true;
-			selectable.Select();
+			LowLight();
 		}
 	}
 
 	public void OnSelect(BaseEventData eventData)
 	{
-		if (!skipSound) AudioManager.Instance.PlayHover();
-		image.sprite = data.hover;
-		skipSound = false;
+		HighLight();
 	}
 
 	public void OnDeselect(BaseEventData eventData)
 	{
+		LowLight();
+	}
+
+	private void LowLight()
+	{
 		image.sprite = data.normal;
-		MouseSelected = false;
+	}
+
+	private void HighLight()
+	{
+		if (!skipSound)
+		{
+			AudioManager.Instance.PlayHover();
+		}
+		image.sprite = data.hover;
+		skipSound = false;
 	}
 
 	public void OnSubmit(BaseEventData eventData)

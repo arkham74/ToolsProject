@@ -195,11 +195,11 @@ public static class ComponentExtensions
 		}
 	}
 
-	public static void DestroyChildrenImmediate(this Transform parent)
+	public static void DestroyChildrenImmediate(this Transform parent, int min = 0)
 	{
-		while (parent.childCount > 0)
+		while (parent.childCount > min)
 		{
-			Transform child = parent.GetChild(0);
+			Transform child = parent.GetChild(min);
 			child.SetParent(null);
 			Object.DestroyImmediate(child.gameObject);
 		}

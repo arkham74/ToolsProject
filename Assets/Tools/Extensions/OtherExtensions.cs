@@ -14,11 +14,6 @@ public static class OtherExtensions
 		return Quaternion.Inverse(q);
 	}
 
-	public static string AddSpaceBeforeCapital(this string e)
-	{
-		return string.Concat(e.Select(x => char.IsUpper(x) ? " " + x : x.ToString()));
-	}
-
 	public static Quaternion RotateToDirection(this Quaternion quaternion, Vector3 direction, float time)
 	{
 		return Quaternion.Lerp(quaternion, Quaternion.LookRotation(direction), time);
@@ -69,9 +64,9 @@ public static class OtherExtensions
 
 	public static Vector3Int Clamp(this BoundsInt bounds, Vector3 pos)
 	{
-		int posX = (int) Mathf.Clamp(pos.x, bounds.min.x, bounds.max.x);
-		int posY = (int) Mathf.Clamp(pos.y, bounds.min.y, bounds.max.y);
-		int posZ = (int) Mathf.Clamp(pos.z, bounds.min.z, bounds.max.z);
+		int posX = (int)Mathf.Clamp(pos.x, bounds.min.x, bounds.max.x);
+		int posY = (int)Mathf.Clamp(pos.y, bounds.min.y, bounds.max.y);
+		int posZ = (int)Mathf.Clamp(pos.z, bounds.min.z, bounds.max.z);
 		return new Vector3Int(posX, posY, posZ);
 	}
 
