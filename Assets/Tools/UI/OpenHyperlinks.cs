@@ -16,7 +16,6 @@ using Tag = NaughtyAttributes.TagAttribute;
 using UnityEngine.EventSystems;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-
 #endif
 
 [RequireComponent(typeof(TextMeshProUGUI))]
@@ -63,7 +62,12 @@ public class OpenHyperlinks : MonoBehaviour, IPointerClickHandler
 
 	private void LateUpdate()
 	{
-		int linkIndex = GetIndex(Mouse.current.position.ReadValue());
+#if ENABLE_INPUT_SYSTEM
+		Vector2 mousePos = Mouse.current.position.ReadValue();
+#else
+		Vector2 mousePos = Input.mousePosition;
+#endif
+		int linkIndex = GetIndex(mousePos);
 		if (linkIndex != -1)
 		{
 			SetLinkToColor(linkIndex, hoverColor);
