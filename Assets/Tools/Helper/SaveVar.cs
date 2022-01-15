@@ -20,6 +20,12 @@ public abstract class SaveVar<T>
 		this.key = key;
 		this.defaultValue = defaultValue;
 	}
+
+	public void Clear()
+	{
+		PP.DeleteKey(key);
+		loaded = false;
+	}
 }
 
 public class SaveColor : SaveVar<Color>

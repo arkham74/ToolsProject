@@ -7,12 +7,7 @@ public static class StringExtensions
 {
 	private static readonly TextInfo TextInfo = new CultureInfo("es-ES", false).TextInfo;
 
-	public static string AddSpaceBeforeCapital(this string e)
-	{
-		return string.Concat(e.Select(x => char.IsUpper(x) ? " " + x : x.ToString()));
-	}
-
-	public static string SplitCamelCase(this string str)
+	public static string ToSplitCamelCase(this string str)
 	{
 		return Regex.Replace(Regex.Replace(str, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");
 	}
@@ -42,6 +37,11 @@ public static class StringExtensions
 	public static string UnderscoreToSpace(this string str)
 	{
 		return str.Replace("_", " ").Trim();
+	}
+
+	public static string SpaceToUnderscore(this string str)
+	{
+		return str.Replace(" ", "_").Trim();
 	}
 
 	public static int[] StringToIntArray(this string str)

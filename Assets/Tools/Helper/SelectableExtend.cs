@@ -17,12 +17,10 @@ using Text = TMPro.TextMeshProUGUI;
 using Tag = NaughtyAttributes.TagAttribute;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-
 #endif
 
 [ExecuteAlways]
-public class SelectableExtend : MonoBehaviour, IPointerEnterHandler, ISubmitHandler, IPointerClickHandler,
-	ISelectHandler, IDeselectHandler, IPointerExitHandler
+public class SelectableExtend : MonoBehaviour, IPointerEnterHandler, ISubmitHandler, IPointerClickHandler, ISelectHandler, IDeselectHandler, IPointerExitHandler
 {
 	public Selectable selectable;
 	public SelectableData data;
@@ -35,10 +33,16 @@ public class SelectableExtend : MonoBehaviour, IPointerEnterHandler, ISubmitHand
 		selectable = GetComponent<Selectable>();
 		data = AssetTools.FindAssetByType<SelectableData>();
 	}
+
+	private void Update()
+	{
+		selectable.colors = data.colorBlock;
+	}
 #endif
 
 	private void Awake()
 	{
+		selectable.colors = data.colorBlock;
 		if (Application.isPlaying)
 		{
 			image = new GameObject().AddComponent<Image>();
@@ -52,11 +56,6 @@ public class SelectableExtend : MonoBehaviour, IPointerEnterHandler, ISubmitHand
 			rectTransform.offsetMin = Vector2.zero;
 			rectTransform.localScale = Vector3.one;
 		}
-	}
-
-	private void Update()
-	{
-		selectable.colors = data.colorBlock;
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)

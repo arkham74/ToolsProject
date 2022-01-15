@@ -159,16 +159,6 @@ public static class ComponentExtensions
 		return transform.GetChild(Random.Range(0, transform.childCount));
 	}
 
-	public static Transform LastChild(this Transform transform)
-	{
-		return transform.GetChild(transform.childCount - 1);
-	}
-
-	public static Transform FirstChild(this Transform transform)
-	{
-		return transform.GetChild(0);
-	}
-
 	public static float Distance(this Transform v1, Transform v2)
 	{
 		return Vector3.Distance(v1.position, v2.position);
@@ -250,34 +240,6 @@ public static class ComponentExtensions
 		}
 	}
 
-	public static void SetSelectableUp(this Selectable selectable, Selectable up)
-	{
-		Navigation nav = selectable.navigation;
-		nav.selectOnUp = up;
-		selectable.navigation = nav;
-	}
-
-	public static void SetSelectableDown(this Selectable selectable, Selectable down)
-	{
-		Navigation nav = selectable.navigation;
-		nav.selectOnDown = down;
-		selectable.navigation = nav;
-	}
-
-	public static void SetSelectableLeft(this Selectable selectable, Selectable left)
-	{
-		Navigation nav = selectable.navigation;
-		nav.selectOnLeft = left;
-		selectable.navigation = nav;
-	}
-
-	public static void SetSelectableRight(this Selectable selectable, Selectable right)
-	{
-		Navigation nav = selectable.navigation;
-		nav.selectOnRight = right;
-		selectable.navigation = nav;
-	}
-
 	public static Transform FindChildByName(this Transform parent, string name)
 	{
 		Transform[] kids = parent.GetComponentsInChildren<Transform>();
@@ -335,5 +297,62 @@ public static class ComponentExtensions
 		}
 
 		DOTween.To(() => scroller.content.anchoredPosition, x => scroller.content.anchoredPosition = x, endPos, duration);
+	}
+
+	public static void SetUp(this Selectable button, Selectable selectable)
+	{
+		Navigation navdisplay = button.navigation;
+		navdisplay.selectOnUp = selectable;
+		button.navigation = navdisplay;
+	}
+
+	public static void SetDown(this Selectable button, Selectable selectable)
+	{
+		Navigation navdisplay = button.navigation;
+		navdisplay.selectOnDown = selectable;
+		button.navigation = navdisplay;
+	}
+
+	public static void SetLeft(this Selectable button, Selectable selectable)
+	{
+		Navigation navdisplay = button.navigation;
+		navdisplay.selectOnLeft = selectable;
+		button.navigation = navdisplay;
+	}
+
+	public static void SetRight(this Selectable button, Selectable selectable)
+	{
+		Navigation navdisplay = button.navigation;
+		navdisplay.selectOnRight = selectable;
+		button.navigation = navdisplay;
+	}
+
+	public static void SetMode(this Selectable button, Navigation.Mode mode)
+	{
+		Navigation navdisplay = button.navigation;
+		navdisplay.mode = mode;
+		button.navigation = navdisplay;
+	}
+
+	public static Transform GetLastChild(this Transform transform)
+	{
+		return transform.GetChild(transform.childCount - 1);
+	}
+
+	public static Transform GetFirstChild(this Transform transform)
+	{
+		return transform.GetChild(0);
+	}
+
+	public static Transform GetPrevSibling(this Transform transform, int offset = 1)
+	{
+		int index = transform.GetSiblingIndex();
+		return transform.parent.GetChild(index - offset);
+	}
+
+	public static Transform GetNextSibling(this Transform transform, int offset = 1)
+	{
+		int index = transform.GetSiblingIndex();
+		return transform.parent.GetChild(index + offset);
 	}
 }

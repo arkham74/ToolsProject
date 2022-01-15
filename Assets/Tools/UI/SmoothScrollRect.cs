@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class SmoothScrollRect : ScrollRect
 {
-	public Ease smoothEase = Ease.Linear;
-	public bool smoothScroll = true;
-	public float smoothTime = 0.5f;
+	[SerializeField] private Ease smoothEase = Ease.Linear;
+	[SerializeField] private bool smoothScroll = true;
+	[SerializeField] private float smoothTime = 0.5f;
 
 	public override void OnScroll(PointerEventData data)
 	{
