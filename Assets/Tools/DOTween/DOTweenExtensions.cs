@@ -10,14 +10,14 @@ public static partial class DOTweenExtensions
 		float duration = 0.25f, float delay = 0, Ease ease = Ease.OutBack, bool timeScaleIndependent = false,
 		float end = 1f)
 	{
-		transform.gameObject.Enable();
+		transform.gameObject.SetActive(true);
 		return AnimateShow(transform, duration, delay, ease, timeScaleIndependent, end);
 	}
 
 	public static TweenerCore<Vector3, Vector3, VectorOptions> AnimateDisable(this Transform transform,
 		float duration = 0.25f, float delay = 0, Ease ease = Ease.InBack, bool timeScaleIndependent = false)
 	{
-		return AnimateHide(transform, duration, delay, ease, timeScaleIndependent).OnComplete(transform.gameObject.Disable);
+		return AnimateHide(transform, duration, delay, ease, timeScaleIndependent).OnComplete(() => transform.gameObject.SetActive(false));
 	}
 
 	public static TweenerCore<Vector3, Vector3, VectorOptions> AnimateShow(this Transform transform,
@@ -37,7 +37,7 @@ public static partial class DOTweenExtensions
 
 	public static void AnimateDestroy(this Transform transform)
 	{
-		transform.AnimateHide().OnComplete(transform.gameObject.Destroy);
+		transform.AnimateHide().OnComplete(() => GameObject.Destroy(transform.gameObject));
 	}
 
 	public static TweenerCore<string, string, StringOptions> DOText(this TextMeshProUGUI target, string endValue,

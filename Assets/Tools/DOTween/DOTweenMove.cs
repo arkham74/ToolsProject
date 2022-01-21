@@ -1,8 +1,6 @@
 using DG.Tweening;
-using NaughtyAttributes;
 using UnityEngine;
 
-// ReSharper disable once InconsistentNaming
 public class DOTweenMove : MonoBehaviour
 {
 	public Vector3 start = Vector3.zero;
@@ -11,7 +9,6 @@ public class DOTweenMove : MonoBehaviour
 	public Ease ease = Ease.Linear;
 	private Sequence sequence;
 
-	[Button]
 	protected void Start()
 	{
 		transform.DOKill();
