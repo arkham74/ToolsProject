@@ -14,8 +14,8 @@ namespace UnityEngine.Rendering.Universal
 		[Serializable]
 		public class Settings
 		{
+			public ScriptableRenderPassInput passInput = ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Depth;
 			public RenderPassEvent renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
-
 			public Material blitMaterial;
 			public int blitMaterialPassIndex = -1;
 			public BufferType sourceType = BufferType.CAMERA_COLOR;
@@ -42,6 +42,7 @@ namespace UnityEngine.Rendering.Universal
 				return;
 			}
 
+			blitPass.ConfigureInput(settings.passInput);
 			blitPass.renderPassEvent = settings.renderPassEvent;
 			blitPass.settings = settings;
 			renderer.EnqueuePass(blitPass);

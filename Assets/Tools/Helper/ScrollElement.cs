@@ -27,6 +27,11 @@ namespace CordBot
 		public RectTransform element;
 		private ScrollRect scrollRect;
 
+		private void Reset()
+		{
+			element = GetComponent<RectTransform>();
+		}
+
 		private void Awake()
 		{
 			scrollRect = GetComponentInParent<ScrollRect>();

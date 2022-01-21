@@ -20,7 +20,7 @@ public static class VectorExtensions
 	}
 
 	/// <summary>
-	/// Direction from two vectors3
+	/// NON-Normalized Direction from two vector3s
 	/// </summary>
 	/// <param name="v"></param>
 	/// <param name="target"></param>
@@ -31,7 +31,7 @@ public static class VectorExtensions
 	}
 
 	/// <summary>
-	/// Normalized direction from two vectors2
+	/// Normalized direction from two vector2s
 	/// </summary>
 	/// <param name="v"></param>
 	/// <param name="target"></param>
