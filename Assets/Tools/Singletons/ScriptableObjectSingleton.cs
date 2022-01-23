@@ -4,7 +4,6 @@ using UnityEngine;
 public abstract class ScriptableObjectSingleton<T> : ScriptableObject where T : ScriptableObjectSingleton<T>
 {
 	private static T instance;
-
 	public static T Instance
 	{
 		get
@@ -13,18 +12,21 @@ public abstract class ScriptableObjectSingleton<T> : ScriptableObject where T : 
 			{
 				string singletonName = typeof(T).Name;
 				instance = Resources.Load<T>("Managers/" + singletonName);
-				if (instance == null) throw new NullReferenceException($"Can't find {singletonName} singleton");
+				if (instance == null)
+				{
+					throw new NullReferenceException($"Can't find {singletonName} singleton");
+				}
 			}
 
 			return instance;
 		}
 	}
 
-	private void Awake()
-	{
-		Init();
-		Debug.Log($"{typeof(T).Name} initialized", Instance);
-	}
+	// private void Awake()
+	// {
+	// 	Init();
+	// 	Debug.Log($"{typeof(T).Name} initialized", Instance);
+	// }
 
-	protected abstract void Init();
+	// protected abstract void Init();
 }
