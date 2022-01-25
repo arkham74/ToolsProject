@@ -13,7 +13,7 @@ using UnityEditor;
 
 namespace GradientTexture
 {
-	[ScriptedImporter(1, "gradtex")]
+	[ScriptedImporter(1, "gradient_texture")]
 	public class GradientTexture : ScriptedImporter
 	{
 		public Gradient gradient = new Gradient();
@@ -35,7 +35,7 @@ namespace GradientTexture
 
 			for (int x = 0; x < size.x; x++)
 			{
-				Color pixel = gradient.Evaluate((float) x / size.x);
+				Color pixel = gradient.Evaluate((float)x / size.x);
 				for (int y = 0; y < size.y; y++)
 				{
 					pixels[y * size.x + x] = pixel;

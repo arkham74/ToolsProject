@@ -8,7 +8,7 @@ namespace GradientTexture.Editor
 		[MenuItem("Assets/Create/Gradient Texture")]
 		public static void CreateNewAsset()
 		{
-			ProjectWindowUtil.CreateAssetWithContent("New Gradient Texture.gradtex", "");
+			ProjectWindowUtil.CreateAssetWithContent("New Gradient Texture.gradient_texture", "");
 		}
 	}
 }
