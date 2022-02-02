@@ -1,8 +1,10 @@
-﻿using DG.Tweening;
+﻿#if TOOLS_DOTWEEN
+using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static partial class DOTweenExtensions
 {
@@ -70,4 +72,26 @@ public static partial class DOTweenExtensions
 		t.SetTarget(target);
 		return t;
 	}
+
+	public static void ScrollTo(this ScrollRect scroller, RectTransform target, float duration = 0.5f)
+	{
+		Canvas.ForceUpdateCanvases();
+
+		Vector2 contentPos = scroller.transform.InverseTransformPoint(scroller.content.position);
+		Vector2 childPos = scroller.transform.InverseTransformPoint(target.position);
+		Vector2 endPos = contentPos - childPos;
+
+		if (!scroller.horizontal)
+		{
+			endPos.x = contentPos.x;
+		}
+
+		if (!scroller.vertical)
+		{
+			endPos.y = contentPos.y;
+		}
+
+		DOTween.To(() => scroller.content.anchoredPosition, x => scroller.content.anchoredPosition = x, endPos, duration);
+	}
 }
+#endif

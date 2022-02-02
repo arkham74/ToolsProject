@@ -1,3 +1,4 @@
+#if TOOLS_DOTWEEN
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -27,3 +28,4 @@ public class SmoothScrollRect : ScrollRect
 		}
 	}
 }
+#endif

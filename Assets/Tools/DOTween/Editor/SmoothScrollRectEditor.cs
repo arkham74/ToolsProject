@@ -1,3 +1,4 @@
+#if TOOLS_DOTWEEN
 using UnityEditor;
 using UnityEditor.UI;
 
@@ -33,3 +34,4 @@ public class SmoothScrollRectEditor : ScrollRectEditor
 		base.OnInspectorGUI();
 	}
 }
+#endif

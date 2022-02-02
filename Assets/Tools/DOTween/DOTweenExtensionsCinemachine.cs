@@ -1,3 +1,4 @@
+#if TOOLS_DOTWEEN
 #if TOOLS_CINEMACHINE
 using Cinemachine;
 using DG.Tweening;
@@ -24,4 +25,5 @@ public static partial class DOTweenExtensions
 		return t;
 	}
 }
+#endif
 #endif

@@ -1,3 +1,4 @@
+#if TOOLS_DOTWEEN
 using DG.Tweening;
 using UnityEngine;
 
@@ -23,3 +24,4 @@ public class DOTweenLocalMove : MonoBehaviour
 		transform.DOLocalMove(startClose, duration).From(end).SetEase(easeOut);
 	}
 }
+#endif

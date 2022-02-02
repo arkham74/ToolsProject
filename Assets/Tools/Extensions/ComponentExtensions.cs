@@ -10,7 +10,6 @@ using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
-using DG.Tweening;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -276,27 +275,6 @@ public static class ComponentExtensions
 		}
 
 		scroller.content.anchoredPosition = endPos;
-	}
-
-	public static void ScrollTo(this ScrollRect scroller, RectTransform target, float duration = 0.5f)
-	{
-		Canvas.ForceUpdateCanvases();
-
-		Vector2 contentPos = scroller.transform.InverseTransformPoint(scroller.content.position);
-		Vector2 childPos = scroller.transform.InverseTransformPoint(target.position);
-		Vector2 endPos = contentPos - childPos;
-
-		if (!scroller.horizontal)
-		{
-			endPos.x = contentPos.x;
-		}
-
-		if (!scroller.vertical)
-		{
-			endPos.y = contentPos.y;
-		}
-
-		DOTween.To(() => scroller.content.anchoredPosition, x => scroller.content.anchoredPosition = x, endPos, duration);
 	}
 
 	public static void SetUp(this Selectable button, Selectable selectable)

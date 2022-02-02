@@ -1,3 +1,4 @@
+#if TOOLS_DOTWEEN
 using System;
 using System.Linq;
 using System.Collections;
@@ -9,14 +10,11 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using TMPro;
-using NaughtyAttributes;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
-using Tag = NaughtyAttributes.TagAttribute;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-
 #endif
 
 namespace CordBot
@@ -50,3 +48,4 @@ namespace CordBot
 		}
 	}
 }
+#endif

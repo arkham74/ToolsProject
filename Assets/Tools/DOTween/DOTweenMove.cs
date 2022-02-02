@@ -1,3 +1,4 @@
+#if TOOLS_DOTWEEN
 using DG.Tweening;
 using UnityEngine;
 
@@ -25,3 +26,4 @@ public class DOTweenMove : MonoBehaviour
 		sequence.Kill();
 	}
 }
+#endif
