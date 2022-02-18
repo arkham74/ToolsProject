@@ -175,7 +175,7 @@ namespace Tayx.Graphy.Audio
 
         public void UpdateParameters()
         {
-            foreach (var image in m_backgroundImages)
+            foreach ( Image image in m_backgroundImages)
             {
                 image.color = m_graphyManager.BackgroundColor;
             }
@@ -189,7 +189,7 @@ namespace Tayx.Graphy.Audio
 
         public void RefreshParameters()
         {
-            foreach (var image in m_backgroundImages)
+            foreach ( Image image in m_backgroundImages)
             {
                 image.color = m_graphyManager.BackgroundColor;
             }

@@ -29,7 +29,7 @@ namespace Coffee.UISoftMask
         {
             get
             {
-                var value = _spMaskInteraction.intValue;
+				int value = _spMaskInteraction.intValue;
                 return _custom
                     ? MaskInteraction.Custom
                     : System.Enum.IsDefined(typeof(MaskInteraction), value)
@@ -60,25 +60,25 @@ namespace Coffee.UISoftMask
 
         private void DrawMaskInteractions()
         {
-            var softMaskable = target as SoftMaskable;
+			SoftMaskable softMaskable = target as SoftMaskable;
             if (softMaskable == null) return;
 
-            softMaskable.GetComponentsInParent<Mask>(true, s_TmpMasks);
+            softMaskable.GetComponentsInParent(true, s_TmpMasks);
             s_TmpMasks.RemoveAll(x => !x.enabled);
             s_TmpMasks.Reverse();
 
             maskInteraction = (MaskInteraction) EditorGUILayout.EnumPopup("Mask Interaction", maskInteraction);
             if (!_custom) return;
 
-            var l = EditorGUIUtility.labelWidth;
+			float l = EditorGUIUtility.labelWidth;
             EditorGUIUtility.labelWidth = 45;
 
-            using (var ccs = new EditorGUI.ChangeCheckScope())
+            using ( EditorGUI.ChangeCheckScope ccs = new EditorGUI.ChangeCheckScope())
             {
-                var intr0 = DrawMaskInteraction(0);
-                var intr1 = DrawMaskInteraction(1);
-                var intr2 = DrawMaskInteraction(2);
-                var intr3 = DrawMaskInteraction(3);
+				int intr0 = DrawMaskInteraction(0);
+				int intr1 = DrawMaskInteraction(1);
+				int intr2 = DrawMaskInteraction(2);
+				int intr3 = DrawMaskInteraction(3);
 
                 if (ccs.changed)
                 {
@@ -91,8 +91,8 @@ namespace Coffee.UISoftMask
 
         private int DrawMaskInteraction(int layer)
         {
-            var mask = layer < s_TmpMasks.Count ? s_TmpMasks[layer] : null;
-            var intr = (MaskIntr) ((_spMaskInteraction.intValue >> layer * 2) & 0x3);
+			Mask mask = layer < s_TmpMasks.Count ? s_TmpMasks[layer] : null;
+			MaskIntr intr = (MaskIntr) ((_spMaskInteraction.intValue >> layer * 2) & 0x3);
             if (!mask)
             {
                 return (int) intr;
@@ -118,10 +118,10 @@ namespace Coffee.UISoftMask
 
             serializedObject.ApplyModifiedProperties();
 
-            var current = target as SoftMaskable;
+			SoftMaskable current = target as SoftMaskable;
             if (current == null) return;
 
-            var mask = current.softMask;
+			SoftMask mask = current.softMask;
             if (mask) return;
 
             GUILayout.BeginHorizontal();

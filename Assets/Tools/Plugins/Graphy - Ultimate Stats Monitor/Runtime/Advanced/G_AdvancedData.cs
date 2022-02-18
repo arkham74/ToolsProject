@@ -231,7 +231,7 @@ namespace Tayx.Graphy.Advanced
         
         public void UpdateParameters()
         {
-            foreach (var image in m_backgroundImages)
+            foreach ( Image image in m_backgroundImages)
             {
                 image.color = m_graphyManager.BackgroundColor;
             }
@@ -242,7 +242,7 @@ namespace Tayx.Graphy.Advanced
 
         public void RefreshParameters()
         {
-            foreach (var image in m_backgroundImages)
+            foreach ( Image image in m_backgroundImages)
             {
                 image.color = m_graphyManager.BackgroundColor;
             }
@@ -329,7 +329,7 @@ namespace Tayx.Graphy.Advanced
                 m_operatingSystemText
             };
 
-            foreach (var text in texts)
+            foreach ( Text text in texts)
             {
                 if (text.preferredWidth > preferredWidth)
                 {

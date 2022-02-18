@@ -88,10 +88,7 @@ namespace IngameDebugConsole
 
 			if( newErrorCount > 0 )
 				backgroundImage.color = alertColorError;
-			else if( newWarningCount > 0 )
-				backgroundImage.color = alertColorWarning;
-			else
-				backgroundImage.color = alertColorInfo;
+			else backgroundImage.color = newWarningCount > 0 ? alertColorWarning : alertColorInfo;
 		}
 
 		private void Reset()
@@ -204,19 +201,17 @@ namespace IngameDebugConsole
 			// Find the nearest edge's coordinates
 			if( horDistance < vertDistance )
 			{
-				if( distToLeft < distToRight )
-					pos = new Vector2( canvasWidth * -0.5f + halfSize.x, pos.y );
-				else
-					pos = new Vector2( canvasWidth * 0.5f - halfSize.x, pos.y );
+				pos = distToLeft < distToRight
+										? new Vector2( canvasWidth * -0.5f + halfSize.x, pos.y )
+										: new Vector2( canvasWidth * 0.5f - halfSize.x, pos.y );
 
 				pos.y = Mathf.Clamp( pos.y, canvasHeight * -0.5f + halfSize.y, canvasHeight * 0.5f - halfSize.y );
 			}
 			else
 			{
-				if( distToBottom < distToTop )
-					pos = new Vector2( pos.x, canvasHeight * -0.5f + halfSize.y );
-				else
-					pos = new Vector2( pos.x, canvasHeight * 0.5f - halfSize.y );
+				pos = distToBottom < distToTop
+										? new Vector2( pos.x, canvasHeight * -0.5f + halfSize.y )
+										: new Vector2( pos.x, canvasHeight * 0.5f - halfSize.y );
 
 				pos.x = Mathf.Clamp( pos.x, canvasWidth * -0.5f + halfSize.x, canvasWidth * 0.5f - halfSize.x );
 			}

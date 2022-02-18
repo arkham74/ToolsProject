@@ -18,7 +18,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 #endif
 
-[RequireComponent(typeof(TextMeshProUGUI))]
+[RequireComponent(typeof(Text))]
 public class OpenHyperlinks : MonoBehaviour, IPointerClickHandler
 {
 	public Color32 textColor = Color.red;
@@ -81,7 +81,7 @@ public class OpenHyperlinks : MonoBehaviour, IPointerClickHandler
 		for (int i = 0; i < linkInfo.linkTextLength; i++)
 		{ // for each character in the link string
 			int characterIndex = linkInfo.linkTextfirstCharacterIndex + i; // the character index into the entire text
-			var charInfo = text.textInfo.characterInfo[characterIndex];
+			TMP_CharacterInfo charInfo = text.textInfo.characterInfo[characterIndex];
 			int meshIndex = charInfo.materialReferenceIndex; // Get the index of the material / sub text object used by this character.
 			int vertexIndex = charInfo.vertexIndex; // Get the index of the first vertex of this character.
 

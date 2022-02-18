@@ -272,7 +272,7 @@ namespace Coffee.UISoftMask
             hasChanged = true;
             if (ignoreSelfStencil) return baseMaterial;
 
-            var result = base.GetModifiedMaterial(baseMaterial);
+			Material result = base.GetModifiedMaterial(baseMaterial);
             if (m_IgnoreParent && result != baseMaterial)
             {
                 result.SetInt(s_StencilCompId, (int) CompareFunction.Always);
@@ -366,8 +366,8 @@ namespace Coffee.UISoftMask
 
             s_ActiveSoftMasks.Add(this);
 
-            // Reset the parent-child relation.
-            GetComponentsInChildren<SoftMask>(false, s_TempRelatables);
+			// Reset the parent-child relation.
+			GetComponentsInChildren(false, s_TempRelatables);
             for (int i = s_TempRelatables.Count - 1; 0 <= i; i--)
             {
                 s_TempRelatables[i].OnTransformParentChanged();
@@ -431,7 +431,7 @@ namespace Coffee.UISoftMask
             SoftMask newParent = null;
             if (isActiveAndEnabled && !m_IgnoreParent)
             {
-                var parentTransform = transform.parent;
+				Transform parentTransform = transform.parent;
                 while (parentTransform && (!newParent || !newParent.enabled))
                 {
                     newParent = parentTransform.GetComponent<SoftMask>();
@@ -468,25 +468,25 @@ namespace Coffee.UISoftMask
         private static void UpdateMaskTextures()
         {
             Profiler.BeginSample("UpdateMaskTextures");
-            foreach (var sm in s_ActiveSoftMasks)
+            foreach ( SoftMask sm in s_ActiveSoftMasks)
             {
                 if (!sm || sm._hasChanged)
                     continue;
 
-                var canvas = sm.graphic.canvas;
+				Canvas canvas = sm.graphic.canvas;
                 if (!canvas)
                     continue;
 
                 if (canvas.renderMode == RenderMode.WorldSpace)
                 {
-                    var cam = canvas.worldCamera;
+					Camera cam = canvas.worldCamera;
                     if (!cam)
                         continue;
 
                     Profiler.BeginSample("Check view projection matrix changed (world space)");
-                    var nowVP = cam.projectionMatrix * cam.worldToCameraMatrix;
-                    var previousVP = default(Matrix4x4);
-                    var id = cam.GetInstanceID();
+					Matrix4x4 nowVP = cam.projectionMatrix * cam.worldToCameraMatrix;
+					Matrix4x4 previousVP = default(Matrix4x4);
+					int id = cam.GetInstanceID();
                     s_PreviousViewProjectionMatrices.TryGetValue(id, out previousVP);
                     s_NowViewProjectionMatrices[id] = nowVP;
 
@@ -498,7 +498,7 @@ namespace Coffee.UISoftMask
                     Profiler.EndSample();
                 }
 
-                var rt = sm.rectTransform;
+				RectTransform rt = sm.rectTransform;
                 if (rt.hasChanged)
                 {
                     rt.hasChanged = false;
@@ -513,7 +513,7 @@ namespace Coffee.UISoftMask
             }
 
             Profiler.BeginSample("Update changed soft masks");
-            foreach (var sm in s_ActiveSoftMasks)
+            foreach ( SoftMask sm in s_ActiveSoftMasks)
             {
                 if (!sm || !sm._hasChanged)
                     continue;
@@ -534,7 +534,7 @@ namespace Coffee.UISoftMask
 
             Profiler.BeginSample("Update previous view projection matrices");
             s_PreviousViewProjectionMatrices.Clear();
-            foreach (var kv in s_NowViewProjectionMatrices)
+            foreach ( KeyValuePair<int, Matrix4x4> kv in s_NowViewProjectionMatrices)
             {
                 s_PreviousViewProjectionMatrices.Add(kv.Key, kv.Value);
             }
@@ -545,8 +545,8 @@ namespace Coffee.UISoftMask
             Profiler.EndSample();
 
 #if UNITY_EDITOR
-            var w = s_PreviousWidth;
-            var h = s_PreviousHeight;
+			int w = s_PreviousWidth;
+			int h = s_PreviousHeight;
             GetDownSamplingSize(DownSamplingRate.None, out s_PreviousWidth, out  s_PreviousHeight);
             if (w != s_PreviousWidth || h != s_PreviousHeight)
             {
@@ -568,19 +568,19 @@ namespace Coffee.UISoftMask
 
             // Collect children soft masks.
             Profiler.BeginSample("Collect children soft masks");
-            var depth = 0;
+			int depth = 0;
             s_TmpSoftMasks[0].Add(this);
             while (_stencilDepth + depth < 3)
             {
-                var count = s_TmpSoftMasks[depth].Count;
-                for (var i = 0; i < count; i++)
+				int count = s_TmpSoftMasks[depth].Count;
+                for ( int i = 0; i < count; i++)
                 {
-                    var children = s_TmpSoftMasks[depth][i]._children;
-                    var childCount = children.Count;
-                    for (var j = 0; j < childCount; j++)
+					List<SoftMask> children = s_TmpSoftMasks[depth][i]._children;
+					int childCount = children.Count;
+                    for ( int j = 0; j < childCount; j++)
                     {
-                        var child = children[j];
-                        var childDepth = child.m_PartOfParent ? depth : depth + 1;
+						SoftMask child = children[j];
+						int childDepth = child.m_PartOfParent ? depth : depth + 1;
                         s_TmpSoftMasks[childDepth].Add(child);
                     }
                 }
@@ -599,18 +599,18 @@ namespace Coffee.UISoftMask
 
             // Set view and projection matrices.
             Profiler.BeginSample("Set view and projection matrices");
-            var c = graphic.canvas.rootCanvas;
-            var cam = c.worldCamera ?? Camera.main;
+			Canvas c = graphic.canvas.rootCanvas;
+			Camera cam = c.worldCamera ?? Camera.main;
             if (c && c.renderMode != RenderMode.ScreenSpaceOverlay && cam)
             {
-                var p = GL.GetGPUProjectionMatrix(cam.projectionMatrix, false);
+				Matrix4x4 p = GL.GetGPUProjectionMatrix(cam.projectionMatrix, false);
                 _cb.SetViewProjectionMatrices(cam.worldToCameraMatrix, p);
             }
             else
             {
-                var pos = c.transform.position;
-                var vm = Matrix4x4.TRS(new Vector3(-pos.x, -pos.y, -1000), Quaternion.identity, new Vector3(1, 1, -1f));
-                var pm = Matrix4x4.TRS(new Vector3(0, 0, -1), Quaternion.identity, new Vector3(1 / pos.x, 1 / pos.y, -2 / 10000f));
+				Vector3 pos = c.transform.position;
+				Matrix4x4 vm = Matrix4x4.TRS(new Vector3(-pos.x, -pos.y, -1000), Quaternion.identity, new Vector3(1, 1, -1f));
+				Matrix4x4 pm = Matrix4x4.TRS(new Vector3(0, 0, -1), Quaternion.identity, new Vector3(1 / pos.x, 1 / pos.y, -2 / 10000f));
                 _cb.SetViewProjectionMatrices(vm, pm);
             }
 
@@ -618,12 +618,12 @@ namespace Coffee.UISoftMask
 
             // Draw soft masks.
             Profiler.BeginSample("Draw Mesh");
-            for (var i = 0; i < s_TmpSoftMasks.Length; i++)
+            for ( int i = 0; i < s_TmpSoftMasks.Length; i++)
             {
-                var count = s_TmpSoftMasks[i].Count;
-                for (var j = 0; j < count; j++)
+				int count = s_TmpSoftMasks[i].Count;
+                for ( int j = 0; j < count; j++)
                 {
-                    var sm = s_TmpSoftMasks[i][j];
+					SoftMask sm = s_TmpSoftMasks[i][j];
 
                     if (i != 0)
                     {
@@ -657,7 +657,7 @@ namespace Coffee.UISoftMask
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
-                var res = UnityEditor.UnityStats.screenRes.Split('x');
+				string[] res = UnityEditor.UnityStats.screenRes.Split('x');
                 w = Mathf.Max(64, int.Parse(res[0]));
                 h = Mathf.Max(64, int.Parse(res[1]));
             }
@@ -677,7 +677,7 @@ namespace Coffee.UISoftMask
             if (rate == DownSamplingRate.None)
                 return;
 
-            var aspect = (float) w / h;
+			float aspect = (float) w / h;
             if (w < h)
             {
                 h = Mathf.ClosestPowerOfTwo(h / (int) rate);
@@ -753,14 +753,14 @@ namespace Coffee.UISoftMask
                 s_ReadTexture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
             }
 
-            var currentRt = RenderTexture.active;
+			RenderTexture currentRt = RenderTexture.active;
 
             RenderTexture.active = softMaskBuffer;
             s_ReadTexture.ReadPixels(new Rect(x, y, 1, 1), 0, 0);
             s_ReadTexture.Apply(false, false);
             RenderTexture.active = currentRt;
 
-            var colors = s_ReadTexture.GetRawTextureData();
+			byte[] colors = s_ReadTexture.GetRawTextureData();
 
             for (int i = 0; i < 4; i++)
             {

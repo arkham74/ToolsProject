@@ -42,9 +42,7 @@ public static partial class DOTweenExtensions
 		transform.AnimateHide().OnComplete(() => GameObject.Destroy(transform.gameObject));
 	}
 
-	public static TweenerCore<string, string, StringOptions> DOText(this TextMeshProUGUI target, string endValue,
-		float duration, bool richTextEnabled = true, ScrambleMode scrambleMode = ScrambleMode.None,
-		string scrambleChars = null)
+	public static TweenerCore<string, string, StringOptions> DOText(this TextMeshProUGUI target, string endValue, float duration, bool richTextEnabled = true, ScrambleMode scrambleMode = ScrambleMode.None, string scrambleChars = null)
 	{
 		if (endValue == null)
 		{
@@ -57,18 +55,24 @@ public static partial class DOTweenExtensions
 			endValue = "";
 		}
 
-		TweenerCore<string, string, StringOptions> t = DOTween.To(() => target.text, x => target.text = x, endValue,
-			duration);
+		TweenerCore<string, string, StringOptions> t = DOTween.To(() => target.text, x => target.text = x, endValue, duration);
 		t.SetOptions(richTextEnabled, scrambleMode, scrambleChars).SetTarget(target);
 		return t;
 	}
 
-	public static TweenerCore<int, int, NoOptions> DONumbers(this TextMeshProUGUI target, int endValue, float duration,
-		string @string = "{0}")
+	public static TweenerCore<int, int, NoOptions> DORevealText(this TextMeshProUGUI target, string endValue, float duration)
+	{
+		if (endValue == null) endValue = "";
+		target.text = endValue;
+		TweenerCore<int, int, NoOptions> t = DOTween.To(() => target.maxVisibleCharacters, x => target.maxVisibleCharacters = x, endValue.Length, duration);
+		t.SetTarget(target).From(0);
+		return t;
+	}
+
+	public static TweenerCore<int, int, NoOptions> DONumbers(this TextMeshProUGUI target, int endValue, float duration, string @string = "{0}")
 	{
 		target.text = "0";
-		TweenerCore<int, int, NoOptions> t = DOTween.To(() => int.Parse(target.text),
-			x => target.text = string.Format(@string, x), endValue, duration);
+		TweenerCore<int, int, NoOptions> t = DOTween.To(() => int.Parse(target.text), x => target.text = string.Format(@string, x), endValue, duration);
 		t.SetTarget(target);
 		return t;
 	}

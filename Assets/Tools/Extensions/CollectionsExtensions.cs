@@ -10,6 +10,19 @@ using Object = UnityEngine.Object;
 
 public static class CollectionsExtensions
 {
+	public static float Length(this Vector3[] waypoints)
+	{
+		float sum = 0;
+
+		for (int i = 1; i < waypoints.Length; i++)
+		{
+			sum += Vector3.Distance(waypoints[i - 1], waypoints[i]);
+		}
+
+		return sum;
+	}
+
+
 	public static bool InRange<T>(this List<T> list, int index)
 	{
 		bool gtz = index >= 0;
@@ -133,25 +146,31 @@ public static class CollectionsExtensions
 		return array.Any() ? array.OrderBy(e => e.transform.Distance(target.transform)).First() : null;
 	}
 
-	public static T Random<T>(this IEnumerable<T> enumerable)
-	{
-		int index = UnityEngine.Random.Range(0, enumerable.Count());
-		return enumerable.ElementAt(index);
-	}
-
 	public static T RandomOrDefault<T>(this IEnumerable<T> enumerable)
 	{
 		int index = UnityEngine.Random.Range(0, enumerable.Count());
 		return enumerable.ElementAtOrDefault(index);
 	}
 
+	public static T Random<T>(this IEnumerable<T> enumerable)
+	{
+		int index = UnityEngine.Random.Range(0, enumerable.Count());
+		return enumerable.ElementAt(index);
+	}
+
 	public static T Random<T>(this List<T> list)
 	{
+		if (list == null) throw new ArgumentNullException();
+		if (list.Count <= 0) throw new ArgumentException("List must have more than 0 elements");
+
 		return list[UnityEngine.Random.Range(0, list.Count)];
 	}
 
 	public static T Random<T>(this T[] array)
 	{
+		if (array == null) throw new ArgumentNullException();
+		if (array.Length <= 0) throw new ArgumentException("Array must have more than 0 elements");
+
 		return array[UnityEngine.Random.Range(0, array.Length)];
 	}
 
@@ -166,7 +185,7 @@ public static class CollectionsExtensions
 
 	public static T Loop<T>(this IEnumerable<T> array, int index)
 	{
-		return array.ElementAt((int) Mathf.Repeat(index, array.Count()));
+		return array.ElementAt((int)Mathf.Repeat(index, array.Count()));
 	}
 
 	public static T AtIndexClamp<T>(this List<T> list, int index)
@@ -182,6 +201,19 @@ public static class CollectionsExtensions
 	public static IOrderedEnumerable<T> Shuffle<T>(this IEnumerable<T> array)
 	{
 		return array.OrderBy(e => UnityEngine.Random.value);
+	}
+
+	public static void Shuffle<T>(this List<T> list)
+	{
+		int n = list.Count;
+		while (n > 1)
+		{
+			n--;
+			int k = UnityEngine.Random.Range(0, n + 1);
+			T value = list[k];
+			list[k] = list[n];
+			list[n] = value;
+		}
 	}
 
 	public static string Join<T>(this IEnumerable<T> array, string separator = ", ")

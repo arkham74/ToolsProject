@@ -26,16 +26,14 @@ public static class ComponentUtilities
 	public static void PasteSampleTMPText(MenuCommand command)
 	{
 		TMP_Text text = (TMP_Text)command.context;
-		text.SetText(
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In neque tortor, sodales eget eleifend quis, iaculis ac sem. Sed blandit nunc vitae pulvinar tempus. Nulla pretium imperdiet odio, sit amet consectetur elit iaculis id. Nulla placerat vitae lectus a pretium. Sed scelerisque ut erat et vulputate. Suspendisse sodales efficitur sapien vitae condimentum. Etiam tempor in augue id vulputate. Vivamus pulvinar maximus sagittis. Nunc cursus, augue a egestas consectetur, libero neque placerat libero, quis viverra turpis sapien et elit. Sed auctor, mauris vel ullamcorper consequat, libero urna dictum mauris, sed tempor dolor massa sed enim. Proin porta urna ut tempor ornare. Vivamus tempor laoreet ullamcorper. Pellentesque in lectus eget tellus dictum ornare. Vestibulum venenatis diam sed lobortis imperdiet.");
+		text.SetText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. In neque tortor, sodales eget eleifend quis, iaculis ac sem. Sed blandit nunc vitae pulvinar tempus.");
 	}
 
 	[MenuItem("CONTEXT/Text/Paste sample text")]
 	public static void PasteSampleText(MenuCommand command)
 	{
 		Text text = (Text)command.context;
-		text.text =
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In neque tortor, sodales eget eleifend quis, iaculis ac sem. Sed blandit nunc vitae pulvinar tempus. Nulla pretium imperdiet odio, sit amet consectetur elit iaculis id. Nulla placerat vitae lectus a pretium. Sed scelerisque ut erat et vulputate. Suspendisse sodales efficitur sapien vitae condimentum. Etiam tempor in augue id vulputate. Vivamus pulvinar maximus sagittis. Nunc cursus, augue a egestas consectetur, libero neque placerat libero, quis viverra turpis sapien et elit. Sed auctor, mauris vel ullamcorper consequat, libero urna dictum mauris, sed tempor dolor massa sed enim. Proin porta urna ut tempor ornare. Vivamus tempor laoreet ullamcorper. Pellentesque in lectus eget tellus dictum ornare. Vestibulum venenatis diam sed lobortis imperdiet.";
+		text.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In neque tortor, sodales eget eleifend quis, iaculis ac sem. Sed blandit nunc vitae pulvinar tempus.";
 	}
 
 	[MenuItem("CONTEXT/Button/Copy highlight to others")]

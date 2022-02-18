@@ -386,17 +386,10 @@ namespace Tayx.Graphy
                 DebugConditions.InsertArrayElementAtIndex(DebugConditions.arraySize);
             }
 
-            if (DebugConditions.arraySize > 1)
-            {
-                GUI.color = new Color(1f, 0.7f, 0.0f, 1f);
-            }
-            else
-            {
-                GUI.color = new Color(1f, 0.7f, 0.0f, 0.5f);
-            }
+            GUI.color = DebugConditions.arraySize > 1 ? new Color(1f, 0.7f, 0.0f, 1f) : new Color(1f, 0.7f, 0.0f, 0.5f);
 
-            //Remove this index from the List
-            if (GUILayout.Button("Remove", GUILayout.Width(60)))
+			//Remove this index from the List
+			if (GUILayout.Button("Remove", GUILayout.Width(60)))
             {
                 if (DebugConditions.arraySize > 1)
                 {

@@ -127,15 +127,11 @@ namespace Tayx.Graphy.Fps
             {
                 text.color = m_graphyManager.GoodFPSColor;
             }
-            else if (fps > m_graphyManager.CautionFPSThreshold)
-            {
-                text.color = m_graphyManager.CautionFPSColor;
-            }
             else
-            {
-                text.color = m_graphyManager.CriticalFPSColor;
-            }
-        }
+			{
+				text.color = fps > m_graphyManager.CautionFPSThreshold ? m_graphyManager.CautionFPSColor : m_graphyManager.CriticalFPSColor;
+			}
+		}
 
         private void Init()
         {

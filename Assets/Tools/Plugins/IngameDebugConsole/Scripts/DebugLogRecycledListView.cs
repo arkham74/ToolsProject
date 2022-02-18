@@ -90,10 +90,9 @@ namespace IngameDebugConsole
 			float transformComponentCenterYAtTop = viewportHeight * 0.5f;
 			float transformComponentCenterYAtBottom = transformComponent.sizeDelta.y - viewportHeight * 0.5f;
 			float transformComponentTargetCenterY = itemIndex * logItemHeight + viewportHeight * 0.5f;
-			if( transformComponentCenterYAtTop == transformComponentCenterYAtBottom )
-				scrollView.verticalNormalizedPosition = 0.5f;
-			else
-				scrollView.verticalNormalizedPosition = Mathf.Clamp01( Mathf.InverseLerp( transformComponentCenterYAtBottom, transformComponentCenterYAtTop, transformComponentTargetCenterY ) );
+			scrollView.verticalNormalizedPosition = transformComponentCenterYAtTop == transformComponentCenterYAtBottom
+								? 0.5f
+								: Mathf.Clamp01( Mathf.InverseLerp( transformComponentCenterYAtBottom, transformComponentCenterYAtTop, transformComponentTargetCenterY ) );
 
 			manager.SetSnapToBottom( false );
 		}
@@ -383,10 +382,7 @@ namespace IngameDebugConsole
 		{
 			if( index == indexOfSelectedLogEntry )
 				logItem.Image.color = logItemSelectedColor;
-			else if( index % 2 == 0 )
-				logItem.Image.color = logItemNormalColor1;
-			else
-				logItem.Image.color = logItemNormalColor2;
+			else logItem.Image.color = index % 2 == 0 ? logItemNormalColor1 : logItemNormalColor2;
 		}
 	}
 }

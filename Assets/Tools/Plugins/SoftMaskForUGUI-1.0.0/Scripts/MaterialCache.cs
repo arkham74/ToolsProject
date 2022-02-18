@@ -33,7 +33,7 @@ namespace Coffee.UISoftMask
         [UnityEditor.InitializeOnLoadMethod]
         private static void ClearCache()
         {
-            foreach (var entry in s_MaterialMap.Values)
+            foreach ( MaterialEntry entry in s_MaterialMap.Values)
             {
                 entry.Release();
             }

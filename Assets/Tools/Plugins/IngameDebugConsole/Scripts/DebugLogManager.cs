@@ -942,10 +942,7 @@ namespace IngameDebugConsole
 			{
 				if (isLogWindowVisible)
 				{
-					if (!isInSearchMode && logFilter == DebugLogFilter.All)
-						logEntryIndexInEntriesToShow = logEntryIndex;
-					else
-						logEntryIndexInEntriesToShow = indicesOfListEntriesToShow.IndexOf(logEntryIndex);
+					logEntryIndexInEntriesToShow = !isInSearchMode && logFilter == DebugLogFilter.All ? logEntryIndex : indicesOfListEntriesToShow.IndexOf(logEntryIndex);
 
 					if (timestampsOfListEntriesToShow != null)
 						timestampsOfListEntriesToShow[logEntryIndexInEntriesToShow] = collapsedLogEntriesTimestamps[logEntryIndex];
@@ -1069,10 +1066,7 @@ namespace IngameDebugConsole
 		{
 			logFilter = logFilter ^ DebugLogFilter.Info;
 
-			if ((logFilter & DebugLogFilter.Info) == DebugLogFilter.Info)
-				filterInfoButton.color = filterButtonsSelectedColor;
-			else
-				filterInfoButton.color = filterButtonsNormalColor;
+			filterInfoButton.color = ( logFilter & DebugLogFilter.Info) == DebugLogFilter.Info ? filterButtonsSelectedColor : filterButtonsNormalColor;
 
 			FilterLogs();
 		}
@@ -1082,10 +1076,7 @@ namespace IngameDebugConsole
 		{
 			logFilter = logFilter ^ DebugLogFilter.Warning;
 
-			if ((logFilter & DebugLogFilter.Warning) == DebugLogFilter.Warning)
-				filterWarningButton.color = filterButtonsSelectedColor;
-			else
-				filterWarningButton.color = filterButtonsNormalColor;
+			filterWarningButton.color = ( logFilter & DebugLogFilter.Warning) == DebugLogFilter.Warning ? filterButtonsSelectedColor : filterButtonsNormalColor;
 
 			FilterLogs();
 		}
@@ -1095,10 +1086,7 @@ namespace IngameDebugConsole
 		{
 			logFilter = logFilter ^ DebugLogFilter.Error;
 
-			if ((logFilter & DebugLogFilter.Error) == DebugLogFilter.Error)
-				filterErrorButton.color = filterButtonsSelectedColor;
-			else
-				filterErrorButton.color = filterButtonsNormalColor;
+			filterErrorButton.color = ( logFilter & DebugLogFilter.Error) == DebugLogFilter.Error ? filterButtonsSelectedColor : filterButtonsNormalColor;
 
 			FilterLogs();
 		}

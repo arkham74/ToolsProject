@@ -35,7 +35,7 @@ namespace Coffee.UISoftMask
         private static List<SoftMaskable> s_ActiveSoftMaskables;
         private static int[] s_Interactions = new int[4];
 
-        [SerializeField, HideInInspector, System.Obsolete]
+        [SerializeField, HideInInspector, Obsolete]
         private bool m_Inverse;
 
         [SerializeField, Tooltip("The interaction for each masks."), HideInInspector]
@@ -59,7 +59,7 @@ namespace Coffee.UISoftMask
             get { return m_MaskInteraction == kVisibleOutside; }
             set
             {
-                var intValue = value ? kVisibleOutside : kVisibleInside;
+				int intValue = value ? kVisibleOutside : kVisibleInside;
                 if (m_MaskInteraction == intValue) return;
                 m_MaskInteraction = intValue;
                 graphic.SetMaterialDirtyEx();
@@ -123,8 +123,8 @@ namespace Coffee.UISoftMask
                 return baseMaterial;
             }
 
-            // Generate soft maskable material.
-            var previousHash = _effectMaterialHash;
+			// Generate soft maskable material.
+			Hash128 previousHash = _effectMaterialHash;
             _effectMaterialHash = new Hash128(
                 (uint) baseMaterial.GetInstanceID(),
                 (uint) softMask.GetInstanceID(),
@@ -144,8 +144,8 @@ namespace Coffee.UISoftMask
                 UpdateMaterialForSceneView(mat);
 #endif
 
-                var root = MaskUtilities.FindRootSortOverrideCanvas(transform);
-                var stencil = MaskUtilities.GetStencilDepth(transform, root);
+							Transform root = MaskUtilities.FindRootSortOverrideCanvas(transform);
+							int stencil = MaskUtilities.GetStencilDepth(transform, root);
                 mat.SetVector(s_MaskInteractionId, new Vector4(
                     1 <= stencil ? (m_MaskInteraction >> 0 & 0x3) : 0,
                     2 <= stencil ? (m_MaskInteraction >> 2 & 0x3) : 0,
@@ -175,8 +175,8 @@ namespace Coffee.UISoftMask
 
             if (m_RaycastFilter)
             {
-                var sm = _softMask;
-                for (var i = 0; i < 4; i++)
+				SoftMask sm = _softMask;
+                for ( int i = 0; i < 4; i++)
                 {
                     s_Interactions[i] = sm ? ((m_MaskInteraction >> i * 2) & 0x3) : 0;
                     sm = sm ? sm.parent : null;
@@ -186,23 +186,23 @@ namespace Coffee.UISoftMask
             }
             else
             {
-                var sm = _softMask;
-                for (var i = 0; i < 4; i++)
+				SoftMask sm = _softMask;
+                for ( int i = 0; i < 4; i++)
                 {
                     if (!sm) break;
 
                     s_Interactions[i] = sm ? ((m_MaskInteraction >> i * 2) & 0x3) : 0;
-                    var interaction = s_Interactions[i] == 1;
-                    var rt = sm.transform as RectTransform;
-                    var inRect = RectTransformUtility.RectangleContainsScreenPoint(rt, sp, eventCamera);
+					bool interaction = s_Interactions[i] == 1;
+					RectTransform rt = sm.transform as RectTransform;
+					bool inRect = RectTransformUtility.RectangleContainsScreenPoint(rt, sp, eventCamera);
                     if (!sm.ignoreSelfGraphic && interaction != inRect) return false;
 
-                    foreach (var child in sm._children)
+                    foreach ( SoftMask child in sm._children)
                     {
                         if (!child) continue;
 
-                        var childRt = child.transform as RectTransform;
-                        var inRectChild = RectTransformUtility.RectangleContainsScreenPoint(childRt, sp, eventCamera);
+						RectTransform childRt = child.transform as RectTransform;
+						bool inRectChild = RectTransformUtility.RectangleContainsScreenPoint(childRt, sp, eventCamera);
                         if (!child.ignoreSelfGraphic && interaction != inRectChild) return false;
                     }
 
@@ -278,22 +278,22 @@ namespace Coffee.UISoftMask
 
             // Set view and projection matrices.
             Profiler.BeginSample("Set view and projection matrices");
-            var c = graphic.canvas.rootCanvas;
-            var cam = c.worldCamera ?? Camera.main;
+			Canvas c = graphic.canvas.rootCanvas;
+			Camera cam = c.worldCamera ?? Camera.main;
             if (c && c.renderMode != RenderMode.ScreenSpaceOverlay && cam)
             {
-                var p = GL.GetGPUProjectionMatrix(cam.projectionMatrix, false);
-                var pv = p * cam.worldToCameraMatrix;
+				Matrix4x4 p = GL.GetGPUProjectionMatrix(cam.projectionMatrix, false);
+				Matrix4x4 pv = p * cam.worldToCameraMatrix;
                 mat.SetMatrix(s_GameVPId, pv);
                 mat.SetMatrix(s_GameTVPId, pv);
             }
             else
             {
-                var pos = c.transform.position;
-                var scale = c.transform.localScale.x;
-                var size = (c.transform as RectTransform).sizeDelta;
-                var gameVp = Matrix4x4.TRS(new Vector3(0, 0, 0.5f), Quaternion.identity, new Vector3(2 / size.x, 2 / size.y, 0.0005f * scale));
-                var gameTvp = Matrix4x4.TRS(new Vector3(0, 0, 0), Quaternion.identity, new Vector3(1 / pos.x, 1 / pos.y, -2 / 2000f)) * Matrix4x4.Translate(-pos);
+				Vector3 pos = c.transform.position;
+				float scale = c.transform.localScale.x;
+				Vector2 size = (c.transform as RectTransform).sizeDelta;
+				Matrix4x4 gameVp = Matrix4x4.TRS(new Vector3(0, 0, 0.5f), Quaternion.identity, new Vector3(2 / size.x, 2 / size.y, 0.0005f * scale));
+				Matrix4x4 gameTvp = Matrix4x4.TRS(new Vector3(0, 0, 0), Quaternion.identity, new Vector3(1 / pos.x, 1 / pos.y, -2 / 2000f)) * Matrix4x4.Translate(-pos);
 
                 mat.SetMatrix(s_GameVPId, gameVp);
                 mat.SetMatrix(s_GameTVPId, gameTvp);
@@ -329,7 +329,7 @@ namespace Coffee.UISoftMask
             }
 #pragma warning restore 0612
 
-            var current = this;
+			SoftMaskable current = this;
             UnityEditor.EditorApplication.delayCall += () =>
             {
                 if (!current) return;

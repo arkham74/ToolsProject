@@ -9,7 +9,7 @@ using UnityEngine;
 public static class VectorExtensions
 {
 	/// <summary>
-	/// Direction from two vectors2
+	/// NON-Direction from two vectors2
 	/// </summary>
 	/// <param name="v"></param>
 	/// <param name="target"></param>

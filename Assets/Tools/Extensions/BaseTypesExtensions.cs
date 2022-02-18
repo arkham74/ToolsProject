@@ -183,4 +183,16 @@ public static class BaseTypesExtensions
 	{
 		return kph / 3.6f;
 	}
+
+	/// <summary>Exponential interpolation, the multiplicative version of lerp, useful for values such as scaling or zooming</summary>
+	/// <param name="a">The start value</param>
+	/// <param name="b">The end value</param>
+	/// <param name="t">The t-value from 0 to 1 representing position along the lerp</param>
+	public static float Eerp(this float t, float a, float b) => Mathf.Pow(a, 1 - t) * Mathf.Pow(b, t);
+
+	/// <summary>Inverse exponential interpolation, the multiplicative version of InverseLerp, useful for values such as scaling or zooming</summary>
+	/// <param name="a">The start value</param>
+	/// <param name="b">The end value</param>
+	/// <param name="v">A value between a and b. Note: values outside this range are still valid, and will be extrapolated</param>
+	public static float InverseEerp(this float v, float a, float b) => Mathf.Log(a / v) / Mathf.Log(a / b);
 }

@@ -105,18 +105,11 @@ namespace Tayx.Graphy.Fps
 
             for (int i = 0; i <= m_resolution - 1; i++)
             {
-                if (i >= m_resolution - 1)
-                {
-                    m_fpsArray[i] = fps;
-                }
-                else
-                {
-                    m_fpsArray[i] = m_fpsArray[i + 1];
-                }
+                m_fpsArray[i] = i >= m_resolution - 1 ? fps : m_fpsArray[i + 1];
 
-                // Store the highest fps to use as the highest point in the graph
+				// Store the highest fps to use as the highest point in the graph
 
-                if (currentMaxFps < m_fpsArray[i])
+				if (currentMaxFps < m_fpsArray[i])
                 {
                     currentMaxFps = m_fpsArray[i];
                 }

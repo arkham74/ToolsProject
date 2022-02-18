@@ -16,12 +16,10 @@ public static partial class DOTweenExtensions
 		return t;
 	}
 
-	public static TweenerCore<float, float, FloatOptions> DOFov(this CinemachineVirtualCamera target, float endValue,
-		float duration, bool snapping = false)
+	public static TweenerCore<float, float, FloatOptions> DOFieldOfView(this CinemachineVirtualCamera target, float endValue, float duration)
 	{
-		TweenerCore<float, float, FloatOptions> t = DOTween.To(() => target.m_Lens.FieldOfView,
-			x => target.m_Lens.FieldOfView = x, endValue, duration);
-		t.SetOptions(snapping).SetTarget(target);
+		TweenerCore<float, float, FloatOptions> t = DOTween.To(() => target.m_Lens.FieldOfView, x => target.m_Lens.FieldOfView = x, endValue, duration);
+		t.SetTarget(target);
 		return t;
 	}
 }

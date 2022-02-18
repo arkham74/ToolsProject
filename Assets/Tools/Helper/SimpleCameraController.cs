@@ -16,7 +16,6 @@ using Text = TMPro.TextMeshProUGUI;
 using Tag = NaughtyAttributes.TagAttribute;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-
 #endif
 
 public class SimpleCameraController : MonoBehaviour
@@ -85,7 +84,7 @@ public class SimpleCameraController : MonoBehaviour
 		Vector2 delta = Mouse.current.delta.ReadValue().InvertY().XYtoYX();
 		LookUpdate(delta);
 #else
-		LookUpdate(mousePos - (Vector2) Input.mousePosition);
+		LookUpdate(mousePos - (Vector2)Input.mousePosition);
 #endif
 	}
 

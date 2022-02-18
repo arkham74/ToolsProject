@@ -81,7 +81,7 @@ namespace Tayx.Graphy
 
         #region Structs -> Public
 
-        [System.Serializable]
+        [Serializable]
         public struct DebugCondition
         {
             [Tooltip("Variable to compare against")]
@@ -96,7 +96,7 @@ namespace Tayx.Graphy
 
         #region Helper Classes
 
-        [System.Serializable]
+        [Serializable]
         public class DebugPacket
         {
 
@@ -125,7 +125,7 @@ namespace Tayx.Graphy
             [Tooltip("If true, it pauses the editor")]
             public bool                 DebugBreak              = false;
             public UnityEvent           UnityEvents;
-            public List<System.Action>  Callbacks               = new List<System.Action>();
+            public List<Action>  Callbacks               = new List<Action>();
 
 
             private bool canBeChecked = false;
@@ -210,7 +210,7 @@ namespace Tayx.Graphy
             MessageType newMessageType,
             string newMessage,
             bool newDebugBreak,
-            System.Action newCallback
+						Action newCallback
         )
         {
             DebugPacket newDebugPacket = new DebugPacket();
@@ -235,7 +235,7 @@ namespace Tayx.Graphy
             MessageType newMessageType,
             string newMessage,
             bool newDebugBreak,
-            System.Action newCallback
+						Action newCallback
         )
         {
             DebugPacket newDebugPacket = new DebugPacket();
@@ -260,7 +260,7 @@ namespace Tayx.Graphy
             MessageType newMessageType,
             string newMessage,
             bool newDebugBreak,
-            List<System.Action> newCallbacks
+            List<Action> newCallbacks
         )
         {
             DebugPacket newDebugPacket = new DebugPacket();
@@ -285,7 +285,7 @@ namespace Tayx.Graphy
             MessageType newMessageType,
             string newMessage,
             bool newDebugBreak,
-            List<System.Action> newCallbacks
+            List<Action> newCallbacks
         )
         {
             DebugPacket newDebugPacket = new DebugPacket();
@@ -351,7 +351,7 @@ namespace Tayx.Graphy
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="id"></param>
-        public void AddCallbackToFirstDebugPacketWithId(System.Action callback, int id)
+        public void AddCallbackToFirstDebugPacketWithId( Action callback, int id)
         {
             if (GetFirstDebugPacketWithId(id) != null)
             {
@@ -364,11 +364,11 @@ namespace Tayx.Graphy
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="id"></param>
-        public void AddCallbackToAllDebugPacketWithId(System.Action callback, int id)
+        public void AddCallbackToAllDebugPacketWithId( Action callback, int id)
         {
             if (GetAllDebugPacketsWithId(id) != null)
             {
-                foreach (var debugPacket in GetAllDebugPacketsWithId(id))
+                foreach ( DebugPacket debugPacket in GetAllDebugPacketsWithId(id))
                 {
                     if (callback != null)
                     {
@@ -407,7 +407,7 @@ namespace Tayx.Graphy
                             case ConditionEvaluation.All_conditions_must_be_met:
                                 int count = 0;
 
-                                foreach (var packetDebugCondition in packet.DebugConditions)
+                                foreach ( DebugCondition packetDebugCondition in packet.DebugConditions)
                                 {
                                     if (CheckIfConditionIsMet(packetDebugCondition))
                                     {
@@ -428,7 +428,7 @@ namespace Tayx.Graphy
                                 break;
 
                             case ConditionEvaluation.Only_one_condition_has_to_be_met:
-                                foreach (var packetDebugCondition in packet.DebugConditions)
+                                foreach ( DebugCondition packetDebugCondition in packet.DebugConditions)
                                 {
                                     if (CheckIfConditionIsMet(packetDebugCondition))
                                     {
@@ -556,7 +556,7 @@ namespace Tayx.Graphy
 
                 debugPacket.UnityEvents.Invoke();
 
-                foreach (var callback in debugPacket.Callbacks)
+                foreach ( Action callback in debugPacket.Callbacks)
                 {
                     if (callback != null) callback();
                 }

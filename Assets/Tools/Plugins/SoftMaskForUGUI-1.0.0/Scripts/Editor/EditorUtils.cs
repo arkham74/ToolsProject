@@ -12,7 +12,7 @@ namespace Coffee.UISoftMask
         internal static void MarkPrefabDirty()
         {
 #if UNITY_2018_3_OR_NEWER
-            var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+			PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
             if (prefabStage == null) return;
             EditorSceneManager.MarkSceneDirty(prefabStage.scene);
 #endif
@@ -31,15 +31,15 @@ namespace Coffee.UISoftMask
         /// </summary>
         internal static void ConvertTo<T>(Object context) where T : MonoBehaviour
         {
-            var target = context as MonoBehaviour;
-            var so = new SerializedObject(target);
+			MonoBehaviour target = context as MonoBehaviour;
+			SerializedObject so = new SerializedObject(target);
             so.Update();
 
-            var oldEnable = target.enabled;
+			bool oldEnable = target.enabled;
             target.enabled = false;
 
             // Find MonoScript of the specified component.
-            foreach (var script in Resources.FindObjectsOfTypeAll<MonoScript>())
+            foreach ( MonoScript script in Resources.FindObjectsOfTypeAll<MonoScript>())
             {
                 if (script.GetClass() != typeof(T))
                     continue;

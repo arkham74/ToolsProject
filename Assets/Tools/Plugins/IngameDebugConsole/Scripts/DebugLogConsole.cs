@@ -1236,10 +1236,9 @@ namespace IngameDebugConsole
 				string enumStr;
 				int orIndex = input.IndexOf( '|', i );
 				int andIndex = input.IndexOf( '&', i );
-				if( orIndex < 0 )
-					enumStr = input.Substring( i, ( andIndex < 0 ? input.Length : andIndex ) - i ).Trim();
-				else
-					enumStr = input.Substring( i, ( andIndex < 0 ? orIndex : Mathf.Min( andIndex, orIndex ) ) - i ).Trim();
+				enumStr = orIndex < 0
+										? input.Substring( i, ( andIndex < 0 ? input.Length : andIndex ) - i ).Trim()
+										: input.Substring( i, ( andIndex < 0 ? orIndex : Mathf.Min( andIndex, orIndex ) ) - i ).Trim();
 
 				int value;
 				if( !int.TryParse( enumStr, out value ) )
@@ -1344,10 +1343,7 @@ namespace IngameDebugConsole
 				{
 					if( vectorType == typeof( Vector3 ) )
 						output = Vector3.zero;
-					else if( vectorType == typeof( Vector2 ) )
-						output = Vector2.zero;
-					else
-						output = Vector4.zero;
+					else output = vectorType == typeof( Vector2 ) ? Vector2.zero : (object)Vector4.zero;
 
 					return false;
 				}

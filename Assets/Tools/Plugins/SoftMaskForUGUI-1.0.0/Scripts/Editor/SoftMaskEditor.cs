@@ -28,9 +28,9 @@ namespace Coffee.UISoftMask
         {
             base.OnInspectorGUI();
 
-            var current = target as SoftMask;
-            current.GetComponentsInChildren<Graphic>(true, s_Graphics);
-            var fixTargets = s_Graphics
+			SoftMask current = target as SoftMask;
+            current.GetComponentsInChildren(true, s_Graphics);
+			List<Graphic> fixTargets = s_Graphics
                 .Where(x => x.gameObject != current.gameObject)
                 .Where(x => !x.GetComponent<SoftMaskable>() && (!x.GetComponent<Mask>() || x.GetComponent<Mask>().showMaskGraphic))
                 .ToList();
@@ -41,7 +41,7 @@ namespace Coffee.UISoftMask
                 GUILayout.BeginVertical();
                 if (GUILayout.Button("Fix"))
                 {
-                    foreach (var p in fixTargets)
+                    foreach ( Graphic p in fixTargets)
                     {
                         p.gameObject.AddComponent<SoftMaskable>();
                     }
@@ -58,7 +58,7 @@ namespace Coffee.UISoftMask
                 GUILayout.EndHorizontal();
             }
 
-            var currentImage = current.graphic as Image;
+			Image currentImage = current.graphic as Image;
             if (currentImage && IsMaskUI(currentImage.sprite))
             {
                 GUILayout.BeginHorizontal();
@@ -83,8 +83,8 @@ namespace Coffee.UISoftMask
 
             if (s_Preview)
             {
-                var tex = current.softMaskBuffer;
-                var width = tex.width * k_PreviewSize / tex.height;
+				RenderTexture tex = current.softMaskBuffer;
+				int width = tex.width * k_PreviewSize / tex.height;
                 EditorGUI.DrawPreviewTexture(GUILayoutUtility.GetRect(width, k_PreviewSize), tex, null, ScaleMode.ScaleToFit);
                 Repaint();
             }

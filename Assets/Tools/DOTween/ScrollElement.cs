@@ -13,9 +13,6 @@ using TMPro;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
 
 namespace CordBot
 {

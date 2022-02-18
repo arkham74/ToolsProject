@@ -98,22 +98,15 @@ namespace Tayx.Graphy.Audio
                 for (int i = 0; i < Spectrum.Length; i++)
                 {
                     // Update the highest value if its lower than the current one
-                    if (Spectrum[i] > SpectrumHighestValues[i])
-                    {
-                        SpectrumHighestValues[i] = Spectrum[i];
-                    }
-
-                    // Slowly lower the value 
-                    else
-                    {
-                        SpectrumHighestValues[i] = Mathf.Clamp
+                    SpectrumHighestValues[i] = Spectrum[i] > SpectrumHighestValues[i]
+												? Spectrum[i]
+												: Mathf.Clamp
                         (
                             value: SpectrumHighestValues[i] - SpectrumHighestValues[i] * Time.deltaTime * 2,
                             min: 0,
                             max: 1
                         );
-                    }
-                }
+				}
             }
             else if(     m_audioListener == null 
                      &&  m_findAudioListenerInCameraIfNull == GraphyManager.LookForAudioListener.ALWAYS)

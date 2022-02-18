@@ -29,15 +29,15 @@ namespace PresetsPerFolder
             // There may be more exceptions to add here depending on your project.
             if (assetPath.StartsWith("Assets/") && !assetPath.EndsWith(".cs") && !assetPath.EndsWith(".preset"))
             {
-                var path = Path.GetDirectoryName(assetPath);
+				string path = Path.GetDirectoryName(assetPath);
                 ApplyPresetsFromFolderRecursively(path);
             }
         }
 
         void ApplyPresetsFromFolderRecursively(string folder)
         {
-            // Apply Presets in order starting from the parent folder to the Asset so that the Preset closest to the Asset is applied last.
-            var parentFolder = Path.GetDirectoryName(folder);
+			// Apply Presets in order starting from the parent folder to the Asset so that the Preset closest to the Asset is applied last.
+			string parentFolder = Path.GetDirectoryName(folder);
             if (!string.IsNullOrEmpty(parentFolder))
                 ApplyPresetsFromFolderRecursively(parentFolder);
 
@@ -45,16 +45,16 @@ namespace PresetsPerFolder
             // so whenever a Preset is added to or removed from this folder, the Asset is re-imported.
             context.DependsOnCustomDependency($"PresetPostProcessor_{folder}");
 
-            // Find all Preset Assets in this folder. Use the System.Directory method instead of the AssetDatabase
-            // because the import may run in a separate process which prevents the AssetDatabase from performing a global search.
-            var presetPaths =
+			// Find all Preset Assets in this folder. Use the System.Directory method instead of the AssetDatabase
+			// because the import may run in a separate process which prevents the AssetDatabase from performing a global search.
+			IOrderedEnumerable<string> presetPaths =
                 Directory.EnumerateFiles(folder, "*.preset", SearchOption.TopDirectoryOnly)
                     .OrderBy(a => a);
 
-            foreach (var presetPath in presetPaths)
+            foreach ( string presetPath in presetPaths)
             {
-                // Load the Preset and try to apply it to the importer.
-                var preset = AssetDatabase.LoadAssetAtPath<Preset>(presetPath);
+				// Load the Preset and try to apply it to the importer.
+				Preset preset = AssetDatabase.LoadAssetAtPath<Preset>(presetPath);
 
                 // The script adds a Presets dependency to an Asset in two cases:
                 //1 If the Asset is imported before the Preset, the Preset will not load because it is not yet imported.
@@ -97,9 +97,9 @@ namespace PresetsPerFolder
         [InitializeOnLoadMethod]
         static void InitPresetDependencies()
         {
-            // AssetDatabase.FindAssets uses a glob filter to avoid importing all objects in the project.
-            // This glob search only looks for .preset files.
-            var allPaths = AssetDatabase.FindAssets("glob:\"**.preset\"")
+			// AssetDatabase.FindAssets uses a glob filter to avoid importing all objects in the project.
+			// This glob search only looks for .preset files.
+			List<string> allPaths = AssetDatabase.FindAssets("glob:\"**.preset\"")
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .OrderBy(a => a)
                 .ToList();
@@ -107,10 +107,10 @@ namespace PresetsPerFolder
             bool atLeastOnUpdate = false;
             string previousPath = string.Empty;
             Hash128 hash = new Hash128();
-            for (var index = 0; index < allPaths.Count; index++)
+            for ( int index = 0; index < allPaths.Count; index++)
             {
-                var path = allPaths[index];
-                var folder = Path.GetDirectoryName(path);
+				string path = allPaths[index];
+				string folder = Path.GetDirectoryName(path);
                 if (folder != previousPath)
                 {
                     // When a new folder is found, create a new CustomDependency with the Preset name and the Preset type.
@@ -149,7 +149,7 @@ namespace PresetsPerFolder
         protected override void OnAssetsModified(string[] changedAssets, string[] addedAssets, string[] deletedAssets, AssetMoveInfo[] movedAssets)
         {
             HashSet<string> folders = new HashSet<string>();
-            foreach (var asset in changedAssets)
+            foreach ( string asset in changedAssets)
             {
                 // A Preset has been changed, so the dependency for this folder must be updated in case the Preset type has been changed.
                 if (asset.EndsWith(".preset"))
@@ -158,7 +158,7 @@ namespace PresetsPerFolder
                 }
             }
 
-            foreach (var asset in addedAssets)
+            foreach ( string asset in addedAssets)
             {
                 // A new Preset has been added, so the dependency for this folder must be updated.
                 if (asset.EndsWith(".preset"))
@@ -167,7 +167,7 @@ namespace PresetsPerFolder
                 }
             }
 
-            foreach (var asset in deletedAssets)
+            foreach ( string asset in deletedAssets)
             {
                 // A Preset has been removed, so the dependency for this folder must be updated.
                 if (asset.EndsWith(".preset"))
@@ -176,7 +176,7 @@ namespace PresetsPerFolder
                 }
             }
 
-            foreach (var movedAsset in movedAssets)
+            foreach ( AssetMoveInfo movedAsset in movedAssets)
             {
                 // A Preset has been moved, so the dependency for the previous and new folder must be updated.
                 if (movedAsset.destinationAssetPath.EndsWith(".preset"))
@@ -208,16 +208,16 @@ namespace PresetsPerFolder
         /// </summary>
         static void DelayedDependencyRegistration(HashSet<string> folders)
         {
-            foreach (var folder in folders)
+            foreach ( string folder in folders)
             {
-                var presetPaths =
+				IOrderedEnumerable<string> presetPaths =
                     AssetDatabase.FindAssets("glob:\"**.preset\"", new[] { folder })
                         .Select(AssetDatabase.GUIDToAssetPath)
                         .Where(presetPath => Path.GetDirectoryName(presetPath) == folder)
                         .OrderBy(a => a);
 
                 Hash128 hash = new Hash128();
-                foreach (var presetPath in presetPaths)
+                foreach ( string presetPath in presetPaths)
                 {
                     // Append both path and Preset type to make sure Assets get re-imported whenever a Preset type is changed.
                     hash.Append(presetPath);
