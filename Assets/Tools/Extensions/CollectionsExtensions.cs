@@ -111,6 +111,12 @@ public static class CollectionsExtensions
 		return array.ElementAt(index % lenght);
 	}
 
+	public static T RepeatOrDefault<T>(this IEnumerable<T> array, int index)
+	{
+		int lenght = array.Count();
+		return lenght > 0 ? array.ElementAt(index % lenght) : default;
+	}
+
 	public static void GroupSetActive(this IEnumerable<GameObject> components, bool value)
 	{
 		foreach (GameObject item in components)
@@ -141,21 +147,30 @@ public static class CollectionsExtensions
 		return array.Select(e => e / sum);
 	}
 
-	public static T Closest<T>(this IEnumerable<T> array, Component target) where T : Component
+	public static T Closest<T>(this IEnumerable<T> enumerable, Component target) where T : Component
 	{
-		return array.Any() ? array.OrderBy(e => e.transform.Distance(target.transform)).First() : null;
-	}
-
-	public static T RandomOrDefault<T>(this IEnumerable<T> enumerable)
-	{
-		int index = UnityEngine.Random.Range(0, enumerable.Count());
-		return enumerable.ElementAtOrDefault(index);
+		T clos = null;
+		float min = float.MaxValue;
+		foreach (T item in enumerable)
+		{
+			float dist = Vector3.Distance(item.transform.position, target.transform.position);
+			if (dist < min)
+			{
+				min = dist;
+				clos = item;
+			}
+		}
+		return clos;
 	}
 
 	public static T Random<T>(this IEnumerable<T> enumerable)
 	{
-		int index = UnityEngine.Random.Range(0, enumerable.Count());
-		return enumerable.ElementAt(index);
+		if (enumerable == null) throw new ArgumentNullException();
+		int count = enumerable.Count();
+		if (count <= 0) throw new ArgumentException("Enumerable must have more than 0 elements");
+
+		int index = UnityEngine.Random.Range(0, count);
+		return enumerable.ElementAtOrDefault(index);
 	}
 
 	public static T Random<T>(this List<T> list)
@@ -201,6 +216,21 @@ public static class CollectionsExtensions
 	public static IOrderedEnumerable<T> Shuffle<T>(this IEnumerable<T> array)
 	{
 		return array.OrderBy(e => UnityEngine.Random.value);
+	}
+
+	public static IOrderedEnumerable<int> Sort(this IEnumerable<int> array)
+	{
+		return array.OrderBy(e => e);
+	}
+
+	public static IOrderedEnumerable<float> Sort(this IEnumerable<float> array)
+	{
+		return array.OrderBy(e => e);
+	}
+
+	public static IOrderedEnumerable<string> Sort(this IEnumerable<string> array)
+	{
+		return array.OrderBy(e => e);
 	}
 
 	public static void Shuffle<T>(this List<T> list)

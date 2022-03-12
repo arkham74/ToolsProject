@@ -14,35 +14,32 @@ using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 
-namespace CordBot
+public class ScrollElement : MonoBehaviour, ISelectHandler
 {
-	public class ScrollElement : MonoBehaviour, ISelectHandler
+	public float waitTime = 0.1f;
+	public RectTransform element;
+	private ScrollRect scrollRect;
+
+	private void Reset()
 	{
-		public float waitTime = 0.1f;
-		public RectTransform element;
-		private ScrollRect scrollRect;
+		element = GetComponent<RectTransform>();
+	}
 
-		private void Reset()
-		{
-			element = GetComponent<RectTransform>();
-		}
+	private void Awake()
+	{
+		scrollRect = GetComponentInParent<ScrollRect>();
+	}
 
-		private void Awake()
-		{
-			scrollRect = GetComponentInParent<ScrollRect>();
-		}
+	public void OnSelect(BaseEventData eventData)
+	{
+		if (scrollRect.velocity.magnitude > 0.01f) return;
+		StartCoroutine(ScrollToElement());
+	}
 
-		public void OnSelect(BaseEventData eventData)
-		{
-			if (scrollRect.velocity.magnitude > 0.01f) return;
-			StartCoroutine(ScrollToElement());
-		}
-
-		private IEnumerator ScrollToElement()
-		{
-			yield return new WaitForSeconds(waitTime);
-			scrollRect.ScrollTo(element);
-		}
+	private IEnumerator ScrollToElement()
+	{
+		yield return new WaitForSeconds(waitTime);
+		scrollRect.ScrollTo(element);
 	}
 }
 #endif

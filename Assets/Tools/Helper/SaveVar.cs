@@ -26,6 +26,8 @@ public abstract class SaveVar<T>
 		PP.DeleteKey(key);
 		loaded = false;
 	}
+
+	public static implicit operator T(SaveVar<T> val) => val.Value;
 }
 
 public class SaveColor : SaveVar<Color>
@@ -87,6 +89,8 @@ public class SaveInt : SaveVar<int>
 	public SaveInt(string key, int defaultValue = default) : base(key, defaultValue)
 	{
 	}
+
+	public static implicit operator SaveInt((string key, int def) param) => new SaveInt(param.key, param.def);
 }
 
 public class SaveFloat : SaveVar<float>

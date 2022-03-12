@@ -73,7 +73,7 @@ public static class BaseTypesExtensions
 		return Mathf.Clamp(value, min, max);
 	}
 
-	public static float Repeat( this float value, float lenght )
+	public static float Repeat( this float value, float lenght = 1f )
 	{
 		return Mathf.Repeat(value, lenght);
 	}

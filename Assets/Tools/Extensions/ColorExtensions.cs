@@ -30,10 +30,10 @@ public static class ColorExtensions
 
 	public static Color32 ToColor32(this Color color)
 	{
-		byte r = (byte) (color.r * 255);
-		byte g = (byte) (color.g * 255);
-		byte b = (byte) (color.b * 255);
-		byte a = (byte) (color.a * 255);
+		byte r = (byte)(color.r * 255);
+		byte g = (byte)(color.g * 255);
+		byte b = (byte)(color.b * 255);
+		byte a = (byte)(color.a * 255);
 		return new Color32(r, g, b, a);
 	}
 

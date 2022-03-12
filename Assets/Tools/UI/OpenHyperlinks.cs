@@ -32,6 +32,8 @@ public class OpenHyperlinks : MonoBehaviour, IPointerClickHandler
 
 	public void OnPointerClick(PointerEventData eventData)
 	{
+		if (eventData.button != PointerEventData.InputButton.Left) return;
+
 		int linkIndex = GetIndex(eventData.pressPosition);
 
 		// was a link clicked?

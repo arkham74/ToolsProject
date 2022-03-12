@@ -17,11 +17,8 @@ using Tag = NaughtyAttributes.TagAttribute;
 using UnityEngine.InputSystem;
 #endif
 
-namespace CordBot
+[CreateAssetMenu(fileName = "TransformSet", menuName = "ScriptableObject/RuntimeSet/Transform", order = 0)]
+public class TransformSet : RuntimeSet<Transform>
 {
-	[CreateAssetMenu(fileName = "TransformSet", menuName = "ScriptableObject/RuntimeSet/Transform", order = 0)]
-	public class TransformSet : RuntimeSet<Transform>
-	{
 
-	}
 }

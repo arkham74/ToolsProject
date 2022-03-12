@@ -18,11 +18,8 @@ using Object = UnityEngine.Object;
 using UnityEngine.InputSystem;
 #endif
 
-namespace CordBot
+[CreateAssetMenu(fileName = "GameObjectSet", menuName = "ScriptableObject/RuntimeSet/GameObject", order = 0)]
+public class GameObjectSet : RuntimeSet<GameObject>
 {
-	[CreateAssetMenu(fileName = "GameObjectSet", menuName = "ScriptableObject/RuntimeSet/GameObject", order = 0)]
-	public class GameObjectSet : RuntimeSet<GameObject>
-	{
 
-	}
 }

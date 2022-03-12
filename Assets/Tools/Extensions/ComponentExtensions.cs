@@ -223,20 +223,20 @@ public static class ComponentExtensions
 
 	public static void SelectButton(this Selectable selectable)
 	{
-		selectable.StartCoroutine(SelectButtonE(selectable));
-	}
-
-	private static IEnumerator SelectButtonE(Selectable selectable)
-	{
-		EventSystem.current.SetSelectedGameObject(null);
-		yield return new WaitForEndOfFrame();
-		if (selectable && selectable.isActiveAndEnabled && selectable.interactable)
+		IEnumerator ButtonSelect()
 		{
-			if (selectable.gameObject && selectable.gameObject.activeInHierarchy)
+			EventSystem.current.SetSelectedGameObject(null);
+			yield return new WaitForEndOfFrame();
+			bool activeInHierarchy = selectable.gameObject.activeInHierarchy;
+			bool interactable = selectable.interactable;
+			bool isActiveAndEnabled = selectable.isActiveAndEnabled;
+			if (selectable && isActiveAndEnabled && interactable && activeInHierarchy)
 			{
 				selectable.Select();
 			}
 		}
+
+		selectable.StartCoroutine(ButtonSelect());
 	}
 
 	public static Transform FindChildByName(this Transform parent, string name)

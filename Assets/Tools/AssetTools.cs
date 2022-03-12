@@ -1,9 +1,29 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public static class AssetTools
 {
-#if UNITY_EDITOR
+	public static T[] FindAssetsByName<T>(string name) where T : Object
+	{
+		string[] guids = AssetDatabase.FindAssets(name);
+		List<T> assets = new List<T>();
+		for (int i = 0; i < guids.Length; i++)
+		{
+			string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+			T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+			if (asset) assets.Add(asset);
+		}
+
+		return assets.ToArray();
+	}
+
+	public static T FindAssetByName<T>(string name) where T : Object
+	{
+		return FindAssetsByName<T>(name)[0];
+	}
+
 	public static T[] FindAssetsByType<T>() where T : Object
 	{
 		string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
@@ -21,5 +41,5 @@ public static class AssetTools
 	{
 		return FindAssetsByType<T>()[0];
 	}
-#endif
 }
+#endif

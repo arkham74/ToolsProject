@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
@@ -10,27 +11,30 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using TMPro;
 using NaughtyAttributes;
+using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
-using Text = TMPro.TMP_Text;
+using Text = TMPro.TextMeshProUGUI;
 using Tag = NaughtyAttributes.TagAttribute;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
 [ExecuteAlways]
-public class TMPLink : MonoBehaviour
+public class ColorBlockSync : MonoBehaviour
 {
-	public Text parent;
-	public Text target;
+	public Selectable selectable;
+	[Expandable] public ColorBlockData data;
 
-	private void Start()
+#if UNITY_EDITOR
+	private void Reset()
 	{
-		parent = transform.parent.GetComponent<Text>();
-		target = GetComponent<Text>();
+		selectable = GetComponent<Selectable>();
+		data = AssetTools.FindAssetByType<ColorBlockData>();
 	}
 
-	private void LateUpdate()
+	private void Update()
 	{
-		target.SetText(parent.text);
+		selectable.colors = data.colorBlock;
 	}
+#endif
 }

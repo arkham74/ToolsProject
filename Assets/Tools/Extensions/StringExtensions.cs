@@ -7,6 +7,11 @@ public static class StringExtensions
 {
 	private static readonly TextInfo TextInfo = new CultureInfo("es-ES", false).TextInfo;
 
+	public static bool IsNullOrWhiteSpace(this string str)
+	{
+		return string.IsNullOrWhiteSpace(str);
+	}
+
 	public static string ToSplitCamelCase(this string str)
 	{
 		return Regex.Replace(Regex.Replace(str, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");
@@ -17,9 +22,25 @@ public static class StringExtensions
 		return TextInfo.ToTitleCase(str.ToLower());
 	}
 
+	public static string TruncateAfterCharacter(this string value, char character)
+	{
+		return string.IsNullOrWhiteSpace(value) ? value : value.Substring(0, value.IndexOf(character));
+	}
+
 	public static string Truncate(this string value, int maxLength)
 	{
 		return string.IsNullOrWhiteSpace(value) ? value : value.Length <= maxLength ? value : value.Substring(0, maxLength);
+	}
+
+	public static string Cut(this string value, int firstCharacters)
+	{
+		firstCharacters = Math.Max(firstCharacters, 0);
+		if (string.IsNullOrWhiteSpace(value))
+			return value;
+		else if (firstCharacters >= value.Length)
+			return string.Empty;
+		else
+			return value.Substring(firstCharacters, value.Length - firstCharacters);
 	}
 
 	public static string Ellipsis(this string value, int maxLength, string trail)
@@ -27,11 +48,6 @@ public static class StringExtensions
 		string shortName = value.Truncate(maxLength);
 		if (value.Length > maxLength) shortName += trail;
 		return shortName;
-	}
-
-	public static string RemoveAfter(this string value, char character)
-	{
-		return string.IsNullOrWhiteSpace(value) ? value : value.Substring(0, value.IndexOf(character));
 	}
 
 	public static string UnderscoreToSpace(this string str)
