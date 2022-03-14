@@ -181,6 +181,15 @@ public static class CollectionsExtensions
 		return list[UnityEngine.Random.Range(0, list.Count)];
 	}
 
+	public static bool TryRandom<T>(this T[] array, out T element)
+	{
+		element = default;
+		if (array == null) return false;
+		if (array.Length <= 0) return false;
+		element = array[UnityEngine.Random.Range(0, array.Length)];
+		return true;
+	}
+
 	public static T Random<T>(this T[] array)
 	{
 		if (array == null) throw new ArgumentNullException();
