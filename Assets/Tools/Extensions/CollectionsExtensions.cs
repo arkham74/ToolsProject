@@ -105,6 +105,11 @@ public static class CollectionsExtensions
 		}
 	}
 
+	public static T Repeat<T>(this T[] array, int index)
+	{
+		return array[index % array.Length];
+	}
+
 	public static T Repeat<T>(this IEnumerable<T> array, int index)
 	{
 		int lenght = array.Count();

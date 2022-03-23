@@ -9,10 +9,7 @@ using PP = FileBasedPrefs;
 public abstract class SaveVar<T>
 {
 	[SerializeField] protected string key;
-
-	protected T defaultValue;
-	protected bool loaded;
-	protected T internalValue;
+	[SerializeField] protected T defaultValue;
 	public abstract T Value { get; set; }
 
 	protected SaveVar(string key, T defaultValue = default)
@@ -24,7 +21,6 @@ public abstract class SaveVar<T>
 	public void Clear()
 	{
 		PP.DeleteKey(key);
-		loaded = false;
 	}
 
 	public static implicit operator T(SaveVar<T> val) => val.Value;
@@ -42,7 +38,7 @@ public class SaveColor : SaveVar<Color>
 	public override Color Value
 	{
 		get => JsonHelper.FromJson<Color>(PP.GetString(key, defaultJson))[0];
-		set => PP.SetString(key, JsonHelper.ToJson(internalValue = value));
+		set => PP.SetString(key, JsonHelper.ToJson(value));
 	}
 }
 
@@ -51,17 +47,8 @@ public class SaveBool : SaveVar<bool>
 {
 	public override bool Value
 	{
-		get
-		{
-			if (loaded == false)
-			{
-				internalValue = PP.GetBool(key, defaultValue);
-				loaded = true;
-			}
-
-			return internalValue;
-		}
-		set => PP.SetBool(key, internalValue = value);
+		get => PP.GetBool(key, defaultValue);
+		set => PP.SetBool(key, value);
 	}
 
 	public SaveBool(string key, bool defaultValue = default) : base(key, defaultValue)
@@ -73,17 +60,8 @@ public class SaveInt : SaveVar<int>
 {
 	public override int Value
 	{
-		get
-		{
-			if (loaded == false)
-			{
-				internalValue = PP.GetInt(key, defaultValue);
-				loaded = true;
-			}
-
-			return internalValue;
-		}
-		set => PP.SetInt(key, internalValue = value);
+		get => PP.GetInt(key, defaultValue);
+		set => PP.SetInt(key, value);
 	}
 
 	public SaveInt(string key, int defaultValue = default) : base(key, defaultValue)
@@ -97,17 +75,8 @@ public class SaveFloat : SaveVar<float>
 {
 	public override float Value
 	{
-		get
-		{
-			if (loaded == false)
-			{
-				internalValue = PP.GetFloat(key, defaultValue);
-				loaded = true;
-			}
-
-			return internalValue;
-		}
-		set => PP.SetFloat(key, internalValue = value);
+		get => PP.GetFloat(key, defaultValue);
+		set => PP.SetFloat(key, value);
 	}
 
 	public SaveFloat(string key, float defaultValue = default) : base(key, defaultValue)
@@ -119,17 +88,8 @@ public class SaveString : SaveVar<string>
 {
 	public override string Value
 	{
-		get
-		{
-			if (loaded == false)
-			{
-				internalValue = PP.GetString(key, defaultValue);
-				loaded = true;
-			}
-
-			return internalValue;
-		}
-		set => PP.SetString(key, internalValue = value);
+		get => PP.GetString(key, defaultValue);
+		set => PP.SetString(key, value);
 	}
 
 	public SaveString(string key, string defaultValue = default) : base(key, defaultValue)
