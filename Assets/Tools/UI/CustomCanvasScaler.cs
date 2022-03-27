@@ -32,33 +32,33 @@ namespace UnityEngine.UI.Extensions
 				screenSize = new Vector2(display.renderingWidth, display.renderingHeight);
 			}
 
-			float factor = 0;
+			float factor;
 			switch (m_ScreenMatchMode)
 			{
 				case ScreenMatchMode.MatchWidthOrHeight:
-				{
-					// We take the log of the relative width and height before taking the average.
-					// Then we transform it back in the original space.
-					// the reason to transform in and out of logarithmic space is to have better behavior.
-					// If one axis has twice resolution and the other has half, it should even out if widthOrHeight value is at 0.5.
-					// In normal space the average would be (0.5 + 2) / 2 = 1.25
-					// In logarithmic space the average is (-1 + 1) / 2 = 0
-					float logWidth = Mathf.Log(screenSize.x / m_ReferenceResolution.x, K_LOG_BASE);
-					float logHeight = Mathf.Log(screenSize.y / m_ReferenceResolution.y, K_LOG_BASE);
-					float logWeightedAverage = Mathf.Lerp(logWidth, logHeight, m_MatchWidthOrHeight);
-					factor = Mathf.Pow(K_LOG_BASE, logWeightedAverage);
-					break;
-				}
+					{
+						// We take the log of the relative width and height before taking the average.
+						// Then we transform it back in the original space.
+						// the reason to transform in and out of logarithmic space is to have better behavior.
+						// If one axis has twice resolution and the other has half, it should even out if widthOrHeight value is at 0.5.
+						// In normal space the average would be (0.5 + 2) / 2 = 1.25
+						// In logarithmic space the average is (-1 + 1) / 2 = 0
+						float logWidth = Mathf.Log(screenSize.x / m_ReferenceResolution.x, K_LOG_BASE);
+						float logHeight = Mathf.Log(screenSize.y / m_ReferenceResolution.y, K_LOG_BASE);
+						float logWeightedAverage = Mathf.Lerp(logWidth, logHeight, m_MatchWidthOrHeight);
+						factor = Mathf.Pow(K_LOG_BASE, logWeightedAverage);
+						break;
+					}
 				case ScreenMatchMode.Expand:
-				{
-					factor = Mathf.Min(screenSize.x / m_ReferenceResolution.x, screenSize.y / m_ReferenceResolution.y);
-					break;
-				}
+					{
+						factor = Mathf.Min(screenSize.x / m_ReferenceResolution.x, screenSize.y / m_ReferenceResolution.y);
+						break;
+					}
 				case ScreenMatchMode.Shrink:
-				{
-					factor = Mathf.Max(screenSize.x / m_ReferenceResolution.x, screenSize.y / m_ReferenceResolution.y);
-					break;
-				}
+					{
+						factor = Mathf.Max(screenSize.x / m_ReferenceResolution.x, screenSize.y / m_ReferenceResolution.y);
+						break;
+					}
 				default:
 					throw new ArgumentOutOfRangeException();
 			}

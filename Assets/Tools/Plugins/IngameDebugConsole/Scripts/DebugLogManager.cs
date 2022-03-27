@@ -47,10 +47,14 @@ namespace IngameDebugConsole
 		[Tooltip("If enabled, console window will persist between scenes (i.e. not be destroyed when scene changes)")]
 		private bool singleton = true;
 
-		[SerializeField] [HideInInspector] [Tooltip("Minimum height of the console window")]
+		[SerializeField]
+		[HideInInspector]
+		[Tooltip("Minimum height of the console window")]
 		private float minimumHeight = 200f;
 
-		[SerializeField] [HideInInspector] [Tooltip("If enabled, console window can be resized horizontally, as well")]
+		[SerializeField]
+		[HideInInspector]
+		[Tooltip("If enabled, console window can be resized horizontally, as well")]
 		private bool enableHorizontalResizing = false;
 
 		[SerializeField]
@@ -59,7 +63,9 @@ namespace IngameDebugConsole
 			"If enabled, console window's resize button will be located at bottom-right corner. Otherwise, it will be located at bottom-left corner")]
 		private bool resizeFromRight = true;
 
-		[SerializeField] [HideInInspector] [Tooltip("Minimum width of the console window")]
+		[SerializeField]
+		[HideInInspector]
+		[Tooltip("Minimum width of the console window")]
 		private float minimumWidth = 240f;
 
 		[SerializeField]
@@ -67,10 +73,14 @@ namespace IngameDebugConsole
 		[Tooltip("If disabled, no popup will be shown when the console window is hidden")]
 		private bool enablePopup = true;
 
-		[SerializeField] [HideInInspector] [Tooltip("If enabled, console will be initialized as a popup")]
+		[SerializeField]
+		[HideInInspector]
+		[Tooltip("If enabled, console will be initialized as a popup")]
 		private bool startInPopupMode = true;
 
-		[SerializeField] [HideInInspector] [Tooltip("If enabled, console window will initially be invisible")]
+		[SerializeField]
+		[HideInInspector]
+		[Tooltip("If enabled, console window will initially be invisible")]
 		private bool startMinimized = false;
 
 		[SerializeField]
@@ -79,7 +89,9 @@ namespace IngameDebugConsole
 		private bool toggleWithKey = false;
 
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
-		[SerializeField] [HideInInspector] public InputAction toggleBinding = new InputAction("Toggle Binding",
+		[SerializeField]
+		[HideInInspector]
+		public InputAction toggleBinding = new InputAction("Toggle Binding",
 			type: InputActionType.Button, binding: "<Keyboard>/backquote", expectedControlType: "Button");
 #else
 		[SerializeField]
@@ -87,7 +99,9 @@ namespace IngameDebugConsole
 		private KeyCode toggleKey = KeyCode.BackQuote;
 #endif
 
-		[SerializeField] [HideInInspector] [Tooltip("If enabled, the console window will have a searchbar")]
+		[SerializeField]
+		[HideInInspector]
+		[Tooltip("If enabled, the console window will have a searchbar")]
 		private bool enableSearchbar = true;
 
 		[SerializeField]
@@ -161,7 +175,7 @@ namespace IngameDebugConsole
 		private bool autoFocusOnCommandInputField = true;
 #endif
 
-		[Header("Visuals")] [SerializeField] private DebugLogItem logItemPrefab;
+		[Header("Visuals")][SerializeField] private DebugLogItem logItemPrefab;
 
 		[SerializeField] private Text commandSuggestionPrefab;
 
@@ -185,7 +199,7 @@ namespace IngameDebugConsole
 		[SerializeField] private string commandSuggestionHighlightStart = "<color=orange>";
 		[SerializeField] private string commandSuggestionHighlightEnd = "</color>";
 
-		[Header("Internal References")] [SerializeField] private RectTransform logWindowTR;
+		[Header("Internal References")][SerializeField] private RectTransform logWindowTR;
 
 		internal RectTransform canvasTR;
 
@@ -369,8 +383,8 @@ namespace IngameDebugConsole
 			logEntriesLock = new object();
 			sharedStringBuilder = new StringBuilder(1024);
 
-			canvasTR = (RectTransform) transform;
-			logItemsScrollRectTR = (RectTransform) logItemsScrollRect.transform;
+			canvasTR = (RectTransform)transform;
+			logItemsScrollRectTR = (RectTransform)logItemsScrollRect.transform;
 			logItemsScrollRectOriginalSize = logItemsScrollRectTR.sizeDelta;
 
 			// Associate sprites with log types
@@ -412,12 +426,12 @@ namespace IngameDebugConsole
 			if (!resizeFromRight)
 			{
 				RectTransform resizeButtonTR =
-					(RectTransform) resizeButton.GetComponentInParent<DebugLogResizeListener>().transform;
+					(RectTransform)resizeButton.GetComponentInParent<DebugLogResizeListener>().transform;
 				resizeButtonTR.anchorMin = new Vector2(0f, resizeButtonTR.anchorMin.y);
 				resizeButtonTR.anchorMax = new Vector2(0f, resizeButtonTR.anchorMax.y);
 				resizeButtonTR.pivot = new Vector2(0f, resizeButtonTR.pivot.y);
 
-				((RectTransform) commandInputField.transform).anchoredPosition += new Vector2(resizeButtonTR.sizeDelta.x, 0f);
+				((RectTransform)commandInputField.transform).anchoredPosition += new Vector2(resizeButtonTR.sizeDelta.x, 0f);
 			}
 
 			if (enableSearchbar)
@@ -631,7 +645,7 @@ namespace IngameDebugConsole
 			}
 
 			if (showCommandSuggestions && commandInputField.isFocused &&
-			    commandInputField.caretPosition != commandInputFieldPrevCaretPos)
+				 commandInputField.caretPosition != commandInputFieldPrevCaretPos)
 				RefreshCommandSuggestions(commandInputField.text);
 
 			if (screenDimensionsChanged)
@@ -768,7 +782,7 @@ namespace IngameDebugConsole
 
 			isLogWindowVisible = true;
 
-			if (OnLogWindowShown != null) OnLogWindowShown();
+			OnLogWindowShown?.Invoke();
 		}
 
 		public void HideLogWindow()
@@ -783,7 +797,7 @@ namespace IngameDebugConsole
 
 			isLogWindowVisible = false;
 
-			if (OnLogWindowHidden != null) OnLogWindowHidden();
+			OnLogWindowHidden?.Invoke();
 		}
 
 		// Command field input is changed, check if command is submitted
@@ -898,8 +912,7 @@ namespace IngameDebugConsole
 			logEntry.Initialize(queuedLogEntry.logString, queuedLogEntry.stackTrace);
 
 			// Check if this entry is a duplicate (i.e. has been received before)
-			int logEntryIndex;
-			bool isEntryInCollapsedEntryList = collapsedLogEntriesMap.TryGetValue(logEntry, out logEntryIndex);
+			bool isEntryInCollapsedEntryList = collapsedLogEntriesMap.TryGetValue(logEntry, out int logEntryIndex);
 			if (!isEntryInCollapsedEntryList)
 			{
 				// It is not a duplicate,
@@ -951,21 +964,21 @@ namespace IngameDebugConsole
 				}
 			}
 			else if ((!isInSearchMode || queuedLogEntry.MatchesSearchTerm(searchTerm)) && (logFilter == DebugLogFilter.All ||
-			                                                                               (logTypeSpriteRepresentation ==
-			                                                                                infoLog &&
-			                                                                                ((logFilter & DebugLogFilter
-				                                                                                 .Info) ==
-			                                                                                 DebugLogFilter.Info)) ||
-			                                                                               (logTypeSpriteRepresentation ==
-			                                                                                warningLog &&
-			                                                                                ((logFilter & DebugLogFilter
-				                                                                                 .Warning) ==
-			                                                                                 DebugLogFilter.Warning)) ||
-			                                                                               (logTypeSpriteRepresentation ==
-			                                                                                errorLog &&
-			                                                                                ((logFilter & DebugLogFilter
-				                                                                                .Error) == DebugLogFilter
-				                                                                                .Error))))
+																													 (logTypeSpriteRepresentation ==
+																													  infoLog &&
+																													  ((logFilter & DebugLogFilter
+																															.Info) ==
+																														DebugLogFilter.Info)) ||
+																													 (logTypeSpriteRepresentation ==
+																													  warningLog &&
+																													  ((logFilter & DebugLogFilter
+																															.Warning) ==
+																														DebugLogFilter.Warning)) ||
+																													 (logTypeSpriteRepresentation ==
+																													  errorLog &&
+																													  ((logFilter & DebugLogFilter
+																														  .Error) == DebugLogFilter
+																														  .Error))))
 			{
 				indicesOfListEntriesToShow.Add(logEntryIndex);
 				logEntryIndexInEntriesToShow = indicesOfListEntriesToShow.Count - 1;
@@ -985,7 +998,7 @@ namespace IngameDebugConsole
 
 			// Automatically expand this log if necessary
 			if (pendingLogToAutoExpand > 0 && --pendingLogToAutoExpand <= 0 && isLogWindowVisible &&
-			    logEntryIndexInEntriesToShow >= 0)
+				 logEntryIndexInEntriesToShow >= 0)
 				indexOfLogEntryToSelectAndFocus = logEntryIndexInEntriesToShow;
 		}
 
@@ -1064,9 +1077,9 @@ namespace IngameDebugConsole
 		// Filtering mode of info logs has changed
 		private void FilterLogButtonPressed()
 		{
-			logFilter = logFilter ^ DebugLogFilter.Info;
+			logFilter ^= DebugLogFilter.Info;
 
-			filterInfoButton.color = ( logFilter & DebugLogFilter.Info) == DebugLogFilter.Info ? filterButtonsSelectedColor : filterButtonsNormalColor;
+			filterInfoButton.color = (logFilter & DebugLogFilter.Info) == DebugLogFilter.Info ? filterButtonsSelectedColor : filterButtonsNormalColor;
 
 			FilterLogs();
 		}
@@ -1074,9 +1087,9 @@ namespace IngameDebugConsole
 		// Filtering mode of warning logs has changed
 		private void FilterWarningButtonPressed()
 		{
-			logFilter = logFilter ^ DebugLogFilter.Warning;
+			logFilter ^= DebugLogFilter.Warning;
 
-			filterWarningButton.color = ( logFilter & DebugLogFilter.Warning) == DebugLogFilter.Warning ? filterButtonsSelectedColor : filterButtonsNormalColor;
+			filterWarningButton.color = (logFilter & DebugLogFilter.Warning) == DebugLogFilter.Warning ? filterButtonsSelectedColor : filterButtonsNormalColor;
 
 			FilterLogs();
 		}
@@ -1084,9 +1097,9 @@ namespace IngameDebugConsole
 		// Filtering mode of error logs has changed
 		private void FilterErrorButtonPressed()
 		{
-			logFilter = logFilter ^ DebugLogFilter.Error;
+			logFilter ^= DebugLogFilter.Error;
 
-			filterErrorButton.color = ( logFilter & DebugLogFilter.Error) == DebugLogFilter.Error ? filterButtonsSelectedColor : filterButtonsNormalColor;
+			filterErrorButton.color = (logFilter & DebugLogFilter.Error) == DebugLogFilter.Error ? filterButtonsSelectedColor : filterButtonsNormalColor;
 
 			FilterLogs();
 		}
@@ -1123,11 +1136,10 @@ namespace IngameDebugConsole
 				commandCaretIndexIncrements.Clear();
 
 				string prevCommandName = commandInputFieldPrevCommandName;
-				int numberOfParameters;
 				DebugLogConsole.GetCommandSuggestions(command, matchingCommandSuggestions, commandCaretIndexIncrements,
-					ref commandInputFieldPrevCommandName, out numberOfParameters);
+					ref commandInputFieldPrevCommandName, out int numberOfParameters);
 				if (prevCommandName != commandInputFieldPrevCommandName ||
-				    numberOfParameters != commandInputFieldPrevParamCount)
+					 numberOfParameters != commandInputFieldPrevParamCount)
 				{
 					commandInputFieldPrevParamCount = numberOfParameters;
 					commandNameOrParametersChanged = true;
@@ -1164,7 +1176,7 @@ namespace IngameDebugConsole
 					if (i >= visibleCommandSuggestionInstances)
 					{
 						if (i >= suggestionInstancesCount)
-							commandSuggestionInstances.Add((Text) Instantiate(commandSuggestionPrefab, commandSuggestionsContainer,
+							commandSuggestionInstances.Add((Text)Instantiate(commandSuggestionPrefab, commandSuggestionsContainer,
 								false));
 						else
 							commandSuggestionInstances[i].gameObject.SetActive(true);
@@ -1233,9 +1245,8 @@ namespace IngameDebugConsole
 		// preventing window dimensions from going below the minimum dimensions
 		internal void Resize(PointerEventData eventData)
 		{
-			Vector2 localPoint;
 			if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasTR, eventData.position,
-				eventData.pressEventCamera, out localPoint))
+				eventData.pressEventCamera, out Vector2 localPoint))
 				return;
 
 			// To be able to maximize the log window easily:
@@ -1473,7 +1484,7 @@ namespace IngameDebugConsole
 		{
 			if (!avoidScreenCutout) return;
 
-#if UNITY_2017_2_OR_NEWER && ( UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS )
+#if UNITY_2017_2_OR_NEWER && (UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS)
 			// Check if there is a cutout at the top of the screen
 			int screenHeight = Screen.height;
 			float safeYMax = Screen.safeArea.yMax;
@@ -1532,7 +1543,7 @@ namespace IngameDebugConsole
 			}
 			else
 			{
-				newLogItem = (DebugLogItem) Instantiate(logItemPrefab, logItemsContainer, false);
+				newLogItem = (DebugLogItem)Instantiate(logItemPrefab, logItemsContainer, false);
 				newLogItem.Initialize(recycledListView);
 			}
 

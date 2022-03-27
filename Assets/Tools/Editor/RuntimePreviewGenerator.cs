@@ -23,7 +23,7 @@ public static class RuntimePreviewGenerator
 
 		private RenderTexture targetTexture;
 
-		public void GetSetup( Camera camera )
+		public void GetSetup(Camera camera)
 		{
 			position = camera.transform.position;
 			rotation = camera.transform.rotation;
@@ -40,7 +40,7 @@ public static class RuntimePreviewGenerator
 			targetTexture = camera.targetTexture;
 		}
 
-		public void ApplySetup( Camera camera )
+		public void ApplySetup(Camera camera)
 		{
 			camera.transform.position = position;
 			camera.transform.rotation = rotation;
@@ -53,7 +53,7 @@ public static class RuntimePreviewGenerator
 			camera.clearFlags = clearFlags;
 
 			// Assigning order or nearClipPlane and farClipPlane may matter because Unity clamps near to far and far to near
-			if( nearClipPlane < camera.farClipPlane )
+			if (nearClipPlane < camera.farClipPlane)
 			{
 				camera.nearClipPlane = nearClipPlane;
 				camera.farClipPlane = farClipPlane;
@@ -70,15 +70,15 @@ public static class RuntimePreviewGenerator
 	}
 
 	private const int PREVIEW_LAYER = 22;
-	private static Vector3 PREVIEW_POSITION = new Vector3( -250f, -250f, -250f );
+	private static Vector3 PREVIEW_POSITION = new Vector3(-250f, -250f, -250f);
 
 	private static Camera renderCamera;
 	private static readonly CameraSetup cameraSetup = new CameraSetup();
 
 	private static readonly Vector3[] boundingBoxPoints = new Vector3[8];
 
-	private static readonly List<Renderer> renderersList = new List<Renderer>( 64 );
-	private static readonly List<int> layersList = new List<int>( 64 );
+	private static readonly List<Renderer> renderersList = new List<Renderer>(64);
+	private static readonly List<int> layersList = new List<int>(64);
 
 #if DEBUG_BOUNDS
 	private static Material boundsDebugMaterial;
@@ -89,9 +89,9 @@ public static class RuntimePreviewGenerator
 	{
 		get
 		{
-			if( m_internalCamera == null )
+			if (m_internalCamera == null)
 			{
-				m_internalCamera = new GameObject( "ModelPreviewGeneratorCamera" ).AddComponent<Camera>();
+				m_internalCamera = new GameObject("ModelPreviewGeneratorCamera").AddComponent<Camera>();
 				m_internalCamera.enabled = false;
 				m_internalCamera.nearClipPlane = 0.01f;
 				m_internalCamera.cullingMask = 1 << PREVIEW_LAYER;
@@ -109,7 +109,7 @@ public static class RuntimePreviewGenerator
 		set { m_previewRenderCamera = value; }
 	}
 
-	private static Vector3 m_previewDirection = new Vector3( -0.57735f, -0.57735f, -0.57735f ); // Normalized (-1,-1,-1)
+	private static Vector3 m_previewDirection = new Vector3(-0.57735f, -0.57735f, -0.57735f); // Normalized (-1,-1,-1)
 	public static Vector3 PreviewDirection
 	{
 		get { return m_previewDirection; }
@@ -120,10 +120,10 @@ public static class RuntimePreviewGenerator
 	public static float Padding
 	{
 		get { return m_padding; }
-		set { m_padding = Mathf.Clamp( value, -0.25f, 0.25f ); }
+		set { m_padding = Mathf.Clamp(value, -0.25f, 0.25f); }
 	}
 
-	private static Color m_backgroundColor = new Color( 0.3f, 0.3f, 0.3f, 1f );
+	private static Color m_backgroundColor = new Color(0.3f, 0.3f, 0.3f, 1f);
 	public static Color BackgroundColor
 	{
 		get { return m_backgroundColor; }
@@ -144,52 +144,52 @@ public static class RuntimePreviewGenerator
 		set { m_markTextureNonReadable = value; }
 	}
 
-	public static Texture2D GenerateMaterialPreview( Material material, PrimitiveType previewObject, int width = 64, int height = 64 )
+	public static Texture2D GenerateMaterialPreview(Material material, PrimitiveType previewObject, int width = 64, int height = 64)
 	{
-		return GenerateMaterialPreviewWithShader( material, previewObject, null, null, width, height );
+		return GenerateMaterialPreviewWithShader(material, previewObject, null, null, width, height);
 	}
 
-	public static Texture2D GenerateMaterialPreviewWithShader( Material material, PrimitiveType previewPrimitive, Shader shader, string replacementTag, int width = 64, int height = 64 )
+	public static Texture2D GenerateMaterialPreviewWithShader(Material material, PrimitiveType previewPrimitive, Shader shader, string replacementTag, int width = 64, int height = 64)
 	{
-		GameObject previewModel = GameObject.CreatePrimitive( previewPrimitive );
+		GameObject previewModel = GameObject.CreatePrimitive(previewPrimitive);
 		previewModel.gameObject.hideFlags = HideFlags.HideAndDontSave;
 		previewModel.GetComponent<Renderer>().sharedMaterial = material;
 
 		try
 		{
-			return GenerateModelPreviewWithShader( previewModel.transform, shader, replacementTag, width, height, false );
+			return GenerateModelPreviewWithShader(previewModel.transform, shader, replacementTag, width, height, false);
 		}
-		catch( Exception e )
+		catch (Exception e)
 		{
-			Debug.LogException( e );
+			Debug.LogException(e);
 		}
 		finally
 		{
-			Object.DestroyImmediate( previewModel );
+			Object.DestroyImmediate(previewModel);
 		}
 
 		return null;
 	}
 
-	public static Texture2D GenerateModelPreview( Transform model, int width = 64, int height = 64, bool shouldCloneModel = false )
+	public static Texture2D GenerateModelPreview(Transform model, int width = 64, int height = 64, bool shouldCloneModel = false)
 	{
-		return GenerateModelPreviewWithShader( model, null, null, width, height, shouldCloneModel );
+		return GenerateModelPreviewWithShader(model, null, null, width, height, shouldCloneModel);
 	}
 
-	public static Texture2D GenerateModelPreviewWithShader( Transform model, Shader shader, string replacementTag, int width = 64, int height = 64, bool shouldCloneModel = false )
+	public static Texture2D GenerateModelPreviewWithShader(Transform model, Shader shader, string replacementTag, int width = 64, int height = 64, bool shouldCloneModel = false)
 	{
-		if( !model )
+		if (!model)
 			return null;
 
 		Texture2D result = null;
 
-		if( !model.gameObject.scene.IsValid() || !model.gameObject.scene.isLoaded )
+		if (!model.gameObject.scene.IsValid() || !model.gameObject.scene.isLoaded)
 			shouldCloneModel = true;
 
 		Transform previewObject;
-		if( shouldCloneModel )
+		if (shouldCloneModel)
 		{
-			previewObject = (Transform) Object.Instantiate( model, null, false );
+			previewObject = (Transform)Object.Instantiate(model, null, false);
 			previewObject.gameObject.hideFlags = HideFlags.HideAndDontSave;
 		}
 		else
@@ -197,10 +197,10 @@ public static class RuntimePreviewGenerator
 			previewObject = model;
 
 			layersList.Clear();
-			GetLayerRecursively( previewObject );
+			GetLayerRecursively(previewObject);
 		}
 
-		bool isStatic = IsStatic( model );
+		bool isStatic = IsStatic(model);
 		bool wasActive = previewObject.gameObject.activeSelf;
 		Vector3 prevPos = previewObject.position;
 		Quaternion prevRot = previewObject.rotation;
@@ -212,19 +212,19 @@ public static class RuntimePreviewGenerator
 		try
 		{
 			SetupCamera();
-			SetLayerRecursively( previewObject );
+			SetLayerRecursively(previewObject);
 
-			if( !isStatic )
+			if (!isStatic)
 			{
 				previewObject.position = PREVIEW_POSITION;
 				previewObject.rotation = Quaternion.identity;
 			}
 
-			if( !wasActive )
-				previewObject.gameObject.SetActive( true );
+			if (!wasActive)
+				previewObject.gameObject.SetActive(true);
 
 			Bounds previewBounds = new Bounds();
-			if( !CalculateBounds( previewObject, out previewBounds ) )
+			if (!CalculateBounds(previewObject, out previewBounds))
 				return null;
 
 #if DEBUG_BOUNDS
@@ -246,46 +246,46 @@ public static class RuntimePreviewGenerator
 			boundsDebugCube.GetComponent<Renderer>().sharedMaterial = boundsDebugMaterial;
 #endif
 
-			renderCamera.aspect = (float) width / height;
-			renderCamera.transform.rotation = Quaternion.LookRotation( previewObject.rotation * m_previewDirection, previewObject.up );
+			renderCamera.aspect = (float)width / height;
+			renderCamera.transform.rotation = Quaternion.LookRotation(previewObject.rotation * m_previewDirection, previewObject.up);
 
-			CalculateCameraPosition( renderCamera, previewBounds, m_padding );
+			CalculateCameraPosition(renderCamera, previewBounds, m_padding);
 
-			renderCamera.farClipPlane = ( renderCamera.transform.position - previewBounds.center ).magnitude + previewBounds.size.magnitude;
+			renderCamera.farClipPlane = (renderCamera.transform.position - previewBounds.center).magnitude + previewBounds.size.magnitude;
 
 			RenderTexture activeRT = RenderTexture.active;
 			RenderTexture renderTexture = null;
 			try
 			{
-				renderTexture = RenderTexture.GetTemporary( width, height, 16 );
+				renderTexture = RenderTexture.GetTemporary(width, height, 16);
 				RenderTexture.active = renderTexture;
-				if( m_backgroundColor.a < 1f )
-					GL.Clear( true, true, m_backgroundColor );
+				if (m_backgroundColor.a < 1f)
+					GL.Clear(true, true, m_backgroundColor);
 
 				renderCamera.targetTexture = renderTexture;
 
-				if( !shader )
+				if (!shader)
 					renderCamera.Render();
 				else
-					renderCamera.RenderWithShader( shader, replacementTag ?? string.Empty );
+					renderCamera.RenderWithShader(shader, replacementTag ?? string.Empty);
 
 				renderCamera.targetTexture = null;
 
-				result = new Texture2D( width, height, m_backgroundColor.a < 1f ? TextureFormat.RGBA32 : TextureFormat.RGB24, false );
-				result.ReadPixels( new Rect( 0f, 0f, width, height ), 0, 0, false );
-				result.Apply( false, m_markTextureNonReadable );
+				result = new Texture2D(width, height, m_backgroundColor.a < 1f ? TextureFormat.RGBA32 : TextureFormat.RGB24, false);
+				result.ReadPixels(new Rect(0f, 0f, width, height), 0, 0, false);
+				result.Apply(false, m_markTextureNonReadable);
 			}
 			finally
 			{
 				RenderTexture.active = activeRT;
 
-				if( renderTexture )
-					RenderTexture.ReleaseTemporary( renderTexture );
+				if (renderTexture)
+					RenderTexture.ReleaseTemporary(renderTexture);
 			}
 		}
-		catch( Exception e )
+		catch (Exception e)
 		{
-			Debug.LogException( e );
+			Debug.LogException(e);
 		}
 		finally
 		{
@@ -294,64 +294,64 @@ public static class RuntimePreviewGenerator
 				Object.DestroyImmediate( boundsDebugCube.gameObject );
 #endif
 
-			if( shouldCloneModel )
-				Object.DestroyImmediate( previewObject.gameObject );
+			if (shouldCloneModel)
+				Object.DestroyImmediate(previewObject.gameObject);
 			else
 			{
-				if( !wasActive )
-					previewObject.gameObject.SetActive( false );
+				if (!wasActive)
+					previewObject.gameObject.SetActive(false);
 
-				if( !isStatic )
+				if (!isStatic)
 				{
 					previewObject.position = prevPos;
 					previewObject.rotation = prevRot;
 				}
 
 				int index = 0;
-				SetLayerRecursively( previewObject, ref index );
+				SetLayerRecursively(previewObject, ref index);
 			}
 
-			if( renderCamera == m_previewRenderCamera )
-				cameraSetup.ApplySetup( renderCamera );
+			if (renderCamera == m_previewRenderCamera)
+				cameraSetup.ApplySetup(renderCamera);
 		}
 
 		return result;
 	}
 
 	// Calculates AABB bounds of the target object (AABB will include its child objects)
-	public static bool CalculateBounds( Transform target, out Bounds bounds )
+	public static bool CalculateBounds(Transform target, out Bounds bounds)
 	{
 		renderersList.Clear();
-		target.GetComponentsInChildren( renderersList );
+		target.GetComponentsInChildren(renderersList);
 
 		bounds = new Bounds();
 		bool hasBounds = false;
-		for( int i = 0; i < renderersList.Count; i++ )
+		for (int i = 0; i < renderersList.Count; i++)
 		{
-			if( !renderersList[i].enabled )
+			if (!renderersList[i].enabled)
 				continue;
 
-			if( !hasBounds )
+			if (!hasBounds)
 			{
 				bounds = renderersList[i].bounds;
 				hasBounds = true;
 			}
 			else
-				bounds.Encapsulate( renderersList[i].bounds );
+				bounds.Encapsulate(renderersList[i].bounds);
 		}
 
 		return hasBounds;
 	}
 
 	// Moves camera in a way such that it will encapsulate bounds perfectly
-	public static void CalculateCameraPosition( Camera camera, Bounds bounds, float padding = 0f )
+	public static void CalculateCameraPosition(Camera camera, Bounds bounds, float padding = 0f)
 	{
 		Transform cameraTR = camera.transform;
 
 		Vector3 cameraDirection = cameraTR.forward;
 		float aspect = camera.aspect;
 
-		if( padding != 0f )
+		if (padding != 0f)
 			bounds.size *= 1f + padding * 2f; // Padding applied to both edges, hence multiplied by 2
 
 		Vector3 boundsCenter = bounds.center;
@@ -376,28 +376,28 @@ public static class RuntimePreviewGenerator
 		point.x += boundsSize.x;
 		boundingBoxPoints[7] = point;
 
-		if( camera.orthographic )
+		if (camera.orthographic)
 		{
 			cameraTR.position = boundsCenter;
 
 			float minX = float.PositiveInfinity, minY = float.PositiveInfinity;
 			float maxX = float.NegativeInfinity, maxY = float.NegativeInfinity;
 
-			for( int i = 0; i < boundingBoxPoints.Length; i++ )
+			for (int i = 0; i < boundingBoxPoints.Length; i++)
 			{
-				Vector3 localPoint = cameraTR.InverseTransformPoint( boundingBoxPoints[i] );
-				if( localPoint.x < minX )
+				Vector3 localPoint = cameraTR.InverseTransformPoint(boundingBoxPoints[i]);
+				if (localPoint.x < minX)
 					minX = localPoint.x;
-				if( localPoint.x > maxX )
+				if (localPoint.x > maxX)
 					maxX = localPoint.x;
-				if( localPoint.y < minY )
+				if (localPoint.y < minY)
 					minY = localPoint.y;
-				if( localPoint.y > maxY )
+				if (localPoint.y > maxY)
 					maxY = localPoint.y;
 			}
 
 			float distance = boundsExtents.magnitude + 1f;
-			camera.orthographicSize = Mathf.Max( maxY - minY, ( maxX - minX ) / aspect ) * 0.5f;
+			camera.orthographicSize = Mathf.Max(maxY - minY, (maxX - minX) / aspect) * 0.5f;
 			cameraTR.position = boundsCenter - cameraDirection * distance;
 		}
 		else
@@ -405,13 +405,13 @@ public static class RuntimePreviewGenerator
 			Vector3 cameraUp = cameraTR.up, cameraRight = cameraTR.right;
 
 			float verticalFOV = camera.fieldOfView * 0.5f;
-			float horizontalFOV = Mathf.Atan( Mathf.Tan( verticalFOV * Mathf.Deg2Rad ) * aspect ) * Mathf.Rad2Deg;
+			float horizontalFOV = Mathf.Atan(Mathf.Tan(verticalFOV * Mathf.Deg2Rad) * aspect) * Mathf.Rad2Deg;
 
 			// Normals of the camera's frustum planes
-			Vector3 topFrustumPlaneNormal = Quaternion.AngleAxis( 90f + verticalFOV, -cameraRight ) * cameraDirection;
-			Vector3 bottomFrustumPlaneNormal = Quaternion.AngleAxis( 90f + verticalFOV, cameraRight ) * cameraDirection;
-			Vector3 rightFrustumPlaneNormal = Quaternion.AngleAxis( 90f + horizontalFOV, cameraUp ) * cameraDirection;
-			Vector3 leftFrustumPlaneNormal = Quaternion.AngleAxis( 90f + horizontalFOV, -cameraUp ) * cameraDirection;
+			Vector3 topFrustumPlaneNormal = Quaternion.AngleAxis(90f + verticalFOV, -cameraRight) * cameraDirection;
+			Vector3 bottomFrustumPlaneNormal = Quaternion.AngleAxis(90f + verticalFOV, cameraRight) * cameraDirection;
+			Vector3 rightFrustumPlaneNormal = Quaternion.AngleAxis(90f + horizontalFOV, cameraUp) * cameraDirection;
+			Vector3 leftFrustumPlaneNormal = Quaternion.AngleAxis(90f + horizontalFOV, -cameraUp) * cameraDirection;
 
 			// Credit for algorithm: https://stackoverflow.com/a/66113254/2373034
 			// 1. Find edge points of the bounds using the camera's frustum planes
@@ -420,35 +420,34 @@ public static class RuntimePreviewGenerator
 			//    If we move the camera along horizontalIntersection, the bounds will always with the camera's width perfectly (similar effect goes for verticalIntersection)
 			// 4. Find the closest line segment between these two lines (horizontalIntersection and verticalIntersection) and place the camera at the farthest point on that line
 			int leftmostPoint = -1, rightmostPoint = -1, topmostPoint = -1, bottommostPoint = -1;
-			for( int i = 0; i < boundingBoxPoints.Length; i++ )
+			for (int i = 0; i < boundingBoxPoints.Length; i++)
 			{
-				if( leftmostPoint < 0 && IsOutermostPointInDirection( i, leftFrustumPlaneNormal ) )
+				if (leftmostPoint < 0 && IsOutermostPointInDirection(i, leftFrustumPlaneNormal))
 					leftmostPoint = i;
-				if( rightmostPoint < 0 && IsOutermostPointInDirection( i, rightFrustumPlaneNormal ) )
+				if (rightmostPoint < 0 && IsOutermostPointInDirection(i, rightFrustumPlaneNormal))
 					rightmostPoint = i;
-				if( topmostPoint < 0 && IsOutermostPointInDirection( i, topFrustumPlaneNormal ) )
+				if (topmostPoint < 0 && IsOutermostPointInDirection(i, topFrustumPlaneNormal))
 					topmostPoint = i;
-				if( bottommostPoint < 0 && IsOutermostPointInDirection( i, bottomFrustumPlaneNormal ) )
+				if (bottommostPoint < 0 && IsOutermostPointInDirection(i, bottomFrustumPlaneNormal))
 					bottommostPoint = i;
 			}
 
-			Ray horizontalIntersection = GetPlanesIntersection( new Plane( leftFrustumPlaneNormal, boundingBoxPoints[leftmostPoint] ), new Plane( rightFrustumPlaneNormal, boundingBoxPoints[rightmostPoint] ) );
-			Ray verticalIntersection = GetPlanesIntersection( new Plane( topFrustumPlaneNormal, boundingBoxPoints[topmostPoint] ), new Plane( bottomFrustumPlaneNormal, boundingBoxPoints[bottommostPoint] ) );
+			Ray horizontalIntersection = GetPlanesIntersection(new Plane(leftFrustumPlaneNormal, boundingBoxPoints[leftmostPoint]), new Plane(rightFrustumPlaneNormal, boundingBoxPoints[rightmostPoint]));
+			Ray verticalIntersection = GetPlanesIntersection(new Plane(topFrustumPlaneNormal, boundingBoxPoints[topmostPoint]), new Plane(bottomFrustumPlaneNormal, boundingBoxPoints[bottommostPoint]));
 
-			Vector3 closestPoint1, closestPoint2;
-			FindClosestPointsOnTwoLines( horizontalIntersection, verticalIntersection, out closestPoint1, out closestPoint2 );
+			FindClosestPointsOnTwoLines(horizontalIntersection, verticalIntersection, out Vector3 closestPoint1, out Vector3 closestPoint2);
 
-			cameraTR.position = Vector3.Dot( closestPoint1 - closestPoint2, cameraDirection ) < 0 ? closestPoint1 : closestPoint2;
+			cameraTR.position = Vector3.Dot(closestPoint1 - closestPoint2, cameraDirection) < 0 ? closestPoint1 : closestPoint2;
 		}
 	}
 
 	// Returns whether or not the given point is the outermost point in the given direction among all points of the bounds
-	private static bool IsOutermostPointInDirection( int pointIndex, Vector3 direction )
+	private static bool IsOutermostPointInDirection(int pointIndex, Vector3 direction)
 	{
 		Vector3 point = boundingBoxPoints[pointIndex];
-		for( int i = 0; i < boundingBoxPoints.Length; i++ )
+		for (int i = 0; i < boundingBoxPoints.Length; i++)
 		{
-			if( i != pointIndex && Vector3.Dot( direction, boundingBoxPoints[i] - point ) > 0 )
+			if (i != pointIndex && Vector3.Dot(direction, boundingBoxPoints[i] - point) > 0)
 				return false;
 		}
 
@@ -457,33 +456,33 @@ public static class RuntimePreviewGenerator
 
 	// Credit: https://stackoverflow.com/a/32410473/2373034
 	// Returns the intersection line of the 2 planes
-	private static Ray GetPlanesIntersection( Plane p1, Plane p2 )
+	private static Ray GetPlanesIntersection(Plane p1, Plane p2)
 	{
-		Vector3 p3Normal = Vector3.Cross( p1.normal, p2.normal );
+		Vector3 p3Normal = Vector3.Cross(p1.normal, p2.normal);
 		float det = p3Normal.sqrMagnitude;
 
-		return new Ray( ( ( Vector3.Cross( p3Normal, p2.normal ) * p1.distance ) + ( Vector3.Cross( p1.normal, p3Normal ) * p2.distance ) ) / det, p3Normal );
+		return new Ray(((Vector3.Cross(p3Normal, p2.normal) * p1.distance) + (Vector3.Cross(p1.normal, p3Normal) * p2.distance)) / det, p3Normal);
 	}
 
 	// Credit: http://wiki.unity3d.com/index.php/3d_Math_functions
 	// Returns the edge points of the closest line segment between 2 lines
-	private static void FindClosestPointsOnTwoLines( Ray line1, Ray line2, out Vector3 closestPointLine1, out Vector3 closestPointLine2 )
+	private static void FindClosestPointsOnTwoLines(Ray line1, Ray line2, out Vector3 closestPointLine1, out Vector3 closestPointLine2)
 	{
 		Vector3 line1Direction = line1.direction;
 		Vector3 line2Direction = line2.direction;
 
-		float a = Vector3.Dot( line1Direction, line1Direction );
-		float b = Vector3.Dot( line1Direction, line2Direction );
-		float e = Vector3.Dot( line2Direction, line2Direction );
+		float a = Vector3.Dot(line1Direction, line1Direction);
+		float b = Vector3.Dot(line1Direction, line2Direction);
+		float e = Vector3.Dot(line2Direction, line2Direction);
 
 		float d = a * e - b * b;
 
 		Vector3 r = line1.origin - line2.origin;
-		float c = Vector3.Dot( line1Direction, r );
-		float f = Vector3.Dot( line2Direction, r );
+		float c = Vector3.Dot(line1Direction, r);
+		float f = Vector3.Dot(line2Direction, r);
 
-		float s = ( b * f - c * e ) / d;
-		float t = ( a * f - c * b ) / d;
+		float s = (b * f - c * e) / d;
+		float t = (a * f - c * b) / d;
 
 		closestPointLine1 = line1.origin + line1Direction * s;
 		closestPointLine2 = line2.origin + line2Direction * t;
@@ -491,9 +490,9 @@ public static class RuntimePreviewGenerator
 
 	private static void SetupCamera()
 	{
-		if( m_previewRenderCamera )
+		if (m_previewRenderCamera)
 		{
-			cameraSetup.GetSetup( m_previewRenderCamera );
+			cameraSetup.GetSetup(m_previewRenderCamera);
 
 			renderCamera = m_previewRenderCamera;
 			renderCamera.nearClipPlane = 0.01f;
@@ -507,38 +506,38 @@ public static class RuntimePreviewGenerator
 		renderCamera.clearFlags = m_backgroundColor.a < 1f ? CameraClearFlags.Depth : CameraClearFlags.Color;
 	}
 
-	private static bool IsStatic( Transform obj )
+	private static bool IsStatic(Transform obj)
 	{
-		if( obj.gameObject.isStatic )
+		if (obj.gameObject.isStatic)
 			return true;
 
-		for( int i = 0; i < obj.childCount; i++ )
+		for (int i = 0; i < obj.childCount; i++)
 		{
-			if( IsStatic( obj.GetChild( i ) ) )
+			if (IsStatic(obj.GetChild(i)))
 				return true;
 		}
 
 		return false;
 	}
 
-	private static void SetLayerRecursively( Transform obj )
+	private static void SetLayerRecursively(Transform obj)
 	{
 		obj.gameObject.layer = PREVIEW_LAYER;
-		for( int i = 0; i < obj.childCount; i++ )
-			SetLayerRecursively( obj.GetChild( i ) );
+		for (int i = 0; i < obj.childCount; i++)
+			SetLayerRecursively(obj.GetChild(i));
 	}
 
-	private static void GetLayerRecursively( Transform obj )
+	private static void GetLayerRecursively(Transform obj)
 	{
-		layersList.Add( obj.gameObject.layer );
-		for( int i = 0; i < obj.childCount; i++ )
-			GetLayerRecursively( obj.GetChild( i ) );
+		layersList.Add(obj.gameObject.layer);
+		for (int i = 0; i < obj.childCount; i++)
+			GetLayerRecursively(obj.GetChild(i));
 	}
 
-	private static void SetLayerRecursively( Transform obj, ref int index )
+	private static void SetLayerRecursively(Transform obj, ref int index)
 	{
 		obj.gameObject.layer = layersList[index++];
-		for( int i = 0; i < obj.childCount; i++ )
-			SetLayerRecursively( obj.GetChild( i ), ref index );
+		for (int i = 0; i < obj.childCount; i++)
+			SetLayerRecursively(obj.GetChild(i), ref index);
 	}
 }

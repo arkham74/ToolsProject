@@ -17,8 +17,8 @@ public static class NewInput
 		backButton
 	}
 
-	public static Vector3 mouseDelta => Mouse.current.delta.ReadValue();
-	public static Vector3 mousePosition => Mouse.current.position.ReadValue();
+	public static Vector3 MouseDelta => Mouse.current.delta.ReadValue();
+	public static Vector3 MousePosition => Mouse.current.position.ReadValue();
 
 	public static bool GetKey(Key key)
 	{

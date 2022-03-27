@@ -7,26 +7,26 @@ namespace Coffee.UISoftMask
 {
 	internal static class GraphicConnectorExtension
 	{
-		public static void SetVerticesDirtyEx( this Graphic graphic )
+		public static void SetVerticesDirtyEx(this Graphic graphic)
 		{
 			GraphicConnector.FindConnector(graphic).SetVerticesDirty(graphic);
 		}
 
-		public static void SetMaterialDirtyEx( this Graphic graphic )
+		public static void SetMaterialDirtyEx(this Graphic graphic)
 		{
 			GraphicConnector.FindConnector(graphic).SetMaterialDirty(graphic);
 		}
 
-		public static T GetComponentInParentEx<T>( this Component component, bool includeInactive = false ) where T : MonoBehaviour
+		public static T GetComponentInParentEx<T>(this Component component, bool includeInactive = false) where T : MonoBehaviour
 		{
-			if ( !component )
+			if (!component)
 				return null;
 			Transform trans = component.transform;
 
-			while ( trans )
+			while (trans)
 			{
 				T c = trans.GetComponent<T>();
-				if ( c && ( includeInactive || c.isActiveAndEnabled ) )
+				if (c && (includeInactive || c.isActiveAndEnabled))
 					return c;
 
 				trans = trans.parent;
@@ -52,25 +52,24 @@ namespace Coffee.UISoftMask
 			AddConnector(new GraphicConnector());
 		}
 
-		protected static void AddConnector( GraphicConnector connector )
+		protected static void AddConnector(GraphicConnector connector)
 		{
 			s_Connectors.Add(connector);
-			s_Connectors.Sort(( x, y ) => y.priority - x.priority);
+			s_Connectors.Sort((x, y) => y.Priority - x.Priority);
 		}
 
-		public static GraphicConnector FindConnector( Graphic graphic )
+		public static GraphicConnector FindConnector(Graphic graphic)
 		{
-			if ( !graphic )
+			if (!graphic)
 				return s_EmptyConnector;
 
 			Type type = graphic.GetType();
-			GraphicConnector connector = null;
-			if ( s_ConnectorMap.TryGetValue(type, out connector) )
+			if (s_ConnectorMap.TryGetValue(type, out GraphicConnector connector))
 				return connector;
 
-			foreach ( GraphicConnector c in s_Connectors )
+			foreach (GraphicConnector c in s_Connectors)
 			{
-				if ( !c.IsValid(graphic) )
+				if (!c.IsValid(graphic))
 					continue;
 
 				s_ConnectorMap.Add(type, c);
@@ -83,28 +82,25 @@ namespace Coffee.UISoftMask
 		/// <summary>
 		/// Connector priority.
 		/// </summary>
-		protected virtual int priority
-		{
-			get { return -1; }
-		}
+		protected virtual int Priority => -1;
 
 		/// <summary>
 		/// The connector is valid for the component.
 		/// </summary>
-		protected virtual bool IsValid( Graphic graphic )
+		protected virtual bool IsValid(Graphic graphic)
 		{
 			return true;
 		}
 
-		public virtual void SetVerticesDirty( Graphic graphic )
+		public virtual void SetVerticesDirty(Graphic graphic)
 		{
-			if ( graphic )
+			if (graphic)
 				graphic.SetVerticesDirty();
 		}
 
-		public virtual void SetMaterialDirty( Graphic graphic )
+		public virtual void SetMaterialDirty(Graphic graphic)
 		{
-			if ( graphic )
+			if (graphic)
 				graphic.SetMaterialDirty();
 		}
 	}
