@@ -589,7 +589,7 @@ namespace Coffee.UISoftMask
 			// Set view and projection matrices.
 			Profiler.BeginSample("Set view and projection matrices");
 			Canvas c = graphic.canvas.rootCanvas;
-			Camera cam = c.worldCamera ?? Camera.main;
+			Camera cam = c.worldCamera != null ? c.worldCamera : Camera.main;
 			if (c && c.renderMode != RenderMode.ScreenSpaceOverlay && cam)
 			{
 				Matrix4x4 p = GL.GetGPUProjectionMatrix(cam.projectionMatrix, false);

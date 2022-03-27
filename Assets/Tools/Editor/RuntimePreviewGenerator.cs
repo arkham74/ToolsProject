@@ -42,9 +42,7 @@ public static class RuntimePreviewGenerator
 
 		public void ApplySetup(Camera camera)
 		{
-			camera.transform.position = position;
-			camera.transform.rotation = rotation;
-
+			camera.transform.SetPositionAndRotation(position, rotation);
 			camera.backgroundColor = backgroundColor;
 			camera.orthographic = orthographic;
 			camera.orthographicSize = orthographicSize;
@@ -152,7 +150,7 @@ public static class RuntimePreviewGenerator
 	public static Texture2D GenerateMaterialPreviewWithShader(Material material, PrimitiveType previewPrimitive, Shader shader, string replacementTag, int width = 64, int height = 64)
 	{
 		GameObject previewModel = GameObject.CreatePrimitive(previewPrimitive);
-		previewModel.gameObject.hideFlags = HideFlags.HideAndDontSave;
+		previewModel.hideFlags = HideFlags.HideAndDontSave;
 		previewModel.GetComponent<Renderer>().sharedMaterial = material;
 
 		try
@@ -216,8 +214,7 @@ public static class RuntimePreviewGenerator
 
 			if (!isStatic)
 			{
-				previewObject.position = PREVIEW_POSITION;
-				previewObject.rotation = Quaternion.identity;
+				previewObject.SetPositionAndRotation(PREVIEW_POSITION, Quaternion.identity);
 			}
 
 			if (!wasActive)
@@ -303,8 +300,7 @@ public static class RuntimePreviewGenerator
 
 				if (!isStatic)
 				{
-					previewObject.position = prevPos;
-					previewObject.rotation = prevRot;
+					previewObject.SetPositionAndRotation(prevPos, prevRot);
 				}
 
 				int index = 0;

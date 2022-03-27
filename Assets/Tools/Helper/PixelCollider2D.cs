@@ -21,13 +21,11 @@ public sealed class PixelCollider2D : MonoBehaviour
 	public void Regenerate()
 	{
 		alphaCutoff = Mathf.Clamp(alphaCutoff, 0, 1);
-		PolygonCollider2D PGC2D = GetComponent<PolygonCollider2D>();
-		if (PGC2D == null)
+		if (!TryGetComponent<PolygonCollider2D>(out var PGC2D))
 		{
 			throw new Exception($"PixelCollider2D could not be regenerated because there is no PolygonCollider2D component on \"{gameObject.name}\".");
 		}
-		SpriteRenderer SR = GetComponent<SpriteRenderer>();
-		if (SR == null)
+		if (!TryGetComponent<SpriteRenderer>(out var SR))
 		{
 			PGC2D.pathCount = 0;
 			throw new Exception($"PixelCollider2D could not be regenerated because there is no SpriteRenderer component on \"{gameObject.name}\".");

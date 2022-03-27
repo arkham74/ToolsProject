@@ -7,6 +7,11 @@ using UnityEngine;
 
 public static class GameObjectExtensions
 {
+	// public static T FindObjectOfType<T>(bool includeInactive) where T : Object
+	// {
+
+	// }
+
 	public static void SetChildrenActive(this GameObject go, bool value)
 	{
 		foreach (Transform child in go.transform)

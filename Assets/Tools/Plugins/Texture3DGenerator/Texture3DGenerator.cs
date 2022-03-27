@@ -20,14 +20,14 @@ namespace Texture3DGenerator
 		private struct NoiseJob : IJobParallelFor
 		{
 			[ReadOnly] public NoiseData data;
-			public NativeArray<Color> result;
+			public NativeArray<Color32> result;
 
 			public void Execute(int index)
 			{
 				result[index] = CalculateNoise(index, data);
 			}
 
-			private static Color CalculateNoise(int index, NoiseData data)
+			private static Color32 CalculateNoise(int index, NoiseData data)
 			{
 				int x = index % data.size;
 				int y = (index / data.size) % data.size;
@@ -64,14 +64,14 @@ namespace Texture3DGenerator
 
 		public override void OnImportAsset(AssetImportContext ctx)
 		{
-			Texture3D texture = new Texture3D(size, size, size, format, false) {wrapMode = wrapMode};
+			Texture3D texture = new Texture3D(size, size, size, format, false) { wrapMode = wrapMode };
 
-			Color[] colors;
+			Color32[] colors;
 
 			switch (mode)
 			{
 				case Mode.MULTI_THREADED:
-					NativeArray<Color> nativea = ThreadedJob();
+					NativeArray<Color32> nativea = ThreadedJob();
 					colors = nativea.ToArray();
 					nativea.Dispose();
 					break;
@@ -85,18 +85,18 @@ namespace Texture3DGenerator
 					throw new ArgumentOutOfRangeException();
 			}
 
-			texture.SetPixels(colors);
+			texture.SetPixels32(colors);
 			texture.Apply();
 			ctx.AddObjectToAsset("main tex", texture);
 			ctx.SetMainObject(texture);
 		}
 
-		private Color[] GpuJob()
+		private Color32[] GpuJob()
 		{
 			string[] assets = AssetDatabase.FindAssets(PATH);
 			string path = AssetDatabase.GUIDToAssetPath(assets[0]);
 			ComputeShader computeShader = AssetDatabase.LoadAssetAtPath<ComputeShader>(path);
-			Color[] colors = new Color[size * size * size];
+			Color32[] colors = new Color32[size * size * size];
 			ComputeBuffer noiseBuffer = new ComputeBuffer(colors.Length, 4 * sizeof(float));
 
 			computeShader.SetFloat(SizeId, size);
@@ -113,9 +113,9 @@ namespace Texture3DGenerator
 			return colors;
 		}
 
-		private Color[] SingleJob()
+		private Color32[] SingleJob()
 		{
-			Color[] colors = new Color[size * size * size];
+			Color32[] colors = new Color32[size * size * size];
 			for (int x = 0; x < size; x++)
 			{
 				for (int y = 0; y < size; y++)
@@ -131,17 +131,17 @@ namespace Texture3DGenerator
 			return colors;
 		}
 
-		private NativeArray<Color> ThreadedJob()
+		private NativeArray<Color32> ThreadedJob()
 		{
-			NoiseData data = new NoiseData {offset = offset, scale = scale, size = size};
-			NativeArray<Color> result = new NativeArray<Color>(size * size * size, Allocator.TempJob);
-			NoiseJob job = new NoiseJob {data = data, result = result};
+			NoiseData data = new NoiseData { offset = offset, scale = scale, size = size };
+			NativeArray<Color32> result = new NativeArray<Color32>(size * size * size, Allocator.TempJob);
+			NoiseJob job = new NoiseJob { data = data, result = result };
 			JobHandle handle = job.Schedule(result.Length, 1);
 			handle.Complete();
 			return result;
 		}
 
-		private static Color CalculateNoise(int x, int y, int z, float size, float scale, Vector3 offset)
+		private static Color32 CalculateNoise(int x, int y, int z, float size, float scale, Vector3 offset)
 		{
 			Vector3 pos = new Vector3(x, y, z);
 			pos = pos / size * scale;

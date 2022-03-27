@@ -89,7 +89,6 @@ namespace IngameDebugConsole
 		private bool toggleWithKey = false;
 
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
-		[SerializeField]
 		[HideInInspector]
 		public InputAction toggleBinding = new InputAction("Toggle Binding",
 			type: InputActionType.Button, binding: "<Keyboard>/backquote", expectedControlType: "Button");

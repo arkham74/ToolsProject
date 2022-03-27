@@ -57,7 +57,7 @@ public static class GizmosTools
 			DrawHex(position, radius);
 		}
 
-		Vector3 offset = Vector3.up * height * 0.5f;
+		Vector3 offset = 0.5f * height * Vector3.up;
 		for (int i = 1; i < 7; i++)
 		{
 			Vector3 cornerTop = Tools.GetHexCorner(position, radius, i - 1) + offset;

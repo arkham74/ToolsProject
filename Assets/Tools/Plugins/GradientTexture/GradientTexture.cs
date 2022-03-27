@@ -31,18 +31,18 @@ namespace GradientTexture
 				filterMode = filterMode,
 				anisoLevel = anisoLevel
 			};
-			Color[] pixels = new Color[size.x * size.y];
+			Color32[] pixels = new Color32[size.x * size.y];
 
 			for (int x = 0; x < size.x; x++)
 			{
-				Color pixel = gradient.Evaluate((float)x / size.x);
+				Color32 pixel = gradient.Evaluate((float)x / size.x);
 				for (int y = 0; y < size.y; y++)
 				{
 					pixels[y * size.x + x] = pixel;
 				}
 			}
 
-			texture.SetPixels(pixels);
+			texture.SetPixels32(pixels);
 			ctx.AddObjectToAsset("Gradient Texture", texture);
 			ctx.SetMainObject(texture);
 		}
