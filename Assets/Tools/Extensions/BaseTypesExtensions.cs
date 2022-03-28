@@ -152,6 +152,21 @@ public static class BaseTypesExtensions
 		return result;
 	}
 
+	public static int RoundToInt(this float v)
+	{
+		return Mathf.RoundToInt(v);
+	}
+
+	public static int FloorToInt(this float v)
+	{
+		return Mathf.FloorToInt(v);
+	}
+
+	public static int CeilToInt(this float v)
+	{
+		return Mathf.CeilToInt(v);
+	}
+
 	public static float RoundToDecimal(this float v, int places)
 	{
 		float mlt = Mathf.Pow(10, places);
