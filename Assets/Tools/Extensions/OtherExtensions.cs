@@ -4,11 +4,22 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
 
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedMember.Global
-
 public static class OtherExtensions
 {
+	public static bool CompareTypes(this Type a, Type b)
+	{
+		if (a.Equals(b))
+			return true;
+
+		if (a.IsSubclassOf(b))
+			return true;
+
+		if (b.IsSubclassOf(a))
+			return true;
+
+		return false;
+	}
+
 	public static Quaternion Inverse(this Quaternion q)
 	{
 		return Quaternion.Inverse(q);

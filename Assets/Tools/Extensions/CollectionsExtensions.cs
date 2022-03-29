@@ -4,12 +4,16 @@ using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-// ReSharper disable UnusedMember.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable PossibleMultipleEnumeration
-
 public static class CollectionsExtensions
 {
+	public static bool CompareList<T>(this List<T> l1, List<T> l2)
+	{
+		if (l1.Count != l2.Count)
+			return false;
+
+		return l2.All(e => l1.Contains(e));
+	}
+
 	public static float Length(this Vector3[] waypoints)
 	{
 		float sum = 0;
