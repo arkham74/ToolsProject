@@ -1,11 +1,26 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-// ReSharper disable UnusedMember.Global
-// ReSharper disable MemberCanBePrivate.Global
 public static class Tools
 {
+	public static bool TryGetArg(string name, out string output)
+	{
+		output = string.Empty;
+		string[] args = Environment.GetCommandLineArgs();
+		for (int i = 0; i < args.Length; i++)
+		{
+			if (args[i] == name && args.Length > i + 1)
+			{
+				output = args[i + 1];
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static int RandomPosNeg()
 	{
 		return Random.Range(0, 2) * 2 - 1;
@@ -23,26 +38,26 @@ public static class Tools
 
 	public static bool IsSet<T>(T flags, T flag) where T : struct
 	{
-		int flagsValue = (int) (object) flags;
-		int flagValue = (int) (object) flag;
+		int flagsValue = (int)(object)flags;
+		int flagValue = (int)(object)flag;
 
 		return (flagsValue & flagValue) != 0;
 	}
 
 	public static T Add<T>(T a, T b) where T : struct
 	{
-		int flagsValue = (int) (object) a;
-		int flagValue = (int) (object) b;
+		int flagsValue = (int)(object)a;
+		int flagValue = (int)(object)b;
 
-		return (T) (object) (flagsValue | flagValue);
+		return (T)(object)(flagsValue | flagValue);
 	}
 
 	public static T Sub<T>(T a, T b) where T : struct
 	{
-		int flagsValue = (int) (object) a;
-		int flagValue = (int) (object) b;
+		int flagsValue = (int)(object)a;
+		int flagValue = (int)(object)b;
 
-		return (T) (object) (flagsValue & (~flagValue));
+		return (T)(object)(flagsValue & (~flagValue));
 	}
 
 	public static Texture2D CreateTexture(int width, int height, Color color, int mipCount = 1, bool linear = true,

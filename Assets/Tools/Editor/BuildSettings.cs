@@ -81,9 +81,9 @@ public class BuildSettings : ScriptableObject
 		};
 	}
 
-	public async Task BuildAsync()
+	public async Task BuildAsync(BuildOptions buildOptions = BuildOptions.None)
 	{
-		BuildWithOptions();
+		BuildWithOptions(buildOptions);
 		while (BuildPipeline.isBuildingPlayer) await Task.Delay(1000);
 	}
 

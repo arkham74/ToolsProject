@@ -15,6 +15,15 @@ public class BuildSettingsQueue : ScriptableObject
 			await buildSettings.BuildAsync();
 		}
 	}
+
+	public async void BuildAllDev()
+	{
+		BuildSettings.IncrementVersion();
+		foreach (BuildSettings buildSettings in queue)
+		{
+			await buildSettings.BuildAsync(BuildOptions.Development);
+		}
+	}
 }
 
 [CustomEditor(typeof(BuildSettingsQueue))]
@@ -34,6 +43,7 @@ public class BuildSettingsQueueEditor : Editor
 		EditorGUI.BeginChangeCheck();
 		EditorGUILayout.PropertyField(queueProperty);
 		if (GUILayout.Button("Build All")) buildSettingsTarget.BuildAll();
+		if (GUILayout.Button("Build All Dev")) buildSettingsTarget.BuildAllDev();
 
 		try
 		{
