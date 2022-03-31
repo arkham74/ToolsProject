@@ -32,7 +32,7 @@ public static class FileBasedPrefs
 
 	public static string GetString(string key, string defaultValue = STRING_EMPTY)
 	{
-		return (string) GetDataFromSaveFile(key, defaultValue);
+		return (string)GetDataFromSaveFile(key, defaultValue);
 	}
 
 	public static void SetInt(string key, int value = default)
@@ -42,7 +42,7 @@ public static class FileBasedPrefs
 
 	public static int GetInt(string key, int defaultValue = default)
 	{
-		return (int) GetDataFromSaveFile(key, defaultValue);
+		return (int)GetDataFromSaveFile(key, defaultValue);
 	}
 
 	public static void SetFloat(string key, float value = default)
@@ -52,7 +52,7 @@ public static class FileBasedPrefs
 
 	public static float GetFloat(string key, float defaultValue = default)
 	{
-		return (float) GetDataFromSaveFile(key, defaultValue);
+		return (float)GetDataFromSaveFile(key, defaultValue);
 	}
 
 	public static string GetSteamUserPath()
@@ -75,7 +75,7 @@ public static class FileBasedPrefs
 
 	public static bool GetBool(string key, bool defaultValue = default)
 	{
-		return (bool) GetDataFromSaveFile(key, defaultValue);
+		return (bool)GetDataFromSaveFile(key, defaultValue);
 	}
 
 	public static bool HasKey(string key)
@@ -249,7 +249,7 @@ public static class FileBasedPrefs
 
 		for (int i = 0; i < data.Length; i++)
 		{
-			StringBuilder.Append((char) (data[i] ^ ENCRYPTION_CODEWORD[i % ENCRYPTION_CODEWORD.Length]));
+			StringBuilder.Append((char)(data[i] ^ ENCRYPTION_CODEWORD[i % ENCRYPTION_CODEWORD.Length]));
 		}
 
 		return StringBuilder.ToString();

@@ -9,7 +9,7 @@ using UnityEngine.Rendering;
 public class RenderingLayerMaskPropertyDrawer : PropertyDrawer
 {
 	private static string[] _defaultNames;
-	private static string[] defaultNames
+	private static string[] DefaultNames
 	{
 		get
 		{
@@ -26,7 +26,7 @@ public class RenderingLayerMaskPropertyDrawer : PropertyDrawer
 		{
 			var layerNames = srpAsset.renderingLayerMaskNames;
 			if (layerNames == null)
-				layerNames = defaultNames;
+				layerNames = DefaultNames;
 
 			serializedProperty.longValue = (uint)EditorGUILayout.MaskField(label, (int)serializedProperty.longValue, layerNames);
 		}

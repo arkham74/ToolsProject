@@ -57,9 +57,9 @@ public class FileBasedPrefsEditorWindow : EditorWindow
 
 	private void DrawStrings()
 	{
-		if (data.stringData.Length > 0) EditorGUILayout.LabelField("String", EditorStyles.boldLabel);
+		if (data.StringData.Length > 0) EditorGUILayout.LabelField("String", EditorStyles.boldLabel);
 		EditorGUI.indentLevel++;
-		foreach (FileBasedPrefsSaveFileModel.StringItem item in data.stringData)
+		foreach (FileBasedPrefsSaveFileModel.StringItem item in data.StringData)
 		{
 			DrawString(item);
 		}
@@ -69,9 +69,9 @@ public class FileBasedPrefsEditorWindow : EditorWindow
 
 	private void DrawFloats()
 	{
-		if (data.floatData.Length > 0) EditorGUILayout.LabelField("Float", EditorStyles.boldLabel);
+		if (data.FloatData.Length > 0) EditorGUILayout.LabelField("Float", EditorStyles.boldLabel);
 		EditorGUI.indentLevel++;
-		foreach (FileBasedPrefsSaveFileModel.FloatItem item in data.floatData)
+		foreach (FileBasedPrefsSaveFileModel.FloatItem item in data.FloatData)
 		{
 			DrawFloat(item);
 		}
@@ -81,9 +81,9 @@ public class FileBasedPrefsEditorWindow : EditorWindow
 
 	private void DrawInts()
 	{
-		if (data.intData.Length > 0) EditorGUILayout.LabelField("Int", EditorStyles.boldLabel);
+		if (data.IntData.Length > 0) EditorGUILayout.LabelField("Int", EditorStyles.boldLabel);
 		EditorGUI.indentLevel++;
-		foreach (FileBasedPrefsSaveFileModel.IntItem item in data.intData)
+		foreach (FileBasedPrefsSaveFileModel.IntItem item in data.IntData)
 		{
 			DrawInt(item);
 		}
@@ -93,9 +93,9 @@ public class FileBasedPrefsEditorWindow : EditorWindow
 
 	private void DrawBools()
 	{
-		if (data.boolData.Length > 0) EditorGUILayout.LabelField("Bool", EditorStyles.boldLabel);
+		if (data.BoolData.Length > 0) EditorGUILayout.LabelField("Bool", EditorStyles.boldLabel);
 		EditorGUI.indentLevel++;
-		foreach (FileBasedPrefsSaveFileModel.BoolItem item in data.boolData)
+		foreach (FileBasedPrefsSaveFileModel.BoolItem item in data.BoolData)
 		{
 			DrawBool(item);
 		}
@@ -106,40 +106,40 @@ public class FileBasedPrefsEditorWindow : EditorWindow
 	private void DrawString(FileBasedPrefsSaveFileModel.StringItem item)
 	{
 		EditorGUILayout.BeginHorizontal();
-		EditorGUILayout.LabelField(item.key);
-		string newValue = EditorGUILayout.DelayedTextField(item.value);
-		FileBasedPrefs.SetString(item.key, newValue);
-		if (GUILayout.Button("Delete")) Remove(item.key);
+		EditorGUILayout.LabelField(item.Key);
+		string newValue = EditorGUILayout.DelayedTextField(item.Value);
+		FileBasedPrefs.SetString(item.Key, newValue);
+		if (GUILayout.Button("Delete")) Remove(item.Key);
 		EditorGUILayout.EndHorizontal();
 	}
 
 	private void DrawFloat(FileBasedPrefsSaveFileModel.FloatItem item)
 	{
 		EditorGUILayout.BeginHorizontal();
-		EditorGUILayout.LabelField(item.key);
-		float newValue = EditorGUILayout.DelayedFloatField(item.value);
-		FileBasedPrefs.SetFloat(item.key, newValue);
-		if (GUILayout.Button("Delete")) Remove(item.key);
+		EditorGUILayout.LabelField(item.Key);
+		float newValue = EditorGUILayout.DelayedFloatField(item.Value);
+		FileBasedPrefs.SetFloat(item.Key, newValue);
+		if (GUILayout.Button("Delete")) Remove(item.Key);
 		EditorGUILayout.EndHorizontal();
 	}
 
 	private void DrawInt(FileBasedPrefsSaveFileModel.IntItem item)
 	{
 		EditorGUILayout.BeginHorizontal();
-		EditorGUILayout.LabelField(item.key);
-		int newValue = EditorGUILayout.DelayedIntField(item.value);
-		FileBasedPrefs.SetInt(item.key, newValue);
-		if (GUILayout.Button("Delete")) Remove(item.key);
+		EditorGUILayout.LabelField(item.Key);
+		int newValue = EditorGUILayout.DelayedIntField(item.Value);
+		FileBasedPrefs.SetInt(item.Key, newValue);
+		if (GUILayout.Button("Delete")) Remove(item.Key);
 		EditorGUILayout.EndHorizontal();
 	}
 
 	private void DrawBool(FileBasedPrefsSaveFileModel.BoolItem item)
 	{
 		EditorGUILayout.BeginHorizontal();
-		EditorGUILayout.LabelField(item.key);
-		bool newValue = EditorGUILayout.Toggle(item.value);
-		FileBasedPrefs.SetBool(item.key, newValue);
-		if (GUILayout.Button("Delete")) Remove(item.key);
+		EditorGUILayout.LabelField(item.Key);
+		bool newValue = EditorGUILayout.Toggle(item.Value);
+		FileBasedPrefs.SetBool(item.Key, newValue);
+		if (GUILayout.Button("Delete")) Remove(item.Key);
 		EditorGUILayout.EndHorizontal();
 	}
 

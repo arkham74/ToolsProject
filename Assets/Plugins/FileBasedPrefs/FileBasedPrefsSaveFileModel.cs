@@ -6,60 +6,60 @@ using UnityEngine.Serialization;
 [Serializable]
 public class FileBasedPrefsSaveFileModel
 {
-	public StringItem[] stringData = Array.Empty<StringItem>();
-	public IntItem[] intData = Array.Empty<IntItem>();
-	public FloatItem[] floatData = Array.Empty<FloatItem>();
-	public BoolItem[] boolData = Array.Empty<BoolItem>();
+	public StringItem[] StringData = Array.Empty<StringItem>();
+	public IntItem[] IntData = Array.Empty<IntItem>();
+	public FloatItem[] FloatData = Array.Empty<FloatItem>();
+	public BoolItem[] BoolData = Array.Empty<BoolItem>();
 
 	[Serializable]
 	public class StringItem
 	{
-		public string key;
-		public string value;
+		public string Key;
+		public string Value;
 
 		public StringItem(string k, string v)
 		{
-			key = k;
-			value = v;
+			Key = k;
+			Value = v;
 		}
 	}
 
 	[Serializable]
 	public class IntItem
 	{
-		[FormerlySerializedAs("Key")] public string key;
-		[FormerlySerializedAs("Value")] public int value;
+		public string Key;
+		public int Value;
 
 		public IntItem(string k, int v)
 		{
-			key = k;
-			value = v;
+			Key = k;
+			Value = v;
 		}
 	}
 
 	[Serializable]
 	public class FloatItem
 	{
-		[FormerlySerializedAs("Key")] public string key;
-		[FormerlySerializedAs("Value")] public float value;
+		public string Key;
+		public float Value;
 
 		public FloatItem(string k, float v)
 		{
-			key = k;
-			value = v;
+			Key = k;
+			Value = v;
 		}
 	}
 
 	[Serializable]
 	public class BoolItem
 	{
-		[FormerlySerializedAs("Key")] public string key;
-		[FormerlySerializedAs("Value")] public bool value;
+		public string Key;
+		public bool Value;
 
 		public BoolItem(string k, bool v)
 		{
-			key = k;
-			value = v;
+			Key = k;
+			Value = v;
 		}
 	}
 
@@ -67,44 +67,44 @@ public class FileBasedPrefsSaveFileModel
 	{
 		if (defaultValue is string)
 		{
-			for (int i = 0; i < stringData.Length; i++)
+			for (int i = 0; i < StringData.Length; i++)
 			{
-				if (stringData[i].key.Equals(key))
+				if (StringData[i].Key.Equals(key))
 				{
-					return stringData[i].value;
+					return StringData[i].Value;
 				}
 			}
 		}
 
 		if (defaultValue is int)
 		{
-			for (int i = 0; i < intData.Length; i++)
+			for (int i = 0; i < IntData.Length; i++)
 			{
-				if (intData[i].key.Equals(key))
+				if (IntData[i].Key.Equals(key))
 				{
-					return intData[i].value;
+					return IntData[i].Value;
 				}
 			}
 		}
 
 		if (defaultValue is float)
 		{
-			for (int i = 0; i < floatData.Length; i++)
+			for (int i = 0; i < FloatData.Length; i++)
 			{
-				if (floatData[i].key.Equals(key))
+				if (FloatData[i].Key.Equals(key))
 				{
-					return floatData[i].value;
+					return FloatData[i].Value;
 				}
 			}
 		}
 
 		if (defaultValue is bool)
 		{
-			for (int i = 0; i < boolData.Length; i++)
+			for (int i = 0; i < BoolData.Length; i++)
 			{
-				if (boolData[i].key.Equals(key))
+				if (BoolData[i].Key.Equals(key))
 				{
-					return boolData[i].value;
+					return BoolData[i].Value;
 				}
 			}
 		}
@@ -128,30 +128,30 @@ public class FileBasedPrefsSaveFileModel
 	{
 		if (value is string stringValue)
 		{
-			List<StringItem> dataAsList = stringData.ToList();
+			List<StringItem> dataAsList = StringData.ToList();
 			dataAsList.Add(new StringItem(key, stringValue));
-			stringData = dataAsList.ToArray();
+			StringData = dataAsList.ToArray();
 		}
 
 		if (value is int intValue)
 		{
-			List<IntItem> dataAsList = intData.ToList();
+			List<IntItem> dataAsList = IntData.ToList();
 			dataAsList.Add(new IntItem(key, intValue));
-			intData = dataAsList.ToArray();
+			IntData = dataAsList.ToArray();
 		}
 
 		if (value is float floatValue)
 		{
-			List<FloatItem> dataAsList = floatData.ToList();
+			List<FloatItem> dataAsList = FloatData.ToList();
 			dataAsList.Add(new FloatItem(key, floatValue));
-			floatData = dataAsList.ToArray();
+			FloatData = dataAsList.ToArray();
 		}
 
 		if (value is bool boolValue)
 		{
-			List<BoolItem> dataAsList = boolData.ToList();
+			List<BoolItem> dataAsList = BoolData.ToList();
 			dataAsList.Add(new BoolItem(key, boolValue));
-			boolData = dataAsList.ToArray();
+			BoolData = dataAsList.ToArray();
 		}
 	}
 
@@ -159,44 +159,44 @@ public class FileBasedPrefsSaveFileModel
 	{
 		if (value is string stringValue)
 		{
-			for (int i = 0; i < stringData.Length; i++)
+			for (int i = 0; i < StringData.Length; i++)
 			{
-				if (stringData[i].key.Equals(key))
+				if (StringData[i].Key.Equals(key))
 				{
-					stringData[i].value = stringValue;
+					StringData[i].Value = stringValue;
 				}
 			}
 		}
 
 		if (value is int intValue)
 		{
-			for (int i = 0; i < intData.Length; i++)
+			for (int i = 0; i < IntData.Length; i++)
 			{
-				if (intData[i].key.Equals(key))
+				if (IntData[i].Key.Equals(key))
 				{
-					intData[i].value = intValue;
+					IntData[i].Value = intValue;
 				}
 			}
 		}
 
 		if (value is float floatValue)
 		{
-			for (int i = 0; i < floatData.Length; i++)
+			for (int i = 0; i < FloatData.Length; i++)
 			{
-				if (floatData[i].key.Equals(key))
+				if (FloatData[i].Key.Equals(key))
 				{
-					floatData[i].value = floatValue;
+					FloatData[i].Value = floatValue;
 				}
 			}
 		}
 
 		if (value is bool boolValue)
 		{
-			for (int i = 0; i < boolData.Length; i++)
+			for (int i = 0; i < BoolData.Length; i++)
 			{
-				if (boolData[i].key.Equals(key))
+				if (BoolData[i].Key.Equals(key))
 				{
-					boolData[i].value = boolValue;
+					BoolData[i].Value = boolValue;
 				}
 			}
 		}
@@ -206,9 +206,9 @@ public class FileBasedPrefsSaveFileModel
 	{
 		if (value is string)
 		{
-			for (int i = 0; i < stringData.Length; i++)
+			for (int i = 0; i < StringData.Length; i++)
 			{
-				if (stringData[i].key.Equals(key))
+				if (StringData[i].Key.Equals(key))
 				{
 					return true;
 				}
@@ -217,9 +217,9 @@ public class FileBasedPrefsSaveFileModel
 
 		if (value is int)
 		{
-			for (int i = 0; i < intData.Length; i++)
+			for (int i = 0; i < IntData.Length; i++)
 			{
-				if (intData[i].key.Equals(key))
+				if (IntData[i].Key.Equals(key))
 				{
 					return true;
 				}
@@ -228,9 +228,9 @@ public class FileBasedPrefsSaveFileModel
 
 		if (value is float)
 		{
-			for (int i = 0; i < floatData.Length; i++)
+			for (int i = 0; i < FloatData.Length; i++)
 			{
-				if (floatData[i].key.Equals(key))
+				if (FloatData[i].Key.Equals(key))
 				{
 					return true;
 				}
@@ -239,9 +239,9 @@ public class FileBasedPrefsSaveFileModel
 
 		if (value is bool)
 		{
-			for (int i = 0; i < boolData.Length; i++)
+			for (int i = 0; i < BoolData.Length; i++)
 			{
-				if (boolData[i].key.Equals(key))
+				if (BoolData[i].Key.Equals(key))
 				{
 					return true;
 				}
@@ -253,128 +253,128 @@ public class FileBasedPrefsSaveFileModel
 
 	public void DeleteKey(string key)
 	{
-		for (int i = 0; i < stringData.Length; i++)
+		for (int i = 0; i < StringData.Length; i++)
 		{
-			if (stringData[i].key.Equals(key))
+			if (StringData[i].Key.Equals(key))
 			{
-				List<StringItem> dataAsList = stringData.ToList();
+				List<StringItem> dataAsList = StringData.ToList();
 				dataAsList.RemoveAt(i);
-				stringData = dataAsList.ToArray();
+				StringData = dataAsList.ToArray();
 			}
 		}
 
-		for (int i = 0; i < intData.Length; i++)
+		for (int i = 0; i < IntData.Length; i++)
 		{
-			if (intData[i].key.Equals(key))
+			if (IntData[i].Key.Equals(key))
 			{
-				List<IntItem> dataAsList = intData.ToList();
+				List<IntItem> dataAsList = IntData.ToList();
 				dataAsList.RemoveAt(i);
-				intData = dataAsList.ToArray();
+				IntData = dataAsList.ToArray();
 			}
 		}
 
-		for (int i = 0; i < floatData.Length; i++)
+		for (int i = 0; i < FloatData.Length; i++)
 		{
-			if (floatData[i].key.Equals(key))
+			if (FloatData[i].Key.Equals(key))
 			{
-				List<FloatItem> dataAsList = floatData.ToList();
+				List<FloatItem> dataAsList = FloatData.ToList();
 				dataAsList.RemoveAt(i);
-				floatData = dataAsList.ToArray();
+				FloatData = dataAsList.ToArray();
 			}
 		}
 
-		for (int i = 0; i < boolData.Length; i++)
+		for (int i = 0; i < BoolData.Length; i++)
 		{
-			if (boolData[i].key.Equals(key))
+			if (BoolData[i].Key.Equals(key))
 			{
-				List<BoolItem> dataAsList = boolData.ToList();
+				List<BoolItem> dataAsList = BoolData.ToList();
 				dataAsList.RemoveAt(i);
-				boolData = dataAsList.ToArray();
+				BoolData = dataAsList.ToArray();
 			}
 		}
 	}
 
 	public void DeleteString(string key)
 	{
-		for (int i = 0; i < stringData.Length; i++)
+		for (int i = 0; i < StringData.Length; i++)
 		{
-			if (stringData[i].key.Equals(key))
+			if (StringData[i].Key.Equals(key))
 			{
-				List<StringItem> dataAsList = stringData.ToList();
+				List<StringItem> dataAsList = StringData.ToList();
 				dataAsList.RemoveAt(i);
-				stringData = dataAsList.ToArray();
+				StringData = dataAsList.ToArray();
 			}
 		}
 	}
 
 	public void DeleteInt(string key)
 	{
-		for (int i = 0; i < intData.Length; i++)
+		for (int i = 0; i < IntData.Length; i++)
 		{
-			if (intData[i].key.Equals(key))
+			if (IntData[i].Key.Equals(key))
 			{
-				List<IntItem> dataAsList = intData.ToList();
+				List<IntItem> dataAsList = IntData.ToList();
 				dataAsList.RemoveAt(i);
-				intData = dataAsList.ToArray();
+				IntData = dataAsList.ToArray();
 			}
 		}
 	}
 
 	public void DeleteFloat(string key)
 	{
-		for (int i = 0; i < floatData.Length; i++)
+		for (int i = 0; i < FloatData.Length; i++)
 		{
-			if (floatData[i].key.Equals(key))
+			if (FloatData[i].Key.Equals(key))
 			{
-				List<FloatItem> dataAsList = floatData.ToList();
+				List<FloatItem> dataAsList = FloatData.ToList();
 				dataAsList.RemoveAt(i);
-				floatData = dataAsList.ToArray();
+				FloatData = dataAsList.ToArray();
 			}
 		}
 	}
 
 	public void DeleteBool(string key)
 	{
-		for (int i = 0; i < boolData.Length; i++)
+		for (int i = 0; i < BoolData.Length; i++)
 		{
-			if (boolData[i].key.Equals(key))
+			if (BoolData[i].Key.Equals(key))
 			{
-				List<BoolItem> dataAsList = boolData.ToList();
+				List<BoolItem> dataAsList = BoolData.ToList();
 				dataAsList.RemoveAt(i);
-				boolData = dataAsList.ToArray();
+				BoolData = dataAsList.ToArray();
 			}
 		}
 	}
 
 	public bool HasKey(string key)
 	{
-		for (int i = 0; i < stringData.Length; i++)
+		for (int i = 0; i < StringData.Length; i++)
 		{
-			if (stringData[i].key.Equals(key))
+			if (StringData[i].Key.Equals(key))
 			{
 				return true;
 			}
 		}
 
-		for (int i = 0; i < intData.Length; i++)
+		for (int i = 0; i < IntData.Length; i++)
 		{
-			if (intData[i].key.Equals(key))
+			if (IntData[i].Key.Equals(key))
 			{
 				return true;
 			}
 		}
 
-		for (int i = 0; i < floatData.Length; i++)
+		for (int i = 0; i < FloatData.Length; i++)
 		{
-			if (floatData[i].key.Equals(key))
+			if (FloatData[i].Key.Equals(key))
 			{
 				return true;
 			}
 		}
 
-		for (int i = 0; i < boolData.Length; i++)
+		for (int i = 0; i < BoolData.Length; i++)
 		{
-			if (boolData[i].key.Equals(key))
+			if (BoolData[i].Key.Equals(key))
 			{
 				return true;
 			}

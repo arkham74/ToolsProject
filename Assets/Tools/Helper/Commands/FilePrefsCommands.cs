@@ -17,24 +17,24 @@ public static class FilePrefsCommands
 		string formatString = "    - <b>{0} [string]</b>: {1}\n";
 		FileBasedPrefsSaveFileModel data = FileBasedPrefs.GetSaveFile();
 
-		foreach (FileBasedPrefsSaveFileModel.BoolItem item in data.boolData)
+		foreach (FileBasedPrefsSaveFileModel.BoolItem item in data.BoolData)
 		{
-			sb.AppendFormat(formatBool, item.key, item.value);
+			sb.AppendFormat(formatBool, item.Key, item.Value);
 		}
 
-		foreach (FileBasedPrefsSaveFileModel.IntItem item in data.intData)
+		foreach (FileBasedPrefsSaveFileModel.IntItem item in data.IntData)
 		{
-			sb.AppendFormat(formatInt, item.key, item.value);
+			sb.AppendFormat(formatInt, item.Key, item.Value);
 		}
 
-		foreach (FileBasedPrefsSaveFileModel.FloatItem item in data.floatData)
+		foreach (FileBasedPrefsSaveFileModel.FloatItem item in data.FloatData)
 		{
-			sb.AppendFormat(formatFloat, item.key, item.value);
+			sb.AppendFormat(formatFloat, item.Key, item.Value);
 		}
 
-		foreach (FileBasedPrefsSaveFileModel.StringItem item in data.stringData)
+		foreach (FileBasedPrefsSaveFileModel.StringItem item in data.StringData)
 		{
-			sb.AppendFormat(formatString, item.key, item.value);
+			sb.AppendFormat(formatString, item.Key, item.Value);
 		}
 
 		Debug.Log(sb.ToString());
