@@ -16,6 +16,11 @@ using Random = UnityEngine.Random;
 
 public static class ComponentExtensions
 {
+	public static float Distance(this Component a, Component b)
+	{
+		return Vector3.Distance(a.transform.position, b.transform.position);
+	}
+
 	public static Vector3 To(this Component s, Component t)
 	{
 		return s.transform.position.To(t.transform.position);

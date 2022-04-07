@@ -82,6 +82,8 @@ public class SaveFloat : SaveVar<float>
 	public SaveFloat(string key, float defaultValue = default) : base(key, defaultValue)
 	{
 	}
+
+	public static implicit operator SaveFloat((string key, float def) param) => new SaveFloat(param.key, param.def);
 }
 
 public class SaveString : SaveVar<string>

@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
 
 public static class OtherExtensions
 {
+	public static void MarkDirty(this Object obj)
+	{
+#if UNITY_EDITOR
+		EditorUtility.SetDirty(obj);
+#endif
+	}
+
 	public static bool CompareTypes(this Type a, Type b)
 	{
 		if (a.Equals(b))

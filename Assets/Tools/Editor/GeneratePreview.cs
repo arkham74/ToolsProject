@@ -58,7 +58,7 @@ namespace StuntMasters.Tools.Editor
 			ti.mipmapEnabled = true;
 			ti.alphaIsTransparency = true;
 			ti.textureType = TextureImporterType.Sprite;
-			EditorUtility.SetDirty(ti);
+			ti.MarkDirty();
 			ti.SaveAndReimport();
 		}
 	}

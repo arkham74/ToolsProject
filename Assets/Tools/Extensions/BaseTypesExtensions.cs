@@ -4,11 +4,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-// ReSharper disable InconsistentNaming
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable IdentifierTypo
-
 public static class BaseTypesExtensions
 {
 	public static float ClampEuler(this float eulerAngle)

@@ -15,22 +15,26 @@ using Text = TMPro.TextMeshProUGUI;
 using Tag = NaughtyAttributes.TagAttribute;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
-using UnityEngine.Localization.SmartFormat.Utilities;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
+using System.IO;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
 public class ScriptableObjectSearchProvider : ScriptableObject, ISearchWindowProvider
 {
-	static SearchWindowContext context = new SearchWindowContext(new Vector2(1800, 900) / 2f);
+	private static float Width = 300;
+	private static float Height = 500;
+	private static SearchWindowContext context = new SearchWindowContext(new Vector2(1800, 900) / 2f, Width, Height);
+	private static ScriptableObjectSearchProvider provider;
 
-	[MenuItem("Assets/Create Scriptable Object", false, 0)]
+	[MenuItem("Assets/Create Scriptable Object")]
 	public static void CreateSO(MenuCommand menuCommand)
 	{
-		ScriptableObjectSearchProvider provider = CreateInstance<ScriptableObjectSearchProvider>();
+		if (provider == null)
+			provider = CreateInstance<ScriptableObjectSearchProvider>();
+
 		SearchWindow.Open(context, provider);
 	}
 
@@ -55,8 +59,6 @@ public class ScriptableObjectSearchProvider : ScriptableObject, ISearchWindowPro
 			if (item.ContainsGenericParameters) continue;
 
 			string[] entryTitle = item.FullName.Split('.');
-			// if (entryTitle.Length == 1)
-			// 	entryTitle = new string[] { "GlobalNamespace", entryTitle[0] };
 			string groupName = "";
 			for (int i = 0; i < entryTitle.Length - 1; i++)
 			{
@@ -91,8 +93,8 @@ public class ScriptableObjectSearchProvider : ScriptableObject, ISearchWindowPro
 	{
 		Type type = entry.userData as Type;
 		ScriptableObject instance = CreateInstance(type);
-		AssetDatabase.CreateAsset(instance, "Assets/" + type.Name + ".asset");
-		AssetDatabase.Refresh();
+		string pathName = Path.ChangeExtension(type.Name, ".asset");
+		ProjectWindowUtil.CreateAsset(instance, pathName);
 		return true;
 	}
 }
