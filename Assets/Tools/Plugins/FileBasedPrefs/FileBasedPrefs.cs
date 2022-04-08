@@ -206,7 +206,11 @@ public static class FileBasedPrefs
 		return Path.Combine(_config.GetSaveFilePath(), _config.SaveFileName);
 	}
 
-
+	public static string GetSteamUserPath()
+	{
+		CheckForInit();
+		return _config.GetSaveFilePath();
+	}
 
 	public static string GetSaveFileAsJson()
 	{
