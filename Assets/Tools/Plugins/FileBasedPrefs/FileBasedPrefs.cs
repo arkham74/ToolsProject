@@ -1,36 +1,52 @@
-using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text;
-using Steamworks;
+using System.IO;
 using UnityEngine;
+using System;
+using UnityEngine.Events;
 
 public static class FileBasedPrefs
 {
-	private const string SAVE_FILE_NAME = "profile.save";
-	private const bool SCRAMBLE_SAVE_DATA = true;
-	private const string ENCRYPTION_CODEWORD = "UJG2x0JetphqSmaPIPOKrKl";
-	private const bool AUTO_SAVE_DATA = true;
-	private const string STRING_EMPTY = "";
-
-	private static FileBasedPrefsSaveFileModel latestData;
-	private static readonly StringBuilder StringBuilder = new StringBuilder();
-
-	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-	private static void Reload()
+	private class FBPPInitException : Exception
 	{
-		latestData = null;
+		public FBPPInitException(string message) : base(message) { }
 	}
+
+	private const string INIT_EXCEPTION_MESSAGE = "Error, you must call FBPP.Start(FBPPConfig config) before trying to get or set saved data.";
+	public static bool ShowInitWarning = true;
+
+	private static FileBasedPrefsConfig _config;
+	private static FileBasedPrefsSaveFileModel _latestData;
+	private static StringBuilder _sb = new StringBuilder();
+
+	const string String_Empty = "";
+
+	#region Init
+
+	public static void Start(FileBasedPrefsConfig config)
+	{
+		_config = config;
+		_latestData = GetSaveFile();
+	}
+
+	private static void CheckForInit()
+	{
+		if (_config == null)
+		{
+			throw new FBPPInitException(INIT_EXCEPTION_MESSAGE);
+		}
+	}
+
+	#endregion
+
 
 	#region Public Get, Set and util
 
-	public static void SetString(string key, string value = STRING_EMPTY)
+	public static void SetString(string key, string value = String_Empty)
 	{
 		AddDataToSaveFile(key, value);
 	}
 
-	public static string GetString(string key, string defaultValue = STRING_EMPTY)
+	public static string GetString(string key, string defaultValue = String_Empty)
 	{
 		return (string)GetDataFromSaveFile(key, defaultValue);
 	}
@@ -53,19 +69,6 @@ public static class FileBasedPrefs
 	public static float GetFloat(string key, float defaultValue = default)
 	{
 		return (float)GetDataFromSaveFile(key, defaultValue);
-	}
-
-	public static string GetSteamUserPath()
-	{
-		string playerId = "UnknownPlayer";
-
-		if (SteamClient.IsValid) playerId = SteamClient.SteamId.ToString();
-
-		string path = Path.Combine(Application.persistentDataPath, playerId);
-
-		if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-
-		return path;
 	}
 
 	public static void SetBool(string key, bool value = default)
@@ -135,93 +138,118 @@ public static class FileBasedPrefs
 
 	public static void DeleteAll()
 	{
-		latestData = new FileBasedPrefsSaveFileModel();
-		WriteToSaveFile(JsonUtility.ToJson(latestData));
+		WriteToSaveFile(JsonUtility.ToJson(new FileBasedPrefsSaveFileModel()));
+		_latestData = new FileBasedPrefsSaveFileModel();
 	}
 
 	public static void OverwriteLocalSaveFile(string data)
 	{
 		WriteToSaveFile(data);
-		latestData = null;
+		_latestData = null;
+		_latestData = GetSaveFile();
 	}
 
+
 	#endregion
+
+
 
 	#region Read data
 
 	public static FileBasedPrefsSaveFileModel GetSaveFile()
 	{
+		CheckForInit();
 		CheckSaveFileExists();
-		if (latestData != null) return latestData;
-		string saveFileText = File.ReadAllText(GetSaveFilePath());
-
-		if (SCRAMBLE_SAVE_DATA) saveFileText = DataScrambler(saveFileText);
-
-		try
+		if (_latestData == null)
 		{
-			latestData = JsonUtility.FromJson<FileBasedPrefsSaveFileModel>(saveFileText);
+			var saveFileText = File.ReadAllText(GetSaveFilePath());
+			if (_config.ScrambleSaveData)
+			{
+				saveFileText = DataScrambler(saveFileText);
+			}
+			try
+			{
+				_latestData = JsonUtility.FromJson<FileBasedPrefsSaveFileModel>(saveFileText);
+			}
+			catch (ArgumentException e)
+			{
+				Debug.LogException(new Exception("FBPP Error loading save file: " + e.Message));
+				if (_config.OnLoadError != null)
+				{
+					_config.OnLoadError.Invoke();
+				}
+				else
+				{
+					DeleteAll();
+				}
+			}
 		}
-		catch (ArgumentException e)
-		{
-			Debug.LogException(new Exception("SAVE FILE IN WRONG FORMAT, CREATING NEW SAVE FILE : " + e.Message));
-			DeleteAll();
-		}
-
-		return latestData;
+		return _latestData;
 	}
 
 	public static string GetSaveFilePath()
 	{
-		return Path.Combine(GetSteamUserPath(), SAVE_FILE_NAME);
+		CheckForInit();
+		return Path.Combine(_config.GetSaveFilePath(), _config.SaveFileName);
 	}
+
+
 
 	public static string GetSaveFileAsJson()
 	{
+		CheckForInit();
 		CheckSaveFileExists();
-		return File.ReadAllText(GetSaveFilePath());
+		return JsonUtility.ToJson(GetSaveFile());
 	}
 
 	private static object GetDataFromSaveFile(string key, object defaultValue)
 	{
-		return GetSaveFile().GetValueFromKey(key, defaultValue);
+		return GetSaveFile().GetValueForKey(key, defaultValue);
 	}
 
 	#endregion
+
 
 	#region write data
 
 	private static void AddDataToSaveFile(string key, object value)
 	{
+		CheckForInit();
 		GetSaveFile().UpdateOrAddData(key, value);
 		SaveSaveFile();
 	}
 
+	public static void Save()
+	{
+		CheckForInit();
+		SaveSaveFile(true);
+	}
+
 	public static void ManualSave()
 	{
-		SaveSaveFile(true);
+		Save();
 	}
 
 	private static void SaveSaveFile(bool manualSave = false)
 	{
-		if (AUTO_SAVE_DATA || manualSave)
+		if (_config.AutoSaveData || manualSave)
 		{
 			WriteToSaveFile(JsonUtility.ToJson(GetSaveFile()));
 		}
 	}
-
 	private static void WriteToSaveFile(string data)
 	{
-		StreamWriter tw = new StreamWriter(GetSaveFilePath());
-		if (SCRAMBLE_SAVE_DATA)
+		var tw = new StreamWriter(GetSaveFilePath());
+		if (_config.ScrambleSaveData)
 		{
 			data = DataScrambler(data);
 		}
-
 		tw.Write(data);
 		tw.Close();
 	}
 
 	#endregion
+
 
 	#region File Utils
 
@@ -243,17 +271,18 @@ public static class FileBasedPrefs
 		WriteToSaveFile(JsonUtility.ToJson(new FileBasedPrefsSaveFileModel()));
 	}
 
-	public static string DataScrambler(string data)
+	private static string DataScrambler(string data)
 	{
-		StringBuilder.Clear();
+		_sb.Clear();
 
 		for (int i = 0; i < data.Length; i++)
 		{
-			StringBuilder.Append((char)(data[i] ^ ENCRYPTION_CODEWORD[i % ENCRYPTION_CODEWORD.Length]));
+			_sb.Append((char)(data[i] ^ _config.EncryptionSecret[i % _config.EncryptionSecret.Length]));
 		}
-
-		return StringBuilder.ToString();
+		return _sb.ToString();
 	}
 
 	#endregion
 }
+
+

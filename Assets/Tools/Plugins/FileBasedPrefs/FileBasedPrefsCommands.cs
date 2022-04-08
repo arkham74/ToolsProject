@@ -4,7 +4,7 @@ using IngameDebugConsole;
 using UnityEngine;
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-public static class FilePrefsCommands
+public static class FileBasedPrefsCommands
 {
 	[ConsoleMethod("fileprefs.list", "List all keys"), UnityEngine.Scripting.Preserve]
 	public static void ListKeys()

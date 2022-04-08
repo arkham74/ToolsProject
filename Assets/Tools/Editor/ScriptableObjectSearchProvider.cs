@@ -15,7 +15,6 @@ using Text = TMPro.TextMeshProUGUI;
 using Tag = NaughtyAttributes.TagAttribute;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using System.IO;
 #if ENABLE_INPUT_SYSTEM
@@ -51,8 +50,8 @@ public class ScriptableObjectSearchProvider : ScriptableObject, ISearchWindowPro
 		{
 			if (item.IsSubclassOf(typeof(Editor))) continue;
 			if (item.IsSubclassOf(typeof(EditorWindow))) continue;
-			if (item.IsSubclassOf(typeof(ScriptableRendererFeature))) continue;
 			if (item.IsSubclassOf(typeof(VolumeComponent))) continue;
+			// if (item.IsSubclassOf(typeof(UnityEngine.Rendering.Universal.ScriptableRendererFeature))) continue;
 			if (item.IsAbstract) continue;
 			if (item.IsNotPublic) continue;
 			if (!item.IsPublic) continue;

@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public static class DeleteLocalSaveEditor
 {
@@ -9,8 +10,13 @@ public static class DeleteLocalSaveEditor
 	public static void OpenLocalSave()
 	{
 		string path = Path.GetDirectoryName(Application.persistentDataPath);
-		if (!Directory.Exists(path)) return;
-		ProcessStartInfo startInfo = new ProcessStartInfo {Arguments = path, FileName = "explorer.exe"};
+		path = Path.Combine(path, Application.productName);
+		Directory.CreateDirectory(path);
+		ProcessStartInfo startInfo = new ProcessStartInfo
+		{
+			Arguments = path,
+			FileName = "explorer.exe"
+		};
 		Process.Start(startInfo);
 	}
 
@@ -18,8 +24,12 @@ public static class DeleteLocalSaveEditor
 	public static void DeleteLocalSave()
 	{
 		string path = Application.persistentDataPath;
-		if (!Directory.Exists(path)) return;
-		if (!EditorUtility.DisplayDialog("Delete save", "Delete local save?", "Yes", "No")) return;
-		Directory.Delete(path, true);
+		if (Directory.Exists(path))
+		{
+			if (EditorUtility.DisplayDialog("Delete save", "Delete local save?", "Yes", "No"))
+			{
+				Directory.Delete(path, true);
+			}
+		}
 	}
 }
