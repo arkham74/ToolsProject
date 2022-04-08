@@ -22,6 +22,19 @@ public static class FileBasedPrefs
 
 	#region Init
 
+	public static void Init(string name, string secret, string user)
+	{
+		string path = Path.Combine(Application.persistentDataPath, user);
+		Directory.CreateDirectory(path);
+		FileBasedPrefsConfig config = new FileBasedPrefsConfig()
+		{
+			SaveFileName = name,
+			EncryptionSecret = secret,
+			SaveFilePath = path,
+		};
+		Start(config);
+	}
+
 	public static void Start(FileBasedPrefsConfig config)
 	{
 		_config = config;
