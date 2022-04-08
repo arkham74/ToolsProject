@@ -108,7 +108,7 @@ public static class FileBasedPrefsCommands
 	public static void ResetPlayerPrefs()
 	{
 		FileBasedPrefs.DeleteAll();
-		FileBasedPrefs.ManualSave();
+		FileBasedPrefs.Save();
 	}
 }
 #endif

@@ -20,6 +20,12 @@ public static class FileBasedPrefs
 
 	const string String_Empty = "";
 
+	public static bool AutoSaveData
+	{
+		get => _config.AutoSaveData;
+		set => _config.AutoSaveData = value;
+	}
+
 	#region Init
 
 	public static void Init(string name, string secret, string user)
@@ -175,7 +181,12 @@ public static class FileBasedPrefs
 		CheckSaveFileExists();
 		if (_latestData == null)
 		{
-			var saveFileText = File.ReadAllText(GetSaveFilePath());
+			var path = GetSaveFilePath();
+
+			File.Copy(path, $"{path}_backup_{DateTime.Now:yyyy-MM-dd-HH-mm-ss}");
+
+			var saveFileText = File.ReadAllText(path);
+
 			if (_config.ScrambleSaveData)
 			{
 				saveFileText = DataScrambler(saveFileText);
@@ -240,11 +251,6 @@ public static class FileBasedPrefs
 	{
 		CheckForInit();
 		SaveSaveFile(true);
-	}
-
-	public static void ManualSave()
-	{
-		Save();
 	}
 
 	private static void SaveSaveFile(bool manualSave = false)
