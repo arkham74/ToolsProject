@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class Manager<T> : MonoBehaviour where T : MonoBehaviour
 {
 	public static T Instance { get; private set; }
 	public static bool IsInitialized => Instance != null;

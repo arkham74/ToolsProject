@@ -14,6 +14,6 @@ using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 using Tag = NaughtyAttributes.TagAttribute;
 
-public class FPSGraph : SingletonBase<FPSGraph>
+public class FPSGraph : Manager<FPSGraph>
 {
 }

@@ -21,12 +21,4 @@ public abstract class ScriptableObjectSingleton<T> : ScriptableObject where T : 
 			return instance;
 		}
 	}
-
-	// private void Awake()
-	// {
-	// 	Init();
-	// 	Debug.Log($"{typeof(T).Name} initialized", Instance);
-	// }
-
-	// protected abstract void Init();
 }
