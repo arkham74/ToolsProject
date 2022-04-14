@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
+#if UNITY_EDITOR
 public class FileBasedPrefsEditorWindow : EditorWindow
 {
 	private string key;
@@ -201,3 +202,4 @@ public class FileBasedPrefsEditorWindow : EditorWindow
 		EditorGUILayout.EndHorizontal();
 	}
 }
+#endif
