@@ -34,7 +34,8 @@ public class ColorBlockSync : MonoBehaviour
 
 	private void Update()
 	{
-		selectable.colors = data.colorBlock;
+		if (data)
+			selectable.colors = data.colorBlock;
 	}
 #endif
 }

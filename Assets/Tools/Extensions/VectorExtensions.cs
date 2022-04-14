@@ -439,6 +439,11 @@ public static class VectorExtensions
 		return velocityChange;
 	}
 
+	public static float CalculateVelocityChange(this float targetVelocity, float currentVelocity)
+	{
+		return targetVelocity - currentVelocity;
+	}
+
 	public static Vector3 CalculateVelocityChange(this Vector3 targetVelocity, Vector3 currentVelocity, Vector3 maxChange)
 	{
 		Vector3 velocityChange = targetVelocity - currentVelocity;
@@ -467,6 +472,11 @@ public static class VectorExtensions
 	}
 
 	public static Vector3 CalculateVelocityChange(this Vector3 targetVelocity, Vector3 currentVelocity)
+	{
+		return targetVelocity - currentVelocity;
+	}
+
+	public static Vector2 CalculateVelocityChange(this Vector2 targetVelocity, Vector2 currentVelocity)
 	{
 		return targetVelocity - currentVelocity;
 	}

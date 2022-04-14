@@ -39,7 +39,10 @@ public static class AssetTools
 
 	public static T FindAssetByType<T>() where T : Object
 	{
-		return FindAssetsByType<T>()[0];
+		T[] ts = FindAssetsByType<T>();
+		if (ts.Length > 0)
+			return ts[0];
+		return null;
 	}
 }
 #endif

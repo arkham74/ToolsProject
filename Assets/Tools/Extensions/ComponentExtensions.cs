@@ -41,12 +41,12 @@ public static class ComponentExtensions
 		go.SetActive(true);
 	}
 
-	public static void DisableGameObject(this MonoBehaviour go)
+	public static void DisableGameObject(this Component go)
 	{
 		go.gameObject.SetActive(false);
 	}
 
-	public static void EnableGameObject(this MonoBehaviour go)
+	public static void EnableGameObject(this Component go)
 	{
 		go.gameObject.SetActive(true);
 	}
