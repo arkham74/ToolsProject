@@ -1,3 +1,4 @@
+#if TOOLS_URP
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -111,6 +112,8 @@ namespace Cyan
 					Shader.SetGlobalMatrix("_InverseView", renderingData.cameraData.camera.cameraToWorldMatrix);
 				}
 
+				Shader.SetGlobalFloat("_UnscaledTime", Time.unscaledTime);
+
 				if (settings.dstType == Target.TextureID)
 				{
 					if (settings.overrideGraphicsFormat)
@@ -151,3 +154,4 @@ namespace Cyan
 		}
 	}
 }
+#endif

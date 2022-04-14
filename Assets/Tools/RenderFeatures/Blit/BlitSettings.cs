@@ -1,3 +1,4 @@
+#if TOOLS_URP
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -46,3 +47,4 @@ namespace Cyan
 		}
 	}
 }
+#endif

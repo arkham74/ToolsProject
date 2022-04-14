@@ -1,3 +1,4 @@
+#if TOOLS_URP
 using UnityEngine;
 using UnityEditor;
 
@@ -90,3 +91,4 @@ namespace Cyan
 		}
 	}
 }
+#endif
