@@ -825,7 +825,7 @@ namespace IngameDebugConsole
 
 				if (text.Length > 0)
 				{
-					if (commandHistory.Count == 0 || commandHistory[commandHistory.Count - 1] != text) commandHistory.Add(text);
+					if (commandHistory.Count == 0 || commandHistory[^1] != text) commandHistory.Add(text);
 
 					commandHistoryIndex = -1;
 					unfinishedCommand = null;
@@ -854,7 +854,7 @@ namespace IngameDebugConsole
 			int logLength = logString.Length;
 			if (stackTrace == null)
 			{
-				if (logLength > maxLogLength) logString = logString.Substring(0, maxLogLength - 11) + "<truncated>";
+				if (logLength > maxLogLength) logString = logString[..(maxLogLength - 11)] + "<truncated>";
 			}
 			else
 			{
@@ -868,21 +868,21 @@ namespace IngameDebugConsole
 						if (stackTrace.Length >= halfMaxLogLength)
 						{
 							// Truncate both logString and stackTrace
-							logString = logString.Substring(0, halfMaxLogLength - 11) + "<truncated>";
+							logString = logString[..(halfMaxLogLength - 11)] + "<truncated>";
 
 							// If stackTrace doesn't end with a blank line, its last line won't be visible in the console for some reason
-							stackTrace = stackTrace.Substring(0, halfMaxLogLength - 12) + "<truncated>\n";
+							stackTrace = stackTrace[..(halfMaxLogLength - 12)] + "<truncated>\n";
 						}
 						else
 						{
 							// Truncate logString
-							logString = logString.Substring(0, maxLogLength - stackTrace.Length - 11) + "<truncated>";
+							logString = logString[..(maxLogLength - stackTrace.Length - 11)] + "<truncated>";
 						}
 					}
 					else
 					{
 						// Truncate stackTrace
-						stackTrace = stackTrace.Substring(0, maxLogLength - logString.Length - 12) + "<truncated>\n";
+						stackTrace = stackTrace[..(maxLogLength - logString.Length - 12)] + "<truncated>\n";
 					}
 				}
 			}
@@ -902,7 +902,7 @@ namespace IngameDebugConsole
 			DebugLogEntry logEntry;
 			if (pooledLogEntries.Count > 0)
 			{
-				logEntry = pooledLogEntries[pooledLogEntries.Count - 1];
+				logEntry = pooledLogEntries[^1];
 				pooledLogEntries.RemoveAt(pooledLogEntries.Count - 1);
 			}
 			else
@@ -1026,8 +1026,8 @@ namespace IngameDebugConsole
 		// Omits the latest log's stack trace
 		public void StripStackTraceFromLatestPendingLog()
 		{
-			QueuedDebugLogEntry log = queuedLogEntries[queuedLogEntries.Count - 1];
-			queuedLogEntries[queuedLogEntries.Count - 1] = new QueuedDebugLogEntry(log.logString, string.Empty, log.logType);
+			QueuedDebugLogEntry log = queuedLogEntries[^1];
+			queuedLogEntries[^1] = new QueuedDebugLogEntry(log.logString, string.Empty, log.logType);
 		}
 
 		// Clear all the logs
@@ -1534,7 +1534,7 @@ namespace IngameDebugConsole
 			// create a new log item otherwise
 			if (pooledLogItems.Count > 0)
 			{
-				newLogItem = pooledLogItems[pooledLogItems.Count - 1];
+				newLogItem = pooledLogItems[^1];
 				pooledLogItems.RemoveAt(pooledLogItems.Count - 1);
 
 				newLogItem.CanvasGroup.alpha = 1f;

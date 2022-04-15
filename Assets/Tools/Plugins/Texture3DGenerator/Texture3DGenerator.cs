@@ -4,6 +4,9 @@ using Unity.Jobs;
 using UnityEditor;
 using UnityEditor.AssetImporters;
 using UnityEngine;
+using Unity.Burst;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 namespace Texture3DGenerator
 {
@@ -17,6 +20,7 @@ namespace Texture3DGenerator
 			public Vector3 offset;
 		}
 
+		[BurstCompile]
 		private struct NoiseJob : IJobParallelFor
 		{
 			[ReadOnly] public NoiseData data;
@@ -30,7 +34,7 @@ namespace Texture3DGenerator
 			private static Color32 CalculateNoise(int index, NoiseData data)
 			{
 				int x = index % data.size;
-				int y = (index / data.size) % data.size;
+				int y = index / data.size % data.size;
 				int z = index / (data.size * data.size);
 				float size = data.size;
 				float scale = data.scale;
@@ -54,6 +58,7 @@ namespace Texture3DGenerator
 		public TextureFormat format = TextureFormat.RGBA32;
 		public TextureWrapMode wrapMode = TextureWrapMode.Mirror;
 		public Mode mode;
+		private Stopwatch watch = new Stopwatch();
 
 		private static readonly int NoiseId = Shader.PropertyToID("_Noise"),
 			SizeId = Shader.PropertyToID("_Size"),
@@ -67,6 +72,8 @@ namespace Texture3DGenerator
 			Texture3D texture = new Texture3D(size, size, size, format, false) { wrapMode = wrapMode };
 
 			Color32[] colors;
+
+			watch.Restart();
 
 			switch (mode)
 			{
@@ -84,6 +91,10 @@ namespace Texture3DGenerator
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+
+			watch.Stop();
+
+			Debug.LogWarning(watch.Elapsed.TotalSeconds);
 
 			texture.SetPixels32(colors);
 			texture.Apply();
@@ -136,6 +147,7 @@ namespace Texture3DGenerator
 			NoiseData data = new NoiseData { offset = offset, scale = scale, size = size };
 			NativeArray<Color32> result = new NativeArray<Color32>(size * size * size, Allocator.TempJob);
 			NoiseJob job = new NoiseJob { data = data, result = result };
+			// job.Run(result.Length);
 			JobHandle handle = job.Schedule(result.Length, 1);
 			handle.Complete();
 			return result;

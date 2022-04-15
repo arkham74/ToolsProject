@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -274,6 +275,8 @@ public static class CollectionsExtensions
 
 	public static void LogWarning<T>(this IEnumerable<T> array)
 	{
+		var sb = new StringBuilder();
+
 		if (array == null)
 		{
 			Debug.LogWarning("Array is NULL");
@@ -286,12 +289,13 @@ public static class CollectionsExtensions
 			return;
 		}
 
+		int i = 0;
 		foreach (T item in array)
 		{
-			if (item is Object obj)
-				Debug.LogWarning(item, obj);
-			else
-				Debug.LogWarning(item);
+			sb.AppendFormat($"[{i}] {item}\n");
+			i++;
 		}
+
+		Debug.LogWarning(sb);
 	}
 }

@@ -11,6 +11,19 @@ using Random = UnityEngine.Random;
 
 public static class ConsoleCommands
 {
+	[ConsoleMethod("show.cursor", "Show/Hide cursor"), UnityEngine.Scripting.Preserve]
+	public static void ShowCursor()
+	{
+		ShowCursor(!Cursor.visible);
+	}
+
+	[ConsoleMethod("show.cursor", "Show/Hide cursor"), UnityEngine.Scripting.Preserve]
+	public static void ShowCursor(bool value = true)
+	{
+		Cursor.visible = value;
+		Cursor.lockState = value ? CursorLockMode.None : CursorLockMode.Locked;
+	}
+
 	[ConsoleMethod("fps", "Shows fps counter"), UnityEngine.Scripting.Preserve]
 	public static void ShowFps()
 	{
