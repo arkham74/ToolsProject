@@ -294,7 +294,7 @@ public static class FileBasedPrefs
 		WriteToSaveFile(JsonUtility.ToJson(new FileBasedPrefsSaveFileModel()));
 	}
 
-	private static string DataScrambler(string data)
+	public static string DataScrambler(string data)
 	{
 		_sb.Clear();
 
