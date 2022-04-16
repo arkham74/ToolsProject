@@ -94,7 +94,7 @@ public sealed class PixelCollider2D : MonoBehaviour
 				Keep_Looping = false;
 				for (int p = 0; p < Unit_Paths.Count; p++)
 				{
-					if (Current_Path[Current_Path.Count - 1] == Unit_Paths[p][0])
+					if (Current_Path[^1] == Unit_Paths[p][0])
 					{
 						Keep_Looping = true;
 						Current_Path.RemoveAt(Current_Path.Count - 1);
@@ -102,7 +102,7 @@ public sealed class PixelCollider2D : MonoBehaviour
 						Unit_Paths.RemoveAt(p);
 						p--;
 					}
-					else if (Current_Path[0] == Unit_Paths[p][Unit_Paths[p].Count - 1])
+					else if (Current_Path[0] == Unit_Paths[p][^1])
 					{
 						Keep_Looping = true;
 						Current_Path.RemoveAt(0);
@@ -114,7 +114,7 @@ public sealed class PixelCollider2D : MonoBehaviour
 					{
 						List<Vector2Int> Flipped_Path = new List<Vector2Int>(Unit_Paths[p]);
 						Flipped_Path.Reverse();
-						if (Current_Path[Current_Path.Count - 1] == Flipped_Path[0])
+						if (Current_Path[^1] == Flipped_Path[0])
 						{
 							Keep_Looping = true;
 							Current_Path.RemoveAt(Current_Path.Count - 1);
@@ -122,7 +122,7 @@ public sealed class PixelCollider2D : MonoBehaviour
 							Unit_Paths.RemoveAt(p);
 							p--;
 						}
-						else if (Current_Path[0] == Flipped_Path[Flipped_Path.Count - 1])
+						else if (Current_Path[0] == Flipped_Path[^1])
 						{
 							Keep_Looping = true;
 							Current_Path.RemoveAt(0);
@@ -146,7 +146,7 @@ public sealed class PixelCollider2D : MonoBehaviour
 				Vector2Int Start;
 				if (po == 0)
 				{
-					Start = Input_Paths[pa][Input_Paths[pa].Count - 1];
+					Start = Input_Paths[pa][^1];
 				}
 				else
 				{

@@ -99,7 +99,7 @@ namespace IngameDebugConsole
 
 		private DebugLogRecycledListView listView;
 
-		public void Initialize( DebugLogRecycledListView listView )
+		public void Initialize(DebugLogRecycledListView listView)
 		{
 			this.listView = listView;
 
@@ -112,7 +112,7 @@ namespace IngameDebugConsole
 #endif
 		}
 
-		public void SetContent( DebugLogEntry logEntry, DebugLogEntryTimestamp? logEntryTimestamp, int entryIndex, bool isExpanded )
+		public void SetContent(DebugLogEntry logEntry, DebugLogEntryTimestamp? logEntryTimestamp, int entryIndex, bool isExpanded)
 		{
 			this.logEntry = logEntry;
 			this.logEntryTimestamp = logEntryTimestamp;
@@ -120,17 +120,17 @@ namespace IngameDebugConsole
 			this.isExpanded = isExpanded;
 
 			Vector2 size = transformComponent.sizeDelta;
-			if( isExpanded )
+			if (isExpanded)
 			{
 				logText.horizontalOverflow = HorizontalWrapMode.Wrap;
 				size.y = listView.SelectedItemHeight;
 
-				if( !copyLogButton.gameObject.activeSelf )
+				if (!copyLogButton.gameObject.activeSelf)
 				{
-					copyLogButton.gameObject.SetActive( true );
+					copyLogButton.gameObject.SetActive(true);
 
-					logText.rectTransform.anchoredPosition = new Vector2( logTextOriginalPosition.x, logTextOriginalPosition.y + copyLogButtonHeight * 0.5f );
-					logText.rectTransform.sizeDelta = logTextOriginalSize - new Vector2( 0f, copyLogButtonHeight );
+					logText.rectTransform.anchoredPosition = new Vector2(logTextOriginalPosition.x, logTextOriginalPosition.y + copyLogButtonHeight * 0.5f);
+					logText.rectTransform.sizeDelta = logTextOriginalSize - new Vector2(0f, copyLogButtonHeight);
 				}
 			}
 			else
@@ -138,9 +138,9 @@ namespace IngameDebugConsole
 				logText.horizontalOverflow = HorizontalWrapMode.Overflow;
 				size.y = listView.ItemHeight;
 
-				if( copyLogButton.gameObject.activeSelf )
+				if (copyLogButton.gameObject.activeSelf)
 				{
-					copyLogButton.gameObject.SetActive( false );
+					copyLogButton.gameObject.SetActive(false);
 
 					logText.rectTransform.anchoredPosition = logTextOriginalPosition;
 					logText.rectTransform.sizeDelta = logTextOriginalSize;
@@ -149,7 +149,7 @@ namespace IngameDebugConsole
 
 			transformComponent.sizeDelta = size;
 
-			SetText( logEntry, logEntryTimestamp, isExpanded );
+			SetText(logEntry, logEntryTimestamp, isExpanded);
 			logTypeImage.sprite = logEntry.logTypeSpriteRepresentation;
 		}
 
@@ -158,44 +158,44 @@ namespace IngameDebugConsole
 		{
 			logCountText.text = logEntry.count.ToString();
 
-			if( !logCountParent.activeSelf )
-				logCountParent.SetActive( true );
+			if (!logCountParent.activeSelf)
+				logCountParent.SetActive(true);
 		}
 
 		// Hide the collapsed count of the debug entry
 		public void HideCount()
 		{
-			if( logCountParent.activeSelf )
-				logCountParent.SetActive( false );
+			if (logCountParent.activeSelf)
+				logCountParent.SetActive(false);
 		}
 
 		// Update the debug entry's displayed timestamp
-		public void UpdateTimestamp( DebugLogEntryTimestamp timestamp )
+		public void UpdateTimestamp(DebugLogEntryTimestamp timestamp)
 		{
 			logEntryTimestamp = timestamp;
 
-			if( isExpanded || listView.manager.alwaysDisplayTimestamps )
-				SetText( logEntry, timestamp, isExpanded );
+			if (isExpanded || listView.manager.alwaysDisplayTimestamps)
+				SetText(logEntry, timestamp, isExpanded);
 		}
 
-		private void SetText( DebugLogEntry logEntry, DebugLogEntryTimestamp? logEntryTimestamp, bool isExpanded )
+		private void SetText(DebugLogEntry logEntry, DebugLogEntryTimestamp? logEntryTimestamp, bool isExpanded)
 		{
-			if( !logEntryTimestamp.HasValue || ( !isExpanded && !listView.manager.alwaysDisplayTimestamps ) )
+			if (!logEntryTimestamp.HasValue || (!isExpanded && !listView.manager.alwaysDisplayTimestamps))
 				logText.text = isExpanded ? logEntry.ToString() : logEntry.logString;
 			else
 			{
 				StringBuilder sb = listView.manager.sharedStringBuilder;
 				sb.Length = 0;
 
-				if( isExpanded )
+				if (isExpanded)
 				{
-					logEntryTimestamp.Value.AppendFullTimestamp( sb );
-					sb.Append( ": " ).Append( logEntry.ToString() );
+					logEntryTimestamp.Value.AppendFullTimestamp(sb);
+					sb.Append(": ").Append(logEntry.ToString());
 				}
 				else
 				{
-					logEntryTimestamp.Value.AppendTime( sb );
-					sb.Append( " " ).Append( logEntry.logString );
+					logEntryTimestamp.Value.AppendTime(sb);
+					sb.Append(" ").Append(logEntry.logString);
 				}
 
 				logText.text = sb.ToString();
@@ -203,23 +203,23 @@ namespace IngameDebugConsole
 		}
 
 		// This log item is clicked, show the debug entry's stack trace
-		public void OnPointerClick( PointerEventData eventData )
+		public void OnPointerClick(PointerEventData eventData)
 		{
 #if UNITY_EDITOR
-			if( eventData.button == PointerEventData.InputButton.Right )
+			if (eventData.button == PointerEventData.InputButton.Right)
 			{
-				Match regex = Regex.Match( logEntry.stackTrace, @"\(at .*\.cs:[0-9]+\)$", RegexOptions.Multiline );
-				if( regex.Success )
+				Match regex = Regex.Match(logEntry.stackTrace, @"\(at .*\.cs:[0-9]+\)$", RegexOptions.Multiline);
+				if (regex.Success)
 				{
-					string line = logEntry.stackTrace.Substring( regex.Index + 4, regex.Length - 5 );
-					int lineSeparator = line.IndexOf( ':' );
-					MonoScript script = AssetDatabase.LoadAssetAtPath<MonoScript>( line.Substring( 0, lineSeparator ) );
-					if( script != null )
-						AssetDatabase.OpenAsset( script, int.Parse( line.Substring( lineSeparator + 1 ) ) );
+					string line = logEntry.stackTrace.Substring(regex.Index + 4, regex.Length - 5);
+					int lineSeparator = line.IndexOf(':');
+					MonoScript script = AssetDatabase.LoadAssetAtPath<MonoScript>(line[..lineSeparator]);
+					if (script != null)
+						AssetDatabase.OpenAsset(script, int.Parse(line[(lineSeparator + 1)..]));
 				}
 			}
 			else
-				listView.OnLogItemClicked( this );
+				listView.OnLogItemClicked(this);
 #else
 			listView.OnLogItemClicked( this );
 #endif
@@ -229,10 +229,10 @@ namespace IngameDebugConsole
 		{
 #if UNITY_EDITOR || !UNITY_WEBGL
 			string log = GetCopyContent();
-			if( string.IsNullOrEmpty( log ) )
+			if (string.IsNullOrEmpty(log))
 				return;
 
-#if UNITY_EDITOR || UNITY_2018_1_OR_NEWER || ( !UNITY_ANDROID && !UNITY_IOS )
+#if UNITY_EDITOR || UNITY_2018_1_OR_NEWER || (!UNITY_ANDROID && !UNITY_IOS)
 			GUIUtility.systemCopyBuffer = log;
 #elif UNITY_ANDROID
 			AJC.CallStatic( "CopyText", Context, log );
@@ -244,26 +244,26 @@ namespace IngameDebugConsole
 
 		internal string GetCopyContent()
 		{
-			if( !logEntryTimestamp.HasValue )
+			if (!logEntryTimestamp.HasValue)
 				return logEntry.ToString();
 			else
 			{
 				StringBuilder sb = listView.manager.sharedStringBuilder;
 				sb.Length = 0;
 
-				logEntryTimestamp.Value.AppendFullTimestamp( sb );
-				sb.Append( ": " ).Append( logEntry.ToString() );
+				logEntryTimestamp.Value.AppendFullTimestamp(sb);
+				sb.Append(": ").Append(logEntry.ToString());
 
 				return sb.ToString();
 			}
 		}
 
-		public float CalculateExpandedHeight( DebugLogEntry logEntry, DebugLogEntryTimestamp? logEntryTimestamp )
+		public float CalculateExpandedHeight(DebugLogEntry logEntry, DebugLogEntryTimestamp? logEntryTimestamp)
 		{
 			string text = logText.text;
 			HorizontalWrapMode wrapMode = logText.horizontalOverflow;
 
-			SetText( logEntry, logEntryTimestamp, true );
+			SetText(logEntry, logEntryTimestamp, true);
 			logText.horizontalOverflow = HorizontalWrapMode.Wrap;
 
 			float result = logText.preferredHeight + copyLogButtonHeight;
@@ -271,7 +271,7 @@ namespace IngameDebugConsole
 			logText.text = text;
 			logText.horizontalOverflow = wrapMode;
 
-			return Mathf.Max( listView.ItemHeight, result );
+			return Mathf.Max(listView.ItemHeight, result);
 		}
 
 		// Return a string containing complete information about the debug entry

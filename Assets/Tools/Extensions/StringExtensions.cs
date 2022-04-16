@@ -24,12 +24,12 @@ public static class StringExtensions
 
 	public static string TruncateAfterCharacter(this string value, char character)
 	{
-		return string.IsNullOrWhiteSpace(value) ? value : value.Substring(0, value.IndexOf(character));
+		return string.IsNullOrWhiteSpace(value) ? value : value[..value.IndexOf(character)];
 	}
 
 	public static string Truncate(this string value, int maxLength)
 	{
-		return string.IsNullOrWhiteSpace(value) ? value : value.Length <= maxLength ? value : value.Substring(0, maxLength);
+		return string.IsNullOrWhiteSpace(value) ? value : value.Length <= maxLength ? value : value[..maxLength];
 	}
 
 	public static string Cut(this string value, int firstCharacters)
@@ -40,7 +40,7 @@ public static class StringExtensions
 		else if (firstCharacters >= value.Length)
 			return string.Empty;
 		else
-			return value.Substring(firstCharacters, value.Length - firstCharacters);
+			return value[firstCharacters..];
 	}
 
 	public static string Ellipsis(this string value, int maxLength, string trail)

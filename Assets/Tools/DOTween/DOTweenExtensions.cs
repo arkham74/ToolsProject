@@ -79,11 +79,16 @@ public static partial class DOTweenExtensions
 
 	public static void ScrollTo(this ScrollRect scroller, RectTransform target, float duration = 0.5f)
 	{
+		scroller.ScrollTo(target, Vector2.zero, duration);
+	}
+
+	public static void ScrollTo(this ScrollRect scroller, RectTransform target, Vector2 offset, float duration = 0.5f)
+	{
 		Canvas.ForceUpdateCanvases();
 
 		Vector2 contentPos = scroller.transform.InverseTransformPoint(scroller.content.position);
 		Vector2 childPos = scroller.transform.InverseTransformPoint(target.position);
-		Vector2 endPos = contentPos - childPos;
+		Vector2 endPos = contentPos - childPos + offset;
 
 		if (!scroller.horizontal)
 		{
@@ -95,7 +100,9 @@ public static partial class DOTweenExtensions
 			endPos.y = contentPos.y;
 		}
 
-		DOTween.To(() => scroller.content.anchoredPosition, x => scroller.content.anchoredPosition = x, endPos, duration);
+		scroller.content.DOKill();
+		scroller.content.DOAnchorPos(endPos, duration);
+		// DOTween.To(() => scroller.content.anchoredPosition, x => scroller.content.anchoredPosition = x, endPos, duration);
 	}
 }
 #endif

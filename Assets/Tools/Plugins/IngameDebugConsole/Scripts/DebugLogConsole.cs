@@ -1051,7 +1051,7 @@ namespace IngameDebugConsole
 
 		public static bool ParseLong(string input, out object output)
 		{
-			bool result = long.TryParse(!input.EndsWith("L", StringComparison.OrdinalIgnoreCase) ? input : input.Substring(0, input.Length - 1), out long value);
+			bool result = long.TryParse(!input.EndsWith("L", StringComparison.OrdinalIgnoreCase) ? input : input[..^1], out long value);
 
 			output = value;
 			return result;
@@ -1059,7 +1059,7 @@ namespace IngameDebugConsole
 
 		public static bool ParseULong(string input, out object output)
 		{
-			bool result = ulong.TryParse(!input.EndsWith("L", StringComparison.OrdinalIgnoreCase) ? input : input.Substring(0, input.Length - 1), out ulong value);
+			bool result = ulong.TryParse(!input.EndsWith("L", StringComparison.OrdinalIgnoreCase) ? input : input[..^1], out ulong value);
 
 			output = value;
 			return result;
@@ -1107,7 +1107,7 @@ namespace IngameDebugConsole
 
 		public static bool ParseFloat(string input, out object output)
 		{
-			bool result = float.TryParse(!input.EndsWith("f", StringComparison.OrdinalIgnoreCase) ? input : input.Substring(0, input.Length - 1), out float value);
+			bool result = float.TryParse(!input.EndsWith("f", StringComparison.OrdinalIgnoreCase) ? input : input[..^1], out float value);
 
 			output = value;
 			return result;
@@ -1115,7 +1115,7 @@ namespace IngameDebugConsole
 
 		public static bool ParseDouble(string input, out object output)
 		{
-			bool result = double.TryParse(!input.EndsWith("f", StringComparison.OrdinalIgnoreCase) ? input : input.Substring(0, input.Length - 1), out double value);
+			bool result = double.TryParse(!input.EndsWith("f", StringComparison.OrdinalIgnoreCase) ? input : input[..^1], out double value);
 
 			output = value;
 			return result;
@@ -1123,7 +1123,7 @@ namespace IngameDebugConsole
 
 		public static bool ParseDecimal(string input, out object output)
 		{
-			bool result = decimal.TryParse(!input.EndsWith("f", StringComparison.OrdinalIgnoreCase) ? input : input.Substring(0, input.Length - 1), out decimal value);
+			bool result = decimal.TryParse(!input.EndsWith("f", StringComparison.OrdinalIgnoreCase) ? input : input[..^1], out decimal value);
 
 			output = value;
 			return result;
@@ -1221,8 +1221,8 @@ namespace IngameDebugConsole
 				int orIndex = input.IndexOf('|', i);
 				int andIndex = input.IndexOf('&', i);
 				enumStr = orIndex < 0
-										? input.Substring(i, (andIndex < 0 ? input.Length : andIndex) - i).Trim()
-										: input.Substring(i, (andIndex < 0 ? orIndex : Mathf.Min(andIndex, orIndex)) - i).Trim();
+										? input[i..(andIndex < 0 ? input.Length : andIndex)].Trim()
+										: input[i..(andIndex < 0 ? orIndex : Mathf.Min(andIndex, orIndex))].Trim();
 
 				if (!int.TryParse(enumStr, out int value))
 				{
