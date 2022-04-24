@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public static class RendererExtensions
+public static class RectTransformExtensions
 {
 	/// <summary>
 	/// Counts the bounding box corners of the given RectTransform that are visible from the given Camera in screen space.

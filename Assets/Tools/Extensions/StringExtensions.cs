@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -63,5 +64,10 @@ public static class StringExtensions
 	public static int[] StringToIntArray(this string str)
 	{
 		return string.IsNullOrWhiteSpace(str) ? Array.Empty<int>() : str.Split(',').Select(int.Parse).ToArray();
+	}
+
+	public static IOrderedEnumerable<string> Sort(this IEnumerable<string> array)
+	{
+		return array.OrderBy(e => e);
 	}
 }

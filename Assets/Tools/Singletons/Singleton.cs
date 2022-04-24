@@ -3,18 +3,37 @@ using UnityEngine;
 
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-	public static T Instance { get; private set; }
+	private static T level;
+
+	public static bool Valid => level != null;
+
+	public static T Instance
+	{
+		get
+		{
+			if (level == null)
+				level = FindObjectOfType<T>(true);
+			return level;
+		}
+	}
 
 	protected virtual void Awake()
 	{
-		if (Instance == null)
-			Instance = this as T;
-		else if (Instance != this)
-			this.Destroy();
+		if (level == null)
+		{
+			level = this as T;
+		}
+		else if (level != this)
+		{
+			Destroy(gameObject);
+		}
 	}
 
 	protected virtual void OnDestroy()
 	{
-		Instance = null;
+		if (level == this)
+		{
+			level = null;
+		}
 	}
 }

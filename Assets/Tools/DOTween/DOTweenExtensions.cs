@@ -101,7 +101,7 @@ public static partial class DOTweenExtensions
 		}
 
 		scroller.content.DOKill();
-		scroller.content.DOAnchorPos(endPos, duration);
+		scroller.content.DOAnchorPos(endPos, duration).SetUpdate(true);
 		// DOTween.To(() => scroller.content.anchoredPosition, x => scroller.content.anchoredPosition = x, endPos, duration);
 	}
 }

@@ -23,7 +23,7 @@ namespace UnityEngine.Rendering.Universal
 				RenderTextureDescriptor upDescriptor = renderingData.cameraData.cameraTargetDescriptor;
 				RenderTextureDescriptor downDescriptor = renderingData.cameraData.cameraTargetDescriptor;
 				float aspect = (float)downDescriptor.width / downDescriptor.height;
-				downDescriptor.width = Mathf.RoundToInt(aspect * targetRes);
+				downDescriptor.width = Mathf.FloorToInt(aspect * targetRes);
 				downDescriptor.height = targetRes;
 
 				downTargetId = Shader.PropertyToID("downScaleTarget");

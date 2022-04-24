@@ -2,15 +2,30 @@
 using System.Linq;
 using UnityEngine;
 
-// ReSharper disable UnusedMember.Global
-// ReSharper disable MemberCanBePrivate.Global
-
 public static class GameObjectExtensions
 {
-	// public static T FindObjectOfType<T>(bool includeInactive) where T : Object
-	// {
+	public static bool TryGetComponentInChildren<T>(this GameObject gameObject, out T result) where T : Component
+	{
+		return result = gameObject.GetComponentInChildren<T>();
+	}
 
-	// }
+	public static bool TryGetComponentInParent<T>(this GameObject gameObject, out T result) where T : Component
+	{
+		return result = gameObject.GetComponentInParent<T>();
+	}
+
+	public static bool CompareTags(this GameObject gameObject, params string[] tags)
+	{
+		foreach (string tag in tags)
+		{
+			if (gameObject.CompareTag(tag))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	public static void SetChildrenActive(this GameObject go, bool value)
 	{
@@ -52,12 +67,21 @@ public static class GameObjectExtensions
 		}
 	}
 
-	public static void SetTagRecursively(this Component go, string tag)
+	public static void Disable(this GameObject go)
 	{
-		go.tag = tag;
-		foreach (Transform transform in go.transform)
+		go.SetActive(false);
+	}
+
+	public static void Enable(this GameObject go)
+	{
+		go.SetActive(true);
+	}
+
+	public static void GroupSetActive(this IEnumerable<GameObject> components, bool value)
+	{
+		foreach (GameObject item in components)
 		{
-			SetTagRecursively(transform, tag);
+			item.SetActive(value);
 		}
 	}
 }

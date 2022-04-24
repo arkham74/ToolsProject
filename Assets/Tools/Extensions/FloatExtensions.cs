@@ -1,11 +1,22 @@
-using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-public static class BaseTypesExtensions
+public static class FloatExtensions
 {
+	public static IEnumerable<float> Normalize(this IEnumerable<float> array)
+	{
+		float sum = array.Sum();
+		return array.Select(e => e / sum);
+	}
+
+	public static IOrderedEnumerable<float> Sort(this IEnumerable<float> array)
+	{
+		return array.OrderBy(e => e);
+	}
+
 	public static float ClampEuler(this float eulerAngle)
 	{
 		if (eulerAngle >= 180)
@@ -13,24 +24,11 @@ public static class BaseTypesExtensions
 		return eulerAngle;
 	}
 
-	public static int Abs(this int value)
+	public static float ClampAngle(this float lfAngle, float lfMin, float lfMax)
 	{
-		return Mathf.Abs(value);
-	}
-
-	public static int Clamp(this int value, int min, int max)
-	{
-		return Mathf.Clamp(value, min, max);
-	}
-
-	public static int Repeat(this int value, int lenght)
-	{
-		return (int)Mathf.Repeat(value, lenght);
-	}
-
-	public static int LayerToMask(this int layerIndex)
-	{
-		return Mathf.RoundToInt(Mathf.Pow(2, layerIndex));
+		if (lfAngle < -360f) lfAngle += 360f;
+		if (lfAngle > 360f) lfAngle -= 360f;
+		return Mathf.Clamp(lfAngle, lfMin, lfMax);
 	}
 
 	public static float Random(this float value, float start = 0)
@@ -113,40 +111,6 @@ public static class BaseTypesExtensions
 		return Mathf.Clamp(value.Remap(inputMin, inputMax, outputMin, outputMax), outputMin, outputMax);
 	}
 
-	public static bool[] ToBoolArray(this byte b)
-	{
-		bool[] result = new bool[8];
-		for (int i = 0; i < 8; i++)
-		{
-			result[i] = (b & (1 << i)) != 0;
-		}
-
-		Array.Reverse(result);
-		return result;
-	}
-
-	public static int ToInt(this bool value)
-	{
-		return Convert.ToInt32(value);
-	}
-
-	public static byte ToByte(this bool[] source)
-	{
-		byte result = 0;
-		int index = 8 - source.Length;
-		foreach (bool b in source)
-		{
-			if (b)
-			{
-				result |= (byte)(1 << (7 - index));
-			}
-
-			index++;
-		}
-
-		return result;
-	}
-
 	public static int RoundToInt(this float v)
 	{
 		return Mathf.RoundToInt(v);
@@ -211,11 +175,17 @@ public static class BaseTypesExtensions
 	/// <param name="a">The start value</param>
 	/// <param name="b">The end value</param>
 	/// <param name="t">The t-value from 0 to 1 representing position along the lerp</param>
-	public static float Eerp(this float t, float a, float b) => Mathf.Pow(a, 1 - t) * Mathf.Pow(b, t);
+	public static float Eerp(this float t, float a, float b)
+	{
+		return Mathf.Pow(a, 1 - t) * Mathf.Pow(b, t);
+	}
 
 	/// <summary>Inverse exponential interpolation, the multiplicative version of InverseLerp, useful for values such as scaling or zooming</summary>
 	/// <param name="a">The start value</param>
 	/// <param name="b">The end value</param>
 	/// <param name="v">A value between a and b. Note: values outside this range are still valid, and will be extrapolated</param>
-	public static float InverseEerp(this float v, float a, float b) => Mathf.Log(a / v) / Mathf.Log(a / b);
+	public static float InverseEerp(this float v, float a, float b)
+	{
+		return Mathf.Log(a / v) / Mathf.Log(a / b);
+	}
 }

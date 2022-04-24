@@ -2,10 +2,22 @@
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public static class Tools
 {
+	public static bool IsSceneLoaded(string sceneName)
+	{
+		return SceneManager.GetSceneByName(sceneName).name == sceneName;
+	}
+
+	public static void LoadIfNotLoaded(string sceneName, LoadSceneMode loadSceneMode)
+	{
+		if (!IsSceneLoaded(sceneName))
+			SceneManager.LoadScene(sceneName, loadSceneMode);
+	}
+
 	public static bool TryGetArg(string name, out string output)
 	{
 		output = string.Empty;

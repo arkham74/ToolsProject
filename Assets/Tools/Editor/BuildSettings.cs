@@ -36,6 +36,9 @@ public class BuildSettings : ScriptableObject
 
 	private void BuildWithOptions(BuildOptions buildOptions = BuildOptions.None)
 	{
+		string path = Path.GetDirectoryName(locationPathName);
+		if (Directory.Exists(path))
+			Directory.Delete(path, true);
 		BuildPlayerOptions buildPlayerOptions = BuildPlayerOptions();
 		buildPlayerOptions.options |= buildOptions;
 		BuildPipeline.BuildPlayer(buildPlayerOptions);

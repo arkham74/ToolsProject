@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using UnityEngine.InputSystem;
 
-public static class InputExtensions
+public static class InputActionExtensions
 {
 	public static InputBinding GetBinding(this InputAction action, string id)
 	{
