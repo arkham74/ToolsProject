@@ -24,12 +24,6 @@ public static class ConsoleCommands
 		Cursor.lockState = value ? CursorLockMode.None : CursorLockMode.Locked;
 	}
 
-	[ConsoleMethod("fps", "Shows fps counter"), UnityEngine.Scripting.Preserve]
-	public static void ShowFps()
-	{
-		Tayx.Graphy.GraphyManager.Instance.ToggleActive();
-	}
-
 	[ConsoleMethod("maxQueuedFrames", "Max Queued Frames"), UnityEngine.Scripting.Preserve]
 	public static void MaxQueuedFrames(int maxQueuedFrames)
 	{

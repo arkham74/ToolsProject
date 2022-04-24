@@ -20,7 +20,9 @@ namespace Texture3DGenerator
 			public Vector3 offset;
 		}
 
+#if TOOLS_BURST
 		[BurstCompile]
+#endif
 		private struct NoiseJob : IJobParallelFor
 		{
 			[ReadOnly] public NoiseData data;

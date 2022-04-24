@@ -1,7 +1,4 @@
-﻿using System;
-using DG.Tweening;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "ScriptableObject/ColorBlockData")]

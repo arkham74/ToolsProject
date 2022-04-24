@@ -1,11 +1,14 @@
 {
-    "name": "IngameDebugConsole.Runtime",
+    "name": "com.facepunch.steamworks",
     "rootNamespace": "",
-    "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:18e5109d897e1b244ab2dfeaf5482c7b"
+    "references": [],
+    "includePlatforms": [
+        "Editor",
+        "LinuxStandalone64",
+        "Lumin",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
     ],
-    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

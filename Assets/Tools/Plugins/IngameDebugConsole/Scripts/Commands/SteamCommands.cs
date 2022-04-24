@@ -1,3 +1,4 @@
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 using System;
 using System.Linq;
 using System.Collections;
@@ -12,11 +13,7 @@ using Random = UnityEngine.Random;
 using IngameDebugConsole;
 using UnityEngine.Scripting;
 using Steamworks;
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
 
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
 public class SteamCommands : MonoBehaviour
 {
 	[ConsoleMethod("steam.reset_all_stats", "Reset all user stats and achievements"), Preserve]
