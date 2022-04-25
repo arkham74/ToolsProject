@@ -12,7 +12,7 @@ namespace Steamworks
 	public class SteamManager : MonoBehaviour
 	{
 		public static readonly UnityEvent<bool> OnPause = new UnityEvent<bool>();
-		private const uint APP_ID_SPACEWAR = 480;
+		public const uint APP_ID_SPACEWAR = 480;
 
 		public static int PlayTime
 		{
