@@ -1,6 +1,5 @@
 ﻿using System;
 using IngameDebugConsole;
-using Steamworks;
 using Tayx.Graphy;
 using UnityEngine;
 
@@ -9,11 +8,6 @@ public static class InitializeManagers
 	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 	public static void Init()
 	{
-		SteamManager.Init();
-
-		string steamID = SteamClient.IsValid ? SteamClient.SteamId.ToString() : "0";
-		FileBasedPrefs.Init("save.save", "lbmdvbsdfpcsvbpsdikhnmcfzx", steamID);
-
 		FrameGraph.Init();
 		DebugLogManager.Init();
 	}

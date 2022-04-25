@@ -20,7 +20,7 @@ namespace Steamworks
 			set => SteamUserStats.SetStat("play_time", value);
 		}
 
-		public static void Init(uint appID = APP_ID_SPACEWAR)
+		public static void Init(uint appID)
 		{
 			if (Application.isEditor) return;
 
