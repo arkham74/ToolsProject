@@ -16,8 +16,6 @@ public class FileBasedPrefsConfig
 
 	public string SaveFilePath = null;
 
-	public Action OnLoadError;
-
 	internal string GetSaveFilePath()
 	{
 		return string.IsNullOrEmpty(SaveFilePath) ? Application.persistentDataPath : SaveFilePath;

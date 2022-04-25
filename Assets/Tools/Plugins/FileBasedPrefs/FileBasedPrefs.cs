@@ -198,14 +198,7 @@ public static class FileBasedPrefs
 			catch (ArgumentException e)
 			{
 				Debug.LogException(new Exception("FBPP Error loading save file: " + e.Message));
-				if (_config.OnLoadError != null)
-				{
-					_config.OnLoadError.Invoke();
-				}
-				else
-				{
-					DeleteAll();
-				}
+				DeleteAll();
 			}
 		}
 		return _latestData;

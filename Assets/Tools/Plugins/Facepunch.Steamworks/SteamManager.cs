@@ -20,9 +20,9 @@ namespace Steamworks
 			set => SteamUserStats.SetStat("play_time", value);
 		}
 
-		public static void Init(uint appID)
+		public static void Init(uint appID, bool inEditor = false)
 		{
-			if (Application.isEditor) return;
+			if (Application.isEditor && !inEditor) return;
 
 			try
 			{
