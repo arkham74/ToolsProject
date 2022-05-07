@@ -19,14 +19,13 @@ public static class TextExtensions
 
 	public static async void AnimateNumber(this TextMeshProUGUI text, float maxScore, int ms = 1000)
 	{
+		if (text == null) return;
 		float increase = maxScore / (ms / 10f);
 		for (float score = 0; score <= maxScore; score += increase)
 		{
-			if (!text) return;
 			text.text = score.ToString("0");
 			await Task.Delay(10);
 		}
-
 		text.text = maxScore.ToString("0");
 	}
 
@@ -39,7 +38,6 @@ public static class TextExtensions
 			text.text = score.ToString("0");
 			await Task.Delay(10);
 		}
-
 		text.text = maxScore.ToString("0");
 	}
 }

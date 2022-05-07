@@ -1,4 +1,5 @@
 ﻿#if TOOLS_DOTWEEN
+using System;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -8,6 +9,14 @@ using UnityEngine.UI;
 
 public static partial class DOTweenExtensions
 {
+	public static TweenerCore<Vector3, Vector3, VectorOptions> DOTransformPosition(this Transform source, Transform target, Vector3 offset, float duration)
+	{
+		Vector3 endValue() => target.position + offset;
+		TweenerCore<Vector3, Vector3, VectorOptions> t = DOTween.To(() => source.position, e => source.position = endValue(), endValue(), duration);
+		t.SetTarget(source);
+		return t;
+	}
+
 	public static TweenerCore<Vector3, Vector3, VectorOptions> AnimateEnable(this Transform transform,
 		float duration = 0.25f, float delay = 0, Ease ease = Ease.OutBack, bool timeScaleIndependent = false,
 		float end = 1f)

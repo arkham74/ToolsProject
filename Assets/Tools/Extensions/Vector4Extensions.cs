@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class Vector4Extensions
@@ -56,11 +57,11 @@ public static class Vector4Extensions
 		return new Vector4(vector.x, vector.y, value, vector.w);
 	}
 
-	public static float Length(this Vector4[] waypoints)
+	public static float PathLength(this IList<Vector4> waypoints)
 	{
 		float sum = 0;
 
-		for (int i = 1; i < waypoints.Length; i++)
+		for (int i = 1; i < waypoints.Count; i++)
 		{
 			sum += Vector4.Distance(waypoints[i - 1], waypoints[i]);
 		}

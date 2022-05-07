@@ -99,20 +99,44 @@ public static class IListExtensions
 			return;
 		}
 
-		if (!array.Any())
+		if (array.Count <= 0)
 		{
 			Debug.LogWarning("Array is empty");
 			return;
 		}
 
-		int i = 0;
-		foreach (T item in array)
+		for (int i = 0; i < array.Count; i++)
 		{
-			sb.AppendFormat($"[{i}] {item}\n");
-			i++;
+			sb.AppendFormat($"[{i}] {array[i]}");
+			sb.AppendLine();
 		}
 
 		Debug.LogWarning(sb);
+	}
+
+	public static void Log<T>(this IList<T> array)
+	{
+		var sb = new StringBuilder();
+
+		if (array == null)
+		{
+			Debug.LogWarning("Array is NULL");
+			return;
+		}
+
+		if (array.Count <= 0)
+		{
+			Debug.LogWarning("Array is empty");
+			return;
+		}
+
+		for (int i = 0; i < array.Count; i++)
+		{
+			sb.Append(array[i]);
+			sb.AppendLine();
+		}
+
+		Debug.Log(sb);
 	}
 
 	public static T AtOrDefault<T>(this IEnumerable<IEnumerable<T>> array, int x, int y, T def = default)
@@ -172,5 +196,24 @@ public static class IListExtensions
 			return false;
 
 		return l2.All(e => l1.Contains(e));
+	}
+
+	public static C[] ForEachPair<T, C>(this IList<T> array, Func<T, T, C> method)
+	{
+		if (array == null)
+			throw new ArgumentException("ForEachPair", nameof(array));
+
+		if (method == null)
+			throw new ArgumentException("ForEachPair", nameof(method));
+
+		int count = array.Count - 1;
+		C[] list = new C[count];
+
+		for (int i = 0; i < count; i++)
+		{
+			list[i] = method(array[i], array[i + 1]);
+		}
+
+		return list;
 	}
 }

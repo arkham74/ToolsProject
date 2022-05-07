@@ -24,6 +24,12 @@ public static class AssetTools
 		return FindAssetsByName<T>(name)[0];
 	}
 
+	public static void TryFindAssetsByType<T>(ref T[] levels) where T : Object
+	{
+		if (Application.isEditor)
+			levels = FindAssetsByType<T>();
+	}
+
 	public static T[] FindAssetsByType<T>() where T : Object
 	{
 		string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");

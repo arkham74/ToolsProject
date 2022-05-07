@@ -1,4 +1,6 @@
 #if TOOLS_URP
+using UnityEngine.Experimental.Rendering;
+
 namespace UnityEngine.Rendering.Universal
 {
 	public partial class DownscaleFeature
@@ -7,10 +9,11 @@ namespace UnityEngine.Rendering.Universal
 		{
 			public string profilerTag;
 			public int targetRes = 180;
+			// public GraphicsFormat graphicsFormat = GraphicsFormat.R8G8B8A8_SRGB;
 			public RenderTargetIdentifier source;
-			private RenderTargetIdentifier downTarget;
+			// private RenderTargetIdentifier downTarget;
 			private RenderTargetIdentifier upTarget;
-			private int downTargetId;
+			// private int downTargetId;
 			private int upTargetId;
 
 			// This method is called before executing the render pass.
@@ -21,21 +24,26 @@ namespace UnityEngine.Rendering.Universal
 			public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 			{
 				RenderTextureDescriptor upDescriptor = renderingData.cameraData.cameraTargetDescriptor;
-				RenderTextureDescriptor downDescriptor = renderingData.cameraData.cameraTargetDescriptor;
-				float aspect = (float)downDescriptor.width / downDescriptor.height;
-				downDescriptor.width = Mathf.FloorToInt(aspect * targetRes);
-				downDescriptor.height = targetRes;
+				// RenderTextureDescriptor downDescriptor = renderingData.cameraData.cameraTargetDescriptor;
+				// float aspect = (float)downDescriptor.width / (float)downDescriptor.height;
+				// downDescriptor.width = Mathf.FloorToInt(aspect * targetRes.y);
+				// downDescriptor.width = targetRes.x;
+				// Debug.LogWarning(downDescriptor.width);
+				// downDescriptor.height = targetRes.y;
 
-				downTargetId = Shader.PropertyToID("downScaleTarget");
+				// upDescriptor.graphicsFormat = graphicsFormat;
+				// downDescriptor.graphicsFormat = graphicsFormat;
+
+				// downTargetId = Shader.PropertyToID("downScaleTarget");
 				upTargetId = Shader.PropertyToID("upScaleTarget");
 
 				cmd.GetTemporaryRT(upTargetId, upDescriptor, FilterMode.Point);
-				cmd.GetTemporaryRT(downTargetId, downDescriptor, FilterMode.Point);
+				// cmd.GetTemporaryRT(downTargetId, downDescriptor, FilterMode.Point);
 
-				downTarget = new RenderTargetIdentifier(downTargetId);
+				// downTarget = new RenderTargetIdentifier(downTargetId);
 				upTarget = new RenderTargetIdentifier(upTargetId);
 
-				ConfigureTarget(downTarget);
+				// ConfigureTarget(downTarget);
 				ConfigureTarget(upTarget);
 			}
 
@@ -45,22 +53,29 @@ namespace UnityEngine.Rendering.Universal
 			// You don't have to call ScriptableRenderContext.submit, the render pipeline will call it at specific points in the pipeline.
 			public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 			{
-				CommandBuffer cmd = CommandBufferPool.Get(profilerTag);
+				int height = renderingData.cameraData.cameraTargetDescriptor.height;
 
-				cmd.Blit(source, upTarget);
-				cmd.Blit(upTarget, downTarget);
-				cmd.Blit(downTarget, source);
+				if (height % targetRes == 0)
+				{
+					CommandBuffer cmd = CommandBufferPool.Get(profilerTag);
 
-				context.ExecuteCommandBuffer(cmd);
-				cmd.Clear();
-				CommandBufferPool.Release(cmd);
+					int mult = height / targetRes;
+
+					cmd.Blit(source, upTarget, Vector2.one * mult, Vector2.zero);
+					cmd.Blit(upTarget, source, Vector2.one * (1f / mult), Vector2.zero);
+
+					context.ExecuteCommandBuffer(cmd);
+					cmd.Clear();
+					CommandBufferPool.Release(cmd);
+				}
 			}
 
 			// Cleanup any allocated resources that were created during the execution of this render pass.
 			public override void OnCameraCleanup(CommandBuffer cmd)
 			{
-				cmd.ReleaseTemporaryRT(downTargetId);
+				// cmd.ReleaseTemporaryRT(downTargetId);
 				cmd.ReleaseTemporaryRT(upTargetId);
+				ConfigureClear(ClearFlag.All, Color.black);
 			}
 		}
 	}

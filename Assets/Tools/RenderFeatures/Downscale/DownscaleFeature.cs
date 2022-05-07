@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 
 #if TOOLS_URP
@@ -7,7 +8,9 @@ namespace UnityEngine.Rendering.Universal
 	public partial class DownscaleFeature : ScriptableRendererFeature
 	{
 		private DownscalePass scriptablePass;
-		[Min(1)] public int targetRes = 180;
+		public int targetRes = 180;
+		// public Vector2Int targetRes = new Vector2Int(320, 180);
+		// public GraphicsFormat graphicsFormat = GraphicsFormat.R8G8B8A8_SRGB;
 		public RenderPassEvent renderPassEvent = RenderPassEvent.AfterRenderingTransparents;
 
 		/// <inheritdoc/>
@@ -17,6 +20,7 @@ namespace UnityEngine.Rendering.Universal
 			{
 				profilerTag = name,
 				targetRes = targetRes,
+				// graphicsFormat = graphicsFormat,
 				renderPassEvent = renderPassEvent
 			};
 		}

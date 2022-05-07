@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class Vector2Extensions
@@ -19,7 +21,7 @@ public static class Vector2Extensions
 	}
 
 	/// <summary>
-	/// NON-Direction from two vectors2
+	/// Non-normalized direction from two vectors2
 	/// </summary>
 	/// <param name="v"></param>
 	/// <param name="target"></param>
@@ -137,6 +139,11 @@ public static class Vector2Extensions
 		return new Vector2(Mathf.Round(v.x), Mathf.Round(v.y));
 	}
 
+	public static Vector2Int RoundToInt(this Vector2 v)
+	{
+		return new Vector2Int(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y));
+	}
+
 	public static Vector2 SetX(this Vector2 vector, float value)
 	{
 		return new Vector2(value, vector.y);
@@ -182,11 +189,16 @@ public static class Vector2Extensions
 		return Vector2.ClampMagnitude(vec2, mag);
 	}
 
-	public static float Length(this Vector2[] waypoints)
+	public static float Distance(this Vector2 v1, Vector2 v2)
+	{
+		return Vector2.Distance(v1, v2);
+	}
+
+	public static float PathLength(this IList<Vector2> waypoints)
 	{
 		float sum = 0;
 
-		for (int i = 1; i < waypoints.Length; i++)
+		for (int i = 1; i < waypoints.Count; i++)
 		{
 			sum += Vector2.Distance(waypoints[i - 1], waypoints[i]);
 		}

@@ -23,7 +23,7 @@ public class CinemachineSimplePath : CinemachinePathBase
 	[SerializeField] private Vector3[] waypoints;
 	[SerializeField] private bool loop;
 
-	[ShowNativeProperty] public float Length => waypoints.Length();
+	[ShowNativeProperty] public float Length => waypoints.PathLength();
 
 	public override bool Looped => loop;
 	public override int DistanceCacheSampleStepsPerSegment => m_Resolution;

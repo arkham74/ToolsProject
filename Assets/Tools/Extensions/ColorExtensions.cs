@@ -28,6 +28,11 @@ public static class ColorExtensions
 		return ColorUtility.ToHtmlStringRGB(color);
 	}
 
+	public static string ToHtml(this Color32 color)
+	{
+		return ColorUtility.ToHtmlStringRGB(color);
+	}
+
 	public static Color32 ToColor32(this Color color)
 	{
 		byte r = (byte)(color.r * 255);

@@ -6,6 +6,11 @@ using UnityEngine;
 
 public static class FloatExtensions
 {
+	public static bool Approx(this float a, float b, float threshold = float.Epsilon)
+	{
+		return Mathf.Abs(a - b) < threshold;
+	}
+
 	public static IEnumerable<float> Normalize(this IEnumerable<float> array)
 	{
 		float sum = array.Sum();
@@ -19,8 +24,12 @@ public static class FloatExtensions
 
 	public static float ClampEuler(this float eulerAngle)
 	{
-		if (eulerAngle >= 180)
+		if (eulerAngle > 180)
 			eulerAngle -= 360;
+
+		if (eulerAngle < -180)
+			eulerAngle += 360;
+
 		return eulerAngle;
 	}
 
@@ -69,6 +78,11 @@ public static class FloatExtensions
 	public static float Clamp(this float value, float min, float max)
 	{
 		return Mathf.Clamp(value, min, max);
+	}
+
+	public static float Clamp01(this float value)
+	{
+		return Mathf.Clamp01(value);
 	}
 
 	public static float Repeat(this float value, float lenght = 1f)

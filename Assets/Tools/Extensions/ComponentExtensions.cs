@@ -70,15 +70,22 @@ public static class ComponentExtensions
 
 	public static void Destroy(this Component component, float time = 0f)
 	{
+		if (component == null) return;
+
 		if (time > 0)
 			Object.Destroy(@component.gameObject, time);
 		else
 			Object.Destroy(@component.gameObject);
 	}
 
-	public static void DestroyComponent(this Component component, float time)
+	public static void DestroyComponent(this Component component, float time = 0f)
 	{
-		Object.Destroy(component, time);
+		if (component == null) return;
+
+		if (time > 0)
+			Object.Destroy(@component, time);
+		else
+			Object.Destroy(@component);
 	}
 
 	public static Vector3 To(this Component t1, Component t2, out float distance)

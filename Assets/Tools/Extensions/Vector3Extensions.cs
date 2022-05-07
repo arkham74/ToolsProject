@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class Vector3Extensions
@@ -266,11 +268,11 @@ public static class Vector3Extensions
 		return Vector3.ClampMagnitude(vec3, mag);
 	}
 
-	public static float Length(this Vector3[] waypoints)
+	public static float PathLength(this IList<Vector3> waypoints)
 	{
 		float sum = 0;
 
-		for (int i = 1; i < waypoints.Length; i++)
+		for (int i = 1; i < waypoints.Count; i++)
 		{
 			sum += Vector3.Distance(waypoints[i - 1], waypoints[i]);
 		}

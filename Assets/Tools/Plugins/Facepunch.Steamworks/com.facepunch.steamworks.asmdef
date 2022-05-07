@@ -6,6 +6,7 @@
         "Editor",
         "LinuxStandalone64",
         "Lumin",
+        "macOSStandalone",
         "WindowsStandalone32",
         "WindowsStandalone64"
     ],

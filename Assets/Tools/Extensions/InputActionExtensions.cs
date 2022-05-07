@@ -5,12 +5,12 @@ using UnityEngine.InputSystem;
 
 public static class InputActionExtensions
 {
-	public static InputBinding GetBinding(this InputAction action, string id)
+	public static InputBinding GetBindingByID(this InputAction action, string id)
 	{
-		return action.bindings.First(e => e.id.ToString() == id);
+		return action.bindings[action.GetBindingIndexByID(id)];
 	}
 
-	public static int GetBindingIndex(this InputAction action, string id)
+	public static int GetBindingIndexByID(this InputAction action, string id)
 	{
 		return action.bindings.IndexOf(e => e.id.ToString() == id);
 	}
