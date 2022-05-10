@@ -24,7 +24,7 @@ public static class DebugTools
 		DrawCircle(point, normal, radius, color, 0);
 	}
 
-	public static void DrawCircle(Vector3 point, Vector3 normal, float radius, Color color, float duration)
+	public static void DrawCircle(Vector3 point, Vector3 normal, float radius, Color color, float duration = 0f)
 	{
 		const int steps = 16;
 
@@ -47,9 +47,9 @@ public static class DebugTools
 		}
 	}
 
-	internal static void DrawNormal(Vector3 point, Vector3 normal, Color color)
+	internal static void DrawNormal(Vector3 point, Vector3 normal, Color color, float duration = 0f)
 	{
-		Debug.DrawRay(point, normal * 0.5f, color);
-		DrawCircle(point, normal, 0.1f, color);
+		Debug.DrawRay(point, normal * 0.5f, color, duration);
+		DrawCircle(point, normal, 0.1f, color, duration);
 	}
 }

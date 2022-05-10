@@ -6,10 +6,12 @@ using Random = UnityEngine.Random;
 
 public static class TransformExtensions
 {
-	public static Transform GetNextSibling(this Transform transform, int offset = 1)
+	public static Transform GetSibling(this Transform transform, int offset = 1)
 	{
-		int index = transform.GetSiblingIndex();
-		return transform.parent.GetChild(index + offset);
+		int index = transform.GetSiblingIndex() + offset;
+		int lastIndex = transform.parent.childCount - 1;
+		int siblingIndex = Mathf.Clamp(index, 0, lastIndex);
+		return transform.parent.GetChild(siblingIndex);
 	}
 
 	public static void SetX(this Transform t, float x)
@@ -93,11 +95,5 @@ public static class TransformExtensions
 	public static Transform GetFirstChild(this Transform transform)
 	{
 		return transform.GetChild(0);
-	}
-
-	public static Transform GetPrevSibling(this Transform transform, int offset = 1)
-	{
-		int index = transform.GetSiblingIndex();
-		return transform.parent.GetChild(index - offset);
 	}
 }

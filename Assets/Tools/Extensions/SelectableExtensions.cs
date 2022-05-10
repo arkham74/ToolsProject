@@ -5,10 +5,31 @@ using UnityEngine.UI;
 
 public static class SelectableExtensions
 {
+	public static void FindAndSetUp(this Selectable selectable)
+	{
+		selectable.SetUp(selectable.FindSelectableOnUp());
+	}
+
+	public static void FindAndSetDown(this Selectable selectable)
+	{
+		selectable.SetDown(selectable.FindSelectableOnDown());
+	}
+
+	public static void FindAndSetLeft(this Selectable selectable)
+	{
+		selectable.SetLeft(selectable.FindSelectableOnLeft());
+	}
+
+	public static void FindAndSetRight(this Selectable selectable)
+	{
+		selectable.SetRight(selectable.FindSelectableOnRight());
+	}
+
 	public static void SetUp(this Selectable button, Selectable selectable)
 	{
 		Navigation navdisplay = button.navigation;
 		navdisplay.selectOnUp = selectable;
+		navdisplay.mode = Navigation.Mode.Explicit;
 		button.navigation = navdisplay;
 	}
 
@@ -16,6 +37,7 @@ public static class SelectableExtensions
 	{
 		Navigation navdisplay = button.navigation;
 		navdisplay.selectOnDown = selectable;
+		navdisplay.mode = Navigation.Mode.Explicit;
 		button.navigation = navdisplay;
 	}
 
@@ -23,6 +45,7 @@ public static class SelectableExtensions
 	{
 		Navigation navdisplay = button.navigation;
 		navdisplay.selectOnLeft = selectable;
+		navdisplay.mode = Navigation.Mode.Explicit;
 		button.navigation = navdisplay;
 	}
 
@@ -30,6 +53,7 @@ public static class SelectableExtensions
 	{
 		Navigation navdisplay = button.navigation;
 		navdisplay.selectOnRight = selectable;
+		navdisplay.mode = Navigation.Mode.Explicit;
 		button.navigation = navdisplay;
 	}
 

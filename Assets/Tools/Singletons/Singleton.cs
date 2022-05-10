@@ -3,27 +3,43 @@ using UnityEngine;
 
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-	private static T level;
+	private static T instance;
 
-	public static bool Valid => level != null;
+	public static bool Valid => instance != null;
 
 	public static T Instance
 	{
 		get
 		{
-			if (level == null)
-				level = FindObjectOfType<T>(true);
-			return level;
+			if (instance == null)
+			{
+				T[] type = FindObjectsOfType<T>(true);
+				if (type.Length > 0)
+				{
+					instance = type[0];
+				}
+				else
+				{
+					Debug.LogError($"There is ZERO {typeof(T)}");
+				}
+
+				if (type.Length > 1)
+				{
+					Debug.LogError($"There is more than one {typeof(T)}");
+				}
+			}
+
+			return instance;
 		}
 	}
 
 	protected virtual void Awake()
 	{
-		if (level == null)
+		if (instance == null)
 		{
-			level = this as T;
+			instance = this as T;
 		}
-		else if (level != this)
+		else if (instance != this)
 		{
 			Destroy(gameObject);
 		}
@@ -31,9 +47,9 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
 	protected virtual void OnDestroy()
 	{
-		if (level == this)
+		if (instance == this)
 		{
-			level = null;
+			instance = null;
 		}
 	}
 }

@@ -47,6 +47,11 @@ public static class FileBasedPrefs
 		_latestData = GetSaveFile();
 	}
 
+	public static bool IsInit()
+	{
+		return _config != null;
+	}
+
 	private static void CheckForInit()
 	{
 		if (_config == null)
