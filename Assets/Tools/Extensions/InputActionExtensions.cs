@@ -5,6 +5,16 @@ using UnityEngine.InputSystem;
 
 public static class InputActionExtensions
 {
+	public static InputBinding GetCurrentBinding(this InputAction action)
+	{
+		return action.GetBindingForControl(action.activeControl).Value;
+	}
+
+	public static InputBinding GetCurrentBinding(this InputAction.CallbackContext ctx)
+	{
+		return ctx.action.GetBindingForControl(ctx.control).Value;
+	}
+
 	public static InputBinding GetBindingByID(this InputAction action, string id)
 	{
 		return action.bindings[action.GetBindingIndexByID(id)];

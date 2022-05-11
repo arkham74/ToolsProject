@@ -4,9 +4,10 @@ using UnityEditor;
 
 namespace Cyan
 {
-	[CustomPropertyDrawer(typeof(BlitFeature.BlitSettings))]
+	[CustomPropertyDrawer(typeof(BlitSettings))]
 	public class BlitSettingsDrawer : PropertyDrawer
 	{
+
 		private bool createdStyles = false;
 		private GUIStyle boldLabel;
 
@@ -52,11 +53,11 @@ namespace Cyan
 			SerializedProperty srcType = property.FindPropertyRelative("srcType");
 			EditorGUILayout.PropertyField(srcType);
 			int enumValue = srcType.intValue;
-			if (enumValue == (int)BlitFeature.Target.TextureID)
+			if (enumValue == (int)Target.TextureID)
 			{
 				EditorGUILayout.PropertyField(property.FindPropertyRelative("srcTextureId"));
 			}
-			else if (enumValue == (int)BlitFeature.Target.RenderTextureObject)
+			else if (enumValue == (int)Target.RenderTextureObject)
 			{
 				EditorGUILayout.PropertyField(property.FindPropertyRelative("srcTextureObject"));
 			}
@@ -67,7 +68,7 @@ namespace Cyan
 			SerializedProperty dstType = property.FindPropertyRelative("dstType");
 			EditorGUILayout.PropertyField(dstType);
 			enumValue = dstType.intValue;
-			if (enumValue == (int)BlitFeature.Target.TextureID)
+			if (enumValue == (int)Target.TextureID)
 			{
 				EditorGUILayout.PropertyField(property.FindPropertyRelative("dstTextureId"));
 
@@ -80,7 +81,7 @@ namespace Cyan
 				}
 				EditorGUILayout.EndHorizontal();
 			}
-			else if (enumValue == (int)BlitFeature.Target.RenderTextureObject)
+			else if (enumValue == (int)Target.RenderTextureObject)
 			{
 				EditorGUILayout.PropertyField(property.FindPropertyRelative("dstTextureObject"));
 			}

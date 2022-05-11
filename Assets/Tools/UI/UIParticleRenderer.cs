@@ -111,7 +111,6 @@ namespace Michsky.UI.Shift
 				enabled = false;
 		}
 
-
 		protected override void OnPopulateMesh(VertexHelper vh)
 		{
 #if UNITY_EDITOR
@@ -138,7 +137,7 @@ namespace Michsky.UI.Shift
 				ParticleSystem.Particle particle = particles[i];
 
 				// get particle properties
-				Vector2 position = (mainModule.simulationSpace == ParticleSystemSimulationSpace.Local ? particle.position : _transform.InverseTransformPoint(particle.position));
+				Vector2 position = mainModule.simulationSpace == ParticleSystemSimulationSpace.Local ? particle.position : _transform.InverseTransformPoint(particle.position);
 
 				float rotation = -particle.rotation * Mathf.Deg2Rad;
 				float rotation90 = rotation + Mathf.PI / 2;
@@ -153,7 +152,7 @@ namespace Michsky.UI.Shift
 				Vector4 particleUV = imageUV;
 				if (textureSheetAnimation.enabled)
 				{
-					float frameProgress = textureSheetAnimation.frameOverTime.curveMin.Evaluate(1 - (particle.remainingLifetime / particle.startLifetime));
+					float frameProgress = textureSheetAnimation.frameOverTime.curveMin.Evaluate(1 - particle.remainingLifetime / particle.startLifetime);
 
 					frameProgress = Mathf.Repeat(frameProgress * textureSheetAnimation.cycleCount, 1);
 					int frame = 0;
@@ -178,7 +177,7 @@ namespace Michsky.UI.Shift
 					}
 
 					frame %= textureSheetAnimationFrames;
-					particleUV.x = (frame % textureSheetAnimation.numTilesX) * textureSheetAnimationFrameSize.x;
+					particleUV.x = frame % textureSheetAnimation.numTilesX * textureSheetAnimationFrameSize.x;
 					particleUV.y = Mathf.FloorToInt(frame / textureSheetAnimation.numTilesX) * textureSheetAnimationFrameSize.y;
 					particleUV.z = particleUV.x + textureSheetAnimationFrameSize.x;
 					particleUV.w = particleUV.y + textureSheetAnimationFrameSize.y;
@@ -254,8 +253,8 @@ namespace Michsky.UI.Shift
 				pSystem.Simulate(Time.fixedUnscaledDeltaTime, false, false, true);
 				SetAllDirty();
 
-				if ((currentMaterial != null && currentTexture != currentMaterial.mainTexture) ||
-					 (material != null && currentMaterial != null && material.shader != currentMaterial.shader))
+				if (currentMaterial != null && currentTexture != currentMaterial.mainTexture ||
+					 material != null && currentMaterial != null && material.shader != currentMaterial.shader)
 				{
 					pSystem = null;
 					Initialize();
@@ -270,8 +269,8 @@ namespace Michsky.UI.Shift
 				pSystem.Simulate(Time.unscaledDeltaTime, false, false, true);
 				SetAllDirty();
 
-				if ((currentMaterial != null && currentTexture != currentMaterial.mainTexture) ||
-					 (material != null && currentMaterial != null && material.shader != currentMaterial.shader))
+				if (currentMaterial != null && currentTexture != currentMaterial.mainTexture ||
+					 material != null && currentMaterial != null && material.shader != currentMaterial.shader)
 				{
 					pSystem = null;
 					Initialize();
@@ -292,8 +291,8 @@ namespace Michsky.UI.Shift
 					pSystem.Simulate(Time.unscaledDeltaTime, false, false, true);
 					SetAllDirty();
 
-					if ((currentMaterial != null && currentTexture != currentMaterial.mainTexture) ||
-						 (material != null && currentMaterial != null && material.shader != currentMaterial.shader))
+					if (currentMaterial != null && currentTexture != currentMaterial.mainTexture ||
+						 material != null && currentMaterial != null && material.shader != currentMaterial.shader)
 					{
 						pSystem = null;
 						Initialize();

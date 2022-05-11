@@ -268,8 +268,8 @@ namespace Michsky.UI.Shift
 			public static Vector2 operator *(Matrix2x3 m, Vector2 v)
 			{
 				return new Vector2(
-					 (m.m00 * v.x) + (m.m01 * v.y) + m.m02,
-					 (m.m10 * v.x) + (m.m11 * v.y) + m.m12
+					 m.m00 * v.x + m.m01 * v.y + m.m02,
+					 m.m10 * v.x + m.m11 * v.y + m.m12
 				);
 			}
 		}
