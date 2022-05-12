@@ -13,6 +13,11 @@ public static class StringExtensions
 		return string.IsNullOrWhiteSpace(str);
 	}
 
+	public static string ToConstantCase(this string str)
+	{
+		return str.ToUpper().SpaceToUnderscore();
+	}
+
 	public static string ToSplitCamelCase(this string str)
 	{
 		return Regex.Replace(Regex.Replace(str, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");
