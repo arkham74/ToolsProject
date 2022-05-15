@@ -15,6 +15,8 @@ using Text = TMPro.TextMeshProUGUI;
 [RequireComponent(typeof(Button))]
 public class RebindActionUI : MonoBehaviour
 {
+	[OnValueChanged(nameof(OnChange))][SerializeField] private bool useFallback;
+	[OnValueChanged(nameof(OnChange))][SerializeField] private string tableKey = "Game";
 	[OnValueChanged(nameof(OnChange))][SerializeField] private Button button;
 	[OnValueChanged(nameof(OnChange))][SerializeField] private string actionFormat = "{0}";
 	[OnValueChanged(nameof(OnChange))][SerializeField] private string bindingFormat = "{0}";
@@ -27,10 +29,15 @@ public class RebindActionUI : MonoBehaviour
 	[OnValueChanged(nameof(OnChange))][SerializeField] private Text actionText;
 	[OnValueChanged(nameof(OnChange))][SerializeField] private Text bindingText;
 
-	public static readonly List<RebindActionUI> RebindActionUIs = new List<RebindActionUI>();
 	public static Action<RebindActionUI> OnRebind = delegate { };
 	public static Action<RebindActionUI> OnRebindFail = delegate { };
+	public static Action OnUpdateBindingDisplay = delegate { };
 	private InputActionRebindingExtensions.RebindingOperation rebindOperation;
+
+	public static void UpdateBindingDisplays()
+	{
+		OnUpdateBindingDisplay.Invoke();
+	}
 
 	private void OnChange()
 	{
@@ -50,14 +57,14 @@ public class RebindActionUI : MonoBehaviour
 	private void Awake()
 	{
 		button.Register(Button_Rebind);
-		RebindActionUIs.Add(this);
+		OnUpdateBindingDisplay += UpdateBindingDisplay;
 		LocalizationSettings.SelectedLocaleChanged += LocaleChanged;
 		Refresh();
 	}
 
 	private void OnDestroy()
 	{
-		RebindActionUIs.Remove(this);
+		OnUpdateBindingDisplay -= UpdateBindingDisplay;
 		LocalizationSettings.SelectedLocaleChanged -= LocaleChanged;
 		rebindOperation?.Dispose();
 		rebindOperation = null;
@@ -92,6 +99,7 @@ public class RebindActionUI : MonoBehaviour
 			.WithCancelingThrough("*/{Cancel}")
 			.WithMagnitudeHavingToBeGreaterThan(0.5f)
 			.WithControlsExcluding("<Keyboard>/printScreen")
+			.WithControlsExcluding("<Keyboard>/anyKey")
 			.OnCancel(ope =>
 			{
 				UpdateBindingDisplay();
@@ -113,7 +121,7 @@ public class RebindActionUI : MonoBehaviour
 				}
 			});
 
-		bindingText.SetLocalizedText(waitInfo, bindingFormat, "POK");
+		bindingText.SetLocalizedText(tableKey, waitInfo, bindingFormat);
 		rebindOperation.Start();
 	}
 
@@ -153,12 +161,17 @@ public class RebindActionUI : MonoBehaviour
 		SetText(bindingText, bindingFormat, display, "BINDING");
 	}
 
-	private static void SetText(Text text, string format, string display, string prefix)
+	private void SetText(Text text, string format, string display, string prefix)
 	{
 		string key = $"{prefix}_{display.ToConstantCase()}";
 
 		if (Application.isPlaying)
-			text.SetLocalizedText(key, display, format, "POK");
+		{
+			if (useFallback)
+				text.SetLocalizedTextFallback(tableKey, key, display, format);
+			else
+				text.SetLocalizedText(tableKey, key, format);
+		}
 		else
 			text.SetText(string.Format(format, display));
 	}

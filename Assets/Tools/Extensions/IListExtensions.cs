@@ -151,7 +151,7 @@ public static class IListExtensions
 		}
 	}
 
-	public static bool InRange<T>(this IList<T> list, int index)
+	public static bool ContainsIndex<T>(this IList<T> list, int index)
 	{
 		bool gtz = index >= 0;
 		bool ltl = index < list.Count;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NaughtyAttributes;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 // ReSharper disable UnusedMember.Local
@@ -34,14 +35,16 @@ public class BuildSettings : ScriptableObject
 		scenes = EditorBuildSettings.scenes.Where(e => e.enabled).Select(e => e.path).ToArray();
 	}
 
-	private void BuildWithOptions(BuildOptions buildOptions = BuildOptions.None)
+	private BuildReport BuildWithOptions(BuildOptions buildOptions = BuildOptions.None)
 	{
 		string path = Path.GetDirectoryName(locationPathName);
 		if (Directory.Exists(path))
+		{
 			Directory.Delete(path, true);
+		}
 		BuildPlayerOptions buildPlayerOptions = BuildPlayerOptions();
 		buildPlayerOptions.options |= buildOptions;
-		BuildPipeline.BuildPlayer(buildPlayerOptions);
+		return BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
 
 	[Button]
@@ -84,10 +87,12 @@ public class BuildSettings : ScriptableObject
 		};
 	}
 
-	public async Task BuildAsync(BuildOptions buildOptions = BuildOptions.None)
+	public async Task<BuildReport> BuildAsync(BuildOptions buildOptions = BuildOptions.None)
 	{
-		BuildWithOptions(buildOptions);
-		while (BuildPipeline.isBuildingPlayer) await Task.Delay(1000);
+		var report = BuildWithOptions(buildOptions);
+		while (BuildPipeline.isBuildingPlayer)
+			await Task.Delay(1000);
+		return report;
 	}
 
 	[Button]

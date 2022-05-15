@@ -1,18 +1,23 @@
 ﻿using System;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BuildSettingsQueue", menuName = "ScriptableObject/Build/Queue", order = 0)]
 public class BuildSettingsQueue : ScriptableObject
 {
-	public BuildSettings[] queue;
+	[SerializeField] private BuildSettings[] queue;
 
 	public async void BuildAll()
 	{
 		BuildSettings.IncrementVersion();
 		foreach (BuildSettings buildSettings in queue)
 		{
-			await buildSettings.BuildAsync();
+			BuildReport report = await buildSettings.BuildAsync();
+			if (report.summary.totalErrors > 0)
+			{
+				return;
+			}
 		}
 	}
 
@@ -21,7 +26,11 @@ public class BuildSettingsQueue : ScriptableObject
 		BuildSettings.IncrementVersion();
 		foreach (BuildSettings buildSettings in queue)
 		{
-			await buildSettings.BuildAsync(BuildOptions.Development);
+			BuildReport report = await buildSettings.BuildAsync(BuildOptions.Development);
+			if (report.summary.totalErrors > 0)
+			{
+				return;
+			}
 		}
 	}
 }
@@ -35,13 +44,14 @@ public class BuildSettingsQueueEditor : Editor
 	private void OnEnable()
 	{
 		buildSettingsTarget = target as BuildSettingsQueue;
-		queueProperty = serializedObject.FindProperty(nameof(buildSettingsTarget.queue));
+		queueProperty = serializedObject.FindProperty("queue");
 	}
 
 	public override void OnInspectorGUI()
 	{
+		DrawDefaultInspector();
+
 		EditorGUI.BeginChangeCheck();
-		EditorGUILayout.PropertyField(queueProperty);
 		if (GUILayout.Button("Build All")) buildSettingsTarget.BuildAll();
 		if (GUILayout.Button("Build All Dev")) buildSettingsTarget.BuildAllDev();
 
@@ -50,13 +60,18 @@ public class BuildSettingsQueueEditor : Editor
 			for (int i = 0; i < queueProperty.arraySize; i++)
 			{
 				SerializedProperty elem = queueProperty.GetArrayElementAtIndex(i);
-				if (!elem.objectReferenceValue) continue;
-				SerializedObject so = new SerializedObject(elem.objectReferenceValue);
-				so.Update();
-				SerializedProperty iterator = so.GetIterator();
-				iterator.NextVisible(true);
-				while (iterator.NextVisible(false)) EditorGUILayout.PropertyField(iterator, false);
-				so.ApplyModifiedProperties();
+				if (elem.objectReferenceValue)
+				{
+					SerializedObject so = new SerializedObject(elem.objectReferenceValue);
+					so.Update();
+					SerializedProperty iterator = so.GetIterator();
+					iterator.NextVisible(true);
+					while (iterator.NextVisible(false))
+					{
+						EditorGUILayout.PropertyField(iterator, true);
+					}
+					so.ApplyModifiedProperties();
+				}
 			}
 		}
 		catch (NullReferenceException)

@@ -15,7 +15,7 @@ public static class StringExtensions
 
 	public static string ToConstantCase(this string str)
 	{
-		return str.ToUpper().SpaceToUnderscore();
+		return str.Replace(" ", "").ToSplitCamelCase().ToUpper().SpaceToUnderscore();
 	}
 
 	public static string ToSplitCamelCase(this string str)
