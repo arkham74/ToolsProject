@@ -8,6 +8,11 @@ public class BuildSettingsQueue : ScriptableObject
 {
 	[SerializeField] private BuildSettings[] queue;
 
+	private void Reset()
+	{
+		queue = AssetTools.FindAssetsByType<BuildSettings>();
+	}
+
 	public async void BuildAll()
 	{
 		BuildSettings.IncrementVersion();

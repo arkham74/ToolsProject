@@ -11,7 +11,15 @@ public static class GameObjectExtensions
 
 	public static bool TryGetComponentInParent<T>(this GameObject gameObject, out T result) where T : Component
 	{
-		return result = gameObject.GetComponentInParent<T>();
+		if (gameObject.TryGetComponent(out result))
+		{
+			return true;
+		}
+		else if (gameObject.transform.parent.TryGetComponent(out result))
+		{
+			return true;
+		}
+		return false;
 	}
 
 	public static bool CompareTags(this GameObject gameObject, params string[] tags)

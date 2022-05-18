@@ -41,6 +41,11 @@ public static class IListExtensions
 		}
 	}
 
+	public static int IndexOf<T>(this IReadOnlyList<T> list, T element)
+	{
+		return (list as IList<T>).IndexOf(element);
+	}
+
 	public static int IndexOf<T>(this T[] array, T element)
 	{
 		return Array.IndexOf(array, element);

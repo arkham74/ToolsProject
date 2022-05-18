@@ -18,12 +18,12 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 				}
 				else
 				{
-					Debug.LogError($"There is ZERO {typeof(T)}");
+					Debug.LogError($"There is no '{typeof(T)}' present in scene");
 				}
 
 				if (type.Length > 1)
 				{
-					Debug.LogError($"There is more than one {typeof(T)}");
+					Debug.LogError($"There is more than one '{typeof(T)}'");
 				}
 			}
 
