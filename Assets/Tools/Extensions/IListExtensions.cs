@@ -25,11 +25,6 @@ public static class IListExtensions
 		return list[UnityEngine.Random.Range(0, list.Count)];
 	}
 
-	public static IOrderedEnumerable<T> Shuffle<T>(this IEnumerable<T> array)
-	{
-		return array.OrderBy(e => UnityEngine.Random.value);
-	}
-
 	public static void Shuffle<T>(this IList<T> list)
 	{
 		int n = list.Count;
@@ -96,7 +91,7 @@ public static class IListExtensions
 
 	public static void LogWarning<T>(this IList<T> array)
 	{
-		var sb = new StringBuilder();
+		// var sb = new StringBuilder();
 
 		if (array == null)
 		{
@@ -110,38 +105,43 @@ public static class IListExtensions
 			return;
 		}
 
-		for (int i = 0; i < array.Count; i++)
-		{
-			sb.AppendFormat($"[{i}] {array[i]}");
-			sb.AppendLine();
-		}
+		// sb.
+		// for (int i = 0; i < array.Count; i++)
+		// {
+		// 	sb.Append(array[i]);
+		// }
 
-		Debug.LogWarning(sb);
+		Debug.LogWarning(array.Join());
 	}
 
-	public static void Log<T>(this IList<T> array)
+	public static T Closest<T>(this IEnumerable<T> enumerable, Component target) where T : Component
 	{
-		var sb = new StringBuilder();
-
-		if (array == null)
+		T clos = null;
+		float min = float.MaxValue;
+		foreach (T item in enumerable)
 		{
-			Debug.LogWarning("Array is NULL");
-			return;
+			float dist = Vector3.Distance(item.transform.position, target.transform.position);
+			if (dist < min)
+			{
+				min = dist;
+				clos = item;
+			}
 		}
+		return clos;
+	}
 
-		if (array.Count <= 0)
-		{
-			Debug.LogWarning("Array is empty");
-			return;
-		}
+	public static T Random<T>(this IEnumerable<T> list)
+	{
+		if (list == null) throw new ArgumentNullException();
+		int count = list.Count();
+		if (count > 0) throw new ArgumentException("List must have more than 0 elements");
 
-		for (int i = 0; i < array.Count; i++)
-		{
-			sb.Append(array[i]);
-			sb.AppendLine();
-		}
+		return list.ElementAt(UnityEngine.Random.Range(0, count));
+	}
 
-		Debug.Log(sb);
+	public static IOrderedEnumerable<T> Shuffle<T>(this IEnumerable<T> array)
+	{
+		return array.OrderBy(e => UnityEngine.Random.value);
 	}
 
 	public static T AtOrDefault<T>(this IEnumerable<IEnumerable<T>> array, int x, int y, T def = default)

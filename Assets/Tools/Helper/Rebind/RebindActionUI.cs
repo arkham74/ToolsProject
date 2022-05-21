@@ -1,3 +1,4 @@
+#if ENABLE_INPUT_SYSTEM
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +8,20 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 using Text = TMPro.TextMeshProUGUI;
+#if TOOLS_LOCALIZATION
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
+#endif
 
 [RequireComponent(typeof(Button))]
 public class RebindActionUI : MonoBehaviour
 {
 	[OnValueChanged(nameof(OnChange))][SerializeField] private bool useFallback;
+#if TOOLS_LOCALIZATION
 	[OnValueChanged(nameof(OnChange))][SerializeField] private string tableKey = "Game";
+#endif
 	[OnValueChanged(nameof(OnChange))][SerializeField] private Button button;
 	[OnValueChanged(nameof(OnChange))][SerializeField] private string actionFormat = "{0}";
 	[OnValueChanged(nameof(OnChange))][SerializeField] private string bindingFormat = "{0}";
@@ -58,22 +63,28 @@ public class RebindActionUI : MonoBehaviour
 	{
 		button.Register(Button_Rebind);
 		OnUpdateBindingDisplay += UpdateBindingDisplay;
+#if TOOLS_LOCALIZATION
 		LocalizationSettings.SelectedLocaleChanged += LocaleChanged;
+#endif
 		Refresh();
 	}
 
 	private void OnDestroy()
 	{
 		OnUpdateBindingDisplay -= UpdateBindingDisplay;
+#if TOOLS_LOCALIZATION
 		LocalizationSettings.SelectedLocaleChanged -= LocaleChanged;
+#endif
 		rebindOperation?.Dispose();
 		rebindOperation = null;
 	}
 
+#if TOOLS_LOCALIZATION
 	private void LocaleChanged(Locale obj)
 	{
 		Refresh();
 	}
+#endif
 
 	private void Refresh()
 	{
@@ -121,7 +132,11 @@ public class RebindActionUI : MonoBehaviour
 				}
 			});
 
+#if TOOLS_LOCALIZATION
 		bindingText.SetLocalizedText(tableKey, waitInfo, bindingFormat);
+#else
+		bindingText.SetText(string.Format(bindingFormat, waitInfo));
+#endif
 		rebindOperation.Start();
 	}
 
@@ -163,8 +178,8 @@ public class RebindActionUI : MonoBehaviour
 
 	private void SetText(Text text, string format, string display, string prefix)
 	{
+#if TOOLS_LOCALIZATION
 		string key = $"{prefix}_{display.ToConstantCase()}";
-
 		if (Application.isPlaying)
 		{
 			if (useFallback)
@@ -173,6 +188,8 @@ public class RebindActionUI : MonoBehaviour
 				text.SetLocalizedText(tableKey, key, format);
 		}
 		else
-			text.SetText(string.Format(format, display));
+#endif
+		text.SetText(string.Format(format, display));
 	}
 }
+#endif

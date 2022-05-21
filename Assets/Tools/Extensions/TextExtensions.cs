@@ -1,27 +1,10 @@
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine.Events;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
-using UnityEngine.Localization.Tables;
 using UnityEngine.UI;
 
 public static class TextExtensions
 {
-	public static void SetLocalizedText(this TMP_Text text, string tableKey, string localeKey, string format = "{0}")
-	{
-		LocalizedString localizedString = new LocalizedString(tableKey, localeKey);
-		localizedString.WaitForCompletion = true;
-		text.SetText(string.Format(format, localizedString.GetLocalizedString()));
-	}
-
-	public static void SetLocalizedTextFallback(this TMP_Text text, string tableKey, string localeKey, string fallback, string format = "{0}")
-	{
-		LocalizedDatabase<StringTable, StringTableEntry>.TableEntryResult entry = LocalizationSettings.StringDatabase.GetTableEntry(tableKey, localeKey);
-		string name = entry.Entry != null ? entry.Entry.GetLocalizedString() : fallback;
-		text.SetText(string.Format(format, name));
-	}
-
 	public static void Register(this TMP_Dropdown dropdown, UnityAction<int> func)
 	{
 		dropdown.onValueChanged.RemoveAllListeners();

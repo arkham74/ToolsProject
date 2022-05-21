@@ -6,6 +6,38 @@ using Random = UnityEngine.Random;
 
 public static class TransformExtensions
 {
+	/// <summary>
+	/// Transforms Vector2 position from world space to local space.
+	/// </summary>
+	public static Vector2 WorldToLocal(this Transform transform, Vector2 world)
+	{
+		return transform.InverseTransformPoint(world);
+	}
+
+	/// <summary>
+	/// Transforms Vector2 position from local space to world space.
+	/// </summary>
+	public static Vector2 LocalToWorld(this Transform transform, Vector2 local)
+	{
+		return transform.TransformPoint(local);
+	}
+
+	/// <summary>
+	/// Transforms Vector3 position from world space to local space.
+	/// </summary>
+	public static Vector3 WorldToLocal(this Transform transform, Vector3 world)
+	{
+		return transform.InverseTransformPoint(world);
+	}
+
+	/// <summary>
+	/// Transforms Vector3 position from local space to world space.
+	/// </summary>
+	public static Vector3 LocalToWorld(this Transform transform, Vector3 local)
+	{
+		return transform.TransformPoint(local);
+	}
+
 	public static Transform GetSibling(this Transform transform, int offset = 1)
 	{
 		int index = transform.GetSiblingIndex() + offset;

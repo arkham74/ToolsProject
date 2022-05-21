@@ -5,12 +5,13 @@ using UnityEngine.Rendering;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
-public class SplineMesh : SplineRenderer
+public class SplineMesh : SplineSampler
 {
 	[SerializeField][Min(3)] private int resolution = 10;
 	[SerializeField][Min(0.01f)] private float thickness = 0.05f;
 	[SerializeField] private MeshFilter meshFilter;
 	[SerializeField] private MeshRenderer meshRenderer;
+	[SerializeField][GradientUsage(true)] private Gradient gradient;
 	private Mesh mesh;
 
 	protected override void Reset()
@@ -29,6 +30,6 @@ public class SplineMesh : SplineRenderer
 			mesh.name = "Cylinder Mesh";
 			meshFilter.sharedMesh = mesh;
 		}
-		CylinderGenerator.CreateMesh(ref mesh, positions, resolution, thickness);
+		CylinderGenerator.CreateMesh(ref mesh, positions, gradient, resolution, thickness);
 	}
 }

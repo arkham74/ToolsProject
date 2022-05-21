@@ -1,46 +1,133 @@
-using System;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-using TMPro;
-using NaughtyAttributes;
-using Random = UnityEngine.Random;
-using Text = TMPro.TextMeshProUGUI;
-using Tag = NaughtyAttributes.TagAttribute;
 using UnityEditor;
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
+using UnityEditorInternal;
+using UnityEngine;
 
 [CustomEditor(typeof(Spline))]
 public class SplineEditor : Editor
 {
-	private SerializedProperty segmentsProp;
+	private const float lineSize = 2f;
+	private const float ballSize = 0.2f;
+
+	private SerializedProperty listProp;
 	private SerializedProperty mirrorProp;
+	private SerializedProperty loopProp;
 	private Transform transform;
 	private int selectedIndex = -1;
+	private ReorderableList reorderableList;
+
+	private int parentIndex
+	{
+		get => Mathf.FloorToInt(selectedIndex / 3f);
+		set => selectedIndex = value * 3;
+	}
 
 	private void OnEnable()
 	{
-		segmentsProp = serializedObject.FindProperty("segments");
+		listProp = serializedObject.FindProperty("segments");
 		mirrorProp = serializedObject.FindProperty("mirrorTangents");
+		loopProp = serializedObject.FindProperty("loop");
 		transform = (target as Component).transform;
+		reorderableList = new ReorderableList(serializedObject, listProp);
+		reorderableList.drawHeaderCallback += DrawListHeader;
+		reorderableList.drawElementCallback += DrawListElement;
+		reorderableList.elementHeightCallback += ElementHeight;
+		reorderableList.onSelectCallback += OnSelect;
+		reorderableList.onAddCallback += OnAdd;
 	}
 
-	// private void OnDisable()
-	// {
-	// }
+	private void OnDisable()
+	{
+		reorderableList.drawHeaderCallback -= DrawListHeader;
+		reorderableList.drawElementCallback -= DrawListElement;
+		reorderableList.elementHeightCallback -= ElementHeight;
+		reorderableList.onSelectCallback -= OnSelect;
+		reorderableList.onAddCallback -= OnAdd;
+	}
 
-	// public override void OnInspectorGUI()
-	// {
-	// 	DrawDefaultInspector();
-	// }
+	private void OnAdd(ReorderableList list)
+	{
+		int index = listProp.arraySize;
+		listProp.InsertArrayElementAtIndex(index);
+
+		SerializedProperty elemProp = listProp.GetArrayElementAtIndex(index);
+		SerializedProperty pointProp = elemProp.FindPropertyRelative("point");
+		SerializedProperty leftProp = elemProp.FindPropertyRelative("left");
+		SerializedProperty rightProp = elemProp.FindPropertyRelative("right");
+
+		if (index > 0)
+		{
+			SerializedProperty prevProp = listProp.GetArrayElementAtIndex(index - 1);
+			SerializedProperty pointPrevProp = prevProp.FindPropertyRelative("point");
+			SerializedProperty leftPrevProp = prevProp.FindPropertyRelative("left");
+			SerializedProperty rightPrevProp = prevProp.FindPropertyRelative("right");
+
+			pointProp.vector3Value += leftPrevProp.vector3Value * 3;
+		}
+		else
+		{
+			pointProp.vector3Value = new Vector3(1, 0, 0);
+			leftProp.vector3Value = new Vector3(0.5f, 0, 0);
+			rightProp.vector3Value = new Vector3(-0.5f, 0, 0);
+		}
+	}
+
+	private void OnSelect(ReorderableList list)
+	{
+		parentIndex = list.index;
+	}
+
+	private float ElementHeight(int index)
+	{
+		if (listProp.arraySize > 0)
+		{
+			SerializedProperty elemProp = listProp.GetArrayElementAtIndex(index);
+			SerializedProperty pointProp = elemProp.FindPropertyRelative("point");
+			float lineHeight = EditorGUI.GetPropertyHeight(pointProp) + EditorGUIUtility.standardVerticalSpacing;
+			return lineHeight * 4;
+		}
+		return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+	}
+
+	private void DrawListElement(Rect rect, int index, bool isActive, bool isFocused)
+	{
+		SerializedProperty elemProp = listProp.GetArrayElementAtIndex(index);
+		SerializedProperty pointProp = elemProp.FindPropertyRelative("point");
+		SerializedProperty leftProp = elemProp.FindPropertyRelative("left");
+		SerializedProperty rightProp = elemProp.FindPropertyRelative("right");
+
+		float height = rect.height / 4f;
+		rect.height = height;
+		EditorGUI.LabelField(rect, $"Node {index + 1}", EditorStyles.boldLabel);
+		rect.y += height;
+		EditorGUI.PropertyField(rect, pointProp);
+		rect.y += height;
+		EditorGUI.PropertyField(rect, leftProp);
+		rect.y += height;
+		EditorGUI.PropertyField(rect, rightProp);
+	}
+
+	private void DrawListHeader(Rect rect)
+	{
+		EditorGUI.LabelField(rect, "Spline nodes");
+	}
+
+	public override void OnInspectorGUI()
+	{
+		serializedObject.Update();
+
+		EditorGUILayout.Separator();
+		// EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+		// EditorGUILayout.BeginVertical(EditorStyles.inspectorDefaultMargins);
+		// EditorGUILayout.BeginVertical(EditorStyles.inspectorFullWidthMargins);
+		EditorGUILayout.PropertyField(mirrorProp);
+		EditorGUILayout.PropertyField(loopProp);
+		// EditorGUILayout.EndVertical();
+		// EditorGUILayout.EndVertical();
+		EditorGUILayout.Separator();
+
+		reorderableList.DoLayoutList();
+		serializedObject.ApplyModifiedProperties();
+	}
 
 	private void OnSceneGUI()
 	{
@@ -48,12 +135,12 @@ public class SplineEditor : Editor
 		Handles.matrix = transform.localToWorldMatrix;
 		bool applyChanges = false;
 
-		if (segmentsProp.arraySize > 0)
+		if (listProp.arraySize > 0)
 		{
-			for (int i = 1; i < segmentsProp.arraySize; i++)
+			for (int i = 1; i < listProp.arraySize; i++)
 			{
-				SerializedProperty elemProp1 = segmentsProp.GetArrayElementAtIndex(i - 1);
-				SerializedProperty elemProp2 = segmentsProp.GetArrayElementAtIndex(i);
+				SerializedProperty elemProp1 = listProp.GetArrayElementAtIndex(i - 1);
+				SerializedProperty elemProp2 = listProp.GetArrayElementAtIndex(i);
 
 				SerializedProperty pointProp1 = elemProp1.FindPropertyRelative("point");
 				SerializedProperty leftProp1 = elemProp1.FindPropertyRelative("left");
@@ -64,19 +151,14 @@ public class SplineEditor : Editor
 				SerializedProperty rightProp2 = elemProp2.FindPropertyRelative("right");
 
 				Vector3 pos1 = pointProp1.vector3Value;
-				Vector3 wPos1 = pos1;
-
-				Vector3 left1 = leftProp1.vector3Value + wPos1;
-				Vector3 right1 = rightProp1.vector3Value + wPos1;
+				Vector3 left1 = leftProp1.vector3Value + pos1;
+				Vector3 right1 = rightProp1.vector3Value + pos1;
 
 				Vector3 pos2 = pointProp2.vector3Value;
-				Vector3 wPos2 = pos2;
+				Vector3 left2 = leftProp2.vector3Value + pos2;
+				Vector3 right2 = rightProp2.vector3Value + pos2;
 
-				Vector3 left2 = leftProp2.vector3Value + wPos2;
-				Vector3 right2 = rightProp2.vector3Value + wPos2;
-
-				const float size = 2f;
-				Handles.DrawBezier(pos1, pos2, left1, right2, Color.green, null, size);
+				Handles.DrawBezier(pos1, pos2, left1, right2, Color.green, null, lineSize);
 
 				if (DrawHandles(i * 3, elemProp2))
 				{
@@ -84,7 +166,9 @@ public class SplineEditor : Editor
 				};
 			}
 
-			if (DrawHandles(0, segmentsProp.GetArrayElementAtIndex(0)))
+			DrawLoop();
+
+			if (DrawHandles(0, listProp.GetArrayElementAtIndex(0)))
 			{
 				applyChanges = true;
 			};
@@ -92,8 +176,30 @@ public class SplineEditor : Editor
 
 		if (applyChanges)
 		{
-			// EditorUtility.SetDirty(target);
 			serializedObject.ApplyModifiedProperties();
+		}
+	}
+
+	private void DrawLoop()
+	{
+		if (loopProp.boolValue)
+		{
+			SerializedProperty firstProp = listProp.GetArrayElementAtIndex(0);
+			SerializedProperty lastProp = listProp.GetArrayElementAtIndex(listProp.arraySize - 1);
+
+			SerializedProperty pointProp1 = firstProp.FindPropertyRelative("point");
+			SerializedProperty rightProp1 = firstProp.FindPropertyRelative("right");
+
+			SerializedProperty pointProp2 = lastProp.FindPropertyRelative("point");
+			SerializedProperty leftProp2 = lastProp.FindPropertyRelative("left");
+
+			Vector3 pos1 = pointProp1.vector3Value;
+			Vector3 right1 = rightProp1.vector3Value + pos1;
+
+			Vector3 pos2 = pointProp2.vector3Value;
+			Vector3 left2 = leftProp2.vector3Value + pos2;
+
+			Handles.DrawBezier(pos1, pos2, right1, left2, Color.green, null, lineSize);
 		}
 	}
 
@@ -107,23 +213,21 @@ public class SplineEditor : Editor
 		Vector3 left = leftProp.vector3Value + pos;
 		Vector3 right = rightProp.vector3Value + pos;
 
-		float size = 2f;
-
 		Handles.color = Color.red;
-		Handles.DrawLine(pos, left, size);
-		Handles.DrawLine(pos, right, size);
+		Handles.DrawLine(pos, left, lineSize);
+		Handles.DrawLine(pos, right, lineSize);
 
-		if (DrawPoint(index + 0, pointProp, null, Vector3.zero, pos, 0.25f))
+		if (DrawPoint(index + 0, pointProp, null, Vector3.zero, pos))
 		{
 			return true;
 		}
 
-		if (DrawPoint(index + 1, leftProp, rightProp, pos, left, 0.25f))
+		if (DrawPoint(index + 1, leftProp, rightProp, pos, left))
 		{
 			return true;
 		}
 
-		if (DrawPoint(index + 2, rightProp, leftProp, pos, right, 0.25f))
+		if (DrawPoint(index + 2, rightProp, leftProp, pos, right))
 		{
 			return true;
 		}
@@ -131,15 +235,16 @@ public class SplineEditor : Editor
 		return false;
 	}
 
-	private bool DrawPoint(int index, SerializedProperty prop, SerializedProperty opProp, Vector3 offset, Vector3 pos, float size)
+	private bool DrawPoint(int index, SerializedProperty prop, SerializedProperty opProp, Vector3 offset, Vector3 pos)
 	{
 		Handles.color = Color.white;
-		float s = HandleUtility.GetHandleSize(pos) * size;
+		float s = HandleUtility.GetHandleSize(pos) * ballSize;
+
 		if (selectedIndex == index)
 		{
 			EditorGUI.BeginChangeCheck();
 			Vector3 newPos = Handles.PositionHandle(pos, Quaternion.identity);
-			// UnityEditor.Tools.current = Tool.None;
+
 			if (EditorGUI.EndChangeCheck())
 			{
 				Undo.RecordObject(target, "Segment change");
@@ -152,6 +257,7 @@ public class SplineEditor : Editor
 		else if (Handles.Button(pos, Quaternion.identity, s, s * 1.5f, Handles.SphereHandleCap))
 		{
 			selectedIndex = index;
+			reorderableList.Select(parentIndex);
 		}
 
 		return false;

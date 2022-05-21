@@ -1,3 +1,4 @@
+#if ENABLE_INPUT_SYSTEM
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -107,3 +108,4 @@ public class BindingPropertyDrawer : PropertyDrawer
 		}
 	}
 }
+#endif

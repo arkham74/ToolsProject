@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
+﻿#if ENABLE_INPUT_SYSTEM
+using UnityEngine;
 
 public class BindingAttribute : PropertyAttribute
 {
@@ -10,3 +10,4 @@ public class BindingAttribute : PropertyAttribute
 		this.inputReference = inputReference;
 	}
 }
+#endif

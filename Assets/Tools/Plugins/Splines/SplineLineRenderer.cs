@@ -19,7 +19,7 @@ using UnityEngine.InputSystem;
 #endif
 
 [RequireComponent(typeof(LineRenderer))]
-public class SplineLineRenderer : SplineRenderer
+public class SplineLineRenderer : SplineSampler
 {
 	[SerializeField] private LineRenderer lineRenderer;
 
@@ -27,6 +27,10 @@ public class SplineLineRenderer : SplineRenderer
 	{
 		base.Reset();
 		lineRenderer = GetComponent<LineRenderer>();
+		lineRenderer.useWorldSpace = false;
+		lineRenderer.startWidth = 0.1f;
+		lineRenderer.endWidth = 0.1f;
+		lineRenderer.sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
 	}
 
 	protected override void Positions(Span<Vector3> positions)

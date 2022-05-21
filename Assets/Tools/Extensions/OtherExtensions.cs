@@ -3,28 +3,11 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public static class OtherExtensions
 {
-	public static Locale SelectByIndex(this ILocalesProvider locales, int index)
-	{
-		return LocalizationSettings.SelectedLocale = locales.Locales[index];
-	}
-
-	public static int GetIndex(this Locale locale)
-	{
-		return LocalizationSettings.AvailableLocales.Locales.IndexOf(locale);
-	}
-
-	public static string GetNativeName(this Locale locale)
-	{
-		return locale.Identifier.CultureInfo.NativeName;
-	}
-
 	public static bool CheckKeyPress(this KeyCode main, params KeyCode[] mod)
 	{
 		return Input.GetKeyDown(main) && mod.All(Input.GetKey);

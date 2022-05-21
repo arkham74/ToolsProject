@@ -1,14 +1,8 @@
 using System;
 using UnityEngine;
-using UnityEngine.Timeline;
 
 public static class DebugTools
 {
-	public static void Log(params object[] objs)
-	{
-		objs.Log();
-	}
-
 	public static void LogWarning(params object[] objs)
 	{
 		objs.LogWarning();
@@ -47,7 +41,7 @@ public static class DebugTools
 		}
 	}
 
-	internal static void DrawNormal(Vector3 point, Vector3 normal, Color color, float duration = 0f)
+	public static void DrawNormal(Vector3 point, Vector3 normal, Color color, float duration = 0f)
 	{
 		Debug.DrawRay(point, normal * 0.5f, color, duration);
 		DrawCircle(point, normal, 0.1f, color, duration);
