@@ -8,18 +8,11 @@ using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
-using TMPro;
-using NaughtyAttributes;
 using Random = UnityEngine.Random;
-using Text = TMPro.TextMeshProUGUI;
-using Tag = NaughtyAttributes.TagAttribute;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using UnityEngine.Rendering;
 using System.IO;
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
 
 public class ScriptableObjectSearchProvider : ScriptableObject, ISearchWindowProvider
 {

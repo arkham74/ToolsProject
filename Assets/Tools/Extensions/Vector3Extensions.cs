@@ -27,15 +27,15 @@ public static class Vector3Extensions
 	// 	// 	return (target - v).normalized;
 	// 	// }
 
-	// 	public static float Distance(this Vector3 v1, Transform v2)
-	// 	{
-	// 		return Vector3.Distance(v1, v2.position);
-	// 	}
+	// public static float Distance(this Vector3 v1, Transform v2)
+	// {
+	// 	return Vector3.Distance(v1, v2.position);
+	// }
 
-	// 	public static float Distance(this Vector3 v1, Vector3 v2)
-	// 	{
-	// 		return Vector3.Distance(v1, v2);
-	// 	}
+	public static float Distance(this Vector3 v1, Vector3 v2)
+	{
+		return Vector3.Distance(v1, v2);
+	}
 
 	// 	public static Vector2 XZ(this Vector3 v)
 	// 	{

@@ -195,27 +195,27 @@ public static class Vector2Extensions
 		return Vector2.Distance(v1, v2);
 	}
 
-	// 	public static float PathLength(this IList<Vector2> waypoints)
-	// 	{
-	// 		float sum = 0;
+	public static float PathLength(this IList<Vector2> waypoints)
+	{
+		float sum = 0;
 
-	// 		for (int i = 1; i < waypoints.Count; i++)
-	// 		{
-	// 			sum += Vector2.Distance(waypoints[i - 1], waypoints[i]);
-	// 		}
+		for (int i = 1; i < waypoints.Count; i++)
+		{
+			sum += Vector2.Distance(waypoints[i - 1], waypoints[i]);
+		}
 
-	// 		return sum;
-	// 	}
+		return sum;
+	}
 
-	// 	public static float PathLength(this Span<Vector2> waypoints)
-	// 	{
-	// 		float sum = 0;
+	public static float PathLength(this Span<Vector2> waypoints)
+	{
+		float sum = 0;
 
-	// 		for (int i = 1; i < waypoints.Length; i++)
-	// 		{
-	// 			sum += Vector2.Distance(waypoints[i - 1], waypoints[i]);
-	// 		}
+		for (int i = 1; i < waypoints.Length; i++)
+		{
+			sum += Vector2.Distance(waypoints[i - 1], waypoints[i]);
+		}
 
-	// 		return sum;
-	// 	}
+		return sum;
+	}
 }
