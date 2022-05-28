@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -159,6 +160,28 @@ public class SplineEditor : Editor
 				Vector3 right2 = rightProp2.vector3Value + pos2;
 
 				Handles.DrawBezier(pos1, pos2, left1, right2, Color.green, null, lineSize);
+
+				// if (Event.current.type == EventType.Repaint)
+				// {
+				// 	Spline sp = target as Spline;
+				// 	const int samples = 5;
+				// 	for (int j = 0; j < samples; j++)
+				// 	{
+				// 		float t = j / (samples - 1f);
+				// 		Vector3 center = sp.Evaluate(t);
+				// 		Vector3 normal = sp.EvaluateNormal(t);
+				// 		Quaternion rot = Quaternion.LookRotation(normal);
+				// 		Handles.DrawWireDisc(center, normal, ballSize / 2f);
+				// 		Handles.color = Color.white;
+				// 		Handles.ArrowHandleCap(
+				// 				0,
+				// 				center,
+				// 				rot,
+				// 				ballSize * 2,
+				// 				EventType.Repaint
+				// 		);
+				// 	}
+				// }
 
 				if (DrawHandles(i * 3, elemProp2))
 				{

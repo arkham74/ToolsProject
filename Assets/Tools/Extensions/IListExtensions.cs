@@ -2,19 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Freya;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 public static class IListExtensions
 {
-	public static T Repeat<T>(this IList<T> array, int index)
-	{
-		return array[index % array.Count];
-	}
-
 	public static T Loop<T>(this IList<T> array, int index)
 	{
-		return array[(int)Mathf.Repeat(index, array.Count)];
+		return array[Mathfs.Mod(index, array.Count)];
 	}
 
 	public static T Random<T>(this IList<T> list)

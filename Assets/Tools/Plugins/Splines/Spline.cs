@@ -26,6 +26,9 @@ public class Spline : MonoBehaviour
 	[SerializeField] private bool loop = false;
 #pragma warning restore CS0414
 
+	// private const int samples = 10;
+	// private float[] lut = new float[samples];
+
 	[SerializeField]
 	private Segment[] segments = new Segment[]
 	{
@@ -58,45 +61,42 @@ public class Spline : MonoBehaviour
 	}
 
 
-	public void CalcLUT()
-	{
-		int samples = 10;
-		// Span<float> lut = new float[samples];
+	// public void CalcLUT()
+	// {
+	// 	for (int i = 1; i < samples; i++)
+	// 	{
+	// 		float t1 = (i - 1) / (samples - 1);
+	// 		float t2 = i / (samples - 1);
+	// 		Vector3 pos1 = Evaluate(t1);
+	// 		Vector3 pos2 = Evaluate(t2);
+	// 		float dist = pos1.Distance(pos2);
+	// 		lut[i - 1] = dist;
+	// 		Debug.LogWarning(dist);
+	// 	}
+	// }
 
-		// lut[0] = 0;
-		for (int i = 1; i < samples; i++)
-		{
-			float t1 = (i - 1) / (samples - 1);
-			float t2 = i / (samples - 1);
-			Vector3 pos1 = Evaluate(t1);
-			Vector3 pos2 = Evaluate(t2);
-			float dist = pos1.Distance(pos2);
-			Debug.LogWarning(dist);
-		}
+	public Vector3 EvaluateNormalByDistance(float distance)
+	{
+		return EvaluateNormal(distance / GetLength());
 	}
 
-	// public Vector3 EvaluateNormalByDistance(float distance)
-	// {
-	// 	return EvaluateNormal(distance / GetLength());
-	// }
-
-	// public Vector3 EvaluateNormal(float t)
-	// {
-	// 	if (segments.Length > 0)
-	// 	{
-	// 		if (loop)
-	// 		{
-	// 			(int indexA, int indexB, float newT) = GetIndexesLoop(t);
-	// 			return Normal(segments[indexA], segments[indexB], newT);
-	// 		}
-	// 		else
-	// 		{
-	// 			(int indexA, int indexB, float newT) = GetIndexes(t);
-	// 			return Normal(segments[indexA], segments[indexB], newT);
-	// 		}
-	// 	}
-	// 	return Vector3.zero;
-	// }
+	public Vector3 EvaluateNormal(float t)
+	{
+		if (segments.Length > 0)
+		{
+			if (loop)
+			{
+				(int indexA, int indexB, float newT) = GetIndexesLoop(t);
+				return Normal(segments[indexA], segments[indexB], newT);
+			}
+			else
+			{
+				(int indexA, int indexB, float newT) = GetIndexes(t);
+				return Normal(segments[indexA], segments[indexB], newT);
+			}
+		}
+		return Vector3.zero;
+	}
 
 	public Vector3 EvaluateByDistance(float distance)
 	{
@@ -160,20 +160,20 @@ public class Spline : MonoBehaviour
 		return a + b + c + d;
 	}
 
-	// private Vector3 Normal(Segment s1, Segment s2, float t)
-	// {
-	// 	Vector3 left1 = s1.left + s1.point;
-	// 	Vector3 right2 = s2.right + s2.point;
-	// 	return Normal(s1.point, left1, right2, s2.point, t);
-	// }
+	private Vector3 Normal(Segment s1, Segment s2, float t)
+	{
+		Vector3 left1 = s1.left + s1.point;
+		Vector3 right2 = s2.right + s2.point;
+		return Normal(s1.point, left1, right2, s2.point, t);
+	}
 
-	// public static Vector3 Normal(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
-	// {
-	// 	float it = 1f - t;
-	// 	Vector3 a = it * it * it * p0;
-	// 	Vector3 b = 3 * it * it * t * p1;
-	// 	Vector3 c = 3 * it * t * t * p2;
-	// 	Vector3 d = t * t * t * p3;
-	// 	return a + b + c + d;
-	// }
+	public static Vector3 Normal(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
+	{
+		float it = 1f - t;
+		Vector3 a = (-3 * t * t + 6 * t - 3) * p0;
+		Vector3 b = (9 * t * t - 12 * t + 3) * p1;
+		Vector3 c = (-9 * t * t + 6 * t) * p2;
+		Vector3 d = (3 * t * t) * p3;
+		return a + b + c + d;
+	}
 }

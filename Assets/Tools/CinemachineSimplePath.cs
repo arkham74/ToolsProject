@@ -13,11 +13,12 @@ using NaughtyAttributes;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 using Tag = NaughtyAttributes.TagAttribute;
-using Cinemachine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
+#if TOOLS_CINEMACHINE
+using Cinemachine;
 public class CinemachineSimplePath : CinemachinePathBase
 {
 	[SerializeField] private Vector3[] waypoints;
@@ -126,3 +127,4 @@ public class CinemachineSimplePath : CinemachinePathBase
 		return Vector3.up;
 	}
 }
+#endif
