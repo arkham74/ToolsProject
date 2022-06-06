@@ -185,10 +185,10 @@ public static class Vector2Extensions
 	// 		return targetVelocity - currentVelocity;
 	// 	}
 
-	// 	public static Vector2 ClampMagnitude(this Vector2 vec2, float mag)
-	// 	{
-	// 		return Vector2.ClampMagnitude(vec2, mag);
-	// 	}
+	public static Vector2 ClampMagnitude(this Vector2 vec2, float mag)
+	{
+		return Vector2.ClampMagnitude(vec2, mag);
+	}
 
 	public static float Distance(this Vector2 v1, Vector2 v2)
 	{

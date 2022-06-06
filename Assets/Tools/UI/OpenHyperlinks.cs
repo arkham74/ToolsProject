@@ -1,18 +1,6 @@
-using System;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using TMPro;
-using NaughtyAttributes;
-using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
-using Tag = NaughtyAttributes.TagAttribute;
 using UnityEngine.EventSystems;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -51,7 +39,7 @@ public class OpenHyperlinks : MonoBehaviour, IPointerClickHandler
 
 	private int GetIndex(Vector2 mousePosition)
 	{
-		return TMP_TextUtilities.FindIntersectingLink(text, mousePosition, null);
+		return TMP_TextUtilities.FindIntersectingLink(text, mousePosition, Camera.main);
 	}
 
 	public void Update()

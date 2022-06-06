@@ -22,7 +22,7 @@ public class SplineMesh : SplineSampler
 		meshRenderer.sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
 	}
 
-	protected override void Positions(Span<Vector3> positions)
+	protected override void PositionsAndNormals(Span<Vector3> positions, Span<Vector3> normals)
 	{
 		if (mesh == null)
 		{
@@ -30,6 +30,12 @@ public class SplineMesh : SplineSampler
 			mesh.name = "Cylinder Mesh";
 			meshFilter.sharedMesh = mesh;
 		}
+
+		for (int i = 0; i < positions.Length; i++)
+		{
+			positions[i].y += thickness;
+		}
+
 		CylinderGenerator.CreateMesh(ref mesh, positions, gradient, resolution, thickness);
 	}
 }

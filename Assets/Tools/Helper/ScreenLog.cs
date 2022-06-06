@@ -10,7 +10,7 @@ public class ScreenLog : MonoBehaviour
 	private static readonly Dictionary<string, object> dict = new Dictionary<string, object>();
 	private static ScreenLog instance;
 
-	private static readonly GUIStyle headStyle = new GUIStyle("Label") { fontSize = 24 };
+	private static readonly GUIStyle headStyle = new GUIStyle("Label");
 
 	private static void CreateLog()
 	{
@@ -49,6 +49,7 @@ public class ScreenLog : MonoBehaviour
 			sb.AppendLine();
 		}
 
+		headStyle.fontSize = (int)(24f * Screen.height / 1080f);
 		GUILayout.Label(sb.ToString(), headStyle);
 	}
 }

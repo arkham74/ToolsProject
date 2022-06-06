@@ -217,4 +217,11 @@ public static class IListExtensions
 
 		return list;
 	}
+
+	public static bool ContainsIndex<T>(this IReadOnlyList<T> list, int index)
+	{
+		bool greaterThanEqualZero = index >= 0;
+		bool lessThanCount = index < list.Count;
+		return greaterThanEqualZero && lessThanCount;
+	}
 }

@@ -26,7 +26,7 @@ public class SplineLineRenderer : SplineSampler
 		lineRenderer.sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
 	}
 
-	protected override void Positions(Span<Vector3> positions)
+	protected override void PositionsAndNormals(Span<Vector3> positions, Span<Vector3> normals)
 	{
 		lineRenderer.positionCount = samples;
 		for (int i = 0; i < positions.Length; i++)

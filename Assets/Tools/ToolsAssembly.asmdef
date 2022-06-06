@@ -24,6 +24,11 @@
             "name": "com.unity.localization",
             "expression": "1.0.5",
             "define": "TOOLS_LOCALIZATION"
+        },
+        {
+            "name": "com.unity.cinemachine",
+            "expression": "2.6.11",
+            "define": "TOOLS_CINEMACHINE"
         }
     ],
     "noEngineReferences": false

@@ -68,6 +68,11 @@ public static class ComponentExtensions
 		go.gameObject.SetActive(true);
 	}
 
+	public static void SetActiveGameObject(this Component go, bool state)
+	{
+		go.gameObject.SetActive(state);
+	}
+
 	public static void Destroy(this Component component, float time = 0f)
 	{
 		if (component == null) return;

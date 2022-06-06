@@ -33,6 +33,14 @@ public static class Tools
 		return false;
 	}
 
+	public static Vector2 GenerateCircle(float t, float radius = 1f)
+	{
+		float rad = t * Mathf.PI * 2;
+		float x = Mathf.Sin(rad) * radius;
+		float y = Mathf.Cos(rad) * radius;
+		return new Vector2(x, y);
+	}
+
 	public static int RandomPosNeg()
 	{
 		return Random.Range(0, 2) * 2 - 1;

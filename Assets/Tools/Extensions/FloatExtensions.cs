@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Freya;
 using UnityEngine;
 
 public static class FloatExtensions
@@ -11,10 +12,10 @@ public static class FloatExtensions
 		return Mathf.PingPong(t, len);
 	}
 
-	// 	public static bool Approx(this float a, float b, float threshold = float.Epsilon)
-	// 	{
-	// 		return Mathf.Abs(a - b) < threshold;
-	// 	}
+	public static bool Approx(this float a, float b)
+	{
+		return Mathfs.Approximately(a, b);
+	}
 
 	// 	public static IEnumerable<float> Normalize(this IEnumerable<float> array)
 	// 	{

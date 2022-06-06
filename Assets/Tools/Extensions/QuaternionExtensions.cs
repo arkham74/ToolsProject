@@ -11,4 +11,9 @@ public static class QuaternionExtensions
 	{
 		return Quaternion.Lerp(quaternion, Quaternion.LookRotation(direction), time);
 	}
+
+	public static bool Approximately(this Quaternion quatA, Quaternion value, float acceptableRange)
+	{
+		return 1 - Mathf.Abs(Quaternion.Dot(quatA, value)) < acceptableRange;
+	}
 }

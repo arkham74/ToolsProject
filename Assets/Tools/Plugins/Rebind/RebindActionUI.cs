@@ -111,6 +111,7 @@ public class RebindActionUI : MonoBehaviour
 			.WithMagnitudeHavingToBeGreaterThan(0.5f)
 			.WithControlsExcluding("<Keyboard>/printScreen")
 			.WithControlsExcluding("<Keyboard>/anyKey")
+			.WithControlsExcluding("<Gamepad>/select")
 			.OnCancel(ope =>
 			{
 				UpdateBindingDisplay();
@@ -189,7 +190,7 @@ public class RebindActionUI : MonoBehaviour
 		}
 		else
 #endif
-		text.SetText(string.Format(format, display));
+			text.SetText(string.Format(format, display));
 	}
 }
 #endif

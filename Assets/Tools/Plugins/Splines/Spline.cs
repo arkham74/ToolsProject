@@ -46,6 +46,8 @@ public class Spline : MonoBehaviour
 		}
 	};
 
+	public Segment[] Segments => segments;
+
 	public float GetLength()
 	{
 		float len = 0;
