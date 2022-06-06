@@ -2,29 +2,48 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PriorityQueue;
+using UnityEngine;
 
 namespace Pathfinder
 {
 	public interface INode
 	{
-		public abstract float Estimate(INode target);
+		public abstract float EnterCost { get; }
+		public abstract float ExitCost { get; }
+		public abstract Vector3 GetPosition();
 		public abstract INode[] GetNeighbours();
-		public abstract float GetCost(INode neighbor);
+
+		public virtual float Estimate(INode target)
+		{
+			return GetPosition().Distance(target.GetPosition());
+		}
+
+		public virtual float GetCost(INode node)
+		{
+			return node.EnterCost + ExitCost;
+		}
 	}
 
 	public static class Pathfinder
 	{
 		private static List<INode> ReconstructPath(Dictionary<INode, INode> from, INode current)
 		{
-			List<INode> path = new List<INode> { current };
+			List<INode> path = new List<INode>();
+			path.Add(current);
 
 			while (from.Keys.Contains(current))
 			{
 				current = from[current];
-				path.Prepend(current);
+				path.Add(current);
 			}
 
 			return path;
+		}
+
+		public static bool TryGetPath(INode start, INode end, out List<INode> path)
+		{
+			path = GetPath(start, end);
+			return path != null;
 		}
 
 		public static List<INode> GetPath(INode start, INode end)
@@ -46,7 +65,6 @@ namespace Pathfinder
 				{
 					return ReconstructPath(from, current);
 				}
-				open.Remove(current);
 
 				foreach (INode neighbor in current.GetNeighbours())
 				{
