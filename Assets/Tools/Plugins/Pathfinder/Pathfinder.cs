@@ -15,7 +15,7 @@ namespace Pathfinder
 
 		public virtual float Estimate(INode target)
 		{
-			return GetPosition().Distance(target.GetPosition());
+			return Vector3.Distance(GetPosition(), target.GetPosition());
 		}
 
 		public virtual float GetCost(INode node)

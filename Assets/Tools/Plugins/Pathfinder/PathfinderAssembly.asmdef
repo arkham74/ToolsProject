@@ -1,0 +1,16 @@
+{
+    "name": "PathfinderAssembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:faa6cc84673f6cf4b9b86ae3f1712ed3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
