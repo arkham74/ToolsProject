@@ -26,8 +26,9 @@ public class RebindActionUI : MonoBehaviour
 	[OnValueChanged(nameof(OnChange))][SerializeField] private string actionFormat = "{0}";
 	[OnValueChanged(nameof(OnChange))][SerializeField] private string bindingFormat = "{0}";
 	[OnValueChanged(nameof(OnChange))][SerializeField] private string waitInfo = "UI_CONTROLS_WAIT";
-
+#if !TOOLS_LOCALIZATION
 	[OnValueChanged(nameof(OnChange))][SerializeField] private InputBinding.DisplayStringOptions displayOptions = InputBinding.DisplayStringOptions.DontIncludeInteractions | InputBinding.DisplayStringOptions.DontUseShortDisplayNames;
+#endif
 	[OnValueChanged(nameof(OnChange))][SerializeField] private InputActionReference inputActionReference;
 	[OnValueChanged(nameof(OnChange))][SerializeField][Binding(nameof(inputActionReference))] private string bindingId;
 
@@ -173,7 +174,11 @@ public class RebindActionUI : MonoBehaviour
 	{
 		InputAction action = inputActionReference.action;
 		int index = action.GetBindingIndexByID(bindingId);
+#if TOOLS_LOCALIZATION
+		string display = action.GetBindingDisplayString(index, InputBinding.DisplayStringOptions.DontIncludeInteractions);
+#else
 		string display = action.GetBindingDisplayString(index, displayOptions);
+#endif
 		SetText(bindingText, bindingFormat, display, "BINDING");
 	}
 

@@ -34,9 +34,11 @@ public class ScriptableObjectSearchProvider : ScriptableObject, ISearchWindowPro
 
 	public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
 	{
+		Texture2D soIcon = (Texture2D)EditorGUIUtility.IconContent("ScriptableObject Icon").image;
+		Texture2D dirIcon = (Texture2D)EditorGUIUtility.IconContent("Folder Icon").image;
 		list.Clear();
 		var types = TypeCache.GetTypesDerivedFrom<ScriptableObject>().OrderBy(Sort);
-		list.Add(new SearchTreeGroupEntry(new GUIContent("ScriptableObject")));
+		list.Add(new SearchTreeGroupEntry(new GUIContent("Scriptable Objects")));
 
 		Type editorType = typeof(Editor);
 		Type editorWindowType = typeof(EditorWindow);
@@ -64,12 +66,14 @@ public class ScriptableObjectSearchProvider : ScriptableObject, ISearchWindowPro
 				groupName += entryTitle[i];
 				if (!groups.Contains(groupName))
 				{
-					list.Add(new SearchTreeGroupEntry(new GUIContent(entryTitle[i]), i + 1));
+					list.Add(new SearchTreeGroupEntry(new GUIContent(entryTitle[i], dirIcon), i + 1));
 					groups.Add(groupName);
 				}
 				groupName += "/";
 			}
-			SearchTreeEntry entry = new SearchTreeEntry(new GUIContent(entryTitle.Last()))
+
+			GUIContent content = new GUIContent(entryTitle.Last(), soIcon);
+			SearchTreeEntry entry = new SearchTreeEntry(content)
 			{
 				userData = item,
 				level = entryTitle.Length,

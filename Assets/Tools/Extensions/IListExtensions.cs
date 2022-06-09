@@ -37,11 +37,6 @@ public static class IListExtensions
 		return (list as IList<T>).IndexOf(element);
 	}
 
-	public static int IndexOf<T>(this T[] array, T element)
-	{
-		return Array.IndexOf(array, element);
-	}
-
 	public static T RepeatOrDefault<T>(this IList<T> array, int index)
 	{
 		int lenght = array.Count();
@@ -78,6 +73,12 @@ public static class IListExtensions
 			}
 		}
 		return clos;
+	}
+
+
+	public static string Join<T>(this IReadOnlyCollection<T> array, string separator = ", ")
+	{
+		return string.Join(separator, array);
 	}
 
 	public static string Join<T>(this IList<T> array, string separator = ", ")
