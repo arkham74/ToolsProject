@@ -38,7 +38,9 @@ public class QuickScenes : ToolbarOverlay
 
 		private void ShowDropdown()
 		{
-			SearchWindowContext context = new SearchWindowContext(new Vector2(900, 450), Width, Height);
+			Vector2 mousepos = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+			mousepos.y += 30;
+			SearchWindowContext context = new SearchWindowContext(mousepos);
 			SearchWindow.Open(context, provider);
 		}
 
