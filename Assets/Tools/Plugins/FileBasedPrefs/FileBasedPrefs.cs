@@ -188,7 +188,7 @@ public static class FileBasedPrefs
 		{
 			var path = GetSaveFilePath();
 
-			File.Copy(path, $"{path}_backup_{DateTime.Now:yyyy-MM-dd-HH-mm-ss}");
+			File.Copy(path, $"{path}_backup_{DateTime.Now:yyyy_MM_dd_HH}", true);
 
 			var saveFileText = File.ReadAllText(path);
 

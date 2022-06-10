@@ -197,7 +197,7 @@ public static class FloatExtensions
 	/// <param name="t">The t-value from 0 to 1 representing position along the lerp</param>
 	public static float Eerp(this float t, float a, float b)
 	{
-		return Freya.Mathfs.Eerp(t, a, b);
+		return Freya.Mathfs.Eerp(a, b, t);
 	}
 
 	/// <summary>Inverse exponential interpolation, the multiplicative version of InverseLerp, useful for values such as scaling or zooming</summary>
@@ -206,6 +206,6 @@ public static class FloatExtensions
 	/// <param name="v">A value between a and b. Note: values outside this range are still valid, and will be extrapolated</param>
 	public static float InverseEerp(this float v, float a, float b)
 	{
-		return Freya.Mathfs.InverseEerp(v, a, b);
+		return Freya.Mathfs.InverseEerp(a, b, v);
 	}
 }
