@@ -176,10 +176,10 @@ public static class FloatExtensions
 	// 		return Mathf.Pow(10f, value / 20f);
 	// 	}
 
-	// 	public static float OneMinus(this float value)
-	// 	{
-	// 		return 1f - value;
-	// 	}
+	public static float OneMinus(this float value)
+	{
+		return 1f - value;
+	}
 
 	// 	public static float ToKPH(this float mps)
 	// 	{

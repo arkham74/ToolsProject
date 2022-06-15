@@ -32,11 +32,6 @@ public static class IListExtensions
 		}
 	}
 
-	public static int IndexOf<T>(this IReadOnlyList<T> list, T element)
-	{
-		return (list as IList<T>).IndexOf(element);
-	}
-
 	public static T RepeatOrDefault<T>(this IList<T> array, int index)
 	{
 		int lenght = array.Count();
@@ -75,16 +70,10 @@ public static class IListExtensions
 		return clos;
 	}
 
-
-	public static string Join<T>(this IReadOnlyCollection<T> array, string separator = ", ")
-	{
-		return string.Join(separator, array);
-	}
-
-	public static string Join<T>(this IList<T> array, string separator = ", ")
-	{
-		return string.Join(separator, array);
-	}
+	// public static string Join<T>(this IList<T> array, string separator = ", ")
+	// {
+	// 	return string.Join(separator, array);
+	// }
 
 	public static void LogWarning<T>(this IList<T> array)
 	{
@@ -108,7 +97,7 @@ public static class IListExtensions
 		// 	sb.Append(array[i]);
 		// }
 
-		Debug.LogWarning(array.Join());
+		Debug.LogWarning(string.Join(", ", array));
 	}
 
 	public static T Closest<T>(this IEnumerable<T> enumerable, Component target) where T : Component
@@ -217,12 +206,5 @@ public static class IListExtensions
 		}
 
 		return list;
-	}
-
-	public static bool ContainsIndex<T>(this IReadOnlyList<T> list, int index)
-	{
-		bool greaterThanEqualZero = index >= 0;
-		bool lessThanCount = index < list.Count;
-		return greaterThanEqualZero && lessThanCount;
 	}
 }

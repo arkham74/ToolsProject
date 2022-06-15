@@ -4,10 +4,10 @@ using UnityEngine;
 
 public static class IntExtensions
 {
-	// 	public static string IntArrayToString(this IEnumerable<int> intArray)
-	// 	{
-	// 		return string.Join(",", intArray);
-	// 	}
+	public static string IntArrayToString(this IReadOnlyList<int> intArray)
+	{
+		return string.Join(",", intArray);
+	}
 
 	// 	public static IOrderedEnumerable<int> Sort(this IEnumerable<int> array)
 	// 	{
