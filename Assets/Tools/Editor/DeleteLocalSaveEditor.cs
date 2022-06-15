@@ -29,6 +29,8 @@ public static class DeleteLocalSaveEditor
 			if (EditorUtility.DisplayDialog("Delete save", "Delete local save?", "Yes", "No"))
 			{
 				Directory.Delete(path, true);
+				PlayerPrefs.DeleteAll();
+				// EditorPrefs.DeleteAll();
 			}
 		}
 	}

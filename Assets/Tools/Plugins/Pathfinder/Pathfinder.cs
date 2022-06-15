@@ -4,14 +4,14 @@ using System.Linq;
 using PriorityQueue;
 using UnityEngine;
 
-namespace Pathfinder
+public static class Pathfinder
 {
 	public interface INode
 	{
-		public abstract float EnterCost { get; }
-		public abstract float ExitCost { get; }
+		public abstract int EnterCost { get; }
+		public abstract int ExitCost { get; }
 		public abstract Vector3 GetPosition();
-		public abstract INode[] GetNeighbours();
+		public abstract List<INode> GetNeighbours();
 
 		public virtual float Estimate(INode target)
 		{
@@ -24,66 +24,56 @@ namespace Pathfinder
 		}
 	}
 
-	public static class Pathfinder
+	private static void ReconstructPath(Dictionary<INode, INode> from, INode current, List<INode> path)
 	{
-		private static List<INode> ReconstructPath(Dictionary<INode, INode> from, INode current)
-		{
-			List<INode> path = new List<INode>();
-			path.Add(current);
+		path.Clear();
+		path.Add(current);
 
-			while (from.Keys.Contains(current))
+		while (from.Keys.Contains(current))
+		{
+			current = from[current];
+			path.Add(current);
+		}
+	}
+
+	public static bool GetPath(INode start, INode end, List<INode> path)
+	{
+		SimplePriorityQueue<INode> open = new SimplePriorityQueue<INode>();
+		open.Enqueue(start, 0f);
+		Dictionary<INode, INode> from = new Dictionary<INode, INode>();
+
+		Dictionary<INode, float> gScore = new Dictionary<INode, float>();
+		gScore[start] = 0f;
+
+		Dictionary<INode, float> fScore = new Dictionary<INode, float>();
+		fScore[start] = start.Estimate(end);
+
+		while (open.Count > 0)
+		{
+			INode current = open.Dequeue();
+			if (current == end)
 			{
-				current = from[current];
-				path.Add(current);
+				ReconstructPath(from, current, path);
+				return true;
 			}
 
-			return path;
-		}
-
-		public static bool TryGetPath(INode start, INode end, out List<INode> path)
-		{
-			path = GetPath(start, end);
-			return path != null;
-		}
-
-		public static List<INode> GetPath(INode start, INode end)
-		{
-			SimplePriorityQueue<INode> open = new SimplePriorityQueue<INode>();
-			open.Enqueue(start, 0f);
-			Dictionary<INode, INode> from = new Dictionary<INode, INode>();
-
-			Dictionary<INode, float> gScore = new Dictionary<INode, float>();
-			gScore[start] = 0f;
-
-			Dictionary<INode, float> fScore = new Dictionary<INode, float>();
-			fScore[start] = start.Estimate(end);
-
-			while (open.Count > 0)
+			foreach (INode neighbor in current.GetNeighbours())
 			{
-				INode current = open.Dequeue();
-				if (current == end)
+				float tentative_gScore = gScore.GetValueOrDefault(current, float.MaxValue) + current.GetCost(neighbor);
+				if (tentative_gScore < gScore.GetValueOrDefault(neighbor, float.MaxValue))
 				{
-					return ReconstructPath(from, current);
-				}
+					from[neighbor] = current;
+					gScore[neighbor] = tentative_gScore;
+					fScore[neighbor] = tentative_gScore + neighbor.Estimate(end);
 
-				foreach (INode neighbor in current.GetNeighbours())
-				{
-					float tentative_gScore = gScore.GetValueOrDefault(current, float.MaxValue) + current.GetCost(neighbor);
-					if (tentative_gScore < gScore.GetValueOrDefault(neighbor, float.MaxValue))
+					if (!open.Contains(neighbor))
 					{
-						from[neighbor] = current;
-						gScore[neighbor] = tentative_gScore;
-						fScore[neighbor] = tentative_gScore + neighbor.Estimate(end);
-
-						if (!open.Contains(neighbor))
-						{
-							open.Enqueue(neighbor, fScore[neighbor]);
-						}
+						open.Enqueue(neighbor, fScore[neighbor]);
 					}
 				}
 			}
-
-			return null;
 		}
+
+		return false;
 	}
 }

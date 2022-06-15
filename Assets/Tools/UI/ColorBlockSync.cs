@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
 
-[ExecuteAlways]
 public class ColorBlockSync : MonoBehaviour
 {
 	public Selectable selectable;
@@ -15,10 +14,10 @@ public class ColorBlockSync : MonoBehaviour
 		data = AssetTools.FindAssetByType<ColorBlockData>();
 	}
 
-	private void Update()
+	public void Sync()
 	{
-		if (data)
-			selectable.colors = data.colorBlock;
+		selectable.colors = data.colorBlock;
+		selectable.MarkDirty();
 	}
 #endif
 }

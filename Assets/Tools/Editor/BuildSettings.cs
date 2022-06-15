@@ -47,27 +47,27 @@ public class BuildSettings : ScriptableObject
 		return BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
 
-	[Button]
+	[Button(null, EButtonEnableMode.Editor)]
 	private void Build()
 	{
 		IncrementVersion();
 		BuildWithOptions();
 	}
 
-	[Button]
+	[Button(null, EButtonEnableMode.Editor)]
 	private void BuildAndRun()
 	{
 		IncrementVersion();
 		BuildWithOptions(BuildOptions.AutoRunPlayer);
 	}
 
-	[Button]
+	[Button(null, EButtonEnableMode.Editor)]
 	private void BuildDev()
 	{
 		BuildWithOptions(BuildOptions.Development);
 	}
 
-	[Button]
+	[Button(null, EButtonEnableMode.Editor)]
 	private void BuildAndRunDev()
 	{
 		BuildWithOptions(BuildOptions.AutoRunPlayer | BuildOptions.Development);
@@ -95,7 +95,7 @@ public class BuildSettings : ScriptableObject
 		return report;
 	}
 
-	[Button]
+	[Button(null, EButtonEnableMode.Editor)]
 	public void SelectFolder()
 	{
 		string ext = GetExt();

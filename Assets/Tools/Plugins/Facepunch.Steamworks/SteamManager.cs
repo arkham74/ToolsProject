@@ -11,7 +11,7 @@ namespace Steamworks
 {
 	public class SteamManager : MonoBehaviour
 	{
-		public static Action<bool> OnFocus = delegate { };
+		public static Action<bool> OnPaused = delegate { };
 		public const uint APP_ID_SPACEWAR = 480;
 
 		public static int PlayTime
@@ -68,19 +68,19 @@ namespace Steamworks
 #endif
 		}
 
-		private static void OnOverlayActivated(bool overlayStatus)
+		private static void OnOverlayActivated(bool isPaused)
 		{
-			OnFocus(overlayStatus);
+			OnPaused(isPaused);
 		}
 
-		private void OnApplicationPause(bool pauseStatus)
+		private void OnApplicationPause(bool isPaused)
 		{
-			OnFocus(pauseStatus);
+			OnPaused(isPaused);
 		}
 
-		private void OnApplicationFocus(bool focusStatus)
+		private void OnApplicationFocus(bool isNotPaused)
 		{
-			OnFocus(!focusStatus);
+			OnPaused(!isNotPaused);
 		}
 
 		private static void OnSteamShutdown()

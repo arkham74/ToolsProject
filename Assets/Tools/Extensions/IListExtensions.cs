@@ -131,7 +131,7 @@ public static class IListExtensions
 	{
 		if (list == null) throw new ArgumentNullException();
 		int count = list.Count();
-		if (count > 0) throw new ArgumentException("List must have more than 0 elements");
+		if (count <= 0) throw new ArgumentException("List must have more than 0 elements");
 
 		return list.ElementAt(UnityEngine.Random.Range(0, count));
 	}
