@@ -1,13 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Freya;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public static class IListExtensions
 {
+	public static string Join<T>(this List<T> array, string separator = ", ")
+	{
+		return string.Join(separator, array);
+	}
+
+	public static string Join<T>(this IList<T> array, string separator = ", ")
+	{
+		return string.Join(separator, array);
+	}
+
 	public static T Loop<T>(this IList<T> array, int index)
 	{
 		return array[Mathfs.Mod(index, array.Count)];
@@ -69,11 +77,6 @@ public static class IListExtensions
 		}
 		return clos;
 	}
-
-	// public static string Join<T>(this IList<T> array, string separator = ", ")
-	// {
-	// 	return string.Join(separator, array);
-	// }
 
 	public static void LogWarning<T>(this IList<T> array)
 	{

@@ -2,9 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Freya;
 
 public static class ArrayExtensions
 {
+	public static string Join<T>(this T[] array, string separator = ", ")
+	{
+		return string.Join(separator, array);
+	}
+
+	public static T Loop<T>(this T[] array, int index)
+	{
+		return array[Mathfs.Mod(index, array.Length)];
+	}
+
 	public static bool Exists<T>(this T[] array, Predicate<T> match)
 	{
 		return Array.Exists(array, match);
