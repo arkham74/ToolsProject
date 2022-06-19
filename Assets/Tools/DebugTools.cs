@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using UnityEngine;
 
@@ -47,3 +48,4 @@ public static class DebugTools
 		DrawCircle(point, normal, 0.1f, color, duration);
 	}
 }
+#endif

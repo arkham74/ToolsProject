@@ -5,8 +5,6 @@ using UnityEngine.UI;
 using Tag = NaughtyAttributes.TagAttribute;
 using TMPro;
 
-// ReSharper disable UnusedMember.Local
-
 public static class ComponentUtilities
 {
 	[MenuItem("CONTEXT/AudioSource/Realistic Setup")]

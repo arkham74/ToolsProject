@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Tag = NaughtyAttributes.TagAttribute;
 
-// ReSharper disable UnusedMember.Local
-
 public class GameSettingsEditorWindow : EditorWindow
 {
 	[MenuItem("Tools/Game Settings")]

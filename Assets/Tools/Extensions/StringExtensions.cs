@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 public static class StringExtensions
 {
-	private static readonly TextInfo TextInfo = new CultureInfo("es-ES", false).TextInfo;
+	private static readonly TextInfo TextInfo = new CultureInfo("en-GB", false).TextInfo;
 
 	public static bool IsNullOrWhiteSpace(this string str)
 	{
@@ -15,10 +16,16 @@ public static class StringExtensions
 
 	public static string ToConstantCase(this string str)
 	{
-		return str.Replace(" ", "").ToSplitCamelCase().ToUpper().SpaceToUnderscore();
+		str = str.UnderscoreToSpace();
+		str = str.SplitCamelCase();
+		str = str.Replace("  ", " ");
+		str = str.Replace("  ", " ");
+		str = str.ToUpper();
+		str = str.SpaceToUnderscore();
+		return str;
 	}
 
-	public static string ToSplitCamelCase(this string str)
+	public static string SplitCamelCase(this string str)
 	{
 		return Regex.Replace(Regex.Replace(str, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");
 	}

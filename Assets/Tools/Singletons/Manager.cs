@@ -25,6 +25,5 @@ public abstract class Manager<T> : MonoBehaviour where T : MonoBehaviour
 		Instance = Instantiate(prefab);
 		Instance.name = typeName;
 		DontDestroyOnLoad(Instance.gameObject);
-		// Debug.Log(typeName + " initialized", Instance);
 	}
 }
