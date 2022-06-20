@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if TOOL_NAUATTR
 using NaughtyAttributes;
+#endif
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -18,22 +20,55 @@ using UnityEngine.Localization.Settings;
 [RequireComponent(typeof(Button))]
 public class RebindActionUI : MonoBehaviour
 {
-	[OnValueChanged(nameof(OnChange))][SerializeField] private bool useFallback;
+#if TOOL_NAUATTR
+	[OnValueChanged(nameof(OnChange))]
+#endif
+	[SerializeField] private bool useFallback;
 #if TOOLS_LOCALIZATION
-	[OnValueChanged(nameof(OnChange))][SerializeField] private string tableKey = "Game";
+#if TOOL_NAUATTR
+	[OnValueChanged(nameof(OnChange))]
 #endif
-	[OnValueChanged(nameof(OnChange))][SerializeField] private Button button;
-	[OnValueChanged(nameof(OnChange))][SerializeField] private string actionFormat = "{0}";
-	[OnValueChanged(nameof(OnChange))][SerializeField] private string bindingFormat = "{0}";
-	[OnValueChanged(nameof(OnChange))][SerializeField] private string waitInfo = "UI_CONTROLS_WAIT";
+	[SerializeField] private string tableKey = "Game";
+#endif
+#if TOOL_NAUATTR
+	[OnValueChanged(nameof(OnChange))]
+#endif
+	[SerializeField] private Button button;
+#if TOOL_NAUATTR
+	[OnValueChanged(nameof(OnChange))]
+#endif
+	[SerializeField] private string actionFormat = "{0}";
+#if TOOL_NAUATTR
+	[OnValueChanged(nameof(OnChange))]
+#endif
+	[SerializeField] private string bindingFormat = "{0}";
+#if TOOL_NAUATTR
+	[OnValueChanged(nameof(OnChange))]
+#endif
+	[SerializeField] private string waitInfo = "UI_CONTROLS_WAIT";
 #if !TOOLS_LOCALIZATION
-	[OnValueChanged(nameof(OnChange))][SerializeField] private InputBinding.DisplayStringOptions displayOptions = InputBinding.DisplayStringOptions.DontIncludeInteractions | InputBinding.DisplayStringOptions.DontUseShortDisplayNames;
+#if TOOL_NAUATTR
+	[OnValueChanged(nameof(OnChange))]
 #endif
-	[OnValueChanged(nameof(OnChange))][SerializeField] private InputActionReference inputActionReference;
-	[OnValueChanged(nameof(OnChange))][SerializeField][Binding(nameof(inputActionReference))] private string bindingId;
+	[SerializeField] private InputBinding.DisplayStringOptions displayOptions = InputBinding.DisplayStringOptions.DontIncludeInteractions | InputBinding.DisplayStringOptions.DontUseShortDisplayNames;
+#endif
+#if TOOL_NAUATTR
+	[OnValueChanged(nameof(OnChange))]
+#endif
+	[SerializeField] private InputActionReference inputActionReference;
+#if TOOL_NAUATTR
+	[OnValueChanged(nameof(OnChange))]
+#endif
+	[SerializeField][Binding(nameof(inputActionReference))] private string bindingId;
 
-	[OnValueChanged(nameof(OnChange))][SerializeField] private Text actionText;
-	[OnValueChanged(nameof(OnChange))][SerializeField] private Text bindingText;
+#if TOOL_NAUATTR
+	[OnValueChanged(nameof(OnChange))]
+#endif
+	[SerializeField] private Text actionText;
+#if TOOL_NAUATTR
+	[OnValueChanged(nameof(OnChange))]
+#endif
+	[SerializeField] private Text bindingText;
 
 	public static Action<RebindActionUI> OnRebind = delegate { };
 	public static Action<RebindActionUI> OnRebindFail = delegate { };
