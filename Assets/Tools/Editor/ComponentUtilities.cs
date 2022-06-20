@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using Tag = NaughtyAttributes.TagAttribute;
 using TMPro;
 
 public static class ComponentUtilities

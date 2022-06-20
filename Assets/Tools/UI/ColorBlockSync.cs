@@ -1,11 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
+#if TOOLS_NAUATTR
 using NaughtyAttributes;
+#endif
 
 public class ColorBlockSync : MonoBehaviour
 {
 	public Selectable selectable;
-	[Expandable] public ColorBlockData data;
+#if TOOLS_NAUATTR
+	[Expandable] 
+#endif
+	public ColorBlockData data;
 
 #if UNITY_EDITOR
 	private void Reset()

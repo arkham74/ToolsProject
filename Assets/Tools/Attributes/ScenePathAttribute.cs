@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
 
 [AttributeUsage(AttributeTargets.Field)]
-public class ScenePathAttribute : DrawerAttribute
+public class ScenePathAttribute : Attribute
 {
 }
 
@@ -15,7 +14,7 @@ public class ScenePathAttribute : DrawerAttribute
 [CustomPropertyDrawer(typeof(ScenePathAttribute))]
 public class ScenePathAttributePropertyDrawer : PropertyDrawer
 {
-	private static readonly string[] Folders = {"Assets/Scenes"};
+	private static readonly string[] Folders = { "Assets/Scenes" };
 	private static string[] scenePaths;
 	private static string[] sceneNames;
 	private static string[] guids;

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
-using Tag = NaughtyAttributes.TagAttribute;
 
 public class RandomCallback : BaseCallback
 {

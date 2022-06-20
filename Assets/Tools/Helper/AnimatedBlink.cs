@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 using Text = TMPro.TextMeshProUGUI;
-using Tag = NaughtyAttributes.TagAttribute;
 
 public class AnimatedBlink : MonoBehaviour
 {

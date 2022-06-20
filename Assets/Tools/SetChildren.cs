@@ -1,13 +1,17 @@
-﻿using NaughtyAttributes;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
+#if TOOLS_NAUATTR
+using NaughtyAttributes;
+#endif
 
 public class SetChildren : MonoBehaviour
 {
 #if UNITY_EDITOR
 	public GameObject prefab;
 
+#if TOOLS_NAUATTR
 	[Button]
+#endif
 	public void Set()
 	{
 		if (!prefab) return;
@@ -20,7 +24,9 @@ public class SetChildren : MonoBehaviour
 		}
 	}
 
+#if TOOLS_NAUATTR
 	[Button]
+#endif
 	public void Clear()
 	{
 		foreach (Transform child in transform)

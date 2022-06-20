@@ -1,6 +1,5 @@
 using UnityEngine;
 using Text = TMPro.TextMeshProUGUI;
-using Tag = NaughtyAttributes.TagAttribute;
 
 public class AnimatedLight : MonoBehaviour
 {

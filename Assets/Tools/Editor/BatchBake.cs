@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NaughtyAttributes;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if TOOLS_NAUATTR
+using NaughtyAttributes;
+#endif
 
 // ReSharper disable UnusedMember.Local
 
@@ -20,14 +22,18 @@ public class BatchBake : ScriptableObject
 		scenes = EditorBuildSettings.scenes.Where(e => e.enabled).Select(e => e.path).ToArray();
 	}
 
+#if TOOLS_NAUATTR
 	[Button]
+#endif
 	public void Bake()
 	{
 		if (Lightmapping.isRunning) return;
 		Lightmapping.BakeMultipleScenes(scenes);
 	}
 
+#if TOOLS_NAUATTR
 	[Button]
+#endif
 	public void BakeSeparately()
 	{
 		if (Lightmapping.isRunning) return;
@@ -41,13 +47,17 @@ public class BatchBake : ScriptableObject
 		}
 	}
 
+#if TOOLS_NAUATTR
 	[Button]
+#endif
 	public void Cancel()
 	{
 		Lightmapping.Cancel();
 	}
 
+#if TOOLS_NAUATTR
 	[Button]
+#endif
 	public void ForceStop()
 	{
 		Lightmapping.ForceStop();

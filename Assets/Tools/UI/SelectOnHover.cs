@@ -9,11 +9,9 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using TMPro;
-using NaughtyAttributes;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
-using Tag = NaughtyAttributes.TagAttribute;
 
 namespace StuntMasters
 {

@@ -29,6 +29,11 @@
             "name": "com.unity.cinemachine",
             "expression": "2.6.11",
             "define": "TOOLS_CINEMACHINE"
+        },
+        {
+            "name": "com.dbrizov.naughtyattributes",
+            "expression": "2.1.4",
+            "define": "TOOLS_NAUATTR"
         }
     ],
     "noEngineReferences": false

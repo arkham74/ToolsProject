@@ -2,12 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NaughtyAttributes;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
-
-// ReSharper disable UnusedMember.Local
+#if TOOLS_NAUATTR
+using NaughtyAttributes;
+#endif
 
 [CreateAssetMenu(fileName = "Build Settings", menuName = "ScriptableObject/Build/Settings", order = 0)]
 public class BuildSettings : ScriptableObject
@@ -29,7 +29,9 @@ public class BuildSettings : ScriptableObject
 		locationPathName = Path.Combine(path, build, productName).Replace(@"\", @"/");
 	}
 
+#if TOOLS_NAUATTR
 	[Button(null, EButtonEnableMode.Editor)]
+#endif
 	public void LoadScenePaths()
 	{
 		scenes = EditorBuildSettings.scenes.Where(e => e.enabled).Select(e => e.path).ToArray();
@@ -47,27 +49,35 @@ public class BuildSettings : ScriptableObject
 		return BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
 
+#if TOOLS_NAUATTR
 	[Button(null, EButtonEnableMode.Editor)]
+#endif
 	private void Build()
 	{
 		IncrementVersion();
 		BuildWithOptions();
 	}
 
+#if TOOLS_NAUATTR
 	[Button(null, EButtonEnableMode.Editor)]
+#endif
 	private void BuildAndRun()
 	{
 		IncrementVersion();
 		BuildWithOptions(BuildOptions.AutoRunPlayer);
 	}
 
+#if TOOLS_NAUATTR
 	[Button(null, EButtonEnableMode.Editor)]
+#endif
 	private void BuildDev()
 	{
 		BuildWithOptions(BuildOptions.Development);
 	}
 
+#if TOOLS_NAUATTR
 	[Button(null, EButtonEnableMode.Editor)]
+#endif
 	private void BuildAndRunDev()
 	{
 		BuildWithOptions(BuildOptions.AutoRunPlayer | BuildOptions.Development);
@@ -95,7 +105,9 @@ public class BuildSettings : ScriptableObject
 		return report;
 	}
 
+#if TOOLS_NAUATTR
 	[Button(null, EButtonEnableMode.Editor)]
+#endif
 	public void SelectFolder()
 	{
 		string ext = GetExt();

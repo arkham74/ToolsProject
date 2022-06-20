@@ -9,10 +9,13 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using TMPro;
-using NaughtyAttributes;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
-using Tag = NaughtyAttributes.TagAttribute;
+
+#if TOOLS_NAUATTR
+using NaughtyAttributes;
+#endif
+
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif

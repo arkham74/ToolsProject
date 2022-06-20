@@ -4,11 +4,9 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Text = TMPro.TextMeshProUGUI;
-using Tag = NaughtyAttributes.TagAttribute;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.UI;
-
 #endif
 
 namespace UnityEngine.UI.Extensions

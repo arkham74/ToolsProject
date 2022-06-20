@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Text = TMPro.TextMeshProUGUI;
+#if TOOLS_NAUATTR
+using NaughtyAttributes;
 using Tag = NaughtyAttributes.TagAttribute;
-
-// ReSharper disable UnusedMember.Local
+#endif
 
 namespace UnityEngine.UI.Extensions
 {
@@ -21,10 +21,12 @@ namespace UnityEngine.UI.Extensions
 
 #if UNITY_EDITOR
 		public string path;
+#if TOOLS_NAUATTR
 		[Button]
+#endif
 		private void Load()
 		{
-			string[] obj = AssetDatabase.FindAssets("t:sprite", new[] {path});
+			string[] obj = AssetDatabase.FindAssets("t:sprite", new[] { path });
 			obj.LogWarning();
 			frames = obj.Select(AssetDatabase.GUIDToAssetPath).Select(AssetDatabase.LoadAssetAtPath<Sprite>).ToList();
 		}

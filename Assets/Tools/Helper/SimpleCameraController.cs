@@ -9,11 +9,13 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using TMPro;
-using NaughtyAttributes;
 using UnityEditor;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
+#if TOOLS_NAUATTR
+using NaughtyAttributes;
 using Tag = NaughtyAttributes.TagAttribute;
+#endif
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -21,16 +23,41 @@ using UnityEngine.InputSystem;
 public class SimpleCameraController : MonoBehaviour
 {
 #if !ENABLE_INPUT_SYSTEM
-	[BoxGroup("Move"), InputAxis] public string xAxis;
-	[BoxGroup("Move"), InputAxis] public string yAxis;
-	[BoxGroup("Move"), InputAxis] public string zAxis;
+#if TOOLS_NAUATTR
+	[BoxGroup("Move"), InputAxis]
+#endif
+	public string xAxis;
+#if TOOLS_NAUATTR
+	[BoxGroup("Move"), InputAxis]
+#endif
+	public string yAxis;
+#if TOOLS_NAUATTR
+	[BoxGroup("Move"), InputAxis]
+#endif
+	public string zAxis;
+
 	private Vector2 mousePos = Vector2.zero;
 #endif
 
-	[BoxGroup("Move")] public float moveSmoothFactor = 0.9f;
-	[BoxGroup("Move")] public float moveMaxSpeed = 10f;
-	[BoxGroup("Move")] public Vector3 moveSpeed = Vector3.zero;
-	[BoxGroup("Look")] public float lookMaxSpeed = 10f;
+#if TOOLS_NAUATTR
+	[BoxGroup("Move")] 
+#endif
+	public Vector3 moveSpeed = Vector3.zero;
+
+#if TOOLS_NAUATTR
+	[BoxGroup("Move")] 
+#endif
+	public float moveSmoothFactor = 0.9f;
+
+#if TOOLS_NAUATTR
+	[BoxGroup("Move")] 
+#endif
+	public float moveMaxSpeed = 10f;
+
+#if TOOLS_NAUATTR
+	[BoxGroup("Look")] 
+#endif
+	public float lookMaxSpeed = 10f;
 	private Vector2 lookDelta = Vector3.zero;
 
 #if UNITY_EDITOR
@@ -63,7 +90,9 @@ public class SimpleCameraController : MonoBehaviour
 		EditorPrefs.SetFloat("euler_z", euler.z);
 	}
 
+#if TOOLS_NAUATTR
 	[Button]
+#endif
 	private void Reset()
 	{
 		OnEnable();
