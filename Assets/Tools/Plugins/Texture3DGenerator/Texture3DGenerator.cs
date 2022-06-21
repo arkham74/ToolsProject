@@ -60,7 +60,7 @@ namespace Texture3DGenerator
 		public TextureFormat format = TextureFormat.RGBA32;
 		public TextureWrapMode wrapMode = TextureWrapMode.Mirror;
 		public Mode mode;
-		private Stopwatch watch = new Stopwatch();
+		private readonly Stopwatch watch = new Stopwatch();
 
 		private static readonly int NoiseId = Shader.PropertyToID("_Noise"),
 			SizeId = Shader.PropertyToID("_Size"),

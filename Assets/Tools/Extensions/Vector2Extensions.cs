@@ -167,24 +167,6 @@ public static class Vector2Extensions
 	// 		return value;
 	// 	}
 
-	// 	public static Vector2 CalculateVelocityChange(this Vector2 targetVelocity, Vector2 currentVelocity, Vector2 maxChange)
-	// 	{
-	// 		Vector2 velocityChange = targetVelocity - currentVelocity;
-	// 		velocityChange.x = Mathf.Clamp(velocityChange.x, -maxChange.x, maxChange.x);
-	// 		velocityChange.y = Mathf.Clamp(velocityChange.y, -maxChange.y, maxChange.y);
-	// 		return velocityChange;
-	// 	}
-
-	// 	public static Vector2 CalculateVelocityChange(this Vector2 targetVelocity, Vector2 currentVelocity, float maxChange)
-	// 	{
-	// 		return CalculateVelocityChange(targetVelocity, currentVelocity, Vector2.one * maxChange);
-	// 	}
-
-	// 	public static Vector2 CalculateVelocityChange(this Vector2 targetVelocity, Vector2 currentVelocity)
-	// 	{
-	// 		return targetVelocity - currentVelocity;
-	// 	}
-
 	public static Vector2 ClampMagnitude(this Vector2 vec2, float mag)
 	{
 		return Vector2.ClampMagnitude(vec2, mag);

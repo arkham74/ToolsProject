@@ -15,7 +15,6 @@ namespace Freya
 	/// <summary>The core math helper class. It has functions mostly for single values, but also vector helpers</summary>
 	public static class Mathfs
 	{
-
 		const MethodImplOptions INLINE = MethodImplOptions.AggressiveInlining;
 
 		#region Constants
@@ -652,13 +651,13 @@ namespace Freya
 		/// <param name="a">The start value, when t is 0</param>
 		/// <param name="b">The start value, when t is 1</param>
 		/// <param name="t">The t-values from 0 to 1 representing position along the lerp</param>
-		[MethodImpl(INLINE)] public static Vector2 Lerp(Vector2 a, Vector2 b, Vector2 t) => new Vector2(Lerp(a.x, b.x, t.x), Lerp(a.y, b.y, t.y));
+		[MethodImpl(INLINE)] public static Vector2 Lerp(Vector2 a, Vector2 b, float t) => new Vector2(Lerp(a.x, b.x, t), Lerp(a.y, b.y, t));
 
 		/// <inheritdoc cref="Mathfs.Lerp(Vector2,Vector2,Vector2)"/>
-		[MethodImpl(INLINE)] public static Vector3 Lerp(Vector3 a, Vector3 b, Vector3 t) => new Vector3(Lerp(a.x, b.x, t.x), Lerp(a.y, b.y, t.y), Lerp(a.z, b.z, t.z));
+		[MethodImpl(INLINE)] public static Vector3 Lerp(Vector3 a, Vector3 b, float t) => new Vector3(Lerp(a.x, b.x, t), Lerp(a.y, b.y, t), Lerp(a.z, b.z, t));
 
 		/// <inheritdoc cref="Mathfs.Lerp(Vector2,Vector2,Vector2)"/>
-		[MethodImpl(INLINE)] public static Vector4 Lerp(Vector4 a, Vector4 b, Vector4 t) => new Vector4(Lerp(a.x, b.x, t.x), Lerp(a.y, b.y, t.y), Lerp(a.z, b.z, t.z), Lerp(a.w, b.w, t.w));
+		[MethodImpl(INLINE)] public static Vector4 Lerp(Vector4 a, Vector4 b, float t) => new Vector4(Lerp(a.x, b.x, t), Lerp(a.y, b.y, t), Lerp(a.z, b.z, t), Lerp(a.w, b.w, t));
 
 		/// <summary>Linearly blends between two rectangles, moving and resizing from the center. Note: this lerp is unclamped</summary>
 		/// <param name="a">The start value, when t is 0</param>
@@ -707,13 +706,14 @@ namespace Freya
 		/// <param name="a">The start of the ranges, where it would return 0</param>
 		/// <param name="b">The end of the ranges, where it would return 1</param>
 		/// <param name="v">A value between a and b. Note: values outside this range are still valid, and will be extrapolated</param>
-		[MethodImpl(INLINE)] public static Vector2 InverseLerp(Vector2 a, Vector2 b, Vector2 v) => new Vector2((v.x - a.x) / (b.x - a.x), (v.y - a.y) / (b.y - a.y));
+		[MethodImpl(INLINE)] public static float InverseLerp(Vector2 a, Vector2 b, Vector2 v) => Vector2.Dot(v - a, b - a) / Vector2.Dot(b - a, b - a);
 
 		/// <inheritdoc cref="Mathfs.InverseLerp(Vector2,Vector2,Vector2)"/>
-		[MethodImpl(INLINE)] public static Vector3 InverseLerp(Vector3 a, Vector3 b, Vector3 v) => new Vector3((v.x - a.x) / (b.x - a.x), (v.y - a.y) / (b.y - a.y), (v.z - a.z) / (b.z - a.z));
+		[MethodImpl(INLINE)] public static float InverseLerp(Vector3 a, Vector3 b, Vector3 v) => Vector3.Dot(v - a, b - a) / Vector3.Dot(b - a, b - a);
 
 		/// <inheritdoc cref="Mathfs.InverseLerp(Vector2,Vector2,Vector2)"/>
-		[MethodImpl(INLINE)] public static Vector4 InverseLerp(Vector4 a, Vector4 b, Vector4 v) => new Vector4((v.x - a.x) / (b.x - a.x), (v.y - a.y) / (b.y - a.y), (v.z - a.z) / (b.z - a.z), (v.w - a.w) / (b.w - a.w));
+		[MethodImpl(INLINE)] public static float InverseLerp(Vector4 a, Vector4 b, Vector4 v) => Vector4.Dot(v - a, b - a) / Vector4.Dot(b - a, b - a);
+
 
 		/// <summary>Given a value between a and b, returns its normalized location in that range, as a t-value (interpolant) clamped between 0 and 1</summary>
 		/// <param name="a">The start of the range, where it would return 0</param>
@@ -1252,7 +1252,6 @@ namespace Freya
 			Vector2 smolVec = Vector2.one * 0.0001f;
 			return 0.5f * (Vector2.Max(smolVec, p + q).Sqrt() - Vector2.Max(smolVec, p - q).Sqrt());
 		}
-
 		#endregion
 
 	}

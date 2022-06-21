@@ -22,7 +22,7 @@ namespace Michsky.UI.Shift
 		private Transform _transform;
 		private ParticleSystem pSystem;
 		private ParticleSystem.Particle[] particles;
-		private UIVertex[] _quad = new UIVertex[4];
+		private readonly UIVertex[] _quad = new UIVertex[4];
 		private Vector4 imageUV = Vector4.zero;
 		private ParticleSystem.TextureSheetAnimationModule textureSheetAnimation;
 		private int textureSheetAnimationFrames;

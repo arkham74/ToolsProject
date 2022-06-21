@@ -30,7 +30,7 @@ public class EditorIcons : EditorWindow
 	{
 		using (new GUILayout.HorizontalScope())
 		{
-			if (isWide) GUILayout.Space(10);
+			if (IsWide) GUILayout.Space(10);
 
 			search = EditorGUILayout.TextField(search, EditorStyles.toolbarSearchField);
 			if (GUILayout.Button(EditorGUIUtility.IconContent("winbtn_mac_close_h"), //SVN_DeletedLocal
@@ -40,9 +40,9 @@ public class EditorIcons : EditorWindow
 		}
 	}
 
-	bool isWide => Screen.width > 550;
+	bool IsWide => Screen.width > 550;
 
-	bool doSearch => !string.IsNullOrWhiteSpace(search) && search != "";
+	bool DoSearch => !string.IsNullOrWhiteSpace(search) && search != "";
 
 	GUIContent GetIcon(string icon_name)
 	{
@@ -141,7 +141,7 @@ public class EditorIcons : EditorWindow
 
 		InitIcons();
 
-		if (!isWide) SearchGUI();
+		if (!IsWide) SearchGUI();
 
 		using (new GUILayout.HorizontalScope(EditorStyles.toolbar))
 		{
@@ -150,10 +150,10 @@ public class EditorIcons : EditorWindow
 				viewBigIcons ? 1 : 0, new string[] { "Small", "Big" },
 				2, EditorStyles.toolbarButton) == 1;
 
-			if (isWide) SearchGUI();
+			if (IsWide) SearchGUI();
 		}
 
-		if (isWide) GUILayout.Space(3);
+		if (IsWide) GUILayout.Space(3);
 
 		using (var scope = new GUILayout.ScrollViewScope(scroll))
 		{
@@ -172,7 +172,7 @@ public class EditorIcons : EditorWindow
 
 			List<GUIContent> iconList;
 
-			if (doSearch) iconList = iconContentListAll.Where(x => x.tooltip.ToLower()
+			if (DoSearch) iconList = iconContentListAll.Where(x => x.tooltip.ToLower()
 					.Contains(search.ToLower())).ToList();
 			else iconList = viewBigIcons ? iconContentListBig : iconContentListSmall;
 
@@ -289,9 +289,11 @@ public class EditorIcons : EditorWindow
 	{
 		if (iconContentListSmall != null) return;
 
-		iconButtonStyle = new GUIStyle(EditorStyles.miniButton);
-		iconButtonStyle.margin = new RectOffset(0, 0, 0, 0);
-		iconButtonStyle.fixedHeight = 0;
+		iconButtonStyle = new GUIStyle(EditorStyles.miniButton)
+		{
+			margin = new RectOffset(0, 0, 0, 0),
+			fixedHeight = 0
+		};
 
 		iconPreviewBlack = new GUIStyle(iconButtonStyle);
 		AllTheTEXTURES(ref iconPreviewBlack, Texture2DPixel(new Color(0.15f, 0.15f, 0.15f)));

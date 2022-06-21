@@ -171,11 +171,11 @@ public class Spline : MonoBehaviour
 
 	public static Vector3 Normal(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
 	{
-		float it = 1f - t;
-		Vector3 a = (-3 * t * t + 6 * t - 3) * p0;
-		Vector3 b = (9 * t * t - 12 * t + 3) * p1;
-		Vector3 c = (-9 * t * t + 6 * t) * p2;
-		Vector3 d = (3 * t * t) * p3;
+		// float it = 1f - t;
+		Vector3 a = ((-3 * t * t) + (6 * t) - 3) * p0;
+		Vector3 b = ((9 * t * t) - (12 * t) + 3) * p1;
+		Vector3 c = ((-9 * t * t) + (6 * t)) * p2;
+		Vector3 d = 3 * t * t * p3;
 		return a + b + c + d;
 	}
 }

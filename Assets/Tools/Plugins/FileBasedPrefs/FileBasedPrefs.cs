@@ -16,9 +16,8 @@ public static class FileBasedPrefs
 
 	private static FileBasedPrefsConfig _config;
 	private static FileBasedPrefsSaveFileModel _latestData;
-	private static StringBuilder _sb = new StringBuilder();
-
-	const string String_Empty = "";
+	private static readonly StringBuilder _sb = new StringBuilder();
+	private const string String_Empty = "";
 
 	public static bool AutoSaveData
 	{

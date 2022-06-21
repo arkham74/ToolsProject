@@ -15,7 +15,7 @@ public class SplineEditor : Editor
 	private int selectedIndex = -1;
 	private ReorderableList reorderableList;
 
-	private int parentIndex
+	private int ParentIndex
 	{
 		get => Mathf.FloorToInt(selectedIndex / 3f);
 		set => selectedIndex = value * 3;
@@ -57,9 +57,9 @@ public class SplineEditor : Editor
 		if (index > 0)
 		{
 			SerializedProperty prevProp = listProp.GetArrayElementAtIndex(index - 1);
-			SerializedProperty pointPrevProp = prevProp.FindPropertyRelative("point");
+			// SerializedProperty pointPrevProp = prevProp.FindPropertyRelative("point");
 			SerializedProperty leftPrevProp = prevProp.FindPropertyRelative("left");
-			SerializedProperty rightPrevProp = prevProp.FindPropertyRelative("right");
+			// SerializedProperty rightPrevProp = prevProp.FindPropertyRelative("right");
 
 			pointProp.vector3Value += leftPrevProp.vector3Value * 3;
 		}
@@ -73,7 +73,7 @@ public class SplineEditor : Editor
 
 	private void OnSelect(ReorderableList list)
 	{
-		parentIndex = list.index;
+		ParentIndex = list.index;
 	}
 
 	private float ElementHeight(int index)
@@ -144,18 +144,18 @@ public class SplineEditor : Editor
 
 				SerializedProperty pointProp1 = elemProp1.FindPropertyRelative("point");
 				SerializedProperty leftProp1 = elemProp1.FindPropertyRelative("left");
-				SerializedProperty rightProp1 = elemProp1.FindPropertyRelative("right");
+				// SerializedProperty rightProp1 = elemProp1.FindPropertyRelative("right");
 
 				SerializedProperty pointProp2 = elemProp2.FindPropertyRelative("point");
-				SerializedProperty leftProp2 = elemProp2.FindPropertyRelative("left");
+				// SerializedProperty leftProp2 = elemProp2.FindPropertyRelative("left");
 				SerializedProperty rightProp2 = elemProp2.FindPropertyRelative("right");
 
 				Vector3 pos1 = pointProp1.vector3Value;
 				Vector3 left1 = leftProp1.vector3Value + pos1;
-				Vector3 right1 = rightProp1.vector3Value + pos1;
+				// Vector3 right1 = rightProp1.vector3Value + pos1;
 
 				Vector3 pos2 = pointProp2.vector3Value;
-				Vector3 left2 = leftProp2.vector3Value + pos2;
+				// Vector3 left2 = leftProp2.vector3Value + pos2;
 				Vector3 right2 = rightProp2.vector3Value + pos2;
 
 				Handles.DrawBezier(pos1, pos2, left1, right2, Color.green, null, lineSize);
@@ -279,7 +279,7 @@ public class SplineEditor : Editor
 		else if (Handles.Button(pos, Quaternion.identity, s, s * 1.5f, Handles.SphereHandleCap))
 		{
 			selectedIndex = index;
-			reorderableList.Select(parentIndex);
+			reorderableList.Select(ParentIndex);
 		}
 
 		return false;

@@ -16,8 +16,8 @@ using System.IO;
 
 public class ScriptableObjectSearchProvider : ScriptableObject, ISearchWindowProvider
 {
-	private static float Width = 300;
-	private static float Height = 500;
+	private static readonly float Width = 300;
+	private static readonly float Height = 500;
 	private static SearchWindowContext context = new SearchWindowContext(new Vector2(1800, 900) / 2f, Width, Height);
 	private static ScriptableObjectSearchProvider provider;
 
@@ -25,12 +25,14 @@ public class ScriptableObjectSearchProvider : ScriptableObject, ISearchWindowPro
 	public static void CreateSO(MenuCommand menuCommand)
 	{
 		if (provider == null)
+		{
 			provider = CreateInstance<ScriptableObjectSearchProvider>();
+		}
 
 		SearchWindow.Open(context, provider);
 	}
 
-	private List<SearchTreeEntry> list = new List<SearchTreeEntry>();
+	private readonly List<SearchTreeEntry> list = new List<SearchTreeEntry>();
 
 	public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
 	{

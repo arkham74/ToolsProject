@@ -19,231 +19,231 @@ using UnityEngine.UI;
 
 namespace Tayx.Graphy.Fps
 {
-    public class G_FpsManager : MonoBehaviour, IMovable, IModifiableState
-    {
-        #region Variables -> Serialized Private
+	public class G_FpsManager : MonoBehaviour, IMovable, IModifiableState
+	{
+		#region Variables -> Serialized Private
 
-        [SerializeField] private    GameObject                  m_fpsGraphGameObject = null;
+		[SerializeField] private GameObject m_fpsGraphGameObject = null;
 
-        [SerializeField] private    List<GameObject>            m_nonBasicTextGameObjects   = new List<GameObject>();
+		[SerializeField] private List<GameObject> m_nonBasicTextGameObjects = new List<GameObject>();
 
-        [SerializeField] private    List<Image>                 m_backgroundImages          = new List<Image>();
+		[SerializeField] private List<Image> m_backgroundImages = new List<Image>();
 
-        #endregion
+		#endregion
 
-        #region Variables -> Private
+		#region Variables -> Private
 
-        private                     GraphyManager               m_graphyManager = null;
-        
-        private                     G_FpsGraph                  m_fpsGraph = null;
-        private                     G_FpsMonitor                m_fpsMonitor = null;
-        private                     G_FpsText                   m_fpsText = null;
+		private GraphyManager m_graphyManager = null;
 
-        private                     RectTransform               m_rectTransform = null;
+		private G_FpsGraph m_fpsGraph = null;
+		private G_FpsMonitor m_fpsMonitor = null;
+		private G_FpsText m_fpsText = null;
 
-        private                     List<GameObject>            m_childrenGameObjects       = new List<GameObject>();
+		private RectTransform m_rectTransform = null;
 
-        private                     GraphyManager.ModuleState   m_previousModuleState = GraphyManager.ModuleState.FULL;
-        private                     GraphyManager.ModuleState   m_currentModuleState = GraphyManager.ModuleState.FULL;
-        
-        #endregion
+		private readonly List<GameObject> m_childrenGameObjects = new List<GameObject>();
 
-        #region Methods -> Unity Callbacks
+		private GraphyManager.ModuleState m_previousModuleState = GraphyManager.ModuleState.FULL;
+		private GraphyManager.ModuleState m_currentModuleState = GraphyManager.ModuleState.FULL;
 
-        private void Awake()
-        {
-            Init();
-        }
+		#endregion
 
-        private void Start()
-        {
-            UpdateParameters();
-        }
+		#region Methods -> Unity Callbacks
 
-        #endregion
+		private void Awake()
+		{
+			Init();
+		}
 
-        #region Methods -> Public
+		private void Start()
+		{
+			UpdateParameters();
+		}
 
-        public void SetPosition(GraphyManager.ModulePosition newModulePosition)
-        {
-            float xSideOffset = Mathf.Abs(m_rectTransform.anchoredPosition.x);
-            float ySideOffset = Mathf.Abs(m_rectTransform.anchoredPosition.y);
+		#endregion
 
-            switch (newModulePosition)
-            {
-                case GraphyManager.ModulePosition.TOP_LEFT:
+		#region Methods -> Public
 
-                    m_rectTransform.anchorMax           = Vector2.up;
-                    m_rectTransform.anchorMin           = Vector2.up;
-                    m_rectTransform.anchoredPosition    = new Vector2(xSideOffset, -ySideOffset);
+		public void SetPosition(GraphyManager.ModulePosition newModulePosition)
+		{
+			float xSideOffset = Mathf.Abs(m_rectTransform.anchoredPosition.x);
+			float ySideOffset = Mathf.Abs(m_rectTransform.anchoredPosition.y);
 
-                    break;
+			switch (newModulePosition)
+			{
+				case GraphyManager.ModulePosition.TOP_LEFT:
 
-                case GraphyManager.ModulePosition.TOP_RIGHT:
+					m_rectTransform.anchorMax = Vector2.up;
+					m_rectTransform.anchorMin = Vector2.up;
+					m_rectTransform.anchoredPosition = new Vector2(xSideOffset, -ySideOffset);
 
-                    m_rectTransform.anchorMax           = Vector2.one;
-                    m_rectTransform.anchorMin           = Vector2.one;
-                    m_rectTransform.anchoredPosition    = new Vector2(-xSideOffset, -ySideOffset);
+					break;
 
-                    break;
+				case GraphyManager.ModulePosition.TOP_RIGHT:
 
-                case GraphyManager.ModulePosition.BOTTOM_LEFT:
+					m_rectTransform.anchorMax = Vector2.one;
+					m_rectTransform.anchorMin = Vector2.one;
+					m_rectTransform.anchoredPosition = new Vector2(-xSideOffset, -ySideOffset);
 
-                    m_rectTransform.anchorMax           = Vector2.zero;
-                    m_rectTransform.anchorMin           = Vector2.zero;
-                    m_rectTransform.anchoredPosition    = new Vector2(xSideOffset, ySideOffset);
+					break;
 
-                    break;
+				case GraphyManager.ModulePosition.BOTTOM_LEFT:
 
-                case GraphyManager.ModulePosition.BOTTOM_RIGHT:
+					m_rectTransform.anchorMax = Vector2.zero;
+					m_rectTransform.anchorMin = Vector2.zero;
+					m_rectTransform.anchoredPosition = new Vector2(xSideOffset, ySideOffset);
 
-                    m_rectTransform.anchorMax           = Vector2.right;
-                    m_rectTransform.anchorMin           = Vector2.right;
-                    m_rectTransform.anchoredPosition    = new Vector2(-xSideOffset, ySideOffset);
+					break;
 
-                    break;
+				case GraphyManager.ModulePosition.BOTTOM_RIGHT:
 
-                case GraphyManager.ModulePosition.FREE:
-                    break;
-            }
-        }
+					m_rectTransform.anchorMax = Vector2.right;
+					m_rectTransform.anchorMin = Vector2.right;
+					m_rectTransform.anchoredPosition = new Vector2(-xSideOffset, ySideOffset);
 
-        public void SetState(GraphyManager.ModuleState state, bool silentUpdate = false)
-        {
-            if (!silentUpdate)
-            {
-                m_previousModuleState = m_currentModuleState;
-            }
+					break;
 
-            m_currentModuleState    = state;
+				case GraphyManager.ModulePosition.FREE:
+					break;
+			}
+		}
 
-            switch (state)
-            {
-                case GraphyManager.ModuleState.FULL:
-                    gameObject.SetActive(true);
-                    m_childrenGameObjects.SetAllActive(true);
-                    SetGraphActive(true);
+		public void SetState(GraphyManager.ModuleState state, bool silentUpdate = false)
+		{
+			if (!silentUpdate)
+			{
+				m_previousModuleState = m_currentModuleState;
+			}
 
-                    if (m_graphyManager.Background)
-                    {
-                        m_backgroundImages.SetOneActive(0);
-                    }
-                    else
-                    {
-                        m_backgroundImages.SetAllActive(false);
-                    }
-                    
-                    break;
+			m_currentModuleState = state;
 
-                case GraphyManager.ModuleState.TEXT:
-                    gameObject.SetActive(true);
-                    m_childrenGameObjects.SetAllActive(true);
-                    SetGraphActive(false);
-                    
-                    if (m_graphyManager.Background)
-                    {
-                        m_backgroundImages.SetOneActive(1);
-                    }
-                    else
-                    {
-                        m_backgroundImages.SetAllActive(false);
-                    }
-                    
-                    break;
+			switch (state)
+			{
+				case GraphyManager.ModuleState.FULL:
+					gameObject.SetActive(true);
+					m_childrenGameObjects.SetAllActive(true);
+					SetGraphActive(true);
 
-                case GraphyManager.ModuleState.BASIC:
-                    gameObject.SetActive(true);
-                    m_childrenGameObjects.SetAllActive(true);
-                    m_nonBasicTextGameObjects.SetAllActive(false);
-                    SetGraphActive(false);
-                    
-                    if (m_graphyManager.Background)
-                    {
-                        m_backgroundImages.SetOneActive(2);
-                    }
-                    else
-                    {
-                        m_backgroundImages.SetAllActive(false);
-                    }
+					if (m_graphyManager.Background)
+					{
+						m_backgroundImages.SetOneActive(0);
+					}
+					else
+					{
+						m_backgroundImages.SetAllActive(false);
+					}
 
-                    break;
+					break;
 
-                case GraphyManager.ModuleState.BACKGROUND:
-                    gameObject.SetActive(true);
-                    m_childrenGameObjects.SetAllActive(false);
-                    SetGraphActive(false);
-                    
-                    m_backgroundImages.SetAllActive(false);
-                    break;
+				case GraphyManager.ModuleState.TEXT:
+					gameObject.SetActive(true);
+					m_childrenGameObjects.SetAllActive(true);
+					SetGraphActive(false);
 
-                case GraphyManager.ModuleState.OFF:
-                    gameObject.SetActive(false);
-                    break;
-            }
-        }
+					if (m_graphyManager.Background)
+					{
+						m_backgroundImages.SetOneActive(1);
+					}
+					else
+					{
+						m_backgroundImages.SetAllActive(false);
+					}
 
-        public void RestorePreviousState()
-        {
-            SetState(m_previousModuleState);
-        }
-        
-        public void UpdateParameters()
-        {
-            foreach ( Image image in m_backgroundImages)
-            {
-                image.color = m_graphyManager.BackgroundColor;
-            }
-            
-            m_fpsGraph      .UpdateParameters();
-            m_fpsMonitor    .UpdateParameters();
-            m_fpsText       .UpdateParameters();
-            
-            SetState(m_graphyManager.FpsModuleState);
-        }
+					break;
 
-        public void RefreshParameters()
-        {
-            foreach ( Image image in m_backgroundImages)
-            {
-                image.color = m_graphyManager.BackgroundColor;
-            }
+				case GraphyManager.ModuleState.BASIC:
+					gameObject.SetActive(true);
+					m_childrenGameObjects.SetAllActive(true);
+					m_nonBasicTextGameObjects.SetAllActive(false);
+					SetGraphActive(false);
 
-            m_fpsGraph      .UpdateParameters();
-            m_fpsMonitor    .UpdateParameters();
-            m_fpsText       .UpdateParameters();
+					if (m_graphyManager.Background)
+					{
+						m_backgroundImages.SetOneActive(2);
+					}
+					else
+					{
+						m_backgroundImages.SetAllActive(false);
+					}
 
-            SetState(m_currentModuleState, true);
-        }
+					break;
 
-        #endregion
+				case GraphyManager.ModuleState.BACKGROUND:
+					gameObject.SetActive(true);
+					m_childrenGameObjects.SetAllActive(false);
+					SetGraphActive(false);
 
-        #region Methods -> Private
+					m_backgroundImages.SetAllActive(false);
+					break;
 
-        private void Init()
-        {
-            m_graphyManager = transform.root.GetComponentInChildren<GraphyManager>();
-            
-            m_rectTransform = GetComponent<RectTransform>();
+				case GraphyManager.ModuleState.OFF:
+					gameObject.SetActive(false);
+					break;
+			}
+		}
 
-            m_fpsGraph      = GetComponent<G_FpsGraph>();
-            m_fpsMonitor    = GetComponent<G_FpsMonitor>();
-            m_fpsText       = GetComponent<G_FpsText>();
+		public void RestorePreviousState()
+		{
+			SetState(m_previousModuleState);
+		}
 
-            foreach (Transform child in transform)
-            {
-                if (child.parent == transform)
-                {
-                    m_childrenGameObjects.Add(child.gameObject);
-                }
-            }
-        }
+		public void UpdateParameters()
+		{
+			foreach (Image image in m_backgroundImages)
+			{
+				image.color = m_graphyManager.BackgroundColor;
+			}
 
-        private void SetGraphActive(bool active)
-        {
-            m_fpsGraph.enabled = active;
-            m_fpsGraphGameObject.SetActive(active);
-        }
+			m_fpsGraph.UpdateParameters();
+			m_fpsMonitor.UpdateParameters();
+			m_fpsText.UpdateParameters();
 
-        #endregion
-    }
+			SetState(m_graphyManager.FpsModuleState);
+		}
+
+		public void RefreshParameters()
+		{
+			foreach (Image image in m_backgroundImages)
+			{
+				image.color = m_graphyManager.BackgroundColor;
+			}
+
+			m_fpsGraph.UpdateParameters();
+			m_fpsMonitor.UpdateParameters();
+			m_fpsText.UpdateParameters();
+
+			SetState(m_currentModuleState, true);
+		}
+
+		#endregion
+
+		#region Methods -> Private
+
+		private void Init()
+		{
+			m_graphyManager = transform.root.GetComponentInChildren<GraphyManager>();
+
+			m_rectTransform = GetComponent<RectTransform>();
+
+			m_fpsGraph = GetComponent<G_FpsGraph>();
+			m_fpsMonitor = GetComponent<G_FpsMonitor>();
+			m_fpsText = GetComponent<G_FpsText>();
+
+			foreach (Transform child in transform)
+			{
+				if (child.parent == transform)
+				{
+					m_childrenGameObjects.Add(child.gameObject);
+				}
+			}
+		}
+
+		private void SetGraphActive(bool active)
+		{
+			m_fpsGraph.enabled = active;
+			m_fpsGraphGameObject.SetActive(active);
+		}
+
+		#endregion
+	}
 }

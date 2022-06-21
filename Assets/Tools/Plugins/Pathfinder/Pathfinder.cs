@@ -42,11 +42,15 @@ public static class Pathfinder
 		open.Enqueue(start, 0f);
 		Dictionary<INode, INode> from = new Dictionary<INode, INode>();
 
-		Dictionary<INode, float> gScore = new Dictionary<INode, float>();
-		gScore[start] = 0f;
+		Dictionary<INode, float> gScore = new Dictionary<INode, float>
+		{
+			[start] = 0f
+		};
 
-		Dictionary<INode, float> fScore = new Dictionary<INode, float>();
-		fScore[start] = start.Estimate(end);
+		Dictionary<INode, float> fScore = new Dictionary<INode, float>
+		{
+			[start] = start.Estimate(end)
+		};
 
 		while (open.Count > 0)
 		{

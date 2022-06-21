@@ -82,8 +82,7 @@ namespace PriorityQueue
 				return _nullNodesCache.Count > 0 ? _nullNodesCache[0] : null;
 			}
 
-			IList<SimpleNode> nodes;
-			if (!_itemToNodesCache.TryGetValue(item, out nodes))
+			if (!_itemToNodesCache.TryGetValue(item, out IList<SimpleNode> nodes))
 			{
 				return null;
 			}
@@ -101,8 +100,7 @@ namespace PriorityQueue
 				return;
 			}
 
-			IList<SimpleNode> nodes;
-			if (!_itemToNodesCache.TryGetValue(node.Data, out nodes))
+			if (!_itemToNodesCache.TryGetValue(node.Data, out IList<SimpleNode> nodes))
 			{
 				nodes = new List<SimpleNode>();
 				_itemToNodesCache[node.Data] = nodes;
@@ -121,8 +119,7 @@ namespace PriorityQueue
 				return;
 			}
 
-			IList<SimpleNode> nodes;
-			if (!_itemToNodesCache.TryGetValue(node.Data, out nodes))
+			if (!_itemToNodesCache.TryGetValue(node.Data, out IList<SimpleNode> nodes))
 			{
 				return;
 			}
@@ -390,7 +387,7 @@ namespace PriorityQueue
 				}
 			}
 
-			first = default(TItem);
+			first = default;
 			return false;
 		}
 
@@ -416,7 +413,7 @@ namespace PriorityQueue
 				}
 			}
 
-			first = default(TItem);
+			first = default;
 			return false;
 		}
 
@@ -499,7 +496,7 @@ namespace PriorityQueue
 				SimpleNode findMe = GetExistingNode(item);
 				if (findMe == null)
 				{
-					priority = default(TPriority);
+					priority = default;
 					return false;
 				}
 				priority = findMe.Priority;

@@ -20,7 +20,7 @@ namespace Coffee.UISoftMask
 	[RequireComponent(typeof(Graphic))]
 	public class SoftMaskable : MonoBehaviour, IMaterialModifier, ICanvasRaycastFilter
 #if UNITY_EDITOR
-		  , ISerializationCallbackReceiver
+			, ISerializationCallbackReceiver
 #endif
 	{
 		private const int kVisibleInside = (1 << 0) + (1 << 2) + (1 << 4) + (1 << 6);
@@ -33,7 +33,7 @@ namespace Coffee.UISoftMask
 		private static int s_GameVPId;
 		private static int s_GameTVPId;
 		private static List<SoftMaskable> s_ActiveSoftMaskables;
-		private static int[] s_Interactions = new int[4];
+		private static readonly int[] s_Interactions = new int[4];
 
 		[SerializeField, HideInInspector, Obsolete]
 		private bool m_Inverse;

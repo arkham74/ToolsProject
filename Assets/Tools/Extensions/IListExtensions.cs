@@ -133,6 +133,11 @@ public static class IListExtensions
 		return array.OrderBy(e => UnityEngine.Random.value);
 	}
 
+	public static IOrderedEnumerable<T> ShuffleThenBy<T>(this IOrderedEnumerable<T> array)
+	{
+		return array.ThenBy(e => UnityEngine.Random.value);
+	}
+
 	public static T AtOrDefault<T>(this IEnumerable<IEnumerable<T>> array, int x, int y, T def = default)
 	{
 		try

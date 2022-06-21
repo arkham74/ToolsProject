@@ -16,69 +16,69 @@ using UnityEngine;
 
 namespace Tayx.Graphy.Utils
 {
-    /// <summary>
-    /// Be aware this will not prevent a non singleton constructor
-    ///   such as `T myT = new T();`
-    /// To prevent that, add `protected T () {}` to your singleton class.
-    /// </summary>
-    public class G_Singleton<T> : MonoBehaviour where T : MonoBehaviour
-    {
-        #region Variables -> Private
+	/// <summary>
+	/// Be aware this will not prevent a non singleton constructor
+	///   such as `T myT = new T();`
+	/// To prevent that, add `protected T () {}` to your singleton class.
+	/// </summary>
+	public class G_Singleton<T> : MonoBehaviour where T : MonoBehaviour
+	{
+		#region Variables -> Private
 
-        private static  T       _instance;
+		private static T _instance;
 
-        private static  object  _lock       = new object();
+		private static readonly object _lock = new object();
 
-        #endregion
+		#endregion
 
-        #region Properties -> Public
+		#region Properties -> Public
 
-        public static T Instance
-        {
-            get
-            {
-                lock (_lock)
-                {
-                    if (_instance == null)
-                    {
-                        Debug.Log
-                        (
-                            "[Singleton] An instance of " + typeof(T) +
-                            " is trying to be accessed, but it wasn't initialized first. " +
-                            "Make sure to add an instance of " + typeof(T) + " in the scene before " +
-                            " trying to access it."
-                        );
-                    }
+		public static T Instance
+		{
+			get
+			{
+				lock (_lock)
+				{
+					if (_instance == null)
+					{
+						Debug.Log
+						(
+								"[Singleton] An instance of " + typeof(T) +
+								" is trying to be accessed, but it wasn't initialized first. " +
+								"Make sure to add an instance of " + typeof(T) + " in the scene before " +
+								" trying to access it."
+						);
+					}
 
-                    return _instance;
-                }
-            }
-        }
+					return _instance;
+				}
+			}
+		}
 
-        #endregion
+		#endregion
 
-        #region Methods -> Unity Callbacks
+		#region Methods -> Unity Callbacks
 
-        void Awake()
-        {
-            if (_instance != null)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                _instance = GetComponent<T>();
-            }
-        }
+		void Awake()
+		{
+			if (_instance != null)
+			{
+				Destroy(gameObject);
+			}
+			else
+			{
+				_instance = GetComponent<T>();
+			}
+		}
 
-        void OnDestroy()
-        {
-            if (_instance == this)
-            {
-                _instance = null;
-            }
-        }
+		void OnDestroy()
+		{
+			if (_instance == this)
+			{
+				_instance = null;
+			}
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

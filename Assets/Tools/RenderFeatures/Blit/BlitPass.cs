@@ -10,12 +10,12 @@ namespace Cyan
 	{
 		public Material blitMaterial = null;
 		public FilterMode filterMode;
-		private BlitSettings settings;
 		private RenderTargetIdentifier source;
 		private RenderTargetIdentifier destination;
 		private RenderTargetHandle m_TemporaryColorTexture;
 		private RenderTargetHandle m_DestinationTexture;
-		private string m_ProfilerTag;
+		private readonly BlitSettings settings;
+		private readonly string m_ProfilerTag;
 
 		public BlitPass(RenderPassEvent renderPassEvent, BlitSettings settings, string tag)
 		{

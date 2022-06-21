@@ -28,39 +28,39 @@ public class ButtonMultiGraphics : Button
 
 		Color tintColor;
 		Sprite transitionSprite;
-		string triggerName;
+		// string triggerName;
 
 		switch (state)
 		{
 			case SelectionState.Normal:
 				tintColor = colors.normalColor;
 				transitionSprite = null;
-				triggerName = animationTriggers.normalTrigger;
+				// triggerName = animationTriggers.normalTrigger;
 				break;
 			case SelectionState.Highlighted:
 				tintColor = colors.highlightedColor;
 				transitionSprite = spriteState.highlightedSprite;
-				triggerName = animationTriggers.highlightedTrigger;
+				// triggerName = animationTriggers.highlightedTrigger;
 				break;
 			case SelectionState.Pressed:
 				tintColor = colors.pressedColor;
 				transitionSprite = spriteState.pressedSprite;
-				triggerName = animationTriggers.pressedTrigger;
+				// triggerName = animationTriggers.pressedTrigger;
 				break;
 			case SelectionState.Selected:
 				tintColor = colors.selectedColor;
 				transitionSprite = spriteState.selectedSprite;
-				triggerName = animationTriggers.selectedTrigger;
+				// triggerName = animationTriggers.selectedTrigger;
 				break;
 			case SelectionState.Disabled:
 				tintColor = colors.disabledColor;
 				transitionSprite = spriteState.disabledSprite;
-				triggerName = animationTriggers.disabledTrigger;
+				// triggerName = animationTriggers.disabledTrigger;
 				break;
 			default:
 				tintColor = Color.black;
 				transitionSprite = null;
-				triggerName = string.Empty;
+				// triggerName = string.Empty;
 				break;
 		}
 

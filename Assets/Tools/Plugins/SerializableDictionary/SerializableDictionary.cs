@@ -14,8 +14,8 @@ namespace SerializableDictionary
 	{
 		// Internal
 		[SerializeField] private List<KeyValuePair> list = new List<KeyValuePair>();
-		private Dictionary<TKey, int> indexByKey = new Dictionary<TKey, int>();
-		private Dictionary<TKey, TValue> dict = new Dictionary<TKey, TValue>();
+		private readonly Dictionary<TKey, int> indexByKey = new Dictionary<TKey, int>();
+		private readonly Dictionary<TKey, TValue> dict = new Dictionary<TKey, TValue>();
 
 		[HideInInspector] public bool keyCollision;
 

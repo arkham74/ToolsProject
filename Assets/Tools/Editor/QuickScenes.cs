@@ -46,7 +46,7 @@ public class QuickScenes : ToolbarOverlay
 
 		private class ScenesSearchWindowProvider : ScriptableObject, ISearchWindowProvider
 		{
-			private List<SearchTreeEntry> list = new List<SearchTreeEntry>();
+			private readonly List<SearchTreeEntry> list = new List<SearchTreeEntry>();
 
 			public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
 			{

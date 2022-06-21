@@ -26,8 +26,10 @@ public class SplineMesh : SplineSampler
 	{
 		if (mesh == null)
 		{
-			mesh = new Mesh();
-			mesh.name = "Cylinder Mesh";
+			mesh = new Mesh
+			{
+				name = "Cylinder Mesh"
+			};
 			meshFilter.sharedMesh = mesh;
 		}
 

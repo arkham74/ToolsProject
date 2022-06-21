@@ -120,8 +120,10 @@ public static class CylinderGenerator
 
 		if (mesh == null)
 		{
-			mesh = new Mesh();
-			mesh.name = "Cylinder Mesh";
+			mesh = new Mesh
+			{
+				name = "Cylinder Mesh"
+			};
 		}
 		else
 		{
