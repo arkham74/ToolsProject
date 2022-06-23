@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Freya;
 using UnityEngine;
 
 public static class Vector4Extensions
@@ -67,5 +68,10 @@ public static class Vector4Extensions
 		}
 
 		return sum;
+	}
+
+	public static float InverseLerp(this Vector4 v, Vector4 a, Vector4 b)
+	{
+		return Mathfs.InverseLerp(a, b, v);
 	}
 }

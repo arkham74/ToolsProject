@@ -27,6 +27,11 @@ public static class NewInput
 		return Keyboard.current[ConvertKeyCode(keyCode)].wasPressedThisFrame;
 	}
 
+	public static bool GetKeyUp(KeyCode keyCode)
+	{
+		return Keyboard.current[ConvertKeyCode(keyCode)].wasReleasedThisFrame;
+	}
+
 	public static Key ConvertKeyCode(KeyCode keyCode) => keyCode switch
 	{
 		KeyCode.Space => Key.Space,
@@ -139,6 +144,20 @@ public static class NewInput
 		KeyCode.F12 => Key.F12,
 		_ => Key.None,
 	};
+
+	public static float GetAxisVertical()
+	{
+		float pos = Convert.ToSingle(Keyboard.current[Key.W].isPressed);
+		float neg = -Convert.ToSingle(Keyboard.current[Key.S].isPressed);
+		return pos + neg;
+	}
+
+	public static float GetAxisHorizontal()
+	{
+		float pos = Convert.ToSingle(Keyboard.current[Key.D].isPressed);
+		float neg = -Convert.ToSingle(Keyboard.current[Key.A].isPressed);
+		return pos + neg;
+	}
 
 	public static bool GetMouseButton(MouseButton button)
 	{
