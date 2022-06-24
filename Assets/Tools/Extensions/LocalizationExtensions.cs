@@ -44,9 +44,22 @@ public static class LocalizationExtensions
 		return LocalizationSettings.AvailableLocales.Locales.IndexOf(locale);
 	}
 
+	public static int GetCurrentLocaleIndex(this ILocalesProvider locales)
+	{
+		var selected = LocalizationSettings.SelectedLocale;
+		return locales.Locales.IndexOf(selected);
+	}
+
 	public static string GetNativeName(this Locale locale)
 	{
 		return locale.Identifier.CultureInfo.NativeName;
 	}
+
+	public static void SetByIndex(this ILocalesProvider locales, int index)
+	{
+		Locale locale = locales.SelectByIndex(index);
+		LocalizationSettings.SelectedLocale = locale;
+	}
+
 }
 #endif

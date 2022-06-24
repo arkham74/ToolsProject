@@ -15,7 +15,6 @@ public class BuildSettingsQueue : ScriptableObject
 
 	public async void BuildAll()
 	{
-		BuildSettings.IncrementVersion();
 		foreach (BuildSettings buildSettings in queue)
 		{
 			BuildReport report = await buildSettings.BuildAsync();
@@ -24,11 +23,11 @@ public class BuildSettingsQueue : ScriptableObject
 				return;
 			}
 		}
+		BuildSettings.IncrementVersion();
 	}
 
 	public async void BuildAllDev()
 	{
-		BuildSettings.IncrementVersion();
 		foreach (BuildSettings buildSettings in queue)
 		{
 			BuildReport report = await buildSettings.BuildAsync(BuildOptions.Development);
@@ -37,6 +36,7 @@ public class BuildSettingsQueue : ScriptableObject
 				return;
 			}
 		}
+		BuildSettings.IncrementVersion();
 	}
 }
 

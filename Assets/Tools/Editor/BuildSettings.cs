@@ -54,8 +54,8 @@ public class BuildSettings : ScriptableObject
 #endif
 	private void Build()
 	{
-		IncrementVersion();
-		BuildWithOptions();
+		var report = BuildWithOptions();
+		IncrementVersion(report);
 	}
 
 #if TOOLS_NAUATTR
@@ -63,8 +63,8 @@ public class BuildSettings : ScriptableObject
 #endif
 	private void BuildAndRun()
 	{
-		IncrementVersion();
-		BuildWithOptions(BuildOptions.AutoRunPlayer);
+		var report = BuildWithOptions(BuildOptions.AutoRunPlayer);
+		IncrementVersion(report);
 	}
 
 #if TOOLS_NAUATTR
@@ -123,6 +123,14 @@ public class BuildSettings : ScriptableObject
 			BuildTarget.Android => "apk",
 			_ => "exe"
 		};
+	}
+
+	public static void IncrementVersion(BuildReport report)
+	{
+		if (report.summary.totalErrors <= 0)
+		{
+			IncrementVersion();
+		}
 	}
 
 	public static void IncrementVersion()

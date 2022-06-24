@@ -34,7 +34,7 @@ public static class StringExtensions
 		return sb.ToString().Trim();
 	}
 
-	public static bool IsNullOrWhiteSpace(this string str)
+	public static bool IsNullOrWhiteSpaceOrEmpty(this string str)
 	{
 		return string.IsNullOrWhiteSpace(str);
 	}

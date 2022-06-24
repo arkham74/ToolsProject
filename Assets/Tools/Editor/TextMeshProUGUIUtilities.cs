@@ -36,7 +36,7 @@ public static class TextMeshProUGUIUtilities
 			comp.OnUpdateString.SetPersistentListenerState(0, UnityEventCallState.EditorAndRuntime);
 			string key = target.text.ToConstantCase();
 
-			if (key.IsNullOrWhiteSpace())
+			if (key.IsNullOrWhiteSpaceOrEmpty())
 			{
 				Debug.LogWarning("Is white space", target);
 			}

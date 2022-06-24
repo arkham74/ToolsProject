@@ -23,6 +23,11 @@
             "name": "com.unity.localization",
             "expression": "1.0.5",
             "define": "TOOLS_LOCAL"
+        },
+        {
+            "name": "com.dbrizov.naughtyattributes",
+            "expression": "2.1.4",
+            "define": "TOOLS_NAUATTR"
         }
     ],
     "noEngineReferences": false
