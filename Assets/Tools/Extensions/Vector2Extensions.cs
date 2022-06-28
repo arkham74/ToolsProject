@@ -99,4 +99,14 @@ public static class Vector2Extensions
 	{
 		return Mathfs.InverseLerp(a, b, v);
 	}
+
+	public static float Random(this Vector2 v)
+	{
+		return UnityEngine.Random.Range(v.x, v.y);
+	}
+
+	public static int Random(this Vector2Int v)
+	{
+		return UnityEngine.Random.Range(v.x, v.y + 1);
+	}
 }

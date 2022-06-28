@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.IO;
 using Steamworks;
 using UnityEditor;
@@ -12,6 +13,7 @@ namespace Steamworks
 	public class SteamManager : MonoBehaviour
 	{
 		public static Action<bool> OnPaused = delegate { };
+
 		public const uint APP_ID_SPACEWAR = 480;
 
 		public static int PlayTime
@@ -19,37 +21,39 @@ namespace Steamworks
 			get => SteamUserStats.GetStatInt("play_time");
 			set => SteamUserStats.SetStat("play_time", value);
 		}
-		public static void InitEditor(uint appID) => InitInternal(appID, true);
+
 		public static void Init(uint appID) => InitInternal(appID, false);
+		public static void InitEditor(uint appID) => InitInternal(appID, true);
 
 		private static void InitInternal(uint appID, bool inEditor)
 		{
-			if (Application.isEditor && !inEditor) return;
-
-			try
+			if (!Application.isEditor || inEditor)
 			{
-				if (!Debug.isDebugBuild && appID != APP_ID_SPACEWAR)
+				try
 				{
-					if (SteamClient.RestartAppIfNecessary(appID))
+					if (!Debug.isDebugBuild && appID != APP_ID_SPACEWAR)
 					{
-						Debug.LogWarning("Game is not launched through steam or steam is not running");
-						Application.Quit();
-						return;
+						if (SteamClient.RestartAppIfNecessary(appID))
+						{
+							Debug.LogWarning("Game is not launched through steam or steam is not running");
+							Application.Quit();
+							return;
+						}
 					}
-				}
 
-				SteamClient.Init(appID);
-				Debug.Log("Steam Manager Initialized");
-				GameObject instance = Instantiate(Resources.Load<GameObject>("Managers/SteamManager"));
-				instance.name = "Steam Manager";
-				DontDestroyOnLoad(instance);
-				SteamUtils.OnSteamShutdown += OnSteamShutdown;
-				SteamFriends.OnGameOverlayActivated += OnOverlayActivated;
-			}
-			catch (Exception e)
-			{
-				Debug.LogError(e);
-				QuitGameOrPlayMode();
+					SteamClient.Init(appID);
+					Debug.Log("Steam Manager Initialized");
+					SteamManager instance = Instantiate(Resources.Load<SteamManager>("Managers/SteamManager"));
+					instance.name = "Steam Manager";
+					DontDestroyOnLoad(instance);
+					SteamUtils.OnSteamShutdown += OnSteamShutdown;
+					SteamFriends.OnGameOverlayActivated += OnOverlayActivated;
+				}
+				catch (Exception e)
+				{
+					Debug.LogError(e);
+					QuitGameOrPlayMode();
+				}
 			}
 		}
 

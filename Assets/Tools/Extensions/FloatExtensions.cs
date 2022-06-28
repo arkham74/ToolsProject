@@ -76,11 +76,6 @@ public static class FloatExtensions
 	// 		return Mathf.Sign(f);
 	// 	}
 
-	// 	public static float Mod(this float x, float y)
-	// 	{
-	// 		return y * (x / y - Mathf.Floor(x / y));
-	// 	}
-
 	// 	public static float Clamp(this float value, float min, float max)
 	// 	{
 	// 		return Mathf.Clamp(value, min, max);
@@ -111,15 +106,20 @@ public static class FloatExtensions
 		return (v * steps).Floor() / steps;
 	}
 
-	// 	public static float TriangleWave(this float x)
-	// 	{
-	// 		return Mathf.Abs(Mod(x, 4) - 2) - 1;
-	// 	}
+	public static float TriangleWave(this float x)
+	{
+		float Mod(float x, float y)
+		{
+			return y * (x / y - Mathf.Floor(x / y));
+		}
 
-	// 	public static float TriangleWave2(this float x)
-	// 	{
-	// 		return TriangleWave(x + 1);
-	// 	}
+		return Mathf.Abs(Mod(x, 4) - 2) - 1;
+	}
+
+	public static float TriangleWave2(this float x)
+	{
+		return TriangleWave(x + 1);
+	}
 
 	// 	// public static float Remap(this float value, float from, float to, float min, float max)
 	// 	// {
