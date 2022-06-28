@@ -22,6 +22,13 @@ public static partial class DOTweenExtensions
 		t.SetTarget(target);
 		return t;
 	}
+
+	public static TweenerCore<float, float, FloatOptions> DOOrthographicSize(this CinemachineVirtualCamera target, float endValue, float duration)
+	{
+		TweenerCore<float, float, FloatOptions> t = DOTween.To(() => target.m_Lens.OrthographicSize, x => target.m_Lens.OrthographicSize = x, endValue, duration);
+		t.SetTarget(target);
+		return t;
+	}
 }
 #endif
 #endif

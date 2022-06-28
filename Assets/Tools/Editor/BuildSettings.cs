@@ -127,7 +127,7 @@ public class BuildSettings : ScriptableObject
 
 	public static void IncrementVersion(BuildReport report)
 	{
-		if (report.summary.totalErrors <= 0)
+		if (report.summary.result != BuildResult.Succeeded)
 		{
 			IncrementVersion();
 		}
@@ -139,7 +139,7 @@ public class BuildSettings : ScriptableObject
 		int[] newVerInt = current.Split('.').Select(int.Parse).ToArray();
 		newVerInt[2] += 1;
 		string newVersion = string.Join(".", newVerInt);
-		Debug.LogWarning($"{PlayerSettings.productName} Version: {newVersion}");
+		Debug.Log($"{PlayerSettings.productName} Version: {newVersion}");
 		PlayerSettings.bundleVersion = newVersion;
 	}
 }

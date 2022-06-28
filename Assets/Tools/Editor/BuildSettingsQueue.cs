@@ -18,7 +18,7 @@ public class BuildSettingsQueue : ScriptableObject
 		foreach (BuildSettings buildSettings in queue)
 		{
 			BuildReport report = await buildSettings.BuildAsync();
-			if (report.summary.totalErrors > 0)
+			if (report.summary.result != BuildResult.Succeeded)
 			{
 				return;
 			}
@@ -31,7 +31,7 @@ public class BuildSettingsQueue : ScriptableObject
 		foreach (BuildSettings buildSettings in queue)
 		{
 			BuildReport report = await buildSettings.BuildAsync(BuildOptions.Development);
-			if (report.summary.totalErrors > 0)
+			if (report.summary.result != BuildResult.Succeeded)
 			{
 				return;
 			}

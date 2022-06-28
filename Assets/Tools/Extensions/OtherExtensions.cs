@@ -48,7 +48,7 @@ public static class OtherExtensions
 		main.startColor = color;
 	}
 
-	public static bool CompareTypes(this Type a, Type b)
+	public static bool CompareType(this Type a, Type b)
 	{
 		if (a.Equals(b))
 			return true;
