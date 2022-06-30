@@ -107,4 +107,23 @@ public static class StringExtensions
 	{
 		return array.OrderBy(e => e);
 	}
+
+	public static string RemoveDiacritics(this string text)
+	{
+		int length = text.Length;
+		ReadOnlySpan<char> normalizedString = text.Normalize(NormalizationForm.FormD);
+		Span<char> span = length < 1000 ? stackalloc char[length] : new char[length];
+
+		int i = 0;
+		foreach (char c in normalizedString)
+		{
+			if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+			{
+				span[i] = c;
+				i++;
+			}
+		}
+
+		return new string(span).Normalize(NormalizationForm.FormC);
+	}
 }
