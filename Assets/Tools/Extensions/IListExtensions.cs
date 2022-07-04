@@ -25,8 +25,13 @@ public static class IListExtensions
 	{
 		if (list == null) throw new ArgumentNullException();
 		if (list.Count <= 0) throw new ArgumentException("List must have more than 0 elements");
-
 		return list[UnityEngine.Random.Range(0, list.Count)];
+	}
+
+	public static T RandomOrDefault<T>(this IList<T> list)
+	{
+		if (list == null) throw new ArgumentNullException();
+		return list.ElementAtOrDefault(UnityEngine.Random.Range(0, list.Count));
 	}
 
 	public static void Shuffle<T>(this IList<T> list)
@@ -80,8 +85,6 @@ public static class IListExtensions
 
 	public static void LogWarning<T>(this IList<T> array)
 	{
-		// var sb = new StringBuilder();
-
 		if (array == null)
 		{
 			Debug.LogWarning("Array is NULL");
@@ -93,12 +96,6 @@ public static class IListExtensions
 			Debug.LogWarning("Array is empty");
 			return;
 		}
-
-		// sb.
-		// for (int i = 0; i < array.Count; i++)
-		// {
-		// 	sb.Append(array[i]);
-		// }
 
 		Debug.LogWarning(string.Join(", ", array));
 	}

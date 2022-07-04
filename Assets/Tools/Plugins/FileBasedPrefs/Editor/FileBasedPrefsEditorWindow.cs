@@ -14,6 +14,12 @@ using Random = UnityEngine.Random;
 #if UNITY_EDITOR
 public class FileBasedPrefsEditorWindow : EditorWindow
 {
+	private int pageBools = 0;
+	private int pageInts = 0;
+	private int pageFloats = 0;
+	private int pageStrings = 0;
+	private int pageSize = 10;
+
 	private string key;
 	private bool valueBool;
 	private int valueInt;
@@ -30,37 +36,47 @@ public class FileBasedPrefsEditorWindow : EditorWindow
 
 	private void OnEnable()
 	{
-		data = FileBasedPrefs.GetSaveFile();
+		if (FileBasedPrefs.IsInit())
+		{
+			data = FileBasedPrefs.GetSaveFile();
+		}
 	}
 
 	private void OnGUI()
 	{
-		DrawBools();
-		EditorGUILayout.Separator();
-		DrawInts();
-		EditorGUILayout.Separator();
-		DrawFloats();
-		EditorGUILayout.Separator();
-		DrawStrings();
-		EditorGUILayout.Separator();
+		if (FileBasedPrefs.IsInit())
+		{
+			DrawBools();
+			EditorGUILayout.Separator();
+			DrawInts();
+			EditorGUILayout.Separator();
+			DrawFloats();
+			EditorGUILayout.Separator();
+			DrawStrings();
+			EditorGUILayout.Separator();
 
-		EditorGUILayout.LabelField("Add", EditorStyles.boldLabel);
-		EditorGUI.indentLevel++;
-		key = EditorGUILayout.TextField("Key", key);
-		GUI.enabled = key != string.Empty && !FileBasedPrefs.HasKey(key);
-		EditorGUILayout.Separator();
-		DrawAddItemBool();
-		DrawAddItemInt();
-		DrawAddItemFloat();
-		DrawAddItemString();
-		EditorGUI.indentLevel--;
+			EditorGUILayout.LabelField("Add", EditorStyles.boldLabel);
+			EditorGUI.indentLevel++;
+			key = EditorGUILayout.TextField("Key", key);
+			GUI.enabled = key != string.Empty && !FileBasedPrefs.HasKey(key);
+			EditorGUILayout.Separator();
+			DrawAddItemBool();
+			DrawAddItemInt();
+			DrawAddItemFloat();
+			DrawAddItemString();
+			EditorGUI.indentLevel--;
+		}
 	}
 
 	private void DrawStrings()
 	{
-		if (data.StringData.Length > 0) EditorGUILayout.LabelField("String", EditorStyles.boldLabel);
+		int pages = data.StringData.Length / pageSize;
+		pageStrings = EditorGUILayout.IntSlider("Strings page", pageStrings, 0, pages);
+
 		EditorGUI.indentLevel++;
-		foreach (FileBasedPrefsSaveFileModel.StringItem item in data.StringData)
+
+		var page = data.StringData.Skip(pageStrings * pageSize).Take(pageSize);
+		foreach (FileBasedPrefsSaveFileModel.StringItem item in page)
 		{
 			DrawString(item);
 		}
@@ -70,9 +86,13 @@ public class FileBasedPrefsEditorWindow : EditorWindow
 
 	private void DrawFloats()
 	{
-		if (data.FloatData.Length > 0) EditorGUILayout.LabelField("Float", EditorStyles.boldLabel);
+		int pages = data.FloatData.Length / pageSize;
+		pageFloats = EditorGUILayout.IntSlider("Floats page", pageFloats, 0, pages);
+
 		EditorGUI.indentLevel++;
-		foreach (FileBasedPrefsSaveFileModel.FloatItem item in data.FloatData)
+
+		var page = data.FloatData.Skip(pageFloats * pageSize).Take(pageSize);
+		foreach (FileBasedPrefsSaveFileModel.FloatItem item in page)
 		{
 			DrawFloat(item);
 		}
@@ -82,9 +102,13 @@ public class FileBasedPrefsEditorWindow : EditorWindow
 
 	private void DrawInts()
 	{
-		if (data.IntData.Length > 0) EditorGUILayout.LabelField("Int", EditorStyles.boldLabel);
+		int pages = data.IntData.Length / pageSize;
+		pageInts = EditorGUILayout.IntSlider("Ints page", pageInts, 0, pages);
+
 		EditorGUI.indentLevel++;
-		foreach (FileBasedPrefsSaveFileModel.IntItem item in data.IntData)
+
+		var page = data.IntData.Skip(pageInts * pageSize).Take(pageSize);
+		foreach (FileBasedPrefsSaveFileModel.IntItem item in page)
 		{
 			DrawInt(item);
 		}
@@ -94,9 +118,13 @@ public class FileBasedPrefsEditorWindow : EditorWindow
 
 	private void DrawBools()
 	{
-		if (data.BoolData.Length > 0) EditorGUILayout.LabelField("Bool", EditorStyles.boldLabel);
+		int pages = data.BoolData.Length / pageSize;
+		pageBools = EditorGUILayout.IntSlider("Bools page", pageBools, 0, pages);
+
 		EditorGUI.indentLevel++;
-		foreach (FileBasedPrefsSaveFileModel.BoolItem item in data.BoolData)
+
+		var page = data.BoolData.Skip(pageBools * pageSize).Take(pageSize);
+		foreach (FileBasedPrefsSaveFileModel.BoolItem item in page)
 		{
 			DrawBool(item);
 		}

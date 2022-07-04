@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Freya;
 using UnityEngine;
 
 public static class IntExtensions
@@ -23,11 +24,6 @@ public static class IntExtensions
 	// 	// {
 	// 	// 	return Mathf.Clamp(value, min, max);
 	// 	// }
-
-	public static int Repeat(this int value, int lenght)
-	{
-		return value % lenght;
-	}
 
 	// 	public static int LayerToMask(this int layerIndex)
 	// 	{

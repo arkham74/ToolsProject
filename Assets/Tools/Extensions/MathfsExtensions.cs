@@ -263,6 +263,9 @@ public static class MathfsExtensions
 	/// <inheritdoc cref="Mathfs.Clamp(int,int,int)"/>
 	[MethodImpl(INLINE)] public static int Clamp(this int value, int min, int max) => Mathfs.Clamp(value, min, max);
 
+	/// <inheritdoc cref="Mathfs.Clamp(int,int,int)"/>
+	[MethodImpl(INLINE)] public static int Clamp01(this int value) => Mathfs.Clamp(value, 0, 1);
+
 	/// <inheritdoc cref="Mathfs.Clamp01(float)"/>
 	[MethodImpl(INLINE)] public static float Clamp01(this float value) => Mathfs.Clamp01(value);
 

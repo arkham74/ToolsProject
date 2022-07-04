@@ -29,6 +29,7 @@ public static class FileBasedPrefs
 
 	public static void Init(string name, string secret, string user)
 	{
+		Debug.Log($"FileBasedPrefs initialized: {user}");
 		string path = Path.Combine(Application.persistentDataPath, user);
 		Directory.CreateDirectory(path);
 		FileBasedPrefsConfig config = new FileBasedPrefsConfig()

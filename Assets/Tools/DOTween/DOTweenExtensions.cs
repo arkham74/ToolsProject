@@ -78,9 +78,9 @@ public static partial class DOTweenExtensions
 		return t;
 	}
 
-	public static TweenerCore<int, int, NoOptions> DONumbers(this TextMeshProUGUI target, int endValue, float duration, string @string = "{0}")
+	public static TweenerCore<int, int, NoOptions> DONumbers(this TextMeshProUGUI target, int endValue, float duration, string @string = "{0}", int startValue = 0)
 	{
-		target.text = "0";
+		target.text = startValue.ToString();
 		TweenerCore<int, int, NoOptions> t = DOTween.To(() => int.Parse(target.text), x => target.text = string.Format(@string, x), endValue, duration);
 		t.SetTarget(target);
 		return t;

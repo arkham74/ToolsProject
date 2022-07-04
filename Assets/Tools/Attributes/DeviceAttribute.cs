@@ -3,7 +3,6 @@ using UnityEditor;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-
 #endif
 
 public class DeviceAttribute : PropertyAttribute
@@ -23,7 +22,7 @@ public class DeviceAttributePropertyDrawer : PropertyDrawer
 			list ??= TypeCache.GetTypesDerivedFrom<InputDevice>().Select(e => e.Name).ToArray();
 			int index = list.IndexOf(property.stringValue);
 			index = EditorGUI.Popup(position, label.text, index, list);
-			property.stringValue = list[index.Repeat(list.Length)];
+			property.stringValue = list[index.Mod(list.Length)];
 		}
 		else
 		{

@@ -15,11 +15,12 @@ namespace Steamworks
 		public static Action<bool> OnPaused = delegate { };
 
 		public const uint APP_ID_SPACEWAR = 480;
+		private const string playTimeKey = "play_time";
 
 		public static int PlayTime
 		{
-			get => SteamUserStats.GetStatInt("play_time");
-			set => SteamUserStats.SetStat("play_time", value);
+			get => SteamUserStats.GetStatInt(playTimeKey);
+			set => SteamUserStats.SetStat(playTimeKey, value);
 		}
 
 		public static void Init(uint appID, bool inEditor = true)
@@ -39,29 +40,25 @@ namespace Steamworks
 					}
 
 					SteamClient.Init(appID);
+					SteamUserStats.RequestCurrentStats();
 					Debug.Log("Steam Manager Initialized");
 					SteamManager instance = Instantiate(Resources.Load<SteamManager>("Managers/SteamManager"));
 					instance.name = "Steam Manager";
 					DontDestroyOnLoad(instance);
-					SteamUtils.OnSteamShutdown += OnSteamShutdown;
 					SteamFriends.OnGameOverlayActivated += OnOverlayActivated;
+					SteamUtils.OnSteamShutdown += Quit;
 				}
 				catch (Exception e)
 				{
 					Debug.LogError(e);
-					QuitGameOrPlayMode();
+					Quit();
 				}
 			}
 		}
 
-		private void OnDestroy()
+		public static void Quit()
 		{
-			SteamUtils.OnSteamShutdown -= OnSteamShutdown;
-			SteamFriends.OnGameOverlayActivated -= OnOverlayActivated;
-		}
-
-		private static void QuitGameOrPlayMode()
-		{
+			SteamUtils.OnSteamShutdown -= Quit;
 #if UNITY_EDITOR
 			EditorApplication.ExitPlaymode();
 #else
@@ -84,13 +81,9 @@ namespace Steamworks
 			OnPaused(!isNotPaused);
 		}
 
-		private static void OnSteamShutdown()
+		private void OnDestroy()
 		{
-			QuitGameOrPlayMode();
-		}
-
-		private void OnApplicationQuit()
-		{
+			SteamFriends.OnGameOverlayActivated -= OnOverlayActivated;
 			PlayTime += Mathf.RoundToInt(Time.realtimeSinceStartup);
 			SteamUserStats.StoreStats();
 			GC.Collect();

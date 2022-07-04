@@ -7,6 +7,15 @@ using Random = UnityEngine.Random;
 
 public static class Tools
 {
+	public static void Quit()
+	{
+#if UNITY_EDITOR
+		EditorApplication.ExitPlaymode();
+#else
+		Application.Quit();
+#endif
+	}
+
 	public static bool IsSceneLoaded(string sceneName)
 	{
 		return SceneManager.GetSceneByName(sceneName).name == sceneName;
