@@ -8,11 +8,6 @@ public static class IReadOnlyListExtensions
 		return string.Join(separator, array);
 	}
 
-	// public static T Mod<T>(this IReadOnlyList<T> array, int index)
-	// {
-	// 	return array[Mathfs.Mod(index, array.Count)];
-	// }
-
 	public static bool ContainsIndex<T>(this IReadOnlyList<T> list, int index)
 	{
 		bool greaterThanEqualZero = index >= 0;
