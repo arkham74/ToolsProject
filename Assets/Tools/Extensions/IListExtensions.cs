@@ -16,7 +16,7 @@ public static class IListExtensions
 		return string.Join(separator, array);
 	}
 
-	public static T Loop<T>(this IList<T> array, int index)
+	public static T Repeat<T>(this IList<T> array, int index)
 	{
 		return array[Mathfs.Mod(index, array.Count)];
 	}

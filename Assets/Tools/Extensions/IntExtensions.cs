@@ -25,8 +25,8 @@ public static class IntExtensions
 	// 	// 	return Mathf.Clamp(value, min, max);
 	// 	// }
 
-	// 	public static int LayerToMask(this int layerIndex)
-	// 	{
-	// 		return Mathf.RoundToInt(Mathf.Pow(2, layerIndex));
-	// 	}
+	public static int LayerToMask(this int layerIndex)
+	{
+		return Mathf.RoundToInt(Mathf.Pow(2, layerIndex));
+	}
 }
