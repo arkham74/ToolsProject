@@ -17,11 +17,11 @@ using Tag = NaughtyAttributes.TagAttribute;
 using UnityEngine.InputSystem;
 #endif
 
-namespace Pathfinder.Test
+namespace AStar.Test
 {
 	public class NodeRed : Node
 	{
-		public override float EnterCost => 3;
-		public override float ExitCost => 0;
+		public override int EnterCost => 3;
+		public override int ExitCost => 0;
 	}
 }
