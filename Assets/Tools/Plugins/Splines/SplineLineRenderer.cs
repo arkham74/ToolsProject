@@ -11,27 +11,30 @@ using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using UnityEngine.Profiling;
 
-[RequireComponent(typeof(LineRenderer))]
-public class SplineLineRenderer : SplineSampler
+namespace Splines
 {
-	[SerializeField] private LineRenderer lineRenderer;
-
-	protected override void Reset()
+	[RequireComponent(typeof(LineRenderer))]
+	public class SplineLineRenderer : SplineSampler
 	{
-		base.Reset();
-		lineRenderer = GetComponent<LineRenderer>();
-		lineRenderer.useWorldSpace = false;
-		lineRenderer.startWidth = 0.1f;
-		lineRenderer.endWidth = 0.1f;
-		lineRenderer.sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
-	}
+		[SerializeField] private LineRenderer lineRenderer;
 
-	protected override void PositionsAndNormals(Span<Vector3> positions, Span<Vector3> normals)
-	{
-		lineRenderer.positionCount = samples;
-		for (int i = 0; i < positions.Length; i++)
+		protected override void Reset()
 		{
-			lineRenderer.SetPosition(i, positions[i]);
+			base.Reset();
+			lineRenderer = GetComponent<LineRenderer>();
+			lineRenderer.useWorldSpace = false;
+			lineRenderer.startWidth = 0.1f;
+			lineRenderer.endWidth = 0.1f;
+			lineRenderer.sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
+		}
+
+		protected override void PositionsAndNormals(Span<Vector3> positions, Span<Vector3> normals)
+		{
+			lineRenderer.positionCount = samples;
+			for (int i = 0; i < positions.Length; i++)
+			{
+				lineRenderer.SetPosition(i, positions[i]);
+			}
 		}
 	}
 }

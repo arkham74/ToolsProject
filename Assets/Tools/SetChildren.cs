@@ -4,40 +4,43 @@ using UnityEngine;
 using NaughtyAttributes;
 #endif
 
-public class SetChildren : MonoBehaviour
+namespace CustomTools
 {
+	public class SetChildren : MonoBehaviour
+	{
 #if UNITY_EDITOR
-	public GameObject prefab;
+		public GameObject prefab;
 
 #if TOOLS_NAUATTR
-	[Button]
+		[Button]
 #endif
-	public void Set()
-	{
-		if (!prefab) return;
-		int i = 0;
-		foreach (Transform child in transform)
+		public void Set()
 		{
-			Object go = PrefabUtility.InstantiatePrefab(prefab, child);
-			go.name = $"{prefab.name} ({i})";
-			i++;
-		}
-	}
-
-#if TOOLS_NAUATTR
-	[Button]
-#endif
-	public void Clear()
-	{
-		foreach (Transform child in transform)
-		{
-			while (child.childCount > 0)
+			if (!prefab) return;
+			int i = 0;
+			foreach (Transform child in transform)
 			{
-				Transform grandChild = child.GetChild(0);
-				grandChild.SetParent(null);
-				DestroyImmediate(grandChild.gameObject);
+				Object go = PrefabUtility.InstantiatePrefab(prefab, child);
+				go.name = $"{prefab.name} ({i})";
+				i++;
 			}
 		}
-	}
+
+#if TOOLS_NAUATTR
+		[Button]
 #endif
+		public void Clear()
+		{
+			foreach (Transform child in transform)
+			{
+				while (child.childCount > 0)
+				{
+					Transform grandChild = child.GetChild(0);
+					grandChild.SetParent(null);
+					DestroyImmediate(grandChild.gameObject);
+				}
+			}
+		}
+#endif
+	}
 }

@@ -18,6 +18,7 @@ public static class FileBasedPrefs
 	private static FileBasedPrefsSaveFileModel _latestData;
 	private static readonly StringBuilder _sb = new StringBuilder();
 	private const string String_Empty = "";
+	// private static bool fileExist;
 
 	public static bool AutoSaveData
 	{
@@ -281,6 +282,11 @@ public static class FileBasedPrefs
 			CreateNewSaveFile();
 		}
 	}
+
+	// private static bool DoesSaveFileExist()
+	// {
+	// 	return fileExist || (fileExist = File.Exists(GetSaveFilePath()));
+	// }
 
 	private static bool DoesSaveFileExist()
 	{

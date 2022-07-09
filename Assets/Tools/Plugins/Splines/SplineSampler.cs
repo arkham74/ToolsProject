@@ -1,33 +1,36 @@
 using System;
 using UnityEngine;
 
-[ExecuteAlways]
-[RequireComponent(typeof(Spline))]
-public abstract class SplineSampler : MonoBehaviour
+namespace Splines
 {
-	[SerializeField] private bool updateInPlayMode;
-	[SerializeField][Min(2)] protected int samples = 30;
-	[SerializeField] protected Spline spline;
-
-	protected virtual void Reset()
+	[ExecuteAlways]
+	[RequireComponent(typeof(Spline))]
+	public abstract class SplineSampler : MonoBehaviour
 	{
-		spline = GetComponent<Spline>();
-	}
+		[SerializeField] private bool updateInPlayMode;
+		[SerializeField][Min(2)] protected int samples = 30;
+		[SerializeField] protected Spline spline;
 
-	protected abstract void PositionsAndNormals(Span<Vector3> positions, Span<Vector3> normals);
-
-	private void LateUpdate()
-	{
-		if (Application.isPlaying && !updateInPlayMode) return;
-
-		Span<Vector3> positions = stackalloc Vector3[samples];
-		Span<Vector3> normals = stackalloc Vector3[samples];
-		for (int i = 0; i < samples; i++)
+		protected virtual void Reset()
 		{
-			float t = (float)i / (samples - 1);
-			positions[i] = spline.Evaluate(t);
-			normals[i] = spline.EvaluateNormal(t);
+			spline = GetComponent<Spline>();
 		}
-		PositionsAndNormals(positions, normals);
+
+		protected abstract void PositionsAndNormals(Span<Vector3> positions, Span<Vector3> normals);
+
+		private void LateUpdate()
+		{
+			if (Application.isPlaying && !updateInPlayMode) return;
+
+			Span<Vector3> positions = stackalloc Vector3[samples];
+			Span<Vector3> normals = stackalloc Vector3[samples];
+			for (int i = 0; i < samples; i++)
+			{
+				float t = (float)i / (samples - 1);
+				positions[i] = spline.Evaluate(t);
+				normals[i] = spline.EvaluateNormal(t);
+			}
+			PositionsAndNormals(positions, normals);
+		}
 	}
 }

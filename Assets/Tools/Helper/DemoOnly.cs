@@ -15,7 +15,7 @@ using Text = TMPro.TextMeshProUGUI;
 using UnityEngine.InputSystem;
 #endif
 
-namespace SAR
+namespace CustomTools
 {
 	public class DemoOnly : MonoBehaviour
 	{

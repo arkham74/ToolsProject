@@ -13,7 +13,7 @@ using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 
-namespace StuntMasters
+namespace CustomTools
 {
 	public class SelectOnHover : MonoBehaviour, IPointerEnterHandler
 	{

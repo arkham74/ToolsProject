@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 
-public class RotateTransform : MonoBehaviour
+namespace CustomTools
 {
-	public Transform target;
-	public float speed = 10;
-	public Vector3 axis = Vector3.up;
-	public bool localRotation;
-
-	private void Reset()
+	public class RotateTransform : MonoBehaviour
 	{
-		target = transform;
-	}
+		public Transform target;
+		public float speed = 10;
+		public Vector3 axis = Vector3.up;
+		public bool localRotation;
 
-	private void Update()
-	{
-		float angle = Time.realtimeSinceStartup * speed;
-		if (localRotation)
-			target.localRotation = Quaternion.Euler(axis * angle);
-		else
-			target.rotation = Quaternion.Euler(axis * angle);
+		private void Reset()
+		{
+			target = transform;
+		}
+
+		private void Update()
+		{
+			float angle = Time.realtimeSinceStartup * speed;
+			if (localRotation)
+				target.localRotation = Quaternion.Euler(axis * angle);
+			else
+				target.rotation = Quaternion.Euler(axis * angle);
+		}
 	}
 }

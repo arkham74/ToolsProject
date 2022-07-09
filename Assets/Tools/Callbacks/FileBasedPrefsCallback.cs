@@ -8,19 +8,22 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class FileBasedPrefsCallback : BaseCallback
+namespace CustomTools
 {
-	public string key = "PREF_KEY";
-	public bool defaultValue;
-	public UnityEvent<bool> onEvent;
-
-	public void SetPref(bool value)
+	public class FileBasedPrefsCallback : BaseCallback
 	{
-		FileBasedPrefs.SetBool(key, value);
-	}
+		public string key = "PREF_KEY";
+		public bool defaultValue;
+		public UnityEvent<bool> onEvent;
 
-	protected override void Trigger()
-	{
-		onEvent.Invoke(FileBasedPrefs.GetBool(key, defaultValue));
+		public void SetPref(bool value)
+		{
+			FileBasedPrefs.SetBool(key, value);
+		}
+
+		protected override void Trigger()
+		{
+			onEvent.Invoke(FileBasedPrefs.GetBool(key, defaultValue));
+		}
 	}
 }

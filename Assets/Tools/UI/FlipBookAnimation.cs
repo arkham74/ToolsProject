@@ -10,7 +10,7 @@ using NaughtyAttributes;
 using Tag = NaughtyAttributes.TagAttribute;
 #endif
 
-namespace UnityEngine.UI.Extensions
+namespace CustomTools
 {
 	public class FlipBookAnimation : MonoBehaviour
 	{

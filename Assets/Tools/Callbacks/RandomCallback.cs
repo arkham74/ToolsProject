@@ -5,34 +5,37 @@ using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 
-public class RandomCallback : BaseCallback
+namespace CustomTools
 {
-	[Serializable]
-	public class EventWithChance
+	public class RandomCallback : BaseCallback
 	{
-		public int probability = 1;
-		public UnityEvent @event = new UnityEvent();
-	}
-
-	public EventWithChance[] events;
-
-	private int Sum => events.Sum(e => e.probability);
-
-	protected override void Trigger()
-	{
-		ChooseAtRandom().Invoke();
-	}
-
-	private UnityEvent ChooseAtRandom()
-	{
-		int p = Random.Range(0, Sum) + 1;
-		int cumulativeProbability = 0;
-		foreach (EventWithChance item in events.OrderBy(e => e.probability))
+		[Serializable]
+		public class EventWithChance
 		{
-			cumulativeProbability += item.probability;
-			if (p <= cumulativeProbability) return item.@event;
+			public int probability = 1;
+			public UnityEvent @event = new UnityEvent();
 		}
 
-		return null;
+		public EventWithChance[] events;
+
+		private int Sum => events.Sum(e => e.probability);
+
+		protected override void Trigger()
+		{
+			ChooseAtRandom().Invoke();
+		}
+
+		private UnityEvent ChooseAtRandom()
+		{
+			int p = Random.Range(0, Sum) + 1;
+			int cumulativeProbability = 0;
+			foreach (EventWithChance item in events.OrderBy(e => e.probability))
+			{
+				cumulativeProbability += item.probability;
+				if (p <= cumulativeProbability) return item.@event;
+			}
+
+			return null;
+		}
 	}
 }

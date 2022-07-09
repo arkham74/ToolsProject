@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-namespace CordBot
+namespace Splines
 {
 	public class SplineDebuger : MonoBehaviour
 	{

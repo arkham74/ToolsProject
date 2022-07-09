@@ -1,19 +1,22 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(ColorBlockSync))]
-[CanEditMultipleObjects]
-public class ColorBlockSyncEditor : Editor
+namespace CustomTools
 {
-	public override void OnInspectorGUI()
+	[CustomEditor(typeof(ColorBlockSync))]
+	[CanEditMultipleObjects]
+	public class ColorBlockSyncEditor : Editor
 	{
-		DrawDefaultInspector();
-
-		if (GUILayout.Button("Sync"))
+		public override void OnInspectorGUI()
 		{
-			foreach (ColorBlockSync tar in targets)
+			DrawDefaultInspector();
+
+			if (GUILayout.Button("Sync"))
 			{
-				tar.Sync();
+				foreach (ColorBlockSync tar in targets)
+				{
+					tar.Sync();
+				}
 			}
 		}
 	}

@@ -4,25 +4,28 @@ using UnityEngine.UI;
 using NaughtyAttributes;
 #endif
 
-public class ColorBlockSync : MonoBehaviour
+namespace CustomTools
 {
-	public Selectable selectable;
+	public class ColorBlockSync : MonoBehaviour
+	{
+		public Selectable selectable;
 #if TOOLS_NAUATTR
-	[Expandable] 
+		[Expandable]
 #endif
-	public ColorBlockData data;
+		public ColorBlockData data;
 
 #if UNITY_EDITOR
-	private void Reset()
-	{
-		selectable = GetComponent<Selectable>();
-		data = AssetTools.FindAssetByType<ColorBlockData>();
-	}
+		private void Reset()
+		{
+			selectable = GetComponent<Selectable>();
+			data = AssetTools.FindAssetByType<ColorBlockData>();
+		}
 
-	public void Sync()
-	{
-		selectable.colors = data.colorBlock;
-		selectable.MarkDirty();
-	}
+		public void Sync()
+		{
+			selectable.colors = data.colorBlock;
+			selectable.MarkDirty();
+		}
 #endif
+	}
 }

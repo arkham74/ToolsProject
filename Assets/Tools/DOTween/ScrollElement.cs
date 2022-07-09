@@ -14,32 +14,35 @@ using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 
-public class ScrollElement : MonoBehaviour, ISelectHandler
+namespace CustomTools
 {
-	public float waitTime = 0.1f;
-	public RectTransform element;
-	private ScrollRect scrollRect;
-
-	private void Reset()
+	public class ScrollElement : MonoBehaviour, ISelectHandler
 	{
-		element = GetComponent<RectTransform>();
-	}
+		public float waitTime = 0.1f;
+		public RectTransform element;
+		private ScrollRect scrollRect;
 
-	private void Awake()
-	{
-		scrollRect = GetComponentInParent<ScrollRect>();
-	}
+		private void Reset()
+		{
+			element = GetComponent<RectTransform>();
+		}
 
-	public void OnSelect(BaseEventData eventData)
-	{
-		if (scrollRect.velocity.magnitude > 0.01f) return;
-		StartCoroutine(ScrollToElement());
-	}
+		private void Awake()
+		{
+			scrollRect = GetComponentInParent<ScrollRect>();
+		}
 
-	private IEnumerator ScrollToElement()
-	{
-		yield return new WaitForSeconds(waitTime);
-		scrollRect.ScrollTo(element);
+		public void OnSelect(BaseEventData eventData)
+		{
+			if (scrollRect.velocity.magnitude > 0.01f) return;
+			StartCoroutine(ScrollToElement());
+		}
+
+		private IEnumerator ScrollToElement()
+		{
+			yield return new WaitForSeconds(waitTime);
+			scrollRect.ScrollTo(element);
+		}
 	}
-}
 #endif
+}

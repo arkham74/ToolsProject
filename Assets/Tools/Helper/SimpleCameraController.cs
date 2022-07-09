@@ -20,135 +20,137 @@ using Tag = NaughtyAttributes.TagAttribute;
 using UnityEngine.InputSystem;
 #endif
 
-public class SimpleCameraController : MonoBehaviour
+namespace CustomTools
 {
+	public class SimpleCameraController : MonoBehaviour
+	{
 #if !ENABLE_INPUT_SYSTEM
 #if TOOLS_NAUATTR
-	[BoxGroup("Move"), InputAxis]
+		[BoxGroup("Move"), InputAxis]
 #endif
-	public string xAxis;
+		public string xAxis;
 #if TOOLS_NAUATTR
-	[BoxGroup("Move"), InputAxis]
+		[BoxGroup("Move"), InputAxis]
 #endif
-	public string yAxis;
+		public string yAxis;
 #if TOOLS_NAUATTR
-	[BoxGroup("Move"), InputAxis]
+		[BoxGroup("Move"), InputAxis]
 #endif
-	public string zAxis;
+		public string zAxis;
 
-	private Vector2 mousePos = Vector2.zero;
+		private Vector2 mousePos = Vector2.zero;
 #endif
-
-#if TOOLS_NAUATTR
-	[BoxGroup("Move")] 
-#endif
-	public Vector3 moveSpeed = Vector3.zero;
 
 #if TOOLS_NAUATTR
-	[BoxGroup("Move")] 
+		[BoxGroup("Move")]
 #endif
-	public float moveSmoothFactor = 0.9f;
+		public Vector3 moveSpeed = Vector3.zero;
 
 #if TOOLS_NAUATTR
-	[BoxGroup("Move")] 
+		[BoxGroup("Move")]
 #endif
-	public float moveMaxSpeed = 10f;
+		public float moveSmoothFactor = 0.9f;
 
 #if TOOLS_NAUATTR
-	[BoxGroup("Look")] 
+		[BoxGroup("Move")]
 #endif
-	public float lookMaxSpeed = 10f;
-	private Vector2 lookDelta = Vector3.zero;
+		public float moveMaxSpeed = 10f;
+
+#if TOOLS_NAUATTR
+		[BoxGroup("Look")]
+#endif
+		public float lookMaxSpeed = 10f;
+		private Vector2 lookDelta = Vector3.zero;
 
 #if UNITY_EDITOR
-	private void OnEnable()
-	{
-		Transform trans = transform;
-		Vector3 position = trans.position;
-		position.x = EditorPrefs.GetFloat("pos_x", position.x);
-		position.y = EditorPrefs.GetFloat("pos_y", position.y);
-		position.z = EditorPrefs.GetFloat("pos_z", position.z);
-		trans.position = position;
-		Vector3 euler = trans.rotation.eulerAngles;
-		euler.x = EditorPrefs.GetFloat("euler_x", euler.x);
-		euler.y = EditorPrefs.GetFloat("euler_y", euler.y);
-		euler.z = EditorPrefs.GetFloat("euler_z", euler.z);
-		trans.rotation = Quaternion.Euler(euler);
-		lookDelta = euler;
-	}
+		private void OnEnable()
+		{
+			Transform trans = transform;
+			Vector3 position = trans.position;
+			position.x = EditorPrefs.GetFloat("pos_x", position.x);
+			position.y = EditorPrefs.GetFloat("pos_y", position.y);
+			position.z = EditorPrefs.GetFloat("pos_z", position.z);
+			trans.position = position;
+			Vector3 euler = trans.rotation.eulerAngles;
+			euler.x = EditorPrefs.GetFloat("euler_x", euler.x);
+			euler.y = EditorPrefs.GetFloat("euler_y", euler.y);
+			euler.z = EditorPrefs.GetFloat("euler_z", euler.z);
+			trans.rotation = Quaternion.Euler(euler);
+			lookDelta = euler;
+		}
 
-	private void OnDisable()
-	{
-		Transform trans = transform;
-		Vector3 position = trans.position;
-		EditorPrefs.SetFloat("pos_x", position.x);
-		EditorPrefs.SetFloat("pos_y", position.y);
-		EditorPrefs.SetFloat("pos_z", position.z);
-		Vector3 euler = trans.rotation.eulerAngles;
-		EditorPrefs.SetFloat("euler_x", euler.x);
-		EditorPrefs.SetFloat("euler_y", euler.y);
-		EditorPrefs.SetFloat("euler_z", euler.z);
-	}
+		private void OnDisable()
+		{
+			Transform trans = transform;
+			Vector3 position = trans.position;
+			EditorPrefs.SetFloat("pos_x", position.x);
+			EditorPrefs.SetFloat("pos_y", position.y);
+			EditorPrefs.SetFloat("pos_z", position.z);
+			Vector3 euler = trans.rotation.eulerAngles;
+			EditorPrefs.SetFloat("euler_x", euler.x);
+			EditorPrefs.SetFloat("euler_y", euler.y);
+			EditorPrefs.SetFloat("euler_z", euler.z);
+		}
 
 #if TOOLS_NAUATTR
-	[Button]
+		[Button]
 #endif
-	private void Reset()
-	{
-		OnEnable();
-	}
+		private void Reset()
+		{
+			OnEnable();
+		}
 #endif
 
 #if !ENABLE_INPUT_SYSTEM
-	private void Update()
-	{
-		mousePos = Input.mousePosition;
-	}
+		private void Update()
+		{
+			mousePos = Input.mousePosition;
+		}
 #endif
 
-	private void LateUpdate()
-	{
-		MoveUpdate();
+		private void LateUpdate()
+		{
+			MoveUpdate();
 #if ENABLE_INPUT_SYSTEM
 		Vector2 delta = Mouse.current.delta.ReadValue().InvertY().XYtoYX();
 		LookUpdate(delta);
 #else
-		LookUpdate(mousePos - (Vector2)Input.mousePosition);
+			LookUpdate(mousePos - (Vector2)Input.mousePosition);
 #endif
-	}
+		}
 
-	private void LookUpdate(Vector2 delta)
-	{
+		private void LookUpdate(Vector2 delta)
+		{
 #if ENABLE_INPUT_SYSTEM
 		bool isPressed = Mouse.current.rightButton.isPressed;
 #else
-		bool isPressed = Input.GetMouseButton(1);
+			bool isPressed = Input.GetMouseButton(1);
 #endif
 
-		Cursor.lockState = isPressed ? CursorLockMode.Locked : CursorLockMode.None;
-		if (isPressed)
-		{
-			if (delta != Vector2.zero)
+			Cursor.lockState = isPressed ? CursorLockMode.Locked : CursorLockMode.None;
+			if (isPressed)
 			{
-				lookDelta += delta * (lookMaxSpeed * Time.deltaTime);
+				if (delta != Vector2.zero)
+				{
+					lookDelta += delta * (lookMaxSpeed * Time.deltaTime);
+				}
+
+				lookDelta.x = Mathf.Clamp(lookDelta.x, -90, 90);
+				transform.rotation = Quaternion.Euler(lookDelta);
+			}
+		}
+
+		private void MoveUpdate()
+		{
+			Vector3 delta = Get3DAxis();
+			if (delta != Vector3.zero)
+			{
+				moveSpeed = delta * moveMaxSpeed;
 			}
 
-			lookDelta.x = Mathf.Clamp(lookDelta.x, -90, 90);
-			transform.rotation = Quaternion.Euler(lookDelta);
+			transform.Translate(moveSpeed * Time.deltaTime, Space.Self);
+			moveSpeed *= moveSmoothFactor;
 		}
-	}
-
-	private void MoveUpdate()
-	{
-		Vector3 delta = Get3DAxis();
-		if (delta != Vector3.zero)
-		{
-			moveSpeed = delta * moveMaxSpeed;
-		}
-
-		transform.Translate(moveSpeed * Time.deltaTime, Space.Self);
-		moveSpeed *= moveSmoothFactor;
-	}
 
 #if ENABLE_INPUT_SYSTEM
 	private Vector3 Get3DAxis()
@@ -165,12 +167,13 @@ public class SimpleCameraController : MonoBehaviour
 		return new Vector3(aKey + dKey, eKey + qKey, wKey + sKey);
 	}
 #else
-	private Vector3 Get3DAxis()
-	{
-		float x = Input.GetAxis(xAxis);
-		float y = Input.GetAxis(yAxis);
-		float z = Input.GetAxis(zAxis);
-		return new Vector3(x, y, z);
-	}
+		private Vector3 Get3DAxis()
+		{
+			float x = Input.GetAxis(xAxis);
+			float y = Input.GetAxis(yAxis);
+			float z = Input.GetAxis(zAxis);
+			return new Vector3(x, y, z);
+		}
 #endif
+	}
 }

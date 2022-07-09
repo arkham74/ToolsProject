@@ -15,20 +15,23 @@ using Text = TMPro.TMP_Text;
 using UnityEngine.InputSystem;
 #endif
 
-[ExecuteAlways]
-public class TMPLink : MonoBehaviour
+namespace CustomTools
 {
-	public Text parent;
-	public Text target;
-
-	private void Start()
+	[ExecuteAlways]
+	public class TMPLink : MonoBehaviour
 	{
-		parent = transform.parent.GetComponent<Text>();
-		target = GetComponent<Text>();
-	}
+		public Text parent;
+		public Text target;
 
-	private void LateUpdate()
-	{
-		target.SetText(parent.text);
+		private void Start()
+		{
+			parent = transform.parent.GetComponent<Text>();
+			target = GetComponent<Text>();
+		}
+
+		private void LateUpdate()
+		{
+			target.SetText(parent.text);
+		}
 	}
 }

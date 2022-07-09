@@ -15,12 +15,15 @@ using Text = TMPro.TextMeshProUGUI;
 using UnityEngine.InputSystem;
 #endif
 
-public class OnCollider : MonoBehaviour
+namespace CustomTools
 {
-	[field: SerializeField] public UnityEvent<Collider2D> OnColliderEvent { get; private set; }
-
-	private void OnTriggerEnter2D(Collider2D other)
+	public class OnCollider : MonoBehaviour
 	{
-		OnColliderEvent.Invoke(other);
+		[field: SerializeField] public UnityEvent<Collider2D> OnColliderEvent { get; private set; }
+
+		private void OnTriggerEnter2D(Collider2D other)
+		{
+			OnColliderEvent.Invoke(other);
+		}
 	}
 }
