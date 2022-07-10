@@ -206,6 +206,15 @@ public static class FloatExtensions
 	/// <param name="v">A value between a and b. Note: values outside this range are still valid, and will be extrapolated</param>
 	public static float InverseEerp(this float v, float a, float b)
 	{
-		return Freya.Mathfs.InverseEerp(a, b, v);
+		return Mathfs.InverseEerp(a, b, v);
+	}
+
+	/// <summary>Given a value between a and b, returns its normalized location in that range, as a t-value (interpolant) from 0 to 1</summary>
+	/// <param name="a">The start of the range, where it would return 0</param>
+	/// <param name="b">The end of the range, where it would return 1</param>
+	/// <param name="value">A value between a and b. Note: values outside this range are still valid, and will be extrapolated</param>
+	public static float InverseLerp(this float v, float a, float b)
+	{
+		return Mathfs.InverseLerp(a, b, v);
 	}
 }
