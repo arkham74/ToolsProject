@@ -11,7 +11,6 @@ using UnityEngine.Serialization;
 using TMPro;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
-using UnityEngine.Localization;
 
 #if TOOLS_NAUATTR
 using NaughtyAttributes;
