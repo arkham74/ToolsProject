@@ -80,3 +80,4 @@ crashlytics-build.properties
 /steamworks/builder/*
 !/steamworks/builder/steamcmd.exe
 Assets/AddressableAssetsData/link.xml*
+ProjectSettings/Packages*

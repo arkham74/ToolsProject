@@ -44,8 +44,8 @@ namespace UnityEngine.UI.Extensions
 
 		private void Release()
 		{
-			onRelease.Invoke();
 			StopAllCoroutines();
+			onRelease.Invoke();
 		}
 
 		private IEnumerator InvokeLoop()
