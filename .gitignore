@@ -78,6 +78,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /steamworks/builder/*
+/steamworks/output*
 !/steamworks/builder/steamcmd.exe
 Assets/AddressableAssetsData/link.xml*
 ProjectSettings/Packages*

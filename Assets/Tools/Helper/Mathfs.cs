@@ -984,6 +984,8 @@ namespace Freya
 			return mag < min ? (v / mag) * min : mag > max ? (v / mag) * max : v;
 		}
 
+		[MethodImpl(INLINE)] public static float Average(params float[] e) => e.Average();
+
 		/// <summary>Returns the average/center of the two input vectors</summary>
 		[MethodImpl(INLINE)] public static Vector2 Average(Vector2 a, Vector2 b) => (a + b) / 2f;
 
