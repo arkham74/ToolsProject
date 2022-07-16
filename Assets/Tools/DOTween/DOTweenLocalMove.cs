@@ -25,5 +25,5 @@ namespace CustomTools
 			transform.DOLocalMove(startClose, duration).From(end).SetEase(easeOut);
 		}
 	}
-#endif
 }
+#endif

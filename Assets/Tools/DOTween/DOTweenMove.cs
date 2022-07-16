@@ -28,5 +28,5 @@ namespace CustomTools
 			sequence.Kill();
 		}
 	}
-#endif
 }
+#endif

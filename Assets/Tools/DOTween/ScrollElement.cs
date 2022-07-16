@@ -44,5 +44,5 @@ namespace CustomTools
 			scrollRect.ScrollTo(element);
 		}
 	}
-#endif
 }
+#endif
