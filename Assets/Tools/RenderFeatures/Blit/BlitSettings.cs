@@ -33,7 +33,6 @@ namespace Cyan
 
 		public bool overrideGraphicsFormat = false;
 		public UnityEngine.Experimental.Rendering.GraphicsFormat graphicsFormat;
-
 	}
 }
 #endif
