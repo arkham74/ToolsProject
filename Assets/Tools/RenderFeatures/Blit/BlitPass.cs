@@ -15,12 +15,14 @@ namespace Cyan
 		private RenderTargetHandle m_TemporaryColorTexture;
 		private RenderTargetHandle m_DestinationTexture;
 		private readonly BlitSettings settings;
+		private readonly bool sceneView = true;
 		private readonly string m_ProfilerTag;
 
-		public BlitPass(RenderPassEvent renderPassEvent, BlitSettings settings, string tag)
+		public BlitPass(RenderPassEvent renderPassEvent, BlitSettings settings, string tag, bool sv)
 		{
-			this.renderPassEvent = renderPassEvent;
 			this.settings = settings;
+			this.renderPassEvent = renderPassEvent;
+			this.sceneView = sv;
 			blitMaterial = settings.blitMaterial;
 			m_ProfilerTag = tag;
 			m_TemporaryColorTexture.Init("_TemporaryColorTexture");
@@ -32,12 +34,18 @@ namespace Cyan
 
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 		{
+			if (!sceneView && renderingData.cameraData.camera.name == "SceneCamera") return;
+
 			if (settings.requireDepthNormals)
+			{
 				ConfigureInput(ScriptableRenderPassInput.Normal);
+			}
 		}
 
 		public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 		{
+			if (!sceneView && renderingData.cameraData.camera.name == "SceneCamera") return;
+
 			CommandBuffer cmd = CommandBufferPool.Get(m_ProfilerTag);
 			RenderTextureDescriptor opaqueDesc = renderingData.cameraData.cameraTargetDescriptor;
 			opaqueDesc.depthBufferBits = 0;

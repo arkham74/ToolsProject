@@ -33,7 +33,7 @@ namespace Cyan
 	//	[CreateAssetMenu(menuName = "Cyan/Blit")] 
 	public class BlitFeature : ScriptableRendererFeature
 	{
-		[SerializeField] private bool sceneView = true;
+		[SerializeField] private bool sceneView;
 		[SerializeField] private BlitSettings settings = new BlitSettings();
 		[SerializeField] private BlitPass blitPass;
 
@@ -41,7 +41,7 @@ namespace Cyan
 		{
 			var passIndex = settings.blitMaterial != null ? settings.blitMaterial.passCount - 1 : 1;
 			settings.blitMaterialPassIndex = Mathf.Clamp(settings.blitMaterialPassIndex, -1, passIndex);
-			blitPass = new BlitPass(settings.Event, settings, name);
+			blitPass = new BlitPass(settings.Event, settings, name, sceneView);
 
 			if (settings.graphicsFormat == GraphicsFormat.None)
 			{
@@ -51,12 +51,9 @@ namespace Cyan
 
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
 		{
-			if (sceneView || renderingData.cameraData.camera.name != "SceneCamera")
+			if (settings.blitMaterial != null)
 			{
-				if (sceneView && settings.blitMaterial != null)
-				{
-					renderer.EnqueuePass(blitPass);
-				}
+				renderer.EnqueuePass(blitPass);
 			}
 		}
 	}
