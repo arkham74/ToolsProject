@@ -1,12 +1,30 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
+#if TOOLS_LOCALIZATION
+using UnityEngine.Localization.Settings;
+#endif
+
 public static class Tools
 {
+	public static readonly StringBuilder StringBuilder = new StringBuilder();
+
+#if TOOLS_LOCALIZATION
+	public static string GetLocalizedString(string key)
+	{
+		return LocalizationSettings.StringDatabase.GetLocalizedString(key);
+	}
+	public static string GetLocalizedString(string key, params object[] args)
+	{
+		return LocalizationSettings.StringDatabase.GetLocalizedString(key, args);
+	}
+#endif
+
 	public static void Quit()
 	{
 #if UNITY_EDITOR

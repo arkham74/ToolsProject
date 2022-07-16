@@ -6,6 +6,20 @@ using TMPro;
 
 public static class LocalizationExtensions
 {
+	public static void SetLocalizedText(this TMP_Text text, string localeKey)
+	{
+		LocalizedStringDatabase stringDatabase = LocalizationSettings.StringDatabase;
+		string localizedString = stringDatabase.GetLocalizedString(localeKey);
+		text.SetText(localizedString);
+	}
+
+	public static void SetLocalizedText(this TMP_Text text, string localeKey, params object[] args)
+	{
+		LocalizedStringDatabase stringDatabase = LocalizationSettings.StringDatabase;
+		string localizedString = stringDatabase.GetLocalizedString(localeKey, args);
+		text.SetText(localizedString);
+	}
+
 	public static void SetLocalizedText(this TMP_Text text, string tableKey, string localeKey)
 	{
 		LocalizedStringDatabase stringDatabase = LocalizationSettings.StringDatabase;

@@ -10,6 +10,23 @@ public static class StringExtensions
 	private static readonly TextInfo TextInfo = new CultureInfo("en-GB", false).TextInfo;
 	private static readonly StringBuilder sb = new StringBuilder();
 
+	public static void AppendRepeat(this StringBuilder stringBuilder, string value, int count)
+	{
+		for (int i = 0; i < count; i++)
+		{
+			stringBuilder.Append(value);
+		}
+	}
+
+	public static void AppendRepeatLine(this StringBuilder stringBuilder, string value, int count)
+	{
+		if (count > 0)
+		{
+			stringBuilder.AppendRepeat(value, count);
+			stringBuilder.AppendLine();
+		}
+	}
+
 	public static string LinebreakAfter(this string inputText, int lineLength)
 	{
 		//, '	', '\n'
