@@ -33,9 +33,9 @@ namespace Cyan
 	//	[CreateAssetMenu(menuName = "Cyan/Blit")] 
 	public class BlitFeature : ScriptableRendererFeature
 	{
-		[SerializeField] private bool sceneView;
-		[SerializeField] private BlitSettings settings = new BlitSettings();
-		[SerializeField] private BlitPass blitPass;
+		public bool sceneView;
+		public BlitSettings settings = new BlitSettings();
+		public BlitPass blitPass;
 
 		public override void Create()
 		{
