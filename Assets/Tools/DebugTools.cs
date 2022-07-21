@@ -1,32 +1,35 @@
 using System;
+using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public static class DebugTools
 {
+	[Conditional("UNITY_EDITOR")]
+	[Conditional("DEVELOPMENT_BUILD")]
 	public static void LogWarning(params object[] objs)
 	{
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
 		objs.LogWarning();
-#endif
 	}
 
+	[Conditional("UNITY_EDITOR")]
+	[Conditional("DEVELOPMENT_BUILD")]
 	public static void DrawCircle(Vector3 point, Vector3 normal, float radius)
 	{
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
 		DrawCircle(point, normal, radius, Color.white, 0);
-#endif
 	}
 
+	[Conditional("UNITY_EDITOR")]
+	[Conditional("DEVELOPMENT_BUILD")]
 	public static void DrawCircle(Vector3 point, Vector3 normal, float radius, Color color)
 	{
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
 		DrawCircle(point, normal, radius, color, 0);
-#endif
 	}
 
+	[Conditional("UNITY_EDITOR")]
+	[Conditional("DEVELOPMENT_BUILD")]
 	public static void DrawCircle(Vector3 point, Vector3 normal, float radius, Color color, float duration = 0f)
 	{
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
 		const int steps = 16;
 
 		Quaternion rot = Quaternion.LookRotation(normal);
@@ -46,14 +49,13 @@ public static class DebugTools
 
 			Debug.DrawLine(point + start, point + end, color, duration);
 		}
-#endif
 	}
 
+	[Conditional("UNITY_EDITOR")]
+	[Conditional("DEVELOPMENT_BUILD")]
 	public static void DrawNormal(Vector3 point, Vector3 normal, Color color, float duration = 0f)
 	{
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
 		Debug.DrawRay(point, normal * 0.5f, color, duration);
 		DrawCircle(point, normal, 0.1f, color, duration);
-#endif
 	}
 }

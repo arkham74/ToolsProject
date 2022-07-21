@@ -83,7 +83,7 @@ public static class IListExtensions
 		return clos;
 	}
 
-	public static void LogWarning<T>(this IList<T> array)
+	public static void LogWarning<T>(this IList<T> array, string separator = ", ")
 	{
 		if (array == null)
 		{
@@ -97,7 +97,7 @@ public static class IListExtensions
 			return;
 		}
 
-		Debug.LogWarning(string.Join(", ", array));
+		Debug.LogWarning(string.Join(separator, array));
 	}
 
 	public static T Closest<T>(this IEnumerable<T> enumerable, Component target) where T : Component

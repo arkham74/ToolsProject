@@ -60,11 +60,44 @@ public static class MonoBehaviourExtensions
 		mb.StartCoroutine(RepeatRoutine());
 	}
 
+	public static void DelayUntil(this MonoBehaviour mb, Action complete, Func<bool> untilTrue)
+	{
+		IEnumerator DelayRoutine()
+		{
+			yield return new WaitUntil(untilTrue);
+			complete.Invoke();
+		}
+		mb.StartCoroutine(DelayRoutine());
+	}
+
+	public static void DelayWhile(this MonoBehaviour mb, Action complete, Func<bool> whileTrue)
+	{
+		IEnumerator DelayRoutine()
+		{
+			yield return new WaitWhile(whileTrue);
+			complete.Invoke();
+		}
+		mb.StartCoroutine(DelayRoutine());
+	}
+
 	public static void Delay(this MonoBehaviour mb, Action complete, float seconds)
 	{
 		IEnumerator DelayRoutine()
 		{
 			yield return new WaitForSeconds(seconds);
+			complete.Invoke();
+		}
+		mb.StartCoroutine(DelayRoutine());
+	}
+
+	public static void DelayFrame(this MonoBehaviour mb, Action complete, int frames)
+	{
+		IEnumerator DelayRoutine()
+		{
+			for (int i = 0; i < frames; i++)
+			{
+				yield return new WaitForEndOfFrame();
+			}
 			complete.Invoke();
 		}
 		mb.StartCoroutine(DelayRoutine());

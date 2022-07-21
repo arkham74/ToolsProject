@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
+using System.Collections.Generic;
 
 #if TOOLS_LOCALIZATION
 using UnityEngine.Localization.Settings;
@@ -12,6 +13,19 @@ using UnityEngine.Localization.Settings;
 
 public static class Tools
 {
+	public struct ResolutionComparer : IEqualityComparer<Resolution>
+	{
+		public bool Equals(Resolution x, Resolution y)
+		{
+			return x.width == y.width && x.height == y.height;
+		}
+
+		public int GetHashCode(Resolution obj)
+		{
+			return obj.GetHashCode();
+		}
+	}
+
 	public static readonly StringBuilder StringBuilder = new StringBuilder();
 
 #if TOOLS_LOCALIZATION
@@ -32,6 +46,44 @@ public static class Tools
 #else
 		Application.Quit();
 #endif
+	}
+
+	public static int GetResolutionIndex()
+	{
+		ResolutionComparer comparer = new ResolutionComparer();
+		List<Resolution> ress = GetResolutions(comparer);
+
+		for (int i = 0; i < ress.Count; i++)
+		{
+			Resolution res = ress[i];
+			if (comparer.Equals(res, Screen.currentResolution))
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static List<Resolution> GetResolutions()
+	{
+		ResolutionComparer comparer = new ResolutionComparer();
+		return GetResolutions(comparer);
+	}
+
+	public static List<Resolution> GetResolutions(ResolutionComparer comparer)
+	{
+		List<Resolution> list = new List<Resolution>();
+
+		for (int i = 0; i < Screen.resolutions.Length; i++)
+		{
+			Resolution res = Screen.resolutions[i];
+			if (!list.Contains(res, comparer))
+			{
+				list.Add(res);
+			}
+		}
+
+		return list;
 	}
 
 	public static bool IsSceneLoaded(string sceneName)

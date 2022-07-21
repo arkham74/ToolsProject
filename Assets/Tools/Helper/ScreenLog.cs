@@ -1,8 +1,9 @@
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+using System.Diagnostics;
+using UnityEngine;
+using Debug = UnityEngine.Debug;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using UnityEngine;
 
 public class ScreenLog : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class ScreenLog : MonoBehaviour
 		}
 	}
 
+	[Conditional("UNITY_EDITOR")]
+	[Conditional("DEVELOPMENT_BUILD")]
 	public static void Log(string key, object value)
 	{
 		CreateLog();
@@ -52,4 +55,3 @@ public class ScreenLog : MonoBehaviour
 		GUILayout.Label(sb.ToString(), headStyle);
 	}
 }
-#endif

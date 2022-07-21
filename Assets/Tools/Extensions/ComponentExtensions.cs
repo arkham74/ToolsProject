@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
@@ -98,5 +99,16 @@ public static class ComponentExtensions
 		Vector3 dir = t1.transform.position.To(t2.transform.position);
 		distance = dir.magnitude;
 		return dir;
+	}
+
+	public static Vector3 Average<T>(this IList<T> birds) where T : Component
+	{
+		Vector3 center = default;
+		foreach (T bird in birds)
+		{
+			center += bird.transform.position;
+		}
+		center /= birds.Count;
+		return center;
 	}
 }
