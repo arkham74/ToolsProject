@@ -3,86 +3,87 @@ using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BuildSettingsQueue", menuName = "ScriptableObject/Build/Queue", order = 0)]
-public class BuildSettingsQueue : ScriptableObject
+namespace BuildProfiles
 {
-	[SerializeField] private BuildSettings[] queue;
-
-	private void Reset()
+	[CreateAssetMenu(fileName = "BuildSettingsQueue", menuName = "ScriptableObject/Build/Queue", order = 0)]
+	public class BuildSettingsQueue : ScriptableObject
 	{
-		queue = AssetTools.FindAssetsByType<BuildSettings>();
-	}
+		[SerializeField] private BuildSettings[] queue;
 
-	public async void BuildAll()
-	{
-		foreach (BuildSettings buildSettings in queue)
+		private void Reset()
 		{
-			BuildReport report = await buildSettings.BuildAsync();
-			if (report.summary.result != BuildResult.Succeeded)
-			{
-				return;
-			}
+			queue = AssetTools.FindAssetsByType<BuildSettings>();
 		}
-		BuildSettings.IncrementVersion();
-	}
 
-	public async void BuildAllDev()
-	{
-		foreach (BuildSettings buildSettings in queue)
+		public async void BuildAll()
 		{
-			BuildReport report = await buildSettings.BuildAsync(BuildOptions.Development);
-			if (report.summary.result != BuildResult.Succeeded)
+			foreach (BuildSettings buildSettings in queue)
 			{
-				return;
-			}
-		}
-		BuildSettings.IncrementVersion();
-	}
-}
-
-[CustomEditor(typeof(BuildSettingsQueue))]
-public class BuildSettingsQueueEditor : Editor
-{
-	private SerializedProperty queueProperty;
-	private BuildSettingsQueue buildSettingsTarget;
-
-	private void OnEnable()
-	{
-		buildSettingsTarget = target as BuildSettingsQueue;
-		queueProperty = serializedObject.FindProperty("queue");
-	}
-
-	public override void OnInspectorGUI()
-	{
-		DrawDefaultInspector();
-
-		EditorGUI.BeginChangeCheck();
-		if (GUILayout.Button("Build All")) buildSettingsTarget.BuildAll();
-		if (GUILayout.Button("Build All Dev")) buildSettingsTarget.BuildAllDev();
-
-		try
-		{
-			for (int i = 0; i < queueProperty.arraySize; i++)
-			{
-				SerializedProperty elem = queueProperty.GetArrayElementAtIndex(i);
-				if (elem.objectReferenceValue)
+				BuildReport report = await buildSettings.BuildAsync();
+				if (report.summary.result != BuildResult.Succeeded)
 				{
-					SerializedObject so = new SerializedObject(elem.objectReferenceValue);
-					so.Update();
-					SerializedProperty iterator = so.GetIterator();
-					iterator.NextVisible(true);
-					while (iterator.NextVisible(false))
-					{
-						EditorGUILayout.PropertyField(iterator, true);
-					}
-					so.ApplyModifiedProperties();
+					return;
 				}
 			}
 		}
-		catch (NullReferenceException)
+
+		public async void BuildAllDev()
 		{
+			foreach (BuildSettings buildSettings in queue)
+			{
+				BuildReport report = await buildSettings.BuildAsync(BuildOptions.Development);
+				if (report.summary.result != BuildResult.Succeeded)
+				{
+					return;
+				}
+			}
+		}
+	}
+
+	[CustomEditor(typeof(BuildSettingsQueue))]
+	public class BuildSettingsQueueEditor : Editor
+	{
+		private SerializedProperty queueProperty;
+		private BuildSettingsQueue buildSettingsTarget;
+
+		private void OnEnable()
+		{
+			buildSettingsTarget = target as BuildSettingsQueue;
+			queueProperty = serializedObject.FindProperty("queue");
 		}
 
-		EditorGUI.EndChangeCheck();
+		public override void OnInspectorGUI()
+		{
+			DrawDefaultInspector();
+
+			EditorGUI.BeginChangeCheck();
+			if (GUILayout.Button("Build All")) buildSettingsTarget.BuildAll();
+			if (GUILayout.Button("Build All Dev")) buildSettingsTarget.BuildAllDev();
+
+			try
+			{
+				for (int i = 0; i < queueProperty.arraySize; i++)
+				{
+					SerializedProperty elem = queueProperty.GetArrayElementAtIndex(i);
+					if (elem.objectReferenceValue)
+					{
+						SerializedObject so = new SerializedObject(elem.objectReferenceValue);
+						so.Update();
+						SerializedProperty iterator = so.GetIterator();
+						iterator.NextVisible(true);
+						while (iterator.NextVisible(false))
+						{
+							EditorGUILayout.PropertyField(iterator, true);
+						}
+						so.ApplyModifiedProperties();
+					}
+				}
+			}
+			catch (NullReferenceException)
+			{
+			}
+
+			EditorGUI.EndChangeCheck();
+		}
 	}
 }
