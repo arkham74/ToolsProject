@@ -16,9 +16,9 @@ namespace CustomTools
 			public UnityEvent @event = new UnityEvent();
 		}
 
-		public EventWithChance[] events;
+		[SerializeField] private EventWithChance[] events;
 
-		private int Sum => events.Sum(e => e.probability);
+		private int Sum => events.Sum(e => e.probability); //100
 
 		protected override void Trigger()
 		{
@@ -27,12 +27,16 @@ namespace CustomTools
 
 		private UnityEvent ChooseAtRandom()
 		{
-			int p = Random.Range(0, Sum) + 1;
+			int p = Random.Range(0, Sum) + 1; //1..100
 			int cumulativeProbability = 0;
+
 			foreach (EventWithChance item in events.OrderBy(e => e.probability))
 			{
 				cumulativeProbability += item.probability;
-				if (p <= cumulativeProbability) return item.@event;
+				if (p <= cumulativeProbability)
+				{
+					return item.@event;
+				}
 			}
 
 			return null;
