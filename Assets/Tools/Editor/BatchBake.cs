@@ -10,8 +10,6 @@ using UnityEngine.SceneManagement;
 using NaughtyAttributes;
 #endif
 
-// ReSharper disable UnusedMember.Local
-
 [CreateAssetMenu(fileName = "Batch Bake", menuName = "ScriptableObject/Batch Bake", order = 0)]
 public class BatchBake : ScriptableObject
 {

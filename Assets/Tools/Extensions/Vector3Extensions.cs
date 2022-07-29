@@ -36,6 +36,11 @@ public static class Vector3Extensions
 		return new Vector3(x, y, vector.z);
 	}
 
+	public static Vector3 SetXY(this Vector3 vector, Vector2 xy)
+	{
+		return new Vector3(xy.x, xy.y, vector.z);
+	}
+
 	public static Vector3 SetXZ(this Vector3 vector, float x, float z)
 	{
 		return new Vector3(x, vector.y, z);

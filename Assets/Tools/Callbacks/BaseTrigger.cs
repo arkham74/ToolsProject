@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CustomTools
 {
-	public abstract class BaseCallback : MonoBehaviour
+	public abstract class BaseTrigger : MonoBehaviour
 	{
 		[Flags]
 		public enum State

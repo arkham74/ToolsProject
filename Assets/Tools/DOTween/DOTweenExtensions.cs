@@ -57,8 +57,7 @@ public static partial class DOTweenExtensions
 		{
 			if (Debugger.logPriority > 0)
 			{
-				Debugger.LogWarning(
-					"You can't pass a NULL string to DOText: an empty string will be used instead to avoid errors");
+				Debugger.LogWarning("You can't pass a NULL string to DOText: an empty string will be used instead to avoid errors");
 			}
 
 			endValue = "";

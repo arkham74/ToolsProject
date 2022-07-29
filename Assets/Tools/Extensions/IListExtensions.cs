@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Freya;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
+using Object = UnityEngine.Object;
 
 public static class IListExtensions
 {
@@ -30,8 +33,12 @@ public static class IListExtensions
 
 	public static T RandomOrDefault<T>(this IList<T> list)
 	{
-		if (list == null) throw new ArgumentNullException();
-		return list.ElementAtOrDefault(UnityEngine.Random.Range(0, list.Count));
+		if (list != null)
+		{
+			return list.ElementAtOrDefault(UnityEngine.Random.Range(0, list.Count));
+		}
+
+		return default;
 	}
 
 	public static void Shuffle<T>(this IList<T> list)
@@ -81,23 +88,6 @@ public static class IListExtensions
 			}
 		}
 		return clos;
-	}
-
-	public static void LogWarning<T>(this IList<T> array, string separator = ", ")
-	{
-		if (array == null)
-		{
-			Debug.LogWarning("Array is NULL");
-			return;
-		}
-
-		if (array.Count <= 0)
-		{
-			Debug.LogWarning("Array is empty");
-			return;
-		}
-
-		Debug.LogWarning(string.Join(separator, array));
 	}
 
 	public static T Closest<T>(this IEnumerable<T> enumerable, Component target) where T : Component

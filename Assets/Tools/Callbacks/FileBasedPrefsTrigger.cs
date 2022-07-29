@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 namespace CustomTools
 {
-	public class FileBasedPrefsCallback : BaseCallback
+	public class FileBasedPrefsTrigger : BaseTrigger
 	{
 		public string key = "PREF_KEY";
 		public bool defaultValue;

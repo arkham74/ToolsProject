@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -7,9 +8,21 @@ public static class DebugTools
 {
 	[Conditional("UNITY_EDITOR")]
 	[Conditional("DEVELOPMENT_BUILD")]
-	public static void LogWarning(params object[] objs)
+	public static void LogWarning(this IList<object> array, string separator = ", ")
 	{
-		objs.LogWarning();
+		if (array == null)
+		{
+			Debug.LogWarning("Array is NULL");
+			return;
+		}
+
+		if (array.Count <= 0)
+		{
+			Debug.LogWarning("Array is empty");
+			return;
+		}
+
+		Debug.LogWarning(string.Join(separator, array));
 	}
 
 	[Conditional("UNITY_EDITOR")]

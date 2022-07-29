@@ -7,7 +7,7 @@ using Text = TMPro.TextMeshProUGUI;
 
 namespace CustomTools
 {
-	public class RandomCallback : BaseCallback
+	public class RandomTrigger : BaseTrigger
 	{
 		[Serializable]
 		public class EventWithChance
