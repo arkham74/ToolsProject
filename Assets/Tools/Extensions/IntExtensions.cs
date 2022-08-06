@@ -29,4 +29,9 @@ public static class IntExtensions
 	{
 		return Mathf.RoundToInt(Mathf.Pow(2, layerIndex));
 	}
+
+	public static int Random(this int value)
+	{
+		return UnityEngine.Random.Range(0, value);
+	}
 }

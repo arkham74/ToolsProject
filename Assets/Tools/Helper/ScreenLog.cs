@@ -8,6 +8,7 @@ public class ScreenLog : MonoBehaviour
 	private static readonly StringBuilder sb = new StringBuilder();
 	private static readonly Dictionary<string, object> dict = new Dictionary<string, object>();
 	private static ScreenLog instance;
+	private static GUIStyle headStyle;
 
 	private static void CreateLog()
 	{
@@ -20,6 +21,19 @@ public class ScreenLog : MonoBehaviour
 				var go = new GameObject("ScreenLog");
 				instance = go.AddComponent<ScreenLog>();
 			}
+		}
+
+		if (headStyle == null)
+		{
+			headStyle = new GUIStyle("Label")
+			{
+				stretchHeight = true,
+				stretchWidth = true,
+				padding = new RectOffset(7, 7, 7, 7),
+				fontSize = (int)(24f * Screen.height / 1080f),
+			};
+
+			headStyle.normal.background = Resources.Load<Texture2D>("transparent_1x1");
 		}
 	}
 
@@ -40,14 +54,6 @@ public class ScreenLog : MonoBehaviour
 	{
 		sb.Clear();
 		sb.AppendJoin('\n', dict.Values);
-
-		GUIStyle headStyle = new GUIStyle("Label");
-		headStyle.normal.background = Resources.Load<Texture2D>("transparent_1x1");
-		headStyle.stretchHeight = true;
-		headStyle.stretchWidth = true;
-		headStyle.padding = new RectOffset(7, 7, 7, 7);
-		headStyle.fontSize = (int)(24f * Screen.height / 1080f);
-
 		GUILayout.Label(sb.ToString(), headStyle);
 	}
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class JsonHelper
@@ -10,13 +11,13 @@ public static class JsonHelper
 
 	public static string ToJson<T>(params T[] array)
 	{
-		Wrapper<T> wrapper = new Wrapper<T> {items = array};
+		Wrapper<T> wrapper = new Wrapper<T> { items = array };
 		return JsonUtility.ToJson(wrapper, false);
 	}
 
 	public static string ToJson<T>(bool prettyPrint, params T[] array)
 	{
-		Wrapper<T> wrapper = new Wrapper<T> {items = array};
+		Wrapper<T> wrapper = new Wrapper<T> { items = array };
 		return JsonUtility.ToJson(wrapper, prettyPrint);
 	}
 
