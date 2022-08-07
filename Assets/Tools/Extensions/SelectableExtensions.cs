@@ -66,19 +66,25 @@ public static class SelectableExtensions
 
 	public static void SelectButton(this Selectable selectable)
 	{
-		IEnumerator ButtonSelect()
+		if (selectable.isActiveAndEnabled)
 		{
-			EventSystem.current.SetSelectedGameObject(null);
-			yield return new WaitForEndOfFrame();
-			bool activeInHierarchy = selectable.gameObject.activeInHierarchy;
-			bool interactable = selectable.interactable;
-			bool isActiveAndEnabled = selectable.isActiveAndEnabled;
-			if (selectable && isActiveAndEnabled && interactable && activeInHierarchy)
+			IEnumerator ButtonSelect()
 			{
-				selectable.Select();
+				EventSystem.current.SetSelectedGameObject(null);
+				yield return new WaitForEndOfFrame();
+				bool activeInHierarchy = selectable.gameObject.activeInHierarchy;
+				bool interactable = selectable.interactable;
+				bool isActiveAndEnabled = selectable.isActiveAndEnabled;
+				if (selectable && isActiveAndEnabled && interactable && activeInHierarchy)
+				{
+					selectable.Select();
+				}
 			}
+			selectable.StartCoroutine(ButtonSelect());
 		}
-
-		selectable.StartCoroutine(ButtonSelect());
+		else
+		{
+			selectable.Select();
+		}
 	}
 }

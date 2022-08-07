@@ -32,7 +32,7 @@
         },
         {
             "name": "com.dbrizov.naughtyattributes",
-            "expression": "2.1.4",
+            "expression": "1.0.0",
             "define": "TOOLS_NAUATTR"
         }
     ],
