@@ -8,7 +8,7 @@ public static class DebugTools
 {
 	[Conditional("UNITY_EDITOR")]
 	[Conditional("DEVELOPMENT_BUILD")]
-	public static void LogWarning(this IList<object> array, string separator = ", ")
+	public static void LogWarning<T>(this IList<T> array, string separator = ", ")
 	{
 		if (array == null)
 		{

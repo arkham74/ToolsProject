@@ -111,4 +111,12 @@ public static class ComponentExtensions
 		center /= birds.Count;
 		return center;
 	}
+
+	public static void GroupSetActive(this IEnumerable<Component> components, bool value)
+	{
+		foreach (Component item in components)
+		{
+			item.gameObject.SetActive(value);
+		}
+	}
 }

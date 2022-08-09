@@ -125,6 +125,11 @@ public static class Tools
 		return Random.Range(0, 2) * 2 - 1;
 	}
 
+	public static Color RandomColor()
+	{
+		return new Color(Random.value, Random.value, Random.value);
+	}
+
 	public static int Map2DTo1D(int x, int y, int width)
 	{
 		return x + width * y;

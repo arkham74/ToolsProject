@@ -5,6 +5,8 @@ using UnityEngine;
 
 public static class IntExtensions
 {
+	public readonly static Dictionary<int, string> intCache = new Dictionary<int, string>(10000);
+
 	public static string IntArrayToString(this IReadOnlyList<int> intArray)
 	{
 		return string.Join(",", intArray);
@@ -33,5 +35,19 @@ public static class IntExtensions
 	public static int Random(this int value)
 	{
 		return UnityEngine.Random.Range(0, value);
+	}
+
+	public static string ToStringNonAllocation(this int value)
+	{
+		if (intCache.TryGetValue(value, out string str))
+		{
+			return str;
+		}
+		else
+		{
+			str = value.ToString();
+			intCache.Add(value, str);
+			return str;
+		}
 	}
 }

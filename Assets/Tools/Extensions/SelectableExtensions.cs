@@ -66,7 +66,7 @@ public static class SelectableExtensions
 
 	public static void SelectButton(this Selectable selectable)
 	{
-		if (selectable.isActiveAndEnabled)
+		if (selectable.gameObject.activeInHierarchy)
 		{
 			IEnumerator ButtonSelect()
 			{
