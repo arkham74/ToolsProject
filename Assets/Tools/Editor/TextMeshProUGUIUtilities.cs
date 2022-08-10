@@ -1,21 +1,18 @@
 #if TOOLS_LOCAL
 using System;
 using System.Reflection;
-
 using TMPro;
-
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
-
 using UnityEditor;
 using UnityEditor.Events;
 using UnityEditor.Localization;
-
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
 using System.Collections.Generic;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public static class TextMeshProUGUIUtilities
 {
@@ -48,6 +45,8 @@ public static class TextMeshProUGUIUtilities
 			stringTableColl.SharedData.MarkDirty();
 			stringTable.MarkDirty();
 			comp.StringReference = new LocalizedString(entry.Table.TableCollectionName, entry.KeyId);
+			comp.StringReference.WaitForCompletion = true;
+			comp.StringReference.Add("variable", new IntVariable());
 			comp.MarkDirty();
 		}
 	}
