@@ -7,7 +7,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using UnityEngine.UI.Extensions;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
