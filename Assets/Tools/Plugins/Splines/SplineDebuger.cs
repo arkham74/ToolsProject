@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-namespace Splines
+namespace JD.Splines
 {
 	public class SplineDebuger : MonoBehaviour
 	{

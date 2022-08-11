@@ -1,21 +1,24 @@
 using System.Collections.Generic;
 
-public static class LinkedListExtensions
+namespace JD
 {
-	public static T Peek<T>(this LinkedList<T> list)
+	public static class LinkedListExtensions
 	{
-		return list.First.Value;
-	}
+		public static T Peek<T>(this LinkedList<T> list)
+		{
+			return list.First.Value;
+		}
 
-	public static void Enqueue<T>(this LinkedList<T> list, T element)
-	{
-		list.AddLast(element);
-	}
+		public static void Enqueue<T>(this LinkedList<T> list, T element)
+		{
+			list.AddLast(element);
+		}
 
-	public static T Dequeue<T>(this LinkedList<T> list)
-	{
-		T element = list.First.Value;
-		list.RemoveFirst();
-		return element;
+		public static T Dequeue<T>(this LinkedList<T> list)
+		{
+			T element = list.First.Value;
+			list.RemoveFirst();
+			return element;
+		}
 	}
 }

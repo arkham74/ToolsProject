@@ -9,26 +9,29 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-public abstract class Shared<T> : ScriptableObject
+namespace JD.SharedVar
 {
-	public T m_value;
-	public event Action<T> OnValueChanged;
-
-	public T Value
+	public abstract class Shared<T> : ScriptableObject
 	{
-		get => m_value;
-		set
+		public T m_value;
+		public event Action<T> OnValueChanged;
+
+		public T Value
 		{
-			if (value.Equals(m_value))
-				return;
-			m_value = value;
-			if (OnValueChanged != null)
-				OnValueChanged(Value);
+			get => m_value;
+			set
+			{
+				if (value.Equals(m_value))
+					return;
+				m_value = value;
+				if (OnValueChanged != null)
+					OnValueChanged(Value);
+			}
 		}
-	}
 
-	public override string ToString()
-	{
-		return Value.ToString();
+		public override string ToString()
+		{
+			return Value.ToString();
+		}
 	}
 }

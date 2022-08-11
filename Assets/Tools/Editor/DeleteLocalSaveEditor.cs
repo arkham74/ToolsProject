@@ -4,33 +4,36 @@ using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-public static class DeleteLocalSaveEditor
+namespace JD.Editor
 {
-	[MenuItem("Tools/Saves/Open Local Save")]
-	public static void OpenLocalSave()
+	public static class DeleteLocalSaveEditor
 	{
-		string path = Path.GetDirectoryName(Application.persistentDataPath);
-		path = Path.Combine(path, Application.productName);
-		Directory.CreateDirectory(path);
-		ProcessStartInfo startInfo = new ProcessStartInfo
+		[MenuItem("Tools/Saves/Open Local Save")]
+		public static void OpenLocalSave()
 		{
-			Arguments = path,
-			FileName = "explorer.exe"
-		};
-		Process.Start(startInfo);
-	}
-
-	[MenuItem("Tools/Saves/Delete Local Save")]
-	public static void DeleteLocalSave()
-	{
-		string path = Application.persistentDataPath;
-		if (Directory.Exists(path))
-		{
-			if (EditorUtility.DisplayDialog("Delete save", "Delete local save?", "Yes", "No"))
+			string path = Path.GetDirectoryName(Application.persistentDataPath);
+			path = Path.Combine(path, Application.productName);
+			Directory.CreateDirectory(path);
+			ProcessStartInfo startInfo = new ProcessStartInfo
 			{
-				Directory.Delete(path, true);
-				PlayerPrefs.DeleteAll();
-				// EditorPrefs.DeleteAll();
+				Arguments = path,
+				FileName = "explorer.exe"
+			};
+			Process.Start(startInfo);
+		}
+
+		[MenuItem("Tools/Saves/Delete Local Save")]
+		public static void DeleteLocalSave()
+		{
+			string path = Application.persistentDataPath;
+			if (Directory.Exists(path))
+			{
+				if (EditorUtility.DisplayDialog("Delete save", "Delete local save?", "Yes", "No"))
+				{
+					Directory.Delete(path, true);
+					PlayerPrefs.DeleteAll();
+					// EditorPrefs.DeleteAll();
+				}
 			}
 		}
 	}

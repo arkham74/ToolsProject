@@ -2,12 +2,11 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace Cyan
+namespace Cyan.Editor
 {
 	[CustomPropertyDrawer(typeof(BlitSettings))]
 	public class BlitSettingsDrawer : PropertyDrawer
 	{
-
 		private bool createdStyles = false;
 		private GUIStyle boldLabel;
 

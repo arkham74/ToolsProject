@@ -2,8 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.Playables;
 
-[Serializable]
-public class CanvasGroupControlBehaviour : PlayableBehaviour
+namespace JD.CanvasTrack
 {
-	public float alpha = 1f;
+	[Serializable]
+	public class CanvasGroupControlBehaviour : PlayableBehaviour
+	{
+		public float alpha = 1f;
+	}
 }

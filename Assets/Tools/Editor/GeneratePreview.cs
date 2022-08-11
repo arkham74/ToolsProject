@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace StuntMasters.Tools.Editor
+namespace JD.Editor
 {
 	public class GeneratePreview : EditorWindow
 	{

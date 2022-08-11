@@ -10,54 +10,57 @@ using UnityEngine.SceneManagement;
 using NaughtyAttributes;
 #endif
 
-[CreateAssetMenu(fileName = "Batch Bake", menuName = "ScriptableObject/Batch Bake", order = 0)]
-public class BatchBake : ScriptableObject
+namespace JD.Editor
 {
-	[ScenePath] public string[] scenes;
-
-	private void Reset()
+	[CreateAssetMenu(fileName = "Batch Bake", menuName = "ScriptableObject/Batch Bake", order = 0)]
+	public class BatchBake : ScriptableObject
 	{
-		scenes = EditorBuildSettings.scenes.Where(e => e.enabled).Select(e => e.path).ToArray();
-	}
+		[ScenePath] public string[] scenes;
 
-#if TOOLS_NAUATTR
-	[Button]
-#endif
-	public void Bake()
-	{
-		if (Lightmapping.isRunning) return;
-		Lightmapping.BakeMultipleScenes(scenes);
-	}
-
-#if TOOLS_NAUATTR
-	[Button]
-#endif
-	public void BakeSeparately()
-	{
-		if (Lightmapping.isRunning) return;
-
-		foreach (string path in scenes)
+		private void Reset()
 		{
-			EditorSceneManager.OpenScene(path);
-			Lightmapping.Clear();
-			Lightmapping.ClearDiskCache();
-			Lightmapping.Bake();
+			scenes = EditorBuildSettings.scenes.Where(e => e.enabled).Select(e => e.path).ToArray();
 		}
-	}
 
 #if TOOLS_NAUATTR
-	[Button]
+		[Button]
 #endif
-	public void Cancel()
-	{
-		Lightmapping.Cancel();
-	}
+		public void Bake()
+		{
+			if (Lightmapping.isRunning) return;
+			Lightmapping.BakeMultipleScenes(scenes);
+		}
 
 #if TOOLS_NAUATTR
-	[Button]
+		[Button]
 #endif
-	public void ForceStop()
-	{
-		Lightmapping.ForceStop();
+		public void BakeSeparately()
+		{
+			if (Lightmapping.isRunning) return;
+
+			foreach (string path in scenes)
+			{
+				EditorSceneManager.OpenScene(path);
+				Lightmapping.Clear();
+				Lightmapping.ClearDiskCache();
+				Lightmapping.Bake();
+			}
+		}
+
+#if TOOLS_NAUATTR
+		[Button]
+#endif
+		public void Cancel()
+		{
+			Lightmapping.Cancel();
+		}
+
+#if TOOLS_NAUATTR
+		[Button]
+#endif
+		public void ForceStop()
+		{
+			Lightmapping.ForceStop();
+		}
 	}
 }

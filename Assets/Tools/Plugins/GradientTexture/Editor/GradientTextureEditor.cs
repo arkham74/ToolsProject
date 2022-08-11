@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEditor.AssetImporters;
 
-namespace GradientTexture.Editor
+namespace JD.GradientTexture.Editor
 {
 	public class GradientTextureEditor : ScriptedImporterEditor
 	{

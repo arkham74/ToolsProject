@@ -2,6 +2,8 @@ using System;
 using System.Globalization;
 using UnityEditor;
 using UnityEngine;
+using JD;
+using Freya;
 
 namespace Michsky.UI.Shift
 {

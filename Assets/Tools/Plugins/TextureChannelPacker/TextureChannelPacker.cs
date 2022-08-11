@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor.AssetImporters;
 using UnityEngine;
 
-namespace TextureChannelPacker
+namespace JD.TextureChannelPacker
 {
 	[ScriptedImporter(1, "texpack")]
 	public class TextureChannelPacker : ScriptedImporter
@@ -86,8 +86,8 @@ namespace TextureChannelPacker
 		private static byte GetChannel(int i, IReadOnlyList<Color32> colors, Channel channel, bool invert)
 		{
 			Color32 color = colors[i];
-			byte c = color[(int) channel];
-			byte inverted = (byte) (255 - c);
+			byte c = color[(int)channel];
+			byte inverted = (byte)(255 - c);
 			return invert ? inverted : c;
 		}
 

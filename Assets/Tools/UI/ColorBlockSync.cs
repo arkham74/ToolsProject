@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using NaughtyAttributes;
 #endif
 
-namespace CustomTools
+namespace JD
 {
 	public class ColorBlockSync : MonoBehaviour
 	{

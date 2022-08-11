@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UnityEngine.UI.Extensions
+namespace UIExtensions
 {
 	public class FlexibleGridLayout : LayoutGroup
 	{
@@ -58,11 +58,11 @@ namespace UnityEngine.UI.Extensions
 			{
 				case FitType.WIDTH:
 				case FitType.FIXED_COLUMNS:
-					rows = Mathf.CeilToInt(rectChildren.Count / (float) columns);
+					rows = Mathf.CeilToInt(rectChildren.Count / (float)columns);
 					break;
 				case FitType.HEIGHT:
 				case FitType.FIXED_ROWS:
-					columns = Mathf.CeilToInt(rectChildren.Count / (float) rows);
+					columns = Mathf.CeilToInt(rectChildren.Count / (float)rows);
 					break;
 			}
 
@@ -73,14 +73,14 @@ namespace UnityEngine.UI.Extensions
 			RectOffset pad = padding;
 			float parentX = parentWidth / columns;
 			float spacingX = spacing.x / columns * (columns - 1);
-			float paddingLeft = pad.left / (float) columns;
-			float paddingRight = pad.right / (float) columns;
+			float paddingLeft = pad.left / (float)columns;
+			float paddingRight = pad.right / (float)columns;
 			float cellWidth = parentX - spacingX - paddingLeft - paddingRight;
 
 			float parentY = parentHeight / rows;
 			float spacingY = spacing.y / rows * (rows - 1);
-			float paddingTop = pad.top / (float) rows;
-			float paddingBottom = pad.bottom / (float) rows;
+			float paddingTop = pad.top / (float)rows;
+			float paddingBottom = pad.bottom / (float)rows;
 			float cellHeight = parentY - spacingY - paddingTop - paddingBottom;
 
 			for (int i = 0; i < rectChildren.Count; i++)

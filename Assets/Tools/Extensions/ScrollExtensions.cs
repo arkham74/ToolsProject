@@ -2,40 +2,43 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public static class ScrollExtensions
+namespace JD
 {
-	public static void ShowRect(this ScrollRect instance, RectTransform child)
+	public static class ScrollExtensions
 	{
-		Canvas.ForceUpdateCanvases();
-		Vector2 viewportLocalPosition = instance.viewport.localPosition;
-		Vector2 childLocalPosition = child.localPosition;
-		instance.content.localPosition = new Vector2(0 - (viewportLocalPosition.x + childLocalPosition.x), 0 - (viewportLocalPosition.y + childLocalPosition.y));
-	}
-
-	public static void SnapTo(this ScrollRect scroller, RectTransform target)
-	{
-		Canvas.ForceUpdateCanvases();
-
-		Vector2 contentPos = scroller.transform.InverseTransformPoint(scroller.content.position);
-		Vector2 childPos = scroller.transform.InverseTransformPoint(target.position);
-		Vector2 endPos = contentPos - childPos;
-
-		if (!scroller.horizontal)
+		public static void ShowRect(this ScrollRect instance, RectTransform child)
 		{
-			endPos.x = contentPos.x;
+			Canvas.ForceUpdateCanvases();
+			Vector2 viewportLocalPosition = instance.viewport.localPosition;
+			Vector2 childLocalPosition = child.localPosition;
+			instance.content.localPosition = new Vector2(0 - (viewportLocalPosition.x + childLocalPosition.x), 0 - (viewportLocalPosition.y + childLocalPosition.y));
 		}
 
-		if (!scroller.vertical)
+		public static void SnapTo(this ScrollRect scroller, RectTransform target)
 		{
-			endPos.y = contentPos.y;
+			Canvas.ForceUpdateCanvases();
+
+			Vector2 contentPos = scroller.transform.InverseTransformPoint(scroller.content.position);
+			Vector2 childPos = scroller.transform.InverseTransformPoint(target.position);
+			Vector2 endPos = contentPos - childPos;
+
+			if (!scroller.horizontal)
+			{
+				endPos.x = contentPos.x;
+			}
+
+			if (!scroller.vertical)
+			{
+				endPos.y = contentPos.y;
+			}
+
+			scroller.content.anchoredPosition = endPos;
 		}
 
-		scroller.content.anchoredPosition = endPos;
-	}
-
-	public static void Register(this Scrollbar button, UnityAction<float> func)
-	{
-		button.onValueChanged.RemoveAllListeners();
-		button.onValueChanged.AddListener(func);
+		public static void Register(this Scrollbar button, UnityAction<float> func)
+		{
+			button.onValueChanged.RemoveAllListeners();
+			button.onValueChanged.AddListener(func);
+		}
 	}
 }

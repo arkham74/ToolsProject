@@ -2,10 +2,10 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace Splines
+namespace JD.Splines.Editor
 {
 	[CustomEditor(typeof(Spline))]
-	public class SplineEditor : Editor
+	public class SplineEditor : UnityEditor.Editor
 	{
 		private const float lineSize = 2f;
 		private const float ballSize = 0.2f;

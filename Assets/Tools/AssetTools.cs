@@ -3,46 +3,49 @@ using UnityEditor;
 using UnityEngine;
 
 #if UNITY_EDITOR
-public static class AssetTools
+namespace JD
 {
-	public static T[] FindAssetsByName<T>(string name) where T : Object
+	public static class AssetTools
 	{
-		string[] guids = AssetDatabase.FindAssets(name);
-		List<T> assets = new List<T>();
-		for (int i = 0; i < guids.Length; i++)
+		public static T[] FindAssetsByName<T>(string name) where T : Object
 		{
-			string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
-			T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
-			if (asset) assets.Add(asset);
+			string[] guids = AssetDatabase.FindAssets(name);
+			List<T> assets = new List<T>();
+			for (int i = 0; i < guids.Length; i++)
+			{
+				string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+				T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+				if (asset) assets.Add(asset);
+			}
+
+			return assets.ToArray();
 		}
 
-		return assets.ToArray();
-	}
-
-	public static T FindAssetByName<T>(string name) where T : Object
-	{
-		return FindAssetsByName<T>(name)[0];
-	}
-
-	public static T[] FindAssetsByType<T>() where T : Object
-	{
-		string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
-		T[] assets = new T[guids.Length];
-		for (int i = 0; i < guids.Length; i++)
+		public static T FindAssetByName<T>(string name) where T : Object
 		{
-			string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
-			assets[i] = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+			return FindAssetsByName<T>(name)[0];
 		}
 
-		return assets;
-	}
+		public static T[] FindAssetsByType<T>() where T : Object
+		{
+			string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
+			T[] assets = new T[guids.Length];
+			for (int i = 0; i < guids.Length; i++)
+			{
+				string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+				assets[i] = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+			}
 
-	public static T FindAssetByType<T>() where T : Object
-	{
-		T[] ts = FindAssetsByType<T>();
-		if (ts.Length > 0)
-			return ts[0];
-		return null;
+			return assets;
+		}
+
+		public static T FindAssetByType<T>() where T : Object
+		{
+			T[] ts = FindAssetsByType<T>();
+			if (ts.Length > 0)
+				return ts[0];
+			return null;
+		}
 	}
 }
 #endif

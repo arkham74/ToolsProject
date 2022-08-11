@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-namespace BuildProfiles
+namespace JD.Editor
 {
 	[CreateAssetMenu(fileName = "BuildSettingsQueue", menuName = "ScriptableObject/Build/Queue", order = 0)]
 	public class BuildSettingsQueue : ScriptableObject
@@ -41,7 +41,7 @@ namespace BuildProfiles
 	}
 
 	[CustomEditor(typeof(BuildSettingsQueue))]
-	public class BuildSettingsQueueEditor : Editor
+	public class BuildSettingsQueueEditor : UnityEditor.Editor
 	{
 		private SerializedProperty queueProperty;
 		private BuildSettingsQueue buildSettingsTarget;

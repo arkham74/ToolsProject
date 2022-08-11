@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEditor.AssetImporters;
 
-namespace Texture3DGenerator.Editor
+namespace JD.Texture3DGenerator.Editor
 {
 	[CustomEditor(typeof(Texture3DGenerator))]
 	public class Texture3DGeneratorEditor : ScriptedImporterEditor

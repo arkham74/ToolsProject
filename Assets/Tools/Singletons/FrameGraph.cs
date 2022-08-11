@@ -12,6 +12,9 @@ using TMPro;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 
-public class FrameGraph : Manager<FrameGraph>
+namespace JD
 {
+	public class FrameGraph : Manager<FrameGraph>
+	{
+	}
 }

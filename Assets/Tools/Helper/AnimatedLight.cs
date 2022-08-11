@@ -1,7 +1,8 @@
+using Freya;
 using UnityEngine;
 using Text = TMPro.TextMeshProUGUI;
 
-namespace CustomTools
+namespace JD
 {
 	public class AnimatedLight : MonoBehaviour
 	{

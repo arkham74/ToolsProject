@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 
-namespace CustomTools
+namespace JD
 {
 	public class RandomTriggerSetActive : BaseTrigger
 	{

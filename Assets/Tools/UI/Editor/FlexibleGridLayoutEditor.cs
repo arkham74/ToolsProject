@@ -1,10 +1,9 @@
 using UnityEditor;
-using UnityEngine.UI.Extensions;
 
-namespace UnityEditor.UI.Extensions
+namespace UIExtensions.Editor
 {
 	[CustomEditor(typeof(FlexibleGridLayout))]
-	public class FlexibleGridLayoutEditor : Editor
+	public class FlexibleGridLayoutEditor : UnityEditor.Editor
 	{
 		private SerializedProperty rowsProperty;
 		private SerializedProperty columnsProperty;
@@ -33,10 +32,10 @@ namespace UnityEditor.UI.Extensions
 
 			switch (fitTypeProperty.enumValueIndex)
 			{
-				case (int) FlexibleGridLayout.FitType.FIXED_ROWS:
+				case (int)FlexibleGridLayout.FitType.FIXED_ROWS:
 					EditorGUILayout.PropertyField(rowsProperty);
 					break;
-				case (int) FlexibleGridLayout.FitType.FIXED_COLUMNS:
+				case (int)FlexibleGridLayout.FitType.FIXED_COLUMNS:
 					EditorGUILayout.PropertyField(columnsProperty);
 					break;
 			}

@@ -1,24 +1,27 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class ScriptableObjectSingleton<T> : ScriptableObject where T : ScriptableObjectSingleton<T>
+namespace JD
 {
-	private static T instance;
-	public static T Instance
+	public abstract class ScriptableObjectSingleton<T> : ScriptableObject where T : ScriptableObjectSingleton<T>
 	{
-		get
+		private static T instance;
+		public static T Instance
 		{
-			if (instance == null)
+			get
 			{
-				string singletonName = typeof(T).Name;
-				instance = Resources.Load<T>("Managers/" + singletonName);
 				if (instance == null)
 				{
-					throw new NullReferenceException($"Can't find {singletonName} singleton");
+					string singletonName = typeof(T).Name;
+					instance = Resources.Load<T>("Managers/" + singletonName);
+					if (instance == null)
+					{
+						throw new NullReferenceException($"Can't find {singletonName} singleton");
+					}
 				}
-			}
 
-			return instance;
+				return instance;
+			}
 		}
 	}
 }

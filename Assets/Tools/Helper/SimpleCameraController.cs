@@ -20,7 +20,7 @@ using Tag = NaughtyAttributes.TagAttribute;
 using UnityEngine.InputSystem;
 #endif
 
-namespace CustomTools
+namespace JD
 {
 	public class SimpleCameraController : MonoBehaviour
 	{
@@ -112,8 +112,8 @@ namespace CustomTools
 		{
 			MoveUpdate();
 #if ENABLE_INPUT_SYSTEM
-		Vector2 delta = Mouse.current.delta.ReadValue().InvertY().XYtoYX();
-		LookUpdate(delta);
+			Vector2 delta = Mouse.current.delta.ReadValue().InvertY().XYtoYX();
+			LookUpdate(delta);
 #else
 			LookUpdate(mousePos - (Vector2)Input.mousePosition);
 #endif
@@ -122,7 +122,7 @@ namespace CustomTools
 		private void LookUpdate(Vector2 delta)
 		{
 #if ENABLE_INPUT_SYSTEM
-		bool isPressed = Mouse.current.rightButton.isPressed;
+			bool isPressed = Mouse.current.rightButton.isPressed;
 #else
 			bool isPressed = Input.GetMouseButton(1);
 #endif
@@ -153,19 +153,19 @@ namespace CustomTools
 		}
 
 #if ENABLE_INPUT_SYSTEM
-	private Vector3 Get3DAxis()
-	{
-		float eKey = Convert.ToSingle(Keyboard.current.eKey.isPressed);
-		float qKey = -Convert.ToSingle(Keyboard.current.qKey.isPressed);
+		private Vector3 Get3DAxis()
+		{
+			float eKey = Convert.ToSingle(Keyboard.current.eKey.isPressed);
+			float qKey = -Convert.ToSingle(Keyboard.current.qKey.isPressed);
 
-		float wKey = Convert.ToSingle(Keyboard.current.wKey.isPressed);
-		float sKey = -Convert.ToSingle(Keyboard.current.sKey.isPressed);
+			float wKey = Convert.ToSingle(Keyboard.current.wKey.isPressed);
+			float sKey = -Convert.ToSingle(Keyboard.current.sKey.isPressed);
 
-		float aKey = -Convert.ToSingle(Keyboard.current.aKey.isPressed);
-		float dKey = Convert.ToSingle(Keyboard.current.dKey.isPressed);
+			float aKey = -Convert.ToSingle(Keyboard.current.aKey.isPressed);
+			float dKey = Convert.ToSingle(Keyboard.current.dKey.isPressed);
 
-		return new Vector3(aKey + dKey, eKey + qKey, wKey + sKey);
-	}
+			return new Vector3(aKey + dKey, eKey + qKey, wKey + sKey);
+		}
 #else
 		private Vector3 Get3DAxis()
 		{

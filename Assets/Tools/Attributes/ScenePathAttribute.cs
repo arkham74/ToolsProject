@@ -1,7 +1,10 @@
 using System;
 using UnityEngine;
 
-[AttributeUsage(AttributeTargets.Field)]
-public class ScenePathAttribute : PropertyAttribute
+namespace JD
 {
+	[AttributeUsage(AttributeTargets.Field)]
+	public class ScenePathAttribute : PropertyAttribute
+	{
+	}
 }

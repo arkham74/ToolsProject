@@ -2,36 +2,39 @@
 using UnityEditor;
 using UnityEditor.UI;
 
-[CustomEditor(typeof(SmoothScrollRect), true)]
-[CanEditMultipleObjects]
-public class SmoothScrollRectEditor : ScrollRectEditor
+namespace JD.Editor
 {
-	private SerializedProperty smoothEaseProp;
-	private SerializedProperty smoothScrollProp;
-	private SerializedProperty smoothTimeProp;
-
-	protected override void OnEnable()
+	[CustomEditor(typeof(SmoothScrollRect), true)]
+	[CanEditMultipleObjects]
+	public class SmoothScrollRectEditor : ScrollRectEditor
 	{
-		base.OnEnable();
-		smoothScrollProp = serializedObject.FindProperty("smoothScroll");
-		smoothTimeProp = serializedObject.FindProperty("smoothTime");
-		smoothEaseProp = serializedObject.FindProperty("smoothEase");
-	}
+		private SerializedProperty smoothEaseProp;
+		private SerializedProperty smoothScrollProp;
+		private SerializedProperty smoothTimeProp;
 
-	public override void OnInspectorGUI()
-	{
-		EditorGUILayout.PropertyField(smoothScrollProp);
-		if (smoothScrollProp.boolValue)
+		protected override void OnEnable()
 		{
-			EditorGUI.indentLevel++;
-			EditorGUILayout.PropertyField(smoothTimeProp);
-			EditorGUILayout.PropertyField(smoothEaseProp);
-			EditorGUI.indentLevel--;
+			base.OnEnable();
+			smoothScrollProp = serializedObject.FindProperty("smoothScroll");
+			smoothTimeProp = serializedObject.FindProperty("smoothTime");
+			smoothEaseProp = serializedObject.FindProperty("smoothEase");
 		}
 
-		EditorGUILayout.Separator();
-		serializedObject.ApplyModifiedProperties();
-		base.OnInspectorGUI();
+		public override void OnInspectorGUI()
+		{
+			EditorGUILayout.PropertyField(smoothScrollProp);
+			if (smoothScrollProp.boolValue)
+			{
+				EditorGUI.indentLevel++;
+				EditorGUILayout.PropertyField(smoothTimeProp);
+				EditorGUILayout.PropertyField(smoothEaseProp);
+				EditorGUI.indentLevel--;
+			}
+
+			EditorGUILayout.Separator();
+			serializedObject.ApplyModifiedProperties();
+			base.OnInspectorGUI();
+		}
 	}
 }
 #endif

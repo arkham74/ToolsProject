@@ -2,114 +2,117 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public static class MonoBehaviourExtensions
+namespace JD
 {
-	public static void Repeat(this MonoBehaviour mb, Action complete, Action<float> tick, float seconds)
+	public static class MonoBehaviourExtensions
 	{
-		IEnumerator RepeatRoutine()
+		public static void Repeat(this MonoBehaviour mb, Action complete, Action<float> tick, float seconds)
 		{
-			for (float i = 0; i < seconds; i += Time.deltaTime)
+			IEnumerator RepeatRoutine()
 			{
-				tick.Invoke(i);
-				yield return new WaitForEndOfFrame();
+				for (float i = 0; i < seconds; i += Time.deltaTime)
+				{
+					tick.Invoke(i);
+					yield return new WaitForEndOfFrame();
+				}
+				complete.Invoke();
 			}
-			complete.Invoke();
+			mb.StartCoroutine(RepeatRoutine());
 		}
-		mb.StartCoroutine(RepeatRoutine());
-	}
 
-	public static void RepeatRealtime(this MonoBehaviour mb, Action complete, Action<float> tick, float seconds)
-	{
-		IEnumerator RepeatRoutine()
+		public static void RepeatRealtime(this MonoBehaviour mb, Action complete, Action<float> tick, float seconds)
 		{
-			for (float i = 0; i < seconds; i += Time.unscaledDeltaTime)
+			IEnumerator RepeatRoutine()
 			{
-				tick.Invoke(i);
-				yield return new WaitForEndOfFrame();
+				for (float i = 0; i < seconds; i += Time.unscaledDeltaTime)
+				{
+					tick.Invoke(i);
+					yield return new WaitForEndOfFrame();
+				}
+				complete.Invoke();
 			}
-			complete.Invoke();
+			mb.StartCoroutine(RepeatRoutine());
 		}
-		mb.StartCoroutine(RepeatRoutine());
-	}
 
-	public static void Repeat(this MonoBehaviour mb, Action complete, Action<int> tick, int seconds)
-	{
-		IEnumerator RepeatRoutine()
+		public static void Repeat(this MonoBehaviour mb, Action complete, Action<int> tick, int seconds)
 		{
-			for (int i = 0; i < seconds; i++)
+			IEnumerator RepeatRoutine()
 			{
-				tick.Invoke(i);
-				yield return new WaitForSeconds(1f);
+				for (int i = 0; i < seconds; i++)
+				{
+					tick.Invoke(i);
+					yield return new WaitForSeconds(1f);
+				}
+				complete.Invoke();
 			}
-			complete.Invoke();
+			mb.StartCoroutine(RepeatRoutine());
 		}
-		mb.StartCoroutine(RepeatRoutine());
-	}
 
-	public static void RepeatRealtime(this MonoBehaviour mb, Action complete, Action<int> tick, int seconds)
-	{
-		IEnumerator RepeatRoutine()
+		public static void RepeatRealtime(this MonoBehaviour mb, Action complete, Action<int> tick, int seconds)
 		{
-			for (int i = 0; i < seconds; i++)
+			IEnumerator RepeatRoutine()
 			{
-				tick.Invoke(i);
-				yield return new WaitForSecondsRealtime(1f);
+				for (int i = 0; i < seconds; i++)
+				{
+					tick.Invoke(i);
+					yield return new WaitForSecondsRealtime(1f);
+				}
+				complete.Invoke();
 			}
-			complete.Invoke();
+			mb.StartCoroutine(RepeatRoutine());
 		}
-		mb.StartCoroutine(RepeatRoutine());
-	}
 
-	public static void DelayUntil(this MonoBehaviour mb, Action complete, Func<bool> untilTrue)
-	{
-		IEnumerator DelayRoutine()
+		public static void DelayUntil(this MonoBehaviour mb, Action complete, Func<bool> untilTrue)
 		{
-			yield return new WaitUntil(untilTrue);
-			complete.Invoke();
-		}
-		mb.StartCoroutine(DelayRoutine());
-	}
-
-	public static void DelayWhile(this MonoBehaviour mb, Action complete, Func<bool> whileTrue)
-	{
-		IEnumerator DelayRoutine()
-		{
-			yield return new WaitWhile(whileTrue);
-			complete.Invoke();
-		}
-		mb.StartCoroutine(DelayRoutine());
-	}
-
-	public static void Delay(this MonoBehaviour mb, Action complete, float seconds)
-	{
-		IEnumerator DelayRoutine()
-		{
-			yield return new WaitForSeconds(seconds);
-			complete.Invoke();
-		}
-		mb.StartCoroutine(DelayRoutine());
-	}
-
-	public static void DelayFrame(this MonoBehaviour mb, Action complete, int frames)
-	{
-		IEnumerator DelayRoutine()
-		{
-			for (int i = 0; i < frames; i++)
+			IEnumerator DelayRoutine()
 			{
-				yield return new WaitForEndOfFrame();
+				yield return new WaitUntil(untilTrue);
+				complete.Invoke();
 			}
-			complete.Invoke();
+			mb.StartCoroutine(DelayRoutine());
 		}
-		mb.StartCoroutine(DelayRoutine());
-	}
 
-	public static void DelayRealtime(this MonoBehaviour mb, Action complete, float seconds)
-	{
-		IEnumerator DelayRoutine()
+		public static void DelayWhile(this MonoBehaviour mb, Action complete, Func<bool> whileTrue)
 		{
-			yield return new WaitForSecondsRealtime(seconds);
-			complete.Invoke();
+			IEnumerator DelayRoutine()
+			{
+				yield return new WaitWhile(whileTrue);
+				complete.Invoke();
+			}
+			mb.StartCoroutine(DelayRoutine());
 		}
-		mb.StartCoroutine(DelayRoutine());
+
+		public static void Delay(this MonoBehaviour mb, Action complete, float seconds)
+		{
+			IEnumerator DelayRoutine()
+			{
+				yield return new WaitForSeconds(seconds);
+				complete.Invoke();
+			}
+			mb.StartCoroutine(DelayRoutine());
+		}
+
+		public static void DelayFrame(this MonoBehaviour mb, Action complete, int frames)
+		{
+			IEnumerator DelayRoutine()
+			{
+				for (int i = 0; i < frames; i++)
+				{
+					yield return new WaitForEndOfFrame();
+				}
+				complete.Invoke();
+			}
+			mb.StartCoroutine(DelayRoutine());
+		}
+
+		public static void DelayRealtime(this MonoBehaviour mb, Action complete, float seconds)
+		{
+			IEnumerator DelayRoutine()
+			{
+				yield return new WaitForSecondsRealtime(seconds);
+				complete.Invoke();
+			}
+			mb.StartCoroutine(DelayRoutine());
+		}
 	}
 }

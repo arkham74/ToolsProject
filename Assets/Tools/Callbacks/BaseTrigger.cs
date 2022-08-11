@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace CustomTools
+namespace JD
 {
 	public abstract class BaseTrigger : MonoBehaviour
 	{

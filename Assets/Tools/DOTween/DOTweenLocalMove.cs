@@ -2,7 +2,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace CustomTools
+namespace JD
 {
 	public class DOTweenLocalMove : MonoBehaviour
 	{

@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace CustomTools
+namespace JD.Editor
 {
 	[CustomEditor(typeof(ColorBlockSync))]
 	[CanEditMultipleObjects]
-	public class ColorBlockSyncEditor : Editor
+	public class ColorBlockSyncEditor : UnityEditor.Editor
 	{
 		public override void OnInspectorGUI()
 		{

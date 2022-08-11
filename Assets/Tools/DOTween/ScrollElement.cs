@@ -14,7 +14,7 @@ using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 
-namespace CustomTools
+namespace JD
 {
 	public class ScrollElement : MonoBehaviour, ISelectHandler
 	{

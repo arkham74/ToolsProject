@@ -1,13 +1,16 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class CanvasGroupControlAsset : PlayableAsset
+namespace JD.CanvasTrack
 {
-	public CanvasGroupControlBehaviour template;
-
-	public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
+	public class CanvasGroupControlAsset : PlayableAsset
 	{
-		var playable = ScriptPlayable<CanvasGroupControlBehaviour>.Create(graph, template);
-		return playable;
+		public CanvasGroupControlBehaviour template;
+
+		public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
+		{
+			var playable = ScriptPlayable<CanvasGroupControlBehaviour>.Create(graph, template);
+			return playable;
+		}
 	}
 }

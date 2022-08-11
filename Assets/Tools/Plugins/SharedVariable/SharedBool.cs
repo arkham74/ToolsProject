@@ -9,7 +9,10 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-[CreateAssetMenu(menuName = "ScriptableObject/SharedBool")]
-public class SharedBool : Shared<bool>
+namespace JD.SharedVar
 {
+	[CreateAssetMenu(menuName = "ScriptableObject/SharedBool")]
+	public class SharedBool : Shared<bool>
+	{
+	}
 }

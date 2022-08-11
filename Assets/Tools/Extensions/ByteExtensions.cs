@@ -1,16 +1,19 @@
 using System;
 
-public static class ByteExtensions
+namespace JD
 {
-	public static bool[] ToBoolArray(this byte b)
+	public static class ByteExtensions
 	{
-		bool[] result = new bool[8];
-		for (int i = 0; i < 8; i++)
+		public static bool[] ToBoolArray(this byte b)
 		{
-			result[i] = (b & (1 << i)) != 0;
-		}
+			bool[] result = new bool[8];
+			for (int i = 0; i < 8; i++)
+			{
+				result[i] = (b & (1 << i)) != 0;
+			}
 
-		Array.Reverse(result);
-		return result;
+			Array.Reverse(result);
+			return result;
+		}
 	}
 }

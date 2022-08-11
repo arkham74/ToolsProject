@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-namespace CustomTools
+namespace JD
 {
 	public class FileBasedPrefsTrigger : BaseTrigger
 	{

@@ -15,7 +15,7 @@ using Text = TMPro.TMP_Text;
 using UnityEngine.InputSystem;
 #endif
 
-namespace CustomTools
+namespace JD
 {
 	[ExecuteAlways]
 	public class TMPLink : MonoBehaviour

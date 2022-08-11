@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(menuName = "ScriptableObject/ColorBlockData")]
-public class ColorBlockData : ScriptableObject
+namespace JD
 {
-	public ColorBlock colorBlock = ColorBlock.defaultColorBlock;
+	[CreateAssetMenu(menuName = "ScriptableObject/ColorBlockData")]
+	public class ColorBlockData : ScriptableObject
+	{
+		public ColorBlock colorBlock = ColorBlock.defaultColorBlock;
+	}
 }

@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 using UnityEditor.AssetImporters;
 using UnityEditor;
 
-namespace GradientTexture
+namespace JD.GradientTexture
 {
 	[ScriptedImporter(1, "gradient_texture")]
 	public class GradientTexture : ScriptedImporter

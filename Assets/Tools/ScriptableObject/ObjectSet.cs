@@ -16,8 +16,11 @@ using Object = UnityEngine.Object;
 using UnityEngine.InputSystem;
 #endif
 
-[CreateAssetMenu(fileName = "ObjectSet", menuName = "ScriptableObject/RuntimeSet/Object", order = 0)]
-public class ObjectSet : RuntimeSet<Object>
+namespace JD
 {
+	[CreateAssetMenu(fileName = "ObjectSet", menuName = "ScriptableObject/RuntimeSet/Object", order = 0)]
+	public class ObjectSet : RuntimeSet<Object>
+	{
 
+	}
 }

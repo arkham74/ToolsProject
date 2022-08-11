@@ -1,9 +1,10 @@
 using System;
+using SebastianLague;
 using UnityEngine;
 using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 
-namespace Splines
+namespace JD.Splines
 {
 	[RequireComponent(typeof(MeshFilter))]
 	[RequireComponent(typeof(MeshRenderer))]

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UnityEngine.UI.Extensions
+namespace UIExtensions
 {
 	public class CustomCanvasScaler : CanvasScaler
 	{

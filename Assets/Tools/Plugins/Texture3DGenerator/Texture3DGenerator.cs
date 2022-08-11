@@ -8,7 +8,7 @@ using Unity.Burst;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 
-namespace Texture3DGenerator
+namespace JD.Texture3DGenerator
 {
 	[ScriptedImporter(1, "tex3d")]
 	public class Texture3DGenerator : ScriptedImporter

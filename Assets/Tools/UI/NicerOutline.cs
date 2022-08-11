@@ -5,17 +5,19 @@
 // Sourced from - http://forum.unity3d.com/members/melang.593409/
 
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI.Extensions
+namespace UIExtensions
 {
 	//An outline that looks a bit nicer than the default one. It has less "holes" in the outline by drawing more copies of the effect
 	[AddComponentMenu("UI/Effects/Extensions/Nicer Outline")]
 	public class NicerOutline : BaseMeshEffect
 	{
-		[FormerlySerializedAs("m_EffectColor")] [SerializeField] private Color effectColor = new Color(0f, 0f, 0f, 1.0f);
-		[FormerlySerializedAs("m_EffectDistance")] [SerializeField] private Vector2 effectDistance = new Vector2(1f, -1f);
-		[FormerlySerializedAs("m_UseGraphicAlpha")] [SerializeField] private bool useGraphicAlpha;
+		[FormerlySerializedAs("m_EffectColor")][SerializeField] private Color effectColor = new Color(0f, 0f, 0f, 1.0f);
+		[FormerlySerializedAs("m_EffectDistance")][SerializeField] private Vector2 effectDistance = new Vector2(1f, -1f);
+		[FormerlySerializedAs("m_UseGraphicAlpha")][SerializeField] private bool useGraphicAlpha;
 
 		private readonly List<UIVertex> mVerts = new List<UIVertex>();
 
@@ -101,7 +103,7 @@ namespace UnityEngine.UI.Extensions
 				v.y += y;
 				vt.position = v;
 				Color32 newColor = color;
-				if (useGraphicAlpha) newColor.a = (byte) (newColor.a * verts[i].color.a / 255);
+				if (useGraphicAlpha) newColor.a = (byte)(newColor.a * verts[i].color.a / 255);
 				vt.color = newColor;
 				verts[i] = vt;
 			}
@@ -131,8 +133,8 @@ namespace UnityEngine.UI.Extensions
 
 			if (foundText && foundText.resizeTextForBestFit)
 			{
-				bestFitAdjustment = (float) foundText.cachedTextGenerator.fontSizeUsedForBestFit /
-				                    (foundText.resizeTextMaxSize - 1); //max size seems to be exclusive
+				bestFitAdjustment = (float)foundText.cachedTextGenerator.fontSizeUsedForBestFit /
+														(foundText.resizeTextMaxSize - 1); //max size seems to be exclusive
 			}
 
 			float distanceX = EffectDistance.x * bestFitAdjustment;

@@ -1,30 +1,33 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class CanvasGroupControlMixerBehaviour : PlayableBehaviour
+namespace JD.CanvasTrack
 {
-	// NOTE: This function is called at runtime and edit time.  Keep that in mind when setting the values of properties.
-	public override void ProcessFrame(Playable playable, FrameData info, object playerData)
+	public class CanvasGroupControlMixerBehaviour : PlayableBehaviour
 	{
-		CanvasGroup trackBinding = playerData as CanvasGroup;
-		float finalAlpha = 0f;
-
-		if (trackBinding)
+		// NOTE: This function is called at runtime and edit time.  Keep that in mind when setting the values of properties.
+		public override void ProcessFrame(Playable playable, FrameData info, object playerData)
 		{
-			int inputCount = playable.GetInputCount(); //get the number of all clips on this track
+			CanvasGroup trackBinding = playerData as CanvasGroup;
+			float finalAlpha = 0f;
 
-			for (int i = 0; i < inputCount; i++)
+			if (trackBinding)
 			{
-				float inputWeight = playable.GetInputWeight(i);
-				ScriptPlayable<CanvasGroupControlBehaviour> inputPlayable = (ScriptPlayable<CanvasGroupControlBehaviour>)playable.GetInput(i);
-				CanvasGroupControlBehaviour input = inputPlayable.GetBehaviour();
+				int inputCount = playable.GetInputCount(); //get the number of all clips on this track
 
-				// Use the above variables to process each frame of this playable.
-				finalAlpha += input.alpha * inputWeight;
+				for (int i = 0; i < inputCount; i++)
+				{
+					float inputWeight = playable.GetInputWeight(i);
+					ScriptPlayable<CanvasGroupControlBehaviour> inputPlayable = (ScriptPlayable<CanvasGroupControlBehaviour>)playable.GetInput(i);
+					CanvasGroupControlBehaviour input = inputPlayable.GetBehaviour();
+
+					// Use the above variables to process each frame of this playable.
+					finalAlpha += input.alpha * inputWeight;
+				}
+
+				//assign the result to the bound object
+				trackBinding.alpha = finalAlpha;
 			}
-
-			//assign the result to the bound object
-			trackBinding.alpha = finalAlpha;
 		}
 	}
 }

@@ -16,47 +16,50 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 #endif
 
-public class ButtonNoSelectable : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+namespace JD
 {
-	[SerializeField] private Graphic target;
-	[SerializeField] private ColorBlockData colors;
-	[SerializeField] private UnityEvent onClick;
+	public class ButtonNoSelectable : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+	{
+		[SerializeField] private Graphic target;
+		[SerializeField] private ColorBlockData colors;
+		[SerializeField] private UnityEvent onClick;
 
-	public UnityEvent OnClick => onClick;
+		public UnityEvent OnClick => onClick;
 
 #if UNITY_EDITOR
-	private void Reset()
-	{
-		target = GetComponentInChildren<Graphic>();
-		colors = AssetTools.FindAssetByType<ColorBlockData>();
-	}
+		private void Reset()
+		{
+			target = GetComponentInChildren<Graphic>();
+			colors = AssetTools.FindAssetByType<ColorBlockData>();
+		}
 
-	private void OnValidate()
-	{
-		if (target && colors)
-			target.color = colors.colorBlock.normalColor;
-	}
+		private void OnValidate()
+		{
+			if (target && colors)
+				target.color = colors.colorBlock.normalColor;
+		}
 #endif
 
-	public void Register(UnityAction action)
-	{
-		onClick.RemoveAllListeners();
-		onClick.AddListener(action);
-	}
+		public void Register(UnityAction action)
+		{
+			onClick.RemoveAllListeners();
+			onClick.AddListener(action);
+		}
 
-	public void OnPointerDown(PointerEventData eventData)
-	{
-		// target.color = colors.colorBlock.pressedColor;
-		onClick.Invoke();
-	}
+		public void OnPointerDown(PointerEventData eventData)
+		{
+			// target.color = colors.colorBlock.pressedColor;
+			onClick.Invoke();
+		}
 
-	public void OnPointerEnter(PointerEventData eventData)
-	{
-		target.color = colors.colorBlock.highlightedColor;
-	}
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			target.color = colors.colorBlock.highlightedColor;
+		}
 
-	public void OnPointerExit(PointerEventData eventData)
-	{
-		target.color = colors.colorBlock.normalColor;
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			target.color = colors.colorBlock.normalColor;
+		}
 	}
 }

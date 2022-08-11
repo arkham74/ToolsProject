@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 #endif
 
-namespace CustomTools
+namespace JD
 {
 	[RequireComponent(typeof(Text))]
 	public class OpenHyperlinks : MonoBehaviour, IPointerClickHandler
@@ -55,7 +55,7 @@ namespace CustomTools
 		private void LateUpdate()
 		{
 #if ENABLE_INPUT_SYSTEM
-		Vector2 mousePos = Mouse.current.position.ReadValue();
+			Vector2 mousePos = Mouse.current.position.ReadValue();
 #else
 			Vector2 mousePos = Input.mousePosition;
 #endif

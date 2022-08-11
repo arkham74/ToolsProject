@@ -2,12 +2,15 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-[TrackClipType(typeof(CanvasGroupControlAsset))]
-[TrackBindingType(typeof(CanvasGroup))]
-public class CanvasGroupControlTrack : TrackAsset
+namespace JD.CanvasTrack
 {
-	public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
+	[TrackClipType(typeof(CanvasGroupControlAsset))]
+	[TrackBindingType(typeof(CanvasGroup))]
+	public class CanvasGroupControlTrack : TrackAsset
 	{
-		return ScriptPlayable<CanvasGroupControlMixerBehaviour>.Create(graph, inputCount);
+		public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
+		{
+			return ScriptPlayable<CanvasGroupControlMixerBehaviour>.Create(graph, inputCount);
+		}
 	}
 }

@@ -5,7 +5,7 @@ using System;
 #if UNITY_EDITOR
 #endif
 
-namespace CustomTools
+namespace JD
 {
 	[RequireComponent(typeof(PolygonCollider2D))]
 	[RequireComponent(typeof(SpriteRenderer))]

@@ -21,7 +21,7 @@ using Tag = NaughtyAttributes.TagAttribute;
 using UnityEngine.InputSystem;
 #endif
 
-namespace CustomTools
+namespace JD
 {
 	public class CurrentYear : MonoBehaviour
 	{

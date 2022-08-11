@@ -10,8 +10,9 @@ using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using UnityEditor.Rendering;
 using System;
+using Freya;
 
-namespace Splines
+namespace JD.Splines
 {
 	public class Spline : MonoBehaviour
 	{

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Splines
+namespace JD.Splines
 {
 	[ExecuteAlways]
 	[RequireComponent(typeof(Spline))]

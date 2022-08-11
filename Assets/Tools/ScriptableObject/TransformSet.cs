@@ -15,8 +15,11 @@ using Text = TMPro.TextMeshProUGUI;
 using UnityEngine.InputSystem;
 #endif
 
-[CreateAssetMenu(fileName = "TransformSet", menuName = "ScriptableObject/RuntimeSet/Transform", order = 0)]
-public class TransformSet : RuntimeSet<Transform>
+namespace JD
 {
+	[CreateAssetMenu(fileName = "TransformSet", menuName = "ScriptableObject/RuntimeSet/Transform", order = 0)]
+	public class TransformSet : RuntimeSet<Transform>
+	{
 
+	}
 }

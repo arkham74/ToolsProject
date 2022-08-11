@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Text = TMPro.TextMeshProUGUI;
 
-namespace CustomTools
+namespace JD
 {
 	public class AnimatedBlink : MonoBehaviour
 	{

@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
-public class DeviceAttribute : PropertyAttribute
+namespace JD
 {
+	public class DeviceAttribute : PropertyAttribute
+	{
+	}
 }

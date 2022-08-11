@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 
-public static class IEnumerableExtensions
+namespace JD
 {
-	public static string Join<T>(this IEnumerable<T> array, string separator = ", ")
+	public static class IEnumerableExtensions
 	{
-		return string.Join(separator, array);
+		public static string Join<T>(this IEnumerable<T> array, string separator = ", ")
+		{
+			return string.Join(separator, array);
+		}
 	}
 }

@@ -1,17 +1,20 @@
 using UnityEngine;
 using Text = TMPro.TextMeshProUGUI;
 
-public class VersionNumberTMP : MonoBehaviour
+namespace JD
 {
-	[SerializeField] private Text text;
-
-	private void Reset()
+	public class VersionNumberTMP : MonoBehaviour
 	{
-		text = GetComponent<Text>();
-	}
+		[SerializeField] private Text text;
 
-	private void Start()
-	{
-		text.text = Application.version;
+		private void Reset()
+		{
+			text = GetComponent<Text>();
+		}
+
+		private void Start()
+		{
+			text.text = Application.version;
+		}
 	}
 }

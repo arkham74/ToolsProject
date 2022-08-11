@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CustomTools
+namespace JD
 {
 	public class RotateTransform : MonoBehaviour
 	{

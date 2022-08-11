@@ -4,7 +4,7 @@ using UnityEngine;
 using NaughtyAttributes;
 #endif
 
-namespace CustomTools
+namespace JD
 {
 	public class SetChildren : MonoBehaviour
 	{

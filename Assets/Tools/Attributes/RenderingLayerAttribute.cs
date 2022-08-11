@@ -1,7 +1,10 @@
 using System;
 using UnityEngine;
 
-[AttributeUsage(AttributeTargets.Field)]
-public class RenderingLayerAttribute : PropertyAttribute
+namespace JD
 {
+	[AttributeUsage(AttributeTargets.Field)]
+	public class RenderingLayerAttribute : PropertyAttribute
+	{
+	}
 }

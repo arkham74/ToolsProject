@@ -1,23 +1,26 @@
 using UnityEditor;
 using UnityEditor.UI;
 
-[CustomEditor(typeof(ButtonMultiGraphics))]
-public class ButtonMultiGraphicsEditor : ButtonEditor
+namespace JD.Editor
 {
-	private SerializedProperty targetsProp;
-
-	protected override void OnEnable()
+	[CustomEditor(typeof(ButtonMultiGraphics))]
+	public class ButtonMultiGraphicsEditor : ButtonEditor
 	{
-		base.OnEnable();
-		targetsProp = serializedObject.FindProperty("targets");
-	}
+		private SerializedProperty targetsProp;
 
-	public override void OnInspectorGUI()
-	{
-		serializedObject.Update();
-		EditorGUILayout.PropertyField(targetsProp);
-		serializedObject.ApplyModifiedProperties();
-		EditorGUILayout.Space();
-		base.OnInspectorGUI();
+		protected override void OnEnable()
+		{
+			base.OnEnable();
+			targetsProp = serializedObject.FindProperty("targets");
+		}
+
+		public override void OnInspectorGUI()
+		{
+			serializedObject.Update();
+			EditorGUILayout.PropertyField(targetsProp);
+			serializedObject.ApplyModifiedProperties();
+			EditorGUILayout.Space();
+			base.OnInspectorGUI();
+		}
 	}
 }

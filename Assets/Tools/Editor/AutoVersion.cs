@@ -3,22 +3,25 @@ using UnityEditor;
 using UnityEngine;
 using UnityEditor.Callbacks;
 
-[InitializeOnLoad]
-public static class AutoVersion
+namespace JD.Editor
 {
-	[PostProcessBuild(1)]
-	private static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
+	[InitializeOnLoad]
+	public static class AutoVersion
 	{
-		IncrementVersion();
-	}
+		[PostProcessBuild(1)]
+		private static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
+		{
+			IncrementVersion();
+		}
 
-	public static void IncrementVersion()
-	{
-		string current = PlayerSettings.bundleVersion;
-		int[] newVerInt = current.Split('.').Select(int.Parse).ToArray();
-		newVerInt[2] += 1;
-		string newVersion = string.Join(".", newVerInt);
-		Debug.LogWarning($"{PlayerSettings.productName} Version: {newVersion}");
-		PlayerSettings.bundleVersion = newVersion;
+		public static void IncrementVersion()
+		{
+			string current = PlayerSettings.bundleVersion;
+			int[] newVerInt = current.Split('.').Select(int.Parse).ToArray();
+			newVerInt[2] += 1;
+			string newVersion = string.Join(".", newVerInt);
+			Debug.LogWarning($"{PlayerSettings.productName} Version: {newVersion}");
+			PlayerSettings.bundleVersion = newVersion;
+		}
 	}
 }

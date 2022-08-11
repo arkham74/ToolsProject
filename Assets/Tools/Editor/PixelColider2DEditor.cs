@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace CustomTools
+namespace JD.Editor
 {
 	[CustomEditor(typeof(PixelCollider2D))]
-	public class PixelColider2DEditor : Editor
+	public class PixelColider2DEditor : UnityEditor.Editor
 	{
 		public override void OnInspectorGUI()
 		{

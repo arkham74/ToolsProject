@@ -11,7 +11,7 @@ using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using UnityEngine.Profiling;
 
-namespace Splines
+namespace JD.Splines
 {
 	[RequireComponent(typeof(LineRenderer))]
 	public class SplineLineRenderer : SplineSampler

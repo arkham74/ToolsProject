@@ -10,70 +10,73 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-[Overlay(typeof(SceneView), "Quick Scenes")]
-public class QuickScenes : ToolbarOverlay
+namespace JD.Editor
 {
-	private const string ButtonID = "QuickScenes/LoadSceneButton";
-	public QuickScenes() : base(ButtonID) { }
-
-	[EditorToolbarElement(ButtonID, typeof(SceneView))]
-	private class LoadSceneButton : EditorToolbarButton
+	[Overlay(typeof(SceneView), "Quick Scenes")]
+	public class QuickScenes : ToolbarOverlay
 	{
-		private const float Width = 300;
-		private const float Height = 500;
-		private readonly ScenesSearchWindowProvider provider;
-		private static Texture2D sceneIcon;
+		private const string ButtonID = "QuickScenes/LoadSceneButton";
+		public QuickScenes() : base(ButtonID) { }
 
-		public LoadSceneButton()
+		[EditorToolbarElement(ButtonID, typeof(SceneView))]
+		private class LoadSceneButton : EditorToolbarButton
 		{
-			provider = ScriptableObject.CreateInstance<ScenesSearchWindowProvider>();
-			text = "Load";
+			private const float Width = 300;
+			private const float Height = 500;
+			private readonly ScenesSearchWindowProvider provider;
+			private static Texture2D sceneIcon;
 
-			if (sceneIcon == null)
-				sceneIcon = EditorGUIUtility.FindTexture("d_Scene");
-
-			icon = sceneIcon;
-			clicked += ShowDropdown;
-		}
-
-		private void ShowDropdown()
-		{
-			Vector2 mousepos = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
-			mousepos.y += 30;
-			SearchWindowContext context = new SearchWindowContext(mousepos);
-			SearchWindow.Open(context, provider);
-		}
-
-		private class ScenesSearchWindowProvider : ScriptableObject, ISearchWindowProvider
-		{
-			private readonly List<SearchTreeEntry> list = new List<SearchTreeEntry>();
-
-			public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
+			public LoadSceneButton()
 			{
-				if (list.Count == 0)
-				{
-					list.Add(new SearchTreeGroupEntry(new GUIContent("Scenes")));
-					foreach (EditorBuildSettingsScene buildScene in EditorBuildSettings.scenes)
-					{
-						string sceneName = Path.GetFileNameWithoutExtension(buildScene.path);
-						GUIContent content = new GUIContent(sceneName, sceneIcon);
-						SearchTreeEntry entry = new SearchTreeEntry(content)
-						{
-							userData = buildScene,
-							level = 1,
-						};
-						list.Add(entry);
-					}
-				}
+				provider = ScriptableObject.CreateInstance<ScenesSearchWindowProvider>();
+				text = "Load";
 
-				return list;
+				if (sceneIcon == null)
+					sceneIcon = EditorGUIUtility.FindTexture("d_Scene");
+
+				icon = sceneIcon;
+				clicked += ShowDropdown;
 			}
 
-			public bool OnSelectEntry(SearchTreeEntry entry, SearchWindowContext context)
+			private void ShowDropdown()
 			{
-				EditorBuildSettingsScene buildScene = entry.userData as EditorBuildSettingsScene;
-				EditorSceneManager.OpenScene(buildScene.path);
-				return true;
+				Vector2 mousepos = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+				mousepos.y += 30;
+				SearchWindowContext context = new SearchWindowContext(mousepos);
+				SearchWindow.Open(context, provider);
+			}
+
+			private class ScenesSearchWindowProvider : ScriptableObject, ISearchWindowProvider
+			{
+				private readonly List<SearchTreeEntry> list = new List<SearchTreeEntry>();
+
+				public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
+				{
+					if (list.Count == 0)
+					{
+						list.Add(new SearchTreeGroupEntry(new GUIContent("Scenes")));
+						foreach (EditorBuildSettingsScene buildScene in EditorBuildSettings.scenes)
+						{
+							string sceneName = Path.GetFileNameWithoutExtension(buildScene.path);
+							GUIContent content = new GUIContent(sceneName, sceneIcon);
+							SearchTreeEntry entry = new SearchTreeEntry(content)
+							{
+								userData = buildScene,
+								level = 1,
+							};
+							list.Add(entry);
+						}
+					}
+
+					return list;
+				}
+
+				public bool OnSelectEntry(SearchTreeEntry entry, SearchWindowContext context)
+				{
+					EditorBuildSettingsScene buildScene = entry.userData as EditorBuildSettingsScene;
+					EditorSceneManager.OpenScene(buildScene.path);
+					return true;
+				}
 			}
 		}
 	}

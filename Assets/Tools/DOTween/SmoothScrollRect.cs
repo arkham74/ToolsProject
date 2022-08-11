@@ -4,27 +4,30 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SmoothScrollRect : ScrollRect
+namespace JD
 {
-	[SerializeField] private Ease smoothEase = Ease.Linear;
-	[SerializeField] private bool smoothScroll = true;
-	[SerializeField] private float smoothTime = 0.5f;
-
-	public override void OnScroll(PointerEventData data)
+	public class SmoothScrollRect : ScrollRect
 	{
-		if (smoothScroll)
+		[SerializeField] private Ease smoothEase = Ease.Linear;
+		[SerializeField] private bool smoothScroll = true;
+		[SerializeField] private float smoothTime = 0.5f;
+
+		public override void OnScroll(PointerEventData data)
 		{
-			if (!IsActive()) return;
-			Vector2 positionBefore = normalizedPosition;
-			this.DOKill(true);
-			base.OnScroll(data);
-			Vector2 positionAfter = normalizedPosition;
-			normalizedPosition = positionBefore;
-			this.DONormalizedPos(positionAfter, smoothTime).SetEase(smoothEase);
-		}
-		else
-		{
-			base.OnScroll(data);
+			if (smoothScroll)
+			{
+				if (!IsActive()) return;
+				Vector2 positionBefore = normalizedPosition;
+				this.DOKill(true);
+				base.OnScroll(data);
+				Vector2 positionAfter = normalizedPosition;
+				normalizedPosition = positionBefore;
+				this.DONormalizedPos(positionAfter, smoothTime).SetEase(smoothEase);
+			}
+			else
+			{
+				base.OnScroll(data);
+			}
 		}
 	}
 }

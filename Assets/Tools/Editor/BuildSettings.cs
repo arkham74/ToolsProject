@@ -9,7 +9,7 @@ using UnityEngine;
 using NaughtyAttributes;
 #endif
 
-namespace BuildProfiles
+namespace JD.Editor
 {
 	[CreateAssetMenu(fileName = "Build Settings", menuName = "ScriptableObject/Build/Settings", order = 0)]
 	public class BuildSettings : ScriptableObject

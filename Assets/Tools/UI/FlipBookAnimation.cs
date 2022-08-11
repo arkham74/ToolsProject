@@ -10,7 +10,7 @@ using NaughtyAttributes;
 using Tag = NaughtyAttributes.TagAttribute;
 #endif
 
-namespace CustomTools
+namespace JD
 {
 	public class FlipBookAnimation : MonoBehaviour
 	{

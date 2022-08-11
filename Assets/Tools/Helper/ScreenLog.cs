@@ -3,69 +3,72 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Text;
 
-public class ScreenLog : MonoBehaviour
+namespace JD
 {
-	private static readonly StringBuilder sb = new StringBuilder();
-	private static readonly Dictionary<string, object> dict = new Dictionary<string, object>();
-	private static ScreenLog instance;
-	private static GUIStyle headStyle;
-
-	private static void CreateLog()
+	public class ScreenLog : MonoBehaviour
 	{
-		if (instance == null)
-		{
-			instance = FindObjectOfType<ScreenLog>(true);
+		private static readonly StringBuilder sb = new StringBuilder();
+		private static readonly Dictionary<string, object> dict = new Dictionary<string, object>();
+		private static ScreenLog instance;
+		private static GUIStyle headStyle;
 
+		private static void CreateLog()
+		{
 			if (instance == null)
 			{
-				var go = new GameObject("ScreenLog");
-				instance = go.AddComponent<ScreenLog>();
+				instance = FindObjectOfType<ScreenLog>(true);
+
+				if (instance == null)
+				{
+					var go = new GameObject("ScreenLog");
+					instance = go.AddComponent<ScreenLog>();
+				}
+			}
+
+			if (headStyle == null)
+			{
+				headStyle = new GUIStyle("Label")
+				{
+					stretchHeight = true,
+					stretchWidth = true,
+					padding = new RectOffset(7, 7, 7, 7),
+					fontSize = (int)(24f * Screen.height / 1080f),
+				};
+
+				headStyle.normal.background = Resources.Load<Texture2D>("transparent_1x1");
 			}
 		}
 
-		if (headStyle == null)
+		public static void Log(string key, object value)
 		{
-			headStyle = new GUIStyle("Label")
+			CreateLog();
+			if (dict.ContainsKey(key))
 			{
-				stretchHeight = true,
-				stretchWidth = true,
-				padding = new RectOffset(7, 7, 7, 7),
-				fontSize = (int)(24f * Screen.height / 1080f),
-			};
-
-			headStyle.normal.background = Resources.Load<Texture2D>("transparent_1x1");
+				dict[key] = value;
+			}
+			else
+			{
+				dict.Add(key, value);
+			}
 		}
-	}
 
-	public static void Log(string key, object value)
-	{
-		CreateLog();
-		if (dict.ContainsKey(key))
+		private void OnGUI()
 		{
-			dict[key] = value;
+			sb.Clear();
+			sb.AppendJoin('\n', dict.Values);
+			GUILayout.Label(sb.ToString(), headStyle);
 		}
-		else
-		{
-			dict.Add(key, value);
-		}
-	}
-
-	private void OnGUI()
-	{
-		sb.Clear();
-		sb.AppendJoin('\n', dict.Values);
-		GUILayout.Label(sb.ToString(), headStyle);
 	}
 }
-
 #else
 
 using System.Diagnostics;
-
-public static class ScreenLog
+namespace JD
 {
-	[Conditional("UNITY_EDITOR")]
-	public static void Log(string key, object value) { }
+	public static class ScreenLog
+	{
+		[Conditional("UNITY_EDITOR")]
+		public static void Log(string key, object value) { }
+	}
 }
-
 #endif

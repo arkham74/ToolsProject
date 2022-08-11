@@ -15,7 +15,7 @@ using Text = TMPro.TextMeshProUGUI;
 using UnityEngine.InputSystem;
 #endif
 
-namespace CustomTools
+namespace JD
 {
 	public class OnCollider : MonoBehaviour
 	{

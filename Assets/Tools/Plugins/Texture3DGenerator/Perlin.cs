@@ -9,7 +9,7 @@
 
 using UnityEngine;
 
-namespace Texture3DGenerator
+namespace JD.Texture3DGenerator
 {
 	public static class Perlin
 	{

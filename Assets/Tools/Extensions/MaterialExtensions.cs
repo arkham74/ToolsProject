@@ -1,15 +1,18 @@
 using System;
 using UnityEngine;
 
-public static class MaterialExtensions
+namespace JD
 {
-	public static void SetBool(this Material material, string name, bool value)
+	public static class MaterialExtensions
 	{
-		material.SetInt(name, Convert.ToInt32(value));
-	}
+		public static void SetBool(this Material material, string name, bool value)
+		{
+			material.SetInt(name, Convert.ToInt32(value));
+		}
 
-	public static void SetBaseMap(this Material material, Texture texture)
-	{
-		material.SetTexture(Shader.PropertyToID("_BaseMap"), texture);
+		public static void SetBaseMap(this Material material, Texture texture)
+		{
+			material.SetTexture(Shader.PropertyToID("_BaseMap"), texture);
+		}
 	}
 }

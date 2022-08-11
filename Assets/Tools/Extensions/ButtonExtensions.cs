@@ -2,23 +2,26 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
-public static class ButtonExtensions
+namespace JD
 {
-	public static void Register(this Button button, UnityAction func)
+	public static class ButtonExtensions
 	{
-		button.onClick.RemoveAllListeners();
-		button.onClick.AddListener(func);
-	}
+		public static void Register(this Button button, UnityAction func)
+		{
+			button.onClick.RemoveAllListeners();
+			button.onClick.AddListener(func);
+		}
 
-	public static void Register<T>(this Button button, UnityAction<T> func, T param) where T : class
-	{
-		button.onClick.RemoveAllListeners();
-		button.onClick.AddListener(() => func(param));
-	}
+		public static void Register<T>(this Button button, UnityAction<T> func, T param) where T : class
+		{
+			button.onClick.RemoveAllListeners();
+			button.onClick.AddListener(() => func(param));
+		}
 
-	public static void Register(this ButtonHold button, UnityAction func)
-	{
-		button.onHold.RemoveAllListeners();
-		button.onHold.AddListener(func);
+		public static void Register(this ButtonHold button, UnityAction func)
+		{
+			button.onHold.RemoveAllListeners();
+			button.onHold.AddListener(func);
+		}
 	}
 }

@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEditor.UI;
 #endif
 
-namespace UnityEngine.UI.Extensions
+namespace JD
 {
 	public class ButtonHold : Selectable
 	{
