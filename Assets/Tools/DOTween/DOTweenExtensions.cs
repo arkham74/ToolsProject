@@ -4,6 +4,7 @@ using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using TMPro;
+using Text = TMPro.TextMeshProUGUI;
 using UnityEngine;
 using UnityEngine.UI;
 

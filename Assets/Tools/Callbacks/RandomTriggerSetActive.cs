@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
-using Text = TMPro.TextMeshProUGUI;
+
 
 namespace JD
 {

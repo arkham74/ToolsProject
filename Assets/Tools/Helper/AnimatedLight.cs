@@ -1,6 +1,6 @@
 using Freya;
 using UnityEngine;
-using Text = TMPro.TextMeshProUGUI;
+
 
 namespace JD
 {

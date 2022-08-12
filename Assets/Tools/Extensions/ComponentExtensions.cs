@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Freya;
 using TMPro;
+using Text = TMPro.TextMeshProUGUI;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;

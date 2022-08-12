@@ -3,6 +3,7 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
 using TMPro;
+using Text = TMPro.TextMeshProUGUI;
 
 namespace JD
 {
@@ -50,9 +51,14 @@ namespace JD
 			text.SetText(string.Format(format, localizedString));
 		}
 
-		public static Locale SelectByIndex(this ILocalesProvider locales, int index)
+		public static void SetByIndex(this ILocalesProvider locales, int index)
 		{
-			return LocalizationSettings.SelectedLocale = locales.Locales[index];
+			LocalizationSettings.SelectedLocale = locales.Locales[index];
+		}
+
+		public static Locale GetByIndex(this ILocalesProvider locales, int index)
+		{
+			return locales.Locales[index];
 		}
 
 		public static int GetIndex(this Locale locale)
@@ -62,19 +68,12 @@ namespace JD
 
 		public static int GetCurrentLocaleIndex(this ILocalesProvider locales)
 		{
-			var selected = LocalizationSettings.SelectedLocale;
-			return locales.Locales.IndexOf(selected);
+			return LocalizationSettings.SelectedLocale.GetIndex();
 		}
 
 		public static string GetNativeName(this Locale locale)
 		{
 			return locale.Identifier.CultureInfo.NativeName;
-		}
-
-		public static void SetByIndex(this ILocalesProvider locales, int index)
-		{
-			Locale locale = locales.SelectByIndex(index);
-			LocalizationSettings.SelectedLocale = locale;
 		}
 	}
 }

@@ -15,6 +15,16 @@ namespace JD
 {
 	public static class Tools
 	{
+#if UNITY_EDITOR
+		public static bool Test
+		{
+			get => EditorPrefs.GetBool("test", false);
+			set => EditorPrefs.SetBool("test", value);
+		}
+#else
+		public const bool Test = false;
+#endif
+
 		public struct ResolutionComparer : IEqualityComparer<Resolution>
 		{
 			public bool Equals(Resolution x, Resolution y)
@@ -68,8 +78,7 @@ namespace JD
 
 		public static List<Resolution> GetResolutions()
 		{
-			ResolutionComparer comparer = new ResolutionComparer();
-			return GetResolutions(comparer);
+			return GetResolutions(new ResolutionComparer());
 		}
 
 		public static List<Resolution> GetResolutions(ResolutionComparer comparer)

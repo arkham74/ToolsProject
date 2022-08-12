@@ -9,8 +9,8 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using TMPro;
+using Text = TMPro.TextMeshProUGUI;
 using Random = UnityEngine.Random;
-using Text = TMPro.TMP_Text;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif

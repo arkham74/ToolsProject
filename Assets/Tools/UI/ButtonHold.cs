@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Text = TMPro.TextMeshProUGUI;
+
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.UI;

@@ -9,9 +9,10 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using TMPro;
+using Text = TMPro.TextMeshProUGUI;
 using UnityEditor;
 using Random = UnityEngine.Random;
-using Text = TMPro.TextMeshProUGUI;
+
 #if TOOLS_NAUATTR
 using NaughtyAttributes;
 using Tag = NaughtyAttributes.TagAttribute;

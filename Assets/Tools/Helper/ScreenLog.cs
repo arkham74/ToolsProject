@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 using UnityEngine;
 using System.Collections.Generic;
 using System.Text;
@@ -24,7 +24,10 @@ namespace JD
 					instance = go.AddComponent<ScreenLog>();
 				}
 			}
+		}
 
+		private static void CreateStyle()
+		{
 			if (headStyle == null)
 			{
 				headStyle = new GUIStyle("Label")
@@ -54,9 +57,11 @@ namespace JD
 
 		private void OnGUI()
 		{
+			CreateStyle();
 			sb.Clear();
 			sb.AppendJoin('\n', dict.Values);
-			GUILayout.Label(sb.ToString(), headStyle);
+			string text = sb.ToString();
+			GUILayout.Label(text, headStyle);
 		}
 	}
 }
@@ -68,6 +73,7 @@ namespace JD
 	public static class ScreenLog
 	{
 		[Conditional("UNITY_EDITOR")]
+		[Conditional("DEVELOPMENT_BUILD")]
 		public static void Log(string key, object value) { }
 	}
 }

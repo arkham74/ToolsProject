@@ -6,11 +6,12 @@ using System.Linq;
 using NaughtyAttributes;
 #endif
 using TMPro;
+using Text = TMPro.TextMeshProUGUI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using Text = TMPro.TextMeshProUGUI;
+
 #if TOOLS_LOCALIZATION
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;

@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Text = TMPro.TextMeshProUGUI;
 
 namespace JD.Editor
 {

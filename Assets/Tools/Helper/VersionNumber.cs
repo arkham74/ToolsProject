@@ -3,7 +3,7 @@ using Text = TMPro.TextMeshProUGUI;
 
 namespace JD
 {
-	public class VersionNumberTMP : MonoBehaviour
+	public class VersionNumber : MonoBehaviour
 	{
 		[SerializeField] private Text text;
 

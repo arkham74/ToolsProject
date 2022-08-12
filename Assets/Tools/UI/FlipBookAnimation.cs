@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using Text = TMPro.TextMeshProUGUI;
+
 #if TOOLS_NAUATTR
 using NaughtyAttributes;
 using Tag = NaughtyAttributes.TagAttribute;

@@ -30,17 +30,29 @@ namespace JD.Editor
 			TextAnchor aligment = oldText.alignment;
 			bool aliGeo = oldText.alignByGeometry;
 			bool rich = oldText.supportRichText;
+			Color color = oldText.color;
+			int size = oldText.fontSize;
 			HorizontalWrapMode horizontalWrapMode = oldText.horizontalOverflow;
 			VerticalWrapMode verticalWrapMode = oldText.verticalOverflow;
 			Object.DestroyImmediate(oldText);
 
-			TextMeshProUGUI text = Undo.AddComponent<TextMeshProUGUI>(go);
+			if (!go.TryGetComponent(out TextMeshProUGUI text))
+			{
+				text = Undo.AddComponent<TextMeshProUGUI>(go);
+			}
+
 			text.fontStyle = (FontStyles)style;
 			text.text = txt;
 			text.richText = rich;
 			text.alignment = ConvertAligment(aligment, aliGeo);
 			text.enableWordWrapping = horizontalWrapMode == HorizontalWrapMode.Wrap;
 			text.overflowMode = ConvertOverflow(verticalWrapMode);
+			text.color = color;
+			text.fontSize = size;
+			if (!go.name.Contains("(TMP)"))
+			{
+				go.name += " (TMP)";
+			}
 		}
 
 		private static TextOverflowModes ConvertOverflow(VerticalWrapMode verticalWrapMode) => verticalWrapMode switch
@@ -80,7 +92,11 @@ namespace JD.Editor
 		{
 			if (target.text.Length > 1)
 			{
-				LocalizeStringEvent comp = Undo.AddComponent<LocalizeStringEvent>(target.gameObject);
+				if (!target.gameObject.TryGetComponent(out LocalizeStringEvent comp))
+				{
+					comp = Undo.AddComponent<LocalizeStringEvent>(target.gameObject);
+				}
+
 				MethodInfo setStringMethod = target.GetType().GetProperty("text").GetSetMethod();
 				UnityAction<string> methodDelegate = Delegate.CreateDelegate(typeof(UnityAction<string>), target, setStringMethod) as UnityAction<string>;
 				UnityEventTools.AddPersistentListener(comp.OnUpdateString, methodDelegate);
