@@ -174,10 +174,10 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "04eccafcb87247ee82d07b0979ad263e",
     "m_Id": 1,
-    "m_DisplayName": "Out",
+    "m_DisplayName": "Aspect",
     "m_SlotType": 1,
     "m_Hidden": false,
-    "m_ShaderOutputName": "Out",
+    "m_ShaderOutputName": "Aspect",
     "m_StageCapability": 3,
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
@@ -384,6 +384,27 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
+    "m_ObjectId": "53cb0cec5e3648df91ea71e96dc0a6cc",
+    "m_Id": 2,
+    "m_DisplayName": "Aspect2",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Aspect2",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "571c18af7b9f416f9aefde66e4ebc261",
     "m_Id": 2,
@@ -583,6 +604,9 @@
     "m_Slots": [
         {
             "m_Id": "04eccafcb87247ee82d07b0979ad263e"
+        },
+        {
+            "m_Id": "53cb0cec5e3648df91ea71e96dc0a6cc"
         }
     ],
     "synonyms": [],

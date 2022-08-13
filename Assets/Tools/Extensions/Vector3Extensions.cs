@@ -119,5 +119,13 @@ namespace JD
 		{
 			return Mathfs.InverseLerp(a, b, v);
 		}
+
+		public static bool Approx(this Vector3 a, Vector3 b, float threshold = 0.01f)
+		{
+			bool xt = Mathf.Abs(a.x - b.x) < threshold;
+			bool yt = Mathf.Abs(a.y - b.y) < threshold;
+			bool zt = Mathf.Abs(a.z - b.z) < threshold;
+			return xt && yt && zt;
+		}
 	}
 }
