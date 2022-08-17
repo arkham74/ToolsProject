@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Freya;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -45,6 +46,13 @@ namespace JD
 			int index = transform.GetSiblingIndex() + offset;
 			int lastIndex = transform.parent.childCount - 1;
 			int siblingIndex = Mathf.Clamp(index, 0, lastIndex);
+			return transform.parent.GetChild(siblingIndex);
+		}
+
+		public static Transform GetSiblingLoop(this Transform transform, int offset = 1)
+		{
+			int index = transform.GetSiblingIndex() + offset;
+			int siblingIndex = Mathfs.Mod(index, transform.parent.childCount);
 			return transform.parent.GetChild(siblingIndex);
 		}
 

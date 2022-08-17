@@ -4,11 +4,30 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Text = TMPro.TextMeshProUGUI;
+using System;
 
 namespace JD.Editor
 {
 	public static class ComponentUtilities
 	{
+		[MenuItem("CONTEXT/Selectable/Setup Navigation Vertical")]
+		public static void SetupNavigationVertical(MenuCommand command)
+		{
+			Selectable selectable = (Selectable)command.context;
+			selectable.SetMode(Navigation.Mode.Vertical);
+			selectable.SetUp(selectable.transform.GetSiblingLoop(-1).GetComponent<Selectable>());
+			selectable.SetDown(selectable.transform.GetSiblingLoop(1).GetComponent<Selectable>());
+		}
+
+		[MenuItem("CONTEXT/Selectable/Setup Navigation Horizontal")]
+		public static void SetupNavigationHorizontal(MenuCommand command)
+		{
+			Selectable selectable = (Selectable)command.context;
+			selectable.SetMode(Navigation.Mode.Horizontal);
+			selectable.SetLeft(selectable.transform.GetSiblingLoop(-1).GetComponent<Selectable>());
+			selectable.SetRight(selectable.transform.GetSiblingLoop(1).GetComponent<Selectable>());
+		}
+
 		[MenuItem("CONTEXT/AudioSource/Realistic Setup")]
 		public static void RalisticRolloff(MenuCommand command)
 		{
