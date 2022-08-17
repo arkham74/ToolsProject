@@ -3,6 +3,7 @@ Shader "SleeplessOwl/Post-Processing/Glitch"
 	Properties
 	{
 		[MainTexture][HideInInspector] _MainTex ("Texture", 2D) = "white" {}
+		// _Intensity ("Intensity", Range(0,1)) = 1
 		_Speed ("Speed", Float) = 1
 		_BlockSize ("BlockSize", Float) = 1
 		_MaxRGBSplit ("MaxRGBSplit", Vector) = (1,1,0,0)
@@ -45,6 +46,7 @@ Shader "SleeplessOwl/Post-Processing/Glitch"
 			float _Speed;
 			float _BlockSize;
 			float2 _MaxRGBSplit;
+			float _GlitchIntensity;
 
 			TEXTURE2D_X(_MainTex);
 			SAMPLER(sampler_MainTex);
@@ -85,8 +87,8 @@ Shader "SleeplessOwl/Post-Processing/Glitch"
 				float2 offset = float2(offsetX * noiseX, offsetY * noiseY);
 
 				half3 colorR = SampleTexture(i.uv);
-				half3 colorG = SampleTexture(i.uv + offset);
-				half3 colorB = SampleTexture(i.uv - offset);
+				half3 colorG = SampleTexture(i.uv + offset * _GlitchIntensity);
+				half3 colorB = SampleTexture(i.uv - offset * _GlitchIntensity);
 
 				return half4(colorR.r, colorG.g, colorB.b, 1);
 			}

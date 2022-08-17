@@ -55,6 +55,11 @@ namespace JD
 			SetLayerRecursively(go, LayerMask.NameToLayer(layerName));
 		}
 
+		public static void SetLayerToAllChildren(this GameObject go, string layerName)
+		{
+			SetLayerToAllChildren(go, LayerMask.NameToLayer(layerName));
+		}
+
 		public static void SetLayerRecursively(this GameObject go, int layerId)
 		{
 			go.layer = layerId;
@@ -62,11 +67,6 @@ namespace JD
 			{
 				SetLayerRecursively(child.gameObject, layerId);
 			}
-		}
-
-		public static void SetLayerToAllChildren(this GameObject go, string layerName)
-		{
-			SetLayerToAllChildren(go, LayerMask.NameToLayer(layerName));
 		}
 
 		public static void SetLayerToAllChildren(this GameObject go, int layerId)

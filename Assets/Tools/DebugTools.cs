@@ -10,6 +10,13 @@ namespace JD
 	{
 		[Conditional("UNITY_EDITOR")]
 		[Conditional("DEVELOPMENT_BUILD")]
+		public static void LogWarning(params object[] array)
+		{
+			array.LogWarning();
+		}
+
+		[Conditional("UNITY_EDITOR")]
+		[Conditional("DEVELOPMENT_BUILD")]
 		public static void LogWarning<T>(this IList<T> array, string separator = ", ")
 		{
 			if (array == null)

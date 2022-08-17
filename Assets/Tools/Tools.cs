@@ -45,6 +45,12 @@ namespace JD
 		{
 			return LocalizationSettings.StringDatabase.GetLocalizedString(key);
 		}
+
+		public static bool Roll(int sides)
+		{
+			return Random.Range(0, sides) == 0;
+		}
+
 		public static string GetLocalizedString(string key, params object[] args)
 		{
 			return LocalizationSettings.StringDatabase.GetLocalizedString(key, args);

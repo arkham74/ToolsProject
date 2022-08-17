@@ -92,7 +92,7 @@ namespace JD
 			mb.StartCoroutine(DelayRoutine());
 		}
 
-		public static void DelayFrame(this MonoBehaviour mb, Action complete, int frames)
+		public static void DelayFrame(this MonoBehaviour mb, Action complete, int frames = 1)
 		{
 			IEnumerator DelayRoutine()
 			{
