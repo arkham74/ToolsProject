@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
 #if TOOLS_URP
+using UnityEngine.Rendering.Universal;
 namespace JD
 {
 	public partial class DownscaleFeature : ScriptableRendererFeature
