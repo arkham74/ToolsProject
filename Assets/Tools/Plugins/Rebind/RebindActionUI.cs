@@ -11,11 +11,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using JD;
 
 #if TOOLS_LOCALIZATION
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
-using JD;
 #endif
 
 namespace UnityEngine.InputSystem
@@ -53,7 +53,7 @@ namespace UnityEngine.InputSystem
 #if TOOL_NAUATTR
 	[OnValueChanged(nameof(OnChange))]
 #endif
-	[SerializeField] private InputBinding.DisplayStringOptions displayOptions = InputBinding.DisplayStringOptions.DontIncludeInteractions | InputBinding.DisplayStringOptions.DontUseShortDisplayNames;
+		[SerializeField] private InputBinding.DisplayStringOptions displayOptions = InputBinding.DisplayStringOptions.DontIncludeInteractions | InputBinding.DisplayStringOptions.DontUseShortDisplayNames;
 #endif
 #if TOOL_NAUATTR
 	[OnValueChanged(nameof(OnChange))]
@@ -176,7 +176,7 @@ namespace UnityEngine.InputSystem
 #if TOOLS_LOCALIZATION
 			bindingText.SetLocalizedText(tableKey, waitInfo, bindingFormat);
 #else
-		bindingText.SetText(string.Format(bindingFormat, waitInfo));
+			bindingText.SetText(string.Format(bindingFormat, waitInfo));
 #endif
 			rebindOperation.Start();
 		}
@@ -216,7 +216,7 @@ namespace UnityEngine.InputSystem
 #if TOOLS_LOCALIZATION
 			string display = action.GetBindingDisplayString(index, InputBinding.DisplayStringOptions.DontIncludeInteractions);
 #else
-		string display = action.GetBindingDisplayString(index, displayOptions);
+			string display = action.GetBindingDisplayString(index, displayOptions);
 #endif
 			SetText(bindingText, bindingFormat, display, "BINDING");
 		}
@@ -234,7 +234,7 @@ namespace UnityEngine.InputSystem
 			}
 			else
 #endif
-				text.SetText(string.Format(format, display));
+			text.SetText(string.Format(format, display));
 		}
 	}
 }

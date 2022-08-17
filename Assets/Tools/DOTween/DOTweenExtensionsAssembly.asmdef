@@ -21,7 +21,7 @@
         },
         {
             "name": "com.demigiant.dotween",
-            "expression": "",
+            "expression": "0.0.0",
             "define": "TOOLS_DOTWEEN"
         }
     ],

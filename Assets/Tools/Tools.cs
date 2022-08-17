@@ -15,6 +15,8 @@ namespace JD
 {
 	public static class Tools
 	{
+		public const float Mps2Kph = 3.6f;
+
 #if UNITY_EDITOR
 		public static bool Test
 		{
