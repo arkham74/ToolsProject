@@ -77,6 +77,27 @@ namespace JD
 			t.position = p;
 		}
 
+		public static void SetLocalX(this Transform t, float x)
+		{
+			Vector3 p = t.localPosition;
+			p.x = x;
+			t.localPosition = p;
+		}
+
+		public static void SetLocalY(this Transform t, float y)
+		{
+			Vector3 p = t.localPosition;
+			p.y = y;
+			t.localPosition = p;
+		}
+
+		public static void SetLocalZ(this Transform t, float z)
+		{
+			Vector3 p = t.localPosition;
+			p.z = z;
+			t.localPosition = p;
+		}
+
 		public static Transform RandomChild(this Transform transform)
 		{
 			return transform.GetChild(Random.Range(0, transform.childCount));
