@@ -15,13 +15,21 @@ namespace JD.Splines
 	public class SplineDebuger : MonoBehaviour
 	{
 		[SerializeField] private Spline spline;
-		[SerializeField] private float t = 0.5f;
+		[SerializeField][Range(0f, 1f)] private float t = 0.5f;
+
+		private void Reset()
+		{
+			spline = GetComponent<Spline>();
+		}
 
 		private void OnDrawGizmosSelected()
 		{
-			Gizmos.matrix = transform.localToWorldMatrix;
-			Vector3 pos = spline.Evaluate(t);
-			Gizmos.DrawWireSphere(pos, 0.125f);
+			if (spline)
+			{
+				Gizmos.matrix = transform.localToWorldMatrix;
+				Vector3 pos = spline.Evaluate(t);
+				Gizmos.DrawWireSphere(pos, 0.125f);
+			}
 		}
 	}
 }

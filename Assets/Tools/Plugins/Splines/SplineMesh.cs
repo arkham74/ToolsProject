@@ -14,7 +14,7 @@ namespace JD.Splines
 		[SerializeField][Min(0.01f)] private float thickness = 0.05f;
 		[SerializeField] private MeshFilter meshFilter;
 		[SerializeField] private MeshRenderer meshRenderer;
-		[SerializeField][GradientUsage(true)] private Gradient gradient;
+		[SerializeField][GradientUsage(true)] private Gradient gradient = new Gradient();
 		private Mesh mesh;
 
 		protected override void Reset()
@@ -34,11 +34,6 @@ namespace JD.Splines
 					name = "Cylinder Mesh"
 				};
 				meshFilter.sharedMesh = mesh;
-			}
-
-			for (int i = 0; i < positions.Length; i++)
-			{
-				positions[i].y += thickness;
 			}
 
 			CylinderGenerator.CreateMesh(ref mesh, positions, gradient, resolution, thickness);

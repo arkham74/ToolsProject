@@ -20,17 +20,18 @@ namespace JD.Splines
 
 		private void LateUpdate()
 		{
-			if (Application.isPlaying && !updateInPlayMode) return;
-
-			Span<Vector3> positions = stackalloc Vector3[samples];
-			Span<Vector3> normals = stackalloc Vector3[samples];
-			for (int i = 0; i < samples; i++)
+			if (!Application.isPlaying || updateInPlayMode)
 			{
-				float t = (float)i / (samples - 1);
-				positions[i] = spline.Evaluate(t);
-				normals[i] = spline.EvaluateNormal(t);
+				Span<Vector3> positions = stackalloc Vector3[samples];
+				Span<Vector3> normals = stackalloc Vector3[samples];
+				for (int i = 0; i < samples; i++)
+				{
+					float t = (float)i / (samples - 1);
+					positions[i] = spline.Evaluate(t);
+					normals[i] = spline.EvaluateNormal(t);
+				}
+				PositionsAndNormals(positions, normals);
 			}
-			PositionsAndNormals(positions, normals);
 		}
 	}
 }
