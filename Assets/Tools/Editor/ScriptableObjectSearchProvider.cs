@@ -41,7 +41,7 @@ namespace JD.Editor
 			Texture2D soIcon = (Texture2D)EditorGUIUtility.IconContent("ScriptableObject Icon").image;
 			Texture2D dirIcon = (Texture2D)EditorGUIUtility.IconContent("Folder Icon").image;
 			list.Clear();
-			var types = TypeCache.GetTypesDerivedFrom<ScriptableObject>().OrderBy(Sort);
+			IOrderedEnumerable<Type> types = TypeCache.GetTypesDerivedFrom<ScriptableObject>().OrderBy(Sort);
 			list.Add(new SearchTreeGroupEntry(new GUIContent("Scriptable Objects")));
 
 			Type editorType = typeof(UnityEditor.Editor);

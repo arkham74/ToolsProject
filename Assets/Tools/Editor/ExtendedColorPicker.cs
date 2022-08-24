@@ -57,7 +57,7 @@ namespace Michsky.UI.Shift
 			title = EditorGUI.BeginProperty(position, title, property);
 			position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), title);
 
-			var indent = EditorGUI.indentLevel;
+			int indent = EditorGUI.indentLevel;
 			EditorGUI.indentLevel = 0;
 
 			float colorWidth = position.width - hexFW - spacing - alphaFW - spacing;

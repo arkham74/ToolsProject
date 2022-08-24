@@ -13,7 +13,7 @@ namespace JD.Editor
 		[MenuItem("Tools/Editor Icons")]
 		public static void EditorIconsOpen()
 		{
-			var w = CreateWindow<EditorIcons>("Editor Icons");
+			EditorIcons w = CreateWindow<EditorIcons>("Editor Icons");
 			w.ShowUtility();
 			w.minSize = new Vector2(320, 450);
 		}
@@ -92,7 +92,7 @@ namespace JD.Editor
 		{
 			//InitIcons();
 			//var all_icons = iconContentListAll.Select(x => x.tooltip).ToArray();
-			var all_icons = ico_list.Where(x => GetIcon(x) != null);
+			IEnumerable<string> all_icons = ico_list.Where(x => GetIcon(x) != null);
 			//List<string> found = new List<string>();
 			List<string> unique = new List<string>();
 			//var skip_flag = HideFlags.HideInInspector | HideFlags.HideAndDontSave;
@@ -139,7 +139,7 @@ namespace JD.Editor
 
 		private void OnGUI()
 		{
-			var ppp = EditorGUIUtility.pixelsPerPoint;
+			float ppp = EditorGUIUtility.pixelsPerPoint;
 
 			InitIcons();
 
@@ -157,7 +157,7 @@ namespace JD.Editor
 
 			if (IsWide) GUILayout.Space(3);
 
-			using (var scope = new GUILayout.ScrollViewScope(scroll))
+			using (GUILayout.ScrollViewScope scope = new GUILayout.ScrollViewScope(scroll))
 			{
 				GUILayout.Space(10);
 
@@ -166,9 +166,9 @@ namespace JD.Editor
 				buttonSize = viewBigIcons ? 70 : 40;
 
 				// scrollbar_width = ~ 12.5
-				var render_width = (Screen.width / ppp - 13f);
-				var gridW = Mathf.FloorToInt(render_width / buttonSize);
-				var margin_left = (render_width - buttonSize * gridW) / 2;
+				float render_width = (Screen.width / ppp - 13f);
+				int gridW = Mathf.FloorToInt(render_width / buttonSize);
+				float margin_left = (render_width - buttonSize * gridW) / 2;
 
 				int row = 0, index = 0;
 
@@ -184,11 +184,11 @@ namespace JD.Editor
 					{
 						GUILayout.Space(margin_left);
 
-						for (var i = 0; i < gridW; ++i)
+						for (int i = 0; i < gridW; ++i)
 						{
 							int k = i + row * gridW;
 
-							var icon = iconList[k];
+							GUIContent icon = iconList[k];
 
 							if (GUILayout.Button(icon,
 									iconButtonStyle,
@@ -239,7 +239,7 @@ namespace JD.Editor
 
 				using (new GUILayout.VerticalScope())
 				{
-					var s = $"Size: {iconSelected.image.width}x{iconSelected.image.height}";
+					string s = $"Size: {iconSelected.image.width}x{iconSelected.image.height}";
 					s += "\nIs Pro Skin Icon: " + (iconSelected.tooltip.IndexOf("d_") == 0 ? "Yes" : "No");
 					s += $"\nTotal {iconContentListAll.Count} icons";
 					GUILayout.Space(5);
@@ -308,7 +308,7 @@ namespace JD.Editor
 			iconContentListBig = new List<GUIContent>();
 			iconContentListAll = new List<GUIContent>();
 
-			for (var i = 0; i < ico_list.Length; ++i)
+			for (int i = 0; i < ico_list.Length; ++i)
 			{
 				GUIContent ico = GetIcon(ico_list[i]);
 

@@ -33,12 +33,12 @@ namespace JD.Editor
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
 			EditorGUI.BeginProperty(position, label, property);
-			var year = property.FindPropertyRelative("year");
-			var month = property.FindPropertyRelative("month");
-			var day = property.FindPropertyRelative("day");
-			var hour = property.FindPropertyRelative("hour");
-			var minute = property.FindPropertyRelative("minute");
-			var second = property.FindPropertyRelative("second");
+			SerializedProperty year = property.FindPropertyRelative("year");
+			SerializedProperty month = property.FindPropertyRelative("month");
+			SerializedProperty day = property.FindPropertyRelative("day");
+			SerializedProperty hour = property.FindPropertyRelative("hour");
+			SerializedProperty minute = property.FindPropertyRelative("minute");
+			SerializedProperty second = property.FindPropertyRelative("second");
 
 			values1[0] = year.intValue;
 			values1[1] = month.intValue;
@@ -49,7 +49,7 @@ namespace JD.Editor
 
 			position.height *= 0.5f;
 
-			var orgPos = position;
+			Rect orgPos = position;
 
 			position = EditorGUI.PrefixLabel(position, label2);
 			EditorGUI.MultiIntField(position, subLabels1, values1);
