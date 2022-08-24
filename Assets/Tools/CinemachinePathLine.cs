@@ -1,3 +1,4 @@
+#if TOOLS_CINEMACHINE
 using Cinemachine;
 using Freya;
 using JD;
@@ -52,3 +53,4 @@ namespace CordBot
 		}
 	}
 }
+#endif

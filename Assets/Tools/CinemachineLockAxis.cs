@@ -1,5 +1,5 @@
+#if TOOLS_CINEMACHINE
 // https://forum.unity.com/threads/follow-only-along-a-certain-axis.544511/#post-3591751
-
 using UnityEngine;
 using Cinemachine;
 
@@ -36,3 +36,4 @@ namespace JD
 		}
 	}
 }
+#endif
