@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
 
@@ -42,9 +43,7 @@ namespace JD
 		public static T FindAssetByType<T>() where T : Object
 		{
 			T[] ts = FindAssetsByType<T>();
-			if (ts.Length > 0)
-				return ts[0];
-			return null;
+			return ts.Length > 0 ? ts[0] : null;
 		}
 	}
 }
