@@ -45,12 +45,10 @@ namespace JD
 			{
 				return str;
 			}
-			else
-			{
-				str = value.ToString();
-				intCache.Add(value, str);
-				return str;
-			}
+
+			str = value.ToString();
+			intCache.Add(value, str);
+			return str;
 		}
 	}
 }
