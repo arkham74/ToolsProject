@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Linq;
 using UnityEngine;
@@ -312,3 +313,4 @@ namespace JD.CustomRenderObjects.Editor
 		}
 	}
 }
+#endif
