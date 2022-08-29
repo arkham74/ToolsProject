@@ -8,7 +8,7 @@ Shader "SleeplessOwl/Post-Processing/Glitch"
 		_BlockSize ("BlockSize", Float) = 1
 		_MaxRGBSplit ("MaxRGBSplit", Vector) = (1,1,0,0)
 	}
-	
+
 	SubShader
 	{
 		Pass
@@ -18,7 +18,7 @@ Shader "SleeplessOwl/Post-Processing/Glitch"
 			HLSLPROGRAM
 			#pragma vertex Vertex
 			#pragma fragment Fragment
-			
+
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -68,13 +68,13 @@ Shader "SleeplessOwl/Post-Processing/Glitch"
 
 			float3 SampleTexture(float2 uv)
 			{
-				return SAMPLE_TEXTURE2D_X(_MainTex, sampler_MainTex, uv);
+				return SAMPLE_TEXTURE2D_X(_MainTex, sampler_MainTex, uv).rgb;
 			}
 
 			float4 Fragment(Varyings i) : SV_Target
 			{
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
-				
+
 				half2 block = randomNoise(floor(i.uv * _BlockSize));
 
 				float displaceNoise = pow(block.x, 20);
@@ -92,7 +92,6 @@ Shader "SleeplessOwl/Post-Processing/Glitch"
 
 				return half4(colorR.r, colorG.g, colorB.b, 1);
 			}
-
 			ENDHLSL
 		}
 
