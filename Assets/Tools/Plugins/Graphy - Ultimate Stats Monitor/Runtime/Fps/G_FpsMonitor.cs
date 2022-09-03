@@ -64,7 +64,10 @@ namespace Tayx.Graphy.Fps
 
 			m_indexSample++;
 
-			if (m_indexSample >= m_fpsSamplesCapacity) m_indexSample = 0;
+			if (m_indexSample >= m_fpsSamplesCapacity)
+			{
+				m_indexSample = 0;
+			}
 
 			m_fpsSamples[m_indexSample] = CurrentFPS;
 

@@ -159,14 +159,18 @@ namespace IngameDebugConsole
 			logCountText.text = logEntry.count.ToString();
 
 			if (!logCountParent.activeSelf)
+			{
 				logCountParent.SetActive(true);
+			}
 		}
 
 		// Hide the collapsed count of the debug entry
 		public void HideCount()
 		{
 			if (logCountParent.activeSelf)
+			{
 				logCountParent.SetActive(false);
+			}
 		}
 
 		// Update the debug entry's displayed timestamp
@@ -175,13 +179,17 @@ namespace IngameDebugConsole
 			logEntryTimestamp = timestamp;
 
 			if (isExpanded || listView.manager.alwaysDisplayTimestamps)
+			{
 				SetText(logEntry, timestamp, isExpanded);
+			}
 		}
 
 		private void SetText(DebugLogEntry logEntry, DebugLogEntryTimestamp? logEntryTimestamp, bool isExpanded)
 		{
 			if (!logEntryTimestamp.HasValue || (!isExpanded && !listView.manager.alwaysDisplayTimestamps))
+			{
 				logText.text = isExpanded ? logEntry.ToString() : logEntry.logString;
+			}
 			else
 			{
 				StringBuilder sb = listView.manager.sharedStringBuilder;
@@ -215,11 +223,15 @@ namespace IngameDebugConsole
 					int lineSeparator = line.IndexOf(':');
 					MonoScript script = AssetDatabase.LoadAssetAtPath<MonoScript>(line[..lineSeparator]);
 					if (script != null)
+					{
 						AssetDatabase.OpenAsset(script, int.Parse(line[(lineSeparator + 1)..]));
+					}
 				}
 			}
 			else
+			{
 				listView.OnLogItemClicked(this);
+			}
 #else
 			listView.OnLogItemClicked( this );
 #endif
@@ -230,7 +242,9 @@ namespace IngameDebugConsole
 #if UNITY_EDITOR || !UNITY_WEBGL
 			string log = GetCopyContent();
 			if (string.IsNullOrEmpty(log))
+			{
 				return;
+			}
 
 #if UNITY_EDITOR || UNITY_2018_1_OR_NEWER || (!UNITY_ANDROID && !UNITY_IOS)
 			GUIUtility.systemCopyBuffer = log;
@@ -245,7 +259,9 @@ namespace IngameDebugConsole
 		internal string GetCopyContent()
 		{
 			if (!logEntryTimestamp.HasValue)
+			{
 				return logEntry.ToString();
+			}
 			else
 			{
 				StringBuilder sb = listView.manager.sharedStringBuilder;

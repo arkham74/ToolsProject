@@ -60,7 +60,11 @@ namespace Coffee.UISoftMask
 			set
 			{
 				int intValue = value ? kVisibleOutside : kVisibleInside;
-				if (m_MaskInteraction == intValue) return;
+				if (m_MaskInteraction == intValue)
+				{
+					return;
+				}
+
 				m_MaskInteraction = intValue;
 				Graphic.SetMaterialDirtyEx();
 			}
@@ -83,7 +87,11 @@ namespace Coffee.UISoftMask
 			get { return m_UseStencil; }
 			set
 			{
-				if (m_UseStencil == value) return;
+				if (m_UseStencil == value)
+				{
+					return;
+				}
+
 				m_UseStencil = value;
 				Graphic.SetMaterialDirtyEx();
 			}
@@ -163,9 +171,14 @@ namespace Coffee.UISoftMask
 		bool ICanvasRaycastFilter.IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
 		{
 			if (!isActiveAndEnabled || !SoftMask)
+			{
 				return true;
+			}
+
 			if (!RectTransformUtility.RectangleContainsScreenPoint(transform as RectTransform, sp, eventCamera))
+			{
 				return false;
+			}
 
 			if (m_RaycastFilter)
 			{
@@ -183,21 +196,33 @@ namespace Coffee.UISoftMask
 				SoftMask sm = _softMask;
 				for (int i = 0; i < 4; i++)
 				{
-					if (!sm) break;
+					if (!sm)
+					{
+						break;
+					}
 
 					s_Interactions[i] = sm ? ((m_MaskInteraction >> i * 2) & 0x3) : 0;
 					bool interaction = s_Interactions[i] == 1;
 					RectTransform rt = sm.transform as RectTransform;
 					bool inRect = RectTransformUtility.RectangleContainsScreenPoint(rt, sp, eventCamera);
-					if (!sm.IgnoreSelfGraphic && interaction != inRect) return false;
+					if (!sm.IgnoreSelfGraphic && interaction != inRect)
+					{
+						return false;
+					}
 
 					foreach (SoftMask child in sm._children)
 					{
-						if (!child) continue;
+						if (!child)
+						{
+							continue;
+						}
 
 						RectTransform childRt = child.transform as RectTransform;
 						bool inRectChild = RectTransformUtility.RectangleContainsScreenPoint(childRt, sp, eventCamera);
-						if (!child.IgnoreSelfGraphic && interaction != inRectChild) return false;
+						if (!child.IgnoreSelfGraphic && interaction != inRectChild)
+						{
+							return false;
+						}
 					}
 
 					sm = sm ? sm.Parent : null;
@@ -268,7 +293,10 @@ namespace Coffee.UISoftMask
 #if UNITY_EDITOR
 		private void UpdateMaterialForSceneView(Material mat)
 		{
-			if (!mat || !Graphic || !Graphic.canvas || !mat.shader || !mat.shader.name.EndsWith(" (SoftMaskable)")) return;
+			if (!mat || !Graphic || !Graphic.canvas || !mat.shader || !mat.shader.name.EndsWith(" (SoftMaskable)"))
+			{
+				return;
+			}
 
 			// Set view and projection matrices.
 			Profiler.BeginSample("Set view and projection matrices");
@@ -326,12 +354,35 @@ namespace Coffee.UISoftMask
 			SoftMaskable current = this;
 			UnityEditor.EditorApplication.delayCall += () =>
 			{
-				if (!current) return;
-				if (!Graphic) return;
-				if (Graphic.name.Contains("TMP SubMeshUI")) return;
-				if (!Graphic.material) return;
-				if (!Graphic.material.shader) return;
-				if (Graphic.material.shader.name != "Hidden/UI/Default (SoftMaskable)") return;
+				if (!current)
+				{
+					return;
+				}
+
+				if (!Graphic)
+				{
+					return;
+				}
+
+				if (Graphic.name.Contains("TMP SubMeshUI"))
+				{
+					return;
+				}
+
+				if (!Graphic.material)
+				{
+					return;
+				}
+
+				if (!Graphic.material.shader)
+				{
+					return;
+				}
+
+				if (Graphic.material.shader.name != "Hidden/UI/Default (SoftMaskable)")
+				{
+					return;
+				}
 
 				Graphic.material = null;
 				Graphic.SetMaterialDirtyEx();

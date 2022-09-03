@@ -22,10 +22,15 @@ namespace JD.SharedVar
 			set
 			{
 				if (value.Equals(m_value))
+				{
 					return;
+				}
+
 				m_value = value;
 				if (OnValueChanged != null)
+				{
 					OnValueChanged(Value);
+				}
 			}
 		}
 

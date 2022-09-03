@@ -65,7 +65,9 @@ namespace JD.CustomRenderObjects
 			// These events are filtering in the UI, but we still should prevent users from changing it from code or
 			// by changing the serialized data.
 			if (settings.@event < RenderPassEvent.BeforeRenderingPrePasses)
+			{
 				settings.@event = RenderPassEvent.BeforeRenderingPrePasses;
+			}
 
 			renderObjectsPass = new CustomRenderObjectsPass(settings.passTag, settings.@event, filter.passNames,
 				filter.renderQueueType, filter.layerMask, filter.renderLayerMask, settings.cameraSettings);
@@ -74,12 +76,16 @@ namespace JD.CustomRenderObjects
 			renderObjectsPass.OverrideMaterialPassIndex = settings.overrideMaterialPassIndex;
 
 			if (settings.overrideDepthState)
+			{
 				renderObjectsPass.SetDetphState(settings.enableWrite, settings.depthCompareFunction);
+			}
 
 			if (settings.stencilSettings.overrideStencilState)
+			{
 				renderObjectsPass.SetStencilState(settings.stencilSettings.stencilReference,
 					settings.stencilSettings.stencilCompareFunction, settings.stencilSettings.passOperation,
 					settings.stencilSettings.failOperation, settings.stencilSettings.zFailOperation);
+			}
 		}
 
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)

@@ -31,7 +31,7 @@ namespace JD
 
 		public static bool TryGetComponentInParent<T>(this Component component, out T result) where T : Component
 		{
-			return result = component.GetComponentInParent<T>();
+			return component.transform.parent.gameObject.TryGetComponent(out result);
 		}
 
 		public static bool CompareTags(this Component component, params string[] tags)
@@ -79,22 +79,36 @@ namespace JD
 
 		public static void Destroy(this Component component, float time = 0f)
 		{
-			if (component == null) return;
+			if (component == null)
+			{
+				return;
+			}
 
 			if (time > 0)
+			{
 				Object.Destroy(@component.gameObject, time);
+			}
 			else
+			{
 				Object.Destroy(@component.gameObject);
+			}
 		}
 
 		public static void DestroyComponent(this Component component, float time = 0f)
 		{
-			if (component == null) return;
+			if (component == null)
+			{
+				return;
+			}
 
 			if (time > 0)
+			{
 				Object.Destroy(@component, time);
+			}
 			else
+			{
 				Object.Destroy(@component);
+			}
 		}
 
 		public static Vector3 To(this Component t1, Component t2, out float distance)
@@ -111,6 +125,7 @@ namespace JD
 			{
 				center += bird.transform.position;
 			}
+
 			center /= birds.Count;
 			return center;
 		}

@@ -41,7 +41,7 @@ namespace Steamworks
 
 					SteamClient.Init(appID);
 					SteamUserStats.RequestCurrentStats();
-					Debug.Log("Steam Manager Initialized");
+//					Debug.Log("Steam Manager Initialized");
 					SteamManager instance = Instantiate(Resources.Load<SteamManager>("Managers/SteamManager"));
 					instance.name = "Steam Manager";
 					DontDestroyOnLoad(instance);

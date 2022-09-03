@@ -13,7 +13,11 @@ namespace Coffee.UISoftMask
         {
 #if UNITY_2018_3_OR_NEWER
 			PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
-            if (prefabStage == null) return;
+            if (prefabStage == null)
+            {
+                return;
+            }
+
             EditorSceneManager.MarkSceneDirty(prefabStage.scene);
 #endif
         }
@@ -42,7 +46,9 @@ namespace Coffee.UISoftMask
             foreach ( MonoScript script in Resources.FindObjectsOfTypeAll<MonoScript>())
             {
                 if (script.GetClass() != typeof(T))
+                {
                     continue;
+                }
 
                 // Set 'm_Script' to convert.
                 so.FindProperty("m_Script").objectReferenceValue = script;

@@ -35,7 +35,11 @@ namespace JD
 
 		public void OnSelect(BaseEventData eventData)
 		{
-			if (scrollRect.velocity.magnitude > 0.01f) return;
+			if (scrollRect.velocity.magnitude > 0.01f)
+			{
+				return;
+			}
+
 			StartCoroutine(ScrollToElement());
 		}
 

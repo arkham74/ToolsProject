@@ -39,7 +39,9 @@ namespace PresetsPerFolder
 			// Apply Presets in order starting from the parent folder to the Asset so that the Preset closest to the Asset is applied last.
 			string parentFolder = Path.GetDirectoryName(folder);
             if (!string.IsNullOrEmpty(parentFolder))
+            {
                 ApplyPresetsFromFolderRecursively(parentFolder);
+            }
 
             // Add a dependency to the folder Preset custom key
             // so whenever a Preset is added to or removed from this folder, the Asset is re-imported.
@@ -138,7 +140,9 @@ namespace PresetsPerFolder
 
             // Only trigger a Refresh if there is at least one dependency updated here.
             if (atLeastOnUpdate)
+            {
                 AssetDatabase.Refresh();
+            }
         }
 
         /// <summary>

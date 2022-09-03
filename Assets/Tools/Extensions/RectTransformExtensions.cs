@@ -25,7 +25,9 @@ namespace JD
 				tempScreenSpaceCorner =
 					camera.WorldToScreenPoint(objectCorners[i]); // Transform world space position of corner to screen space
 				if (screenBounds.Contains(tempScreenSpaceCorner)) // If the corner is inside the screen
+				{
 					visibleCorners++;
+				}
 			}
 
 			return visibleCorners;

@@ -79,7 +79,11 @@ namespace JD.TextureChannelPacker
 
 		private static Texture2D GetTexture(Texture2D tex, Texture2D def)
 		{
-			if (tex && !tex.isReadable) Debug.LogWarning($"{tex} is not readable");
+			if (tex && !tex.isReadable)
+			{
+				Debug.LogWarning($"{tex} is not readable");
+			}
+
 			return tex && tex.isReadable ? tex : def;
 		}
 

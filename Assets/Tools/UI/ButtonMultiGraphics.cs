@@ -27,7 +27,9 @@ namespace JD
 			base.DoStateTransition(state, instant);
 
 			if (!gameObject.activeInHierarchy)
+			{
 				return;
+			}
 
 			Color tintColor;
 			Sprite transitionSprite;
@@ -81,7 +83,11 @@ namespace JD
 			{
 				foreach (Graphic graph in targets)
 				{
-					if (graph == null) continue;
+					if (graph == null)
+					{
+						continue;
+					}
+
 					graph.CrossFadeColor(targetColor, instant ? 0f : colors.fadeDuration, true, true);
 				}
 			}
@@ -90,7 +96,11 @@ namespace JD
 			{
 				foreach (Graphic graph in targets)
 				{
-					if (graph is not Image img) continue;
+					if (graph is not Image img)
+					{
+						continue;
+					}
+
 					img.overrideSprite = newSprite;
 				}
 			}

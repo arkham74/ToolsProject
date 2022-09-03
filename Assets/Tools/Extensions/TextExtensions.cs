@@ -21,7 +21,11 @@ namespace JD
 
 		public static async void AnimateNumber(this TextMeshProUGUI text, float maxScore, string format = "{0:0}", int ms = 1000)
 		{
-			if (text == null) return;
+			if (text == null)
+			{
+				return;
+			}
+
 			float increase = maxScore / (ms / 10f);
 			for (float score = 0; score <= maxScore; score += increase)
 			{
@@ -36,7 +40,11 @@ namespace JD
 			float increase = maxScore / (ms / 10f);
 			for (float score = 0; score <= maxScore; score += increase)
 			{
-				if (!text) return;
+				if (!text)
+				{
+					return;
+				}
+
 				text.text = score.ToString("0");
 				await Task.Delay(10);
 			}

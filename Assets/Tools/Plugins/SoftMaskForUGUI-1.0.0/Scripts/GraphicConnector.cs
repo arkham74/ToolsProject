@@ -20,14 +20,19 @@ namespace Coffee.UISoftMask
 		public static T GetComponentInParentEx<T>(this Component component, bool includeInactive = false) where T : MonoBehaviour
 		{
 			if (!component)
+			{
 				return null;
+			}
+
 			Transform trans = component.transform;
 
 			while (trans)
 			{
 				T c = trans.GetComponent<T>();
 				if (c && (includeInactive || c.isActiveAndEnabled))
+				{
 					return c;
+				}
 
 				trans = trans.parent;
 			}
@@ -61,16 +66,22 @@ namespace Coffee.UISoftMask
 		public static GraphicConnector FindConnector(Graphic graphic)
 		{
 			if (!graphic)
+			{
 				return s_EmptyConnector;
+			}
 
 			Type type = graphic.GetType();
 			if (s_ConnectorMap.TryGetValue(type, out GraphicConnector connector))
+			{
 				return connector;
+			}
 
 			foreach (GraphicConnector c in s_Connectors)
 			{
 				if (!c.IsValid(graphic))
+				{
 					continue;
+				}
 
 				s_ConnectorMap.Add(type, c);
 				return c;
@@ -95,13 +106,17 @@ namespace Coffee.UISoftMask
 		public virtual void SetVerticesDirty(Graphic graphic)
 		{
 			if (graphic)
+			{
 				graphic.SetVerticesDirty();
+			}
 		}
 
 		public virtual void SetMaterialDirty(Graphic graphic)
 		{
 			if (graphic)
+			{
 				graphic.SetMaterialDirty();
+			}
 		}
 	}
 }

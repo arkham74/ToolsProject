@@ -27,7 +27,11 @@ namespace JD.Editor
 #endif
 		public void Bake()
 		{
-			if (Lightmapping.isRunning) return;
+			if (Lightmapping.isRunning)
+			{
+				return;
+			}
+
 			Lightmapping.BakeMultipleScenes(scenes);
 		}
 
@@ -36,7 +40,10 @@ namespace JD.Editor
 #endif
 		public void BakeSeparately()
 		{
-			if (Lightmapping.isRunning) return;
+			if (Lightmapping.isRunning)
+			{
+				return;
+			}
 
 			foreach (string path in scenes)
 			{

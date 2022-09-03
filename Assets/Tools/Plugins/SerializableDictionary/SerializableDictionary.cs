@@ -98,7 +98,11 @@ namespace SerializableDictionary
 
 		public bool Remove(TKey key)
 		{
-			if (!dict.Remove(key)) return false;
+			if (!dict.Remove(key))
+			{
+				return false;
+			}
+
 			int index = indexByKey[key];
 			list.RemoveAt(index);
 			UpdateIndexes(index);
@@ -143,10 +147,20 @@ namespace SerializableDictionary
 
 		public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
 		{
-			if (array == null) throw new ArgumentException("The array cannot be null.");
-			if (arrayIndex < 0) throw new ArgumentException("The starting array index cannot be negative.");
+			if (array == null)
+			{
+				throw new ArgumentException("The array cannot be null.");
+			}
+
+			if (arrayIndex < 0)
+			{
+				throw new ArgumentException("The starting array index cannot be negative.");
+			}
+
 			if (array.Length - arrayIndex < dict.Count)
+			{
 				throw new ArgumentException("The destination array has fewer elements than the collection.");
+			}
 
 			foreach (KeyValuePair<TKey, TValue> pair in dict)
 			{
@@ -157,7 +171,11 @@ namespace SerializableDictionary
 
 		public bool Remove(KeyValuePair<TKey, TValue> pair)
 		{
-			if (!dict.TryGetValue(pair.Key, out TValue value)) return false;
+			if (!dict.TryGetValue(pair.Key, out TValue value))
+			{
+				return false;
+			}
+
 			bool valueMatch = EqualityComparer<TValue>.Default.Equals(value, pair.Value);
 			return valueMatch && Remove(pair.Key);
 		}

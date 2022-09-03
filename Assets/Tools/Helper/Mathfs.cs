@@ -82,7 +82,11 @@ namespace Freya
 		{
 			// source: https://blog.plover.com/math/choose.html
 			ulong r = 1;
-			if (k > n) return 0;
+			if (k > n)
+			{
+				return 0;
+			}
+
 			for (ulong d = 1; d <= k; d++)
 			{
 				r *= n--;
@@ -100,9 +104,15 @@ namespace Freya
 		public static int Factorial(uint value)
 		{
 			if (value <= 12)
+			{
 				return factorialInt[value];
+			}
+
 			if (value <= 20)
+			{
 				throw new OverflowException($"The Factorial of {value} is too big for integer representation, please use {nameof(FactorialLong)} instead");
+			}
+
 			throw new OverflowException($"The Factorial of {value} is too big for integer representation");
 		}
 
@@ -112,7 +122,10 @@ namespace Freya
 		public static long FactorialLong(uint value)
 		{
 			if (value <= 20)
+			{
 				return factorialLong[value];
+			}
+
 			throw new OverflowException($"The Factorial of {value} is too big for integer representation, even unsigned longs, soooo, rip");
 		}
 
@@ -631,7 +644,9 @@ namespace Freya
 			bool negative = value < 0F;
 			float absval = Abs(value);
 			if (absval > absmax)
+			{
 				return negative ? -absval : absval;
+			}
 
 			float result = Pow(absval / absmax, gamma) * absmax;
 			return negative ? -result : result;
@@ -698,7 +713,10 @@ namespace Freya
 		{
 			float den = b - a;
 			if (den == 0)
+			{
 				return 0;
+			}
+
 			return (value - a) / den;
 		}
 
@@ -799,7 +817,10 @@ namespace Freya
 		public static float MoveTowards(float current, float target, float maxDelta)
 		{
 			if (Mathf.Abs(target - current) <= maxDelta)
+			{
 				return target;
+			}
+
 			return current + Mathf.Sign(target - current) * maxDelta;
 		}
 
@@ -1157,7 +1178,10 @@ namespace Freya
 		{
 			float delta = Repeat((bRad - aRad), TAU);
 			if (delta > PI)
+			{
 				delta -= TAU;
+			}
+
 			return aRad + delta * Clamp01(t);
 		}
 
@@ -1192,7 +1216,10 @@ namespace Freya
 		{
 			float deltaAngle = DeltaAngle(current, target);
 			if (-maxDelta < deltaAngle && deltaAngle < maxDelta)
+			{
 				return target;
+			}
+
 			target = current + deltaAngle;
 			return MoveTowards(current, target, maxDelta);
 		}

@@ -53,16 +53,7 @@ namespace JD
 
 		public static bool CompareType(this Type a, Type b)
 		{
-			if (a.Equals(b))
-				return true;
-
-			if (a.IsSubclassOf(b))
-				return true;
-
-			if (b.IsSubclassOf(a))
-				return true;
-
-			return false;
+			return a == b || a.IsSubclassOf(b) || b.IsSubclassOf(a);
 		}
 
 		public static T Get<T>(this VolumeProfile profile) where T : VolumeComponent

@@ -44,7 +44,9 @@ namespace IngameDebugConsole
 		public bool IsValid()
 		{
 			if (!method.IsStatic && (instance == null || instance.Equals(null)))
+			{
 				return false;
+			}
 
 			return true;
 		}
@@ -162,7 +164,9 @@ namespace IngameDebugConsole
 			{
 #if (NET_4_6 || NET_STANDARD_2_0) && (UNITY_EDITOR || !NETFX_CORE)
 				if (assembly.IsDynamic)
+				{
 					continue;
+				}
 #endif
 
 				string assemblyName = assembly.GetName().Name;
@@ -179,7 +183,9 @@ namespace IngameDebugConsole
 				}
 
 				if (ignoreAssembly)
+				{
 					continue;
+				}
 #endif
 
 				try
@@ -191,7 +197,9 @@ namespace IngameDebugConsole
 							foreach (object attribute in method.GetCustomAttributes(typeof(ConsoleMethodAttribute), false))
 							{
 								if (attribute is ConsoleMethodAttribute consoleMethod)
+								{
 									AddCommand(consoleMethod.Command, consoleMethod.Description, method, null, consoleMethod.ParameterNames);
+								}
 							}
 						}
 					}
@@ -212,7 +220,9 @@ namespace IngameDebugConsole
 			for (int i = 0; i < methods.Count; i++)
 			{
 				if (methods[i].IsValid())
+				{
 					length += methods[i].signature.Length + 7;
+				}
 			}
 
 			StringBuilder stringBuilder = new StringBuilder(length);
@@ -221,7 +231,9 @@ namespace IngameDebugConsole
 			for (int i = 0; i < methods.Count; i++)
 			{
 				if (methods[i].IsValid())
+				{
 					stringBuilder.Append("\n    - ").Append(methods[i].signature);
+				}
 			}
 
 			Debug.Log(stringBuilder.ToString());
@@ -243,10 +255,14 @@ namespace IngameDebugConsole
 			// commands that contain commandName as substring
 			FindCommands(commandName, false, matchingMethods);
 			if (matchingMethods.Count == 0)
+			{
 				FindCommands(commandName, true, matchingMethods);
+			}
 
 			if (matchingMethods.Count == 0)
+			{
 				Debug.LogWarning(string.Concat("ERROR: can't find command '", commandName, "'"));
+			}
 			else
 			{
 				int commandsLength = 25;
@@ -323,7 +339,9 @@ namespace IngameDebugConsole
 				sb.Append(info);
 
 				if (postfix != null)
+				{
 					sb.Append(postfix);
+				}
 
 				sb.Append(" ");
 			}
@@ -338,7 +356,9 @@ namespace IngameDebugConsole
 				sb.Append(info);
 
 				if (postfix != null)
+				{
 					sb.Append(postfix);
+				}
 
 				sb.Append(" ");
 			}
@@ -363,7 +383,9 @@ namespace IngameDebugConsole
 			parseFunctions[type] = parseFunction;
 
 			if (!string.IsNullOrEmpty(typeReadableName))
+			{
 				typeReadableNames[type] = typeReadableName;
+			}
 		}
 
 		// Remove a custom Type from the list of recognized command parameter Types
@@ -447,7 +469,9 @@ namespace IngameDebugConsole
 			// Fetch the parameters of the class
 			ParameterInfo[] parameters = method.GetParameters();
 			if (parameters == null)
+			{
 				parameters = new ParameterInfo[0];
+			}
 
 			// Store the parameter types in an array
 			Type[] parameterTypes = new Type[parameters.Length];
@@ -461,7 +485,9 @@ namespace IngameDebugConsole
 
 				Type parameterType = parameters[i].ParameterType;
 				if (parseFunctions.ContainsKey(parameterType) || typeof(Component).IsAssignableFrom(parameterType) || parameterType.IsEnum || IsSupportedArrayType(parameterType))
+				{
 					parameterTypes[i] = parameterType;
+				}
 				else
 				{
 					Debug.LogError(string.Concat("Parameter ", parameters[i].Name, "'s Type ", parameterType, " isn't supported"));
@@ -471,7 +497,9 @@ namespace IngameDebugConsole
 
 			int commandIndex = FindCommandIndex(command);
 			if (commandIndex < 0)
+			{
 				commandIndex = ~commandIndex;
+			}
 			else
 			{
 				int commandFirstIndex = commandIndex;
@@ -533,7 +561,9 @@ namespace IngameDebugConsole
 					methodSignature.Append("[").Append(GetTypeReadableName(parameterTypes[i])).Append(" ").Append((parameterNames != null && i < parameterNames.Length && !string.IsNullOrEmpty(parameterNames[i])) ? parameterNames[i] : parameters[i].Name).Append("]");
 
 					if (i < parameterTypes.Length - 1)
+					{
 						methodSignature.Append(" ");
+					}
 
 					parameterSignatures[i] = methodSignature.ToString(parameterSignatureStartIndex, methodSignature.Length - parameterSignatureStartIndex);
 				}
@@ -544,7 +574,9 @@ namespace IngameDebugConsole
 #endif
 
 			if (!string.IsNullOrEmpty(description))
+			{
 				methodSignature.Append(": ").Append(description);
+			}
 
 			methods.Insert(commandIndex, new ConsoleMethodInfo(method, parameterTypes, instance, command, methodSignature.ToString(), parameterSignatures));
 		}
@@ -557,7 +589,9 @@ namespace IngameDebugConsole
 				for (int i = methods.Count - 1; i >= 0; i--)
 				{
 					if (caseInsensitiveComparer.Compare(methods[i].command, command, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) == 0)
+					{
 						methods.RemoveAt(i);
+					}
 				}
 			}
 		}
@@ -582,7 +616,9 @@ namespace IngameDebugConsole
 				for (int i = methods.Count - 1; i >= 0; i--)
 				{
 					if (methods[i].method == method)
+					{
 						methods.RemoveAt(i);
+					}
 				}
 			}
 		}
@@ -601,11 +637,17 @@ namespace IngameDebugConsole
 			for (int i = commandIndex + 1; i < methods.Count; i++)
 			{
 				if (caseInsensitiveComparer.Compare(methods[i].command, previousSuggestion, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) == 0)
+				{
 					continue;
+				}
 				else if (caseInsensitiveComparer.IsPrefix(methods[i].command, commandStart, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace))
+				{
 					return methods[i].command;
+				}
 				else
+				{
 					break;
+				}
 			}
 
 			// Couldn't find a command that follows previousSuggestion and satisfies commandStart, loop back to the beginning of the autocomplete suggestions
@@ -620,12 +662,16 @@ namespace IngameDebugConsole
 		public static void ExecuteCommand(string command)
 		{
 			if (command == null)
+			{
 				return;
+			}
 
 			command = command.Trim();
 
 			if (command.Length == 0)
+			{
 				return;
+			}
 
 			// Split the command's arguments
 			commandArguments.Clear();
@@ -656,9 +702,13 @@ namespace IngameDebugConsole
 					{
 						// Check if number of parameters match
 						if (methods[commandIndex].parameterTypes.Length == commandArguments.Count - 1)
+						{
 							matchingMethods.Add(methods[commandIndex]);
+						}
 						else
+						{
 							parameterCountMismatch = true;
+						}
 
 						commandIndex++;
 					}
@@ -671,7 +721,9 @@ namespace IngameDebugConsole
 				FindCommands(_command, !parameterCountMismatch, matchingMethods);
 
 				if (matchingMethods.Count == 0)
+				{
 					Debug.LogWarning(string.Concat("ERROR: can't find command '", _command, "'"));
+				}
 				else
 				{
 					int commandsLength = _command.Length + 75;
@@ -680,9 +732,13 @@ namespace IngameDebugConsole
 
 					StringBuilder stringBuilder = new StringBuilder(commandsLength);
 					if (parameterCountMismatch)
+					{
 						stringBuilder.Append("ERROR: '").Append(_command).Append("' doesn't take ").Append(commandArguments.Count - 1).Append(" parameter(s). Available command(s):");
+					}
 					else
+					{
 						stringBuilder.Append("ERROR: can't find command '").Append(_command).Append("'. Did you mean:");
+					}
 
 					for (int i = 0; i < matchingMethods.Count; i++)
 						stringBuilder.Append("\n    - ").Append(matchingMethods[i].signature);
@@ -717,7 +773,9 @@ namespace IngameDebugConsole
 						Type parameterType = methodInfo.parameterTypes[j];
 
 						if (ParseArgument(argument, parameterType, out object val))
+						{
 							parameters[j] = val;
+						}
 						else
 						{
 							success = false;
@@ -732,11 +790,15 @@ namespace IngameDebugConsole
 				}
 
 				if (success)
+				{
 					methodToExecute = methodInfo;
+				}
 			}
 
 			if (methodToExecute == null)
+			{
 				Debug.LogWarning(!string.IsNullOrEmpty(errorMessage) ? errorMessage : "ERROR: something went wrong");
+			}
 			else
 			{
 				// Execute the method associated with the command
@@ -745,9 +807,13 @@ namespace IngameDebugConsole
 				{
 					// Print the returned value to the console
 					if (result == null || result.Equals(null))
+					{
 						Debug.Log("Returned: null");
+					}
 					else
+					{
 						Debug.Log("Returned: " + result.ToString());
+					}
 				}
 			}
 		}
@@ -757,7 +823,9 @@ namespace IngameDebugConsole
 			for (int i = 0; i < command.Length; i++)
 			{
 				if (char.IsWhiteSpace(command[i]))
+				{
 					continue;
+				}
 
 				int delimiterIndex = IndexOfDelimiterGroup(command[i]);
 				if (delimiterIndex >= 0)
@@ -782,7 +850,9 @@ namespace IngameDebugConsole
 				for (int i = 0; i < methods.Count; i++)
 				{
 					if (methods[i].IsValid() && caseInsensitiveComparer.IndexOf(methods[i].command, commandName, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0)
+					{
 						matchingCommands.Add(methods[i]);
+					}
 				}
 			}
 			else
@@ -790,7 +860,9 @@ namespace IngameDebugConsole
 				for (int i = 0; i < methods.Count; i++)
 				{
 					if (methods[i].IsValid() && caseInsensitiveComparer.Compare(methods[i].command, commandName, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) == 0)
+					{
 						matchingCommands.Add(methods[i]);
+					}
 				}
 			}
 		}
@@ -807,7 +879,9 @@ namespace IngameDebugConsole
 			for (int i = 0; i < command.Length; i++)
 			{
 				if (char.IsWhiteSpace(command[i]))
+				{
 					continue;
+				}
 
 				int delimiterIndex = IndexOfDelimiterGroup(command[i]);
 				if (delimiterIndex >= 0)
@@ -820,7 +894,9 @@ namespace IngameDebugConsole
 
 						int commandNameLength = endIndex - i - 1;
 						if (commandName == null || commandNameLength == 0 || commandName.Length != commandNameLength || caseInsensitiveComparer.IndexOf(command, commandName, i + 1, commandNameLength, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) != i + 1)
+						{
 							commandName = command.Substring(i + 1, commandNameLength);
+						}
 					}
 
 					i = (endIndex < command.Length - 1 && command[endIndex + 1] == ',') ? endIndex + 1 : endIndex;
@@ -836,7 +912,9 @@ namespace IngameDebugConsole
 
 						int commandNameLength = command[endIndex - 1] == ',' ? endIndex - 1 - i : endIndex - i;
 						if (commandName == null || commandNameLength == 0 || commandName.Length != commandNameLength || caseInsensitiveComparer.IndexOf(command, commandName, i, commandNameLength, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) != i)
+						{
 							commandName = command.Substring(i, commandNameLength);
+						}
 					}
 
 					i = endIndex;
@@ -847,13 +925,17 @@ namespace IngameDebugConsole
 			}
 
 			if (!commandNameCalculated)
+			{
 				commandName = string.Empty;
+			}
 
 			if (!string.IsNullOrEmpty(commandName))
 			{
 				int commandIndex = FindCommandIndex(commandName);
 				if (commandIndex < 0)
+				{
 					commandIndex = ~commandIndex;
+				}
 
 				int commandLastIndex = commandIndex;
 				if (!commandNameFullyTyped)
@@ -867,7 +949,9 @@ namespace IngameDebugConsole
 							commandLastIndex++;
 					}
 					else
+					{
 						commandLastIndex = -1;
+					}
 				}
 				else
 				{
@@ -880,13 +964,17 @@ namespace IngameDebugConsole
 							commandLastIndex++;
 					}
 					else
+					{
 						commandLastIndex = -1;
+					}
 				}
 
 				for (; commandIndex <= commandLastIndex; commandIndex++)
 				{
 					if (methods[commandIndex].parameterTypes.Length >= numberOfParameters)
+					{
 						matchingCommands.Add(methods[commandIndex]);
+					}
 				}
 			}
 		}
@@ -897,7 +985,9 @@ namespace IngameDebugConsole
 			for (int i = 0; i < inputDelimiters.Length; i++)
 			{
 				if (c == inputDelimiters[i][0])
+				{
 					return i;
+				}
 			}
 
 			return -1;
@@ -915,9 +1005,13 @@ namespace IngameDebugConsole
 			{
 				char c = command[i];
 				if (c == endChar && --depth <= 0)
+				{
 					return i;
+				}
 				else if (c == startChar)
+				{
 					depth++;
+				}
 			}
 
 			return command.Length;
@@ -928,7 +1022,9 @@ namespace IngameDebugConsole
 		{
 			int result = command.IndexOf(c, startIndex);
 			if (result < 0)
+			{
 				result = command.Length;
+			}
 
 			return result;
 		}
@@ -943,11 +1039,17 @@ namespace IngameDebugConsole
 				int mid = (min + max) / 2;
 				int comparison = caseInsensitiveComparer.Compare(command, methods[mid].command, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace);
 				if (comparison == 0)
+				{
 					return mid;
+				}
 				else if (comparison < 0)
+				{
 					max = mid - 1;
+				}
 				else
+				{
 					min = mid + 1;
+				}
 			}
 
 			return ~min;
@@ -958,19 +1060,25 @@ namespace IngameDebugConsole
 			if (type.IsArray)
 			{
 				if (type.GetArrayRank() != 1)
+				{
 					return false;
+				}
 
 				type = type.GetElementType();
 			}
 			else if (type.IsGenericType)
 			{
 				if (type.GetGenericTypeDefinition() != typeof(List<>))
+				{
 					return false;
+				}
 
 				type = type.GetGenericArguments()[0];
 			}
 			else
+			{
 				return false;
+			}
 
 			return parseFunctions.ContainsKey(type) || typeof(Component).IsAssignableFrom(type) || type.IsEnum;
 		}
@@ -978,15 +1086,21 @@ namespace IngameDebugConsole
 		public static string GetTypeReadableName(Type type)
 		{
 			if (typeReadableNames.TryGetValue(type, out string result))
+			{
 				return result;
+			}
 
 			if (IsSupportedArrayType(type))
 			{
 				Type elementType = type.IsArray ? type.GetElementType() : type.GetGenericArguments()[0];
 				if (typeReadableNames.TryGetValue(elementType, out result))
+				{
 					return result + "[]";
+				}
 				else
+				{
 					return elementType.Name + "[]";
+				}
 			}
 
 			return type.Name;
@@ -995,13 +1109,21 @@ namespace IngameDebugConsole
 		public static bool ParseArgument(string input, Type argumentType, out object output)
 		{
 			if (parseFunctions.TryGetValue(argumentType, out ParseFunction parseFunction))
+			{
 				return parseFunction(input, out output);
+			}
 			else if (typeof(Component).IsAssignableFrom(argumentType))
+			{
 				return ParseComponent(input, argumentType, out output);
+			}
 			else if (argumentType.IsEnum)
+			{
 				return ParseEnum(input, argumentType, out output);
+			}
 			else if (IsSupportedArrayType(argumentType))
+			{
 				return ParseArray(input, argumentType, out output);
+			}
 			else
 			{
 				output = null;
@@ -1239,11 +1361,17 @@ namespace IngameDebugConsole
 				}
 
 				if (operation == NONE)
+				{
 					outputInt = value;
+				}
 				else if (operation == OR)
+				{
 					outputInt |= value;
+				}
 				else
+				{
 					outputInt &= value;
+				}
 
 				if (orIndex >= 0)
 				{
@@ -1264,7 +1392,9 @@ namespace IngameDebugConsole
 					i = andIndex;
 				}
 				else
+				{
 					i = input.Length;
+				}
 			}
 
 			output = Enum.ToObject(enumType, outputInt);
@@ -1285,7 +1415,9 @@ namespace IngameDebugConsole
 				for (int i = 0; i < valuesToParse.Count; i++)
 				{
 					if (!ParseArgument(valuesToParse[i], elementType, out object obj))
+					{
 						return false;
+					}
 
 					result[i] = obj;
 				}
@@ -1296,7 +1428,9 @@ namespace IngameDebugConsole
 				for (int i = 0; i < valuesToParse.Count; i++)
 				{
 					if (!ParseArgument(valuesToParse[i], elementType, out object obj))
+					{
 						return false;
+					}
 
 					result.Add(obj);
 				}
@@ -1313,7 +1447,9 @@ namespace IngameDebugConsole
 			{
 				tokens[i] = tokens[i].Trim();
 				if (tokens[i].Length == 0)
+				{
 					tokens.RemoveAt(i);
+				}
 			}
 
 			float[] tokenValues = new float[tokens.Count];
@@ -1322,8 +1458,13 @@ namespace IngameDebugConsole
 				if (!ParseFloat(tokens[i], out object val))
 				{
 					if (vectorType == typeof(Vector3))
+					{
 						output = Vector3.zero;
-					else output = vectorType == typeof(Vector2) ? Vector2.zero : (object)Vector4.zero;
+					}
+					else
+					{
+						output = vectorType == typeof(Vector2) ? Vector2.zero : (object)Vector4.zero;
+					}
 
 					return false;
 				}
@@ -1381,13 +1522,24 @@ namespace IngameDebugConsole
 				Color32 result = new Color32(0, 0, 0, 255);
 
 				if (tokenValues.Length > 0)
+				{
 					result.r = (byte)Mathf.RoundToInt(tokenValues[0]);
+				}
+
 				if (tokenValues.Length > 1)
+				{
 					result.g = (byte)Mathf.RoundToInt(tokenValues[1]);
+				}
+
 				if (tokenValues.Length > 2)
+				{
 					result.b = (byte)Mathf.RoundToInt(tokenValues[2]);
+				}
+
 				if (tokenValues.Length > 3)
+				{
 					result.a = (byte)Mathf.RoundToInt(tokenValues[3]);
+				}
 
 				output = result;
 			}
@@ -1396,13 +1548,24 @@ namespace IngameDebugConsole
 				Rect result = Rect.zero;
 
 				if (tokenValues.Length > 0)
+				{
 					result.x = tokenValues[0];
+				}
+
 				if (tokenValues.Length > 1)
+				{
 					result.y = tokenValues[1];
+				}
+
 				if (tokenValues.Length > 2)
+				{
 					result.width = tokenValues[2];
+				}
+
 				if (tokenValues.Length > 3)
+				{
 					result.height = tokenValues[3];
+				}
 
 				output = result;
 			}
@@ -1411,13 +1574,24 @@ namespace IngameDebugConsole
 				RectOffset result = new RectOffset();
 
 				if (tokenValues.Length > 0)
+				{
 					result.left = Mathf.RoundToInt(tokenValues[0]);
+				}
+
 				if (tokenValues.Length > 1)
+				{
 					result.right = Mathf.RoundToInt(tokenValues[1]);
+				}
+
 				if (tokenValues.Length > 2)
+				{
 					result.top = Mathf.RoundToInt(tokenValues[2]);
+				}
+
 				if (tokenValues.Length > 3)
+				{
 					result.bottom = Mathf.RoundToInt(tokenValues[3]);
+				}
 
 				output = result;
 			}
@@ -1457,13 +1631,24 @@ namespace IngameDebugConsole
 				RectInt result = new RectInt();
 
 				if (tokenValues.Length > 0)
+				{
 					result.x = Mathf.RoundToInt(tokenValues[0]);
+				}
+
 				if (tokenValues.Length > 1)
+				{
 					result.y = Mathf.RoundToInt(tokenValues[1]);
+				}
+
 				if (tokenValues.Length > 2)
+				{
 					result.width = Mathf.RoundToInt(tokenValues[2]);
+				}
+
 				if (tokenValues.Length > 3)
+				{
 					result.height = Mathf.RoundToInt(tokenValues[3]);
+				}
 
 				output = result;
 			}

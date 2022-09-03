@@ -274,7 +274,10 @@ namespace JD.Splines.Editor
 					Undo.RecordObject(target, "Segment change");
 					prop.vector3Value = newPos - offset;
 					if (opProp != null && mirrorProp.boolValue)
+					{
 						opProp.vector3Value = -(newPos - offset);
+					}
+
 					return true;
 				}
 			}

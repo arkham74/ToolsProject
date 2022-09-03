@@ -4,13 +4,13 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace JD
 {
 	public static class StringExtensions
 	{
 		private static readonly TextInfo TextInfo = new CultureInfo("en-GB", false).TextInfo;
-		private static readonly StringBuilder sb = new StringBuilder();
 
 		public static void AppendRepeat(this StringBuilder stringBuilder, string value, int count)
 		{
@@ -29,18 +29,35 @@ namespace JD
 			}
 		}
 
-		public static string LinebreakAfter(this string inputText, int lineLength)
+		public static string LinebreakAfter(this string lines, int max)
 		{
-			//, '	', '\n'
+			StringBuilder stringBuilder = new StringBuilder();
+
+			string[] del = { "\r\n", "\n" };
+			string[] split = lines.Split(del, StringSplitOptions.None);
+
+			foreach (string line in split)
+			{
+				stringBuilder.AppendLine(line.BreakAfter(max));
+			}
+
+			stringBuilder.TrimEnd();
+			return stringBuilder.ToString();
+		}
+
+		private static StringBuilder BreakAfter(this string inputText, int lineLength)
+		{
+			StringBuilder sb = Tools.StringBuilder;
+			sb.Clear();
+
 			char[] delimiters = { ' ' };
 			string[] words = inputText.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
 			int charCounter = 0;
-			sb.Clear();
 
-			for (int i = 0; i < words.Length; i++)
+			foreach (string t in words)
 			{
-				sb.AppendFormat("{0} ", words[i]);
-				charCounter += words[i].Length + 1;
+				sb.AppendFormat("{0} ", t);
+				charCounter += t.Length + 1;
 
 				if (charCounter - 1 >= lineLength)
 				{
@@ -50,7 +67,16 @@ namespace JD
 				}
 			}
 
-			return sb.ToString().Trim();
+			sb.TrimEnd();
+			return sb;
+		}
+
+		private static void TrimEnd(this StringBuilder stringBuilder)
+		{
+			while (stringBuilder.Length > 0 && char.IsWhiteSpace(stringBuilder[^1]))
+			{
+				stringBuilder.Length -= 1;
+			}
 		}
 
 		public static bool IsNullOrWhiteSpaceOrEmpty(this string str)
@@ -93,17 +119,27 @@ namespace JD
 		{
 			firstCharacters = Math.Max(firstCharacters, 0);
 			if (string.IsNullOrWhiteSpace(value))
+			{
 				return value;
+			}
 			else if (firstCharacters >= value.Length)
+			{
 				return string.Empty;
+			}
 			else
+			{
 				return value[firstCharacters..];
+			}
 		}
 
 		public static string Ellipsis(this string value, int maxLength, string trail)
 		{
 			string shortName = value.Truncate(maxLength);
-			if (value.Length > maxLength) shortName += trail;
+			if (value.Length > maxLength)
+			{
+				shortName += trail;
+			}
+
 			return shortName;
 		}
 

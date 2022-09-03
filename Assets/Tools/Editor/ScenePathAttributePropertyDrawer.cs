@@ -16,7 +16,11 @@ namespace JD.Editor
 
 		public override void OnGUI(Rect rect, SerializedProperty serializedProperty, GUIContent label)
 		{
-			if (serializedProperty.propertyType != SerializedPropertyType.String) return;
+			if (serializedProperty.propertyType != SerializedPropertyType.String)
+			{
+				return;
+			}
+
 			guids ??= AssetDatabase.FindAssets("t:scene", Folders);
 			scenePaths ??= GetPaths(guids);
 			sceneNames ??= GetNames(scenePaths);

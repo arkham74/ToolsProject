@@ -23,7 +23,10 @@ namespace JD
 
 		public void OnPointerClick(PointerEventData eventData)
 		{
-			if (eventData.button != PointerEventData.InputButton.Left) return;
+			if (eventData.button != PointerEventData.InputButton.Left)
+			{
+				return;
+			}
 
 			int linkIndex = GetIndex(eventData.pressPosition);
 

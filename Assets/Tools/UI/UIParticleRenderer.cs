@@ -51,7 +51,9 @@ namespace Michsky.UI.Shift
 			if (pSystem == null)
 			{
 				if (!TryGetComponent(out pSystem))
+				{
 					return false;
+				}
 
 				mainModule = pSystem.main;
 
@@ -61,13 +63,17 @@ namespace Michsky.UI.Shift
 				}
 
 				if (pSystem.TryGetComponent(out pRenderer))
+				{
 					pRenderer.enabled = false;
+				}
 
 				Shader foundShader = Shader.Find("UI/Particles/Additive");
 				Material pMaterial = new Material(foundShader);
 
 				if (material == null)
+				{
 					material = pMaterial;
+				}
 
 				currentMaterial = material;
 
@@ -75,7 +81,9 @@ namespace Michsky.UI.Shift
 				{
 					currentTexture = currentMaterial.mainTexture;
 					if (currentTexture == null)
+					{
 						currentTexture = Texture2D.whiteTexture;
+					}
 				}
 
 				material = currentMaterial;
@@ -85,7 +93,9 @@ namespace Michsky.UI.Shift
 			}
 
 			if (particles == null)
+			{
 				particles = new ParticleSystem.Particle[pSystem.main.maxParticles];
+			}
 
 			imageUV = new Vector4(0, 0, 1, 1);
 
@@ -108,7 +118,9 @@ namespace Michsky.UI.Shift
 			base.Awake();
 
 			if (!Initialize())
+			{
 				enabled = false;
+			}
 		}
 
 		protected override void OnPopulateMesh(VertexHelper vh)
@@ -117,14 +129,18 @@ namespace Michsky.UI.Shift
 			if (!Application.isPlaying)
 			{
 				if (!Initialize())
+				{
 					return;
+				}
 			}
 #endif
 			// prepare vertices
 			vh.Clear();
 
 			if (!gameObject.activeInHierarchy)
+			{
 				return;
+			}
 
 			Vector2 temp = Vector2.zero;
 			Vector2 corner1 = Vector2.zero;
@@ -146,7 +162,9 @@ namespace Michsky.UI.Shift
 
 				// apply scale
 				if (mainModule.scalingMode == ParticleSystemScalingMode.Shape)
+				{
 					position /= canvas.scaleFactor;
+				}
 
 				// apply texture sheet animation
 				Vector4 particleUV = imageUV;
@@ -301,7 +319,9 @@ namespace Michsky.UI.Shift
 			}
 
 			if (material == currentMaterial)
+			{
 				return;
+			}
 
 			pSystem = null;
 			Initialize();

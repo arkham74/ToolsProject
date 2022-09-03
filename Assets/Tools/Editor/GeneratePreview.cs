@@ -28,7 +28,10 @@ namespace JD.Editor
 				}
 			}
 
-			if (texture) GUILayout.Box(texture, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+			if (texture)
+			{
+				GUILayout.Box(texture, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+			}
 			// EditorGUILayout.LabelField(texture);
 			// if (texture) EditorGUI.DrawTextureTransparent(new Rect(0, 50, 300, 300), texture);
 		}

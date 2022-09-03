@@ -70,14 +70,19 @@ public class BindingPropertyDrawer : PropertyDrawer
 				InputBinding.DisplayStringOptions displayOptions =
 					InputBinding.DisplayStringOptions.DontUseShortDisplayNames |
 					InputBinding.DisplayStringOptions.IgnoreBindingOverrides;
-				if (!haveBindingGroups) displayOptions |= InputBinding.DisplayStringOptions.DontOmitDevice;
+				if (!haveBindingGroups)
+				{
+					displayOptions |= InputBinding.DisplayStringOptions.DontOmitDevice;
+				}
 
 				// Create display string.
 				string displayString = action.GetBindingDisplayString(i, displayOptions);
 
 				// If binding is part of a composite, include the part name.
 				if (binding.isPartOfComposite)
+				{
 					displayString = $"{ObjectNames.NicifyVariableName(binding.name)}: {displayString}";
+				}
 
 				// Some composites use '/' as a separator. When used in popup, this will lead to to submenus. Prevent
 				// by instead using a backlash.

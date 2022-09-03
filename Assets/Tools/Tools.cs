@@ -15,7 +15,7 @@ namespace JD
 {
 	public static class Tools
 	{
-		public const float Mps2Kph = 3.6f;
+		public const float MPS2_KPH = 3.6f;
 
 #if UNITY_EDITOR
 		public static bool Test
@@ -23,6 +23,7 @@ namespace JD
 			get => EditorPrefs.GetBool("test", false);
 			set => EditorPrefs.SetBool("test", value);
 		}
+
 #else
 		public const bool Test = false;
 #endif
@@ -81,6 +82,7 @@ namespace JD
 					return i;
 				}
 			}
+
 			return -1;
 		}
 
@@ -113,7 +115,9 @@ namespace JD
 		public static void LoadIfNotLoaded(string sceneName, LoadSceneMode loadSceneMode)
 		{
 			if (!IsSceneLoaded(sceneName))
+			{
 				SceneManager.LoadScene(sceneName, loadSceneMode);
+			}
 		}
 
 		public static bool TryGetArg(string name, out string output)
@@ -128,6 +132,7 @@ namespace JD
 					return true;
 				}
 			}
+
 			return false;
 		}
 

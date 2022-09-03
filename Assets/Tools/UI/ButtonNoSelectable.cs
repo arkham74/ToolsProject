@@ -37,7 +37,9 @@ namespace JD
 		private void OnValidate()
 		{
 			if (target && colors)
+			{
 				target.color = colors.colorBlock.normalColor;
+			}
 		}
 #endif
 

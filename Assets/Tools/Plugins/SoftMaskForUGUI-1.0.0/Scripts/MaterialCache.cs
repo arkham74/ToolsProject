@@ -15,10 +15,14 @@ namespace Coffee.UISoftMask
 			{
 #if UNITY_EDITOR
 				if (!Application.isPlaying)
+				{
 					UnityEngine.Object.DestroyImmediate(material, false);
+				}
 				else
 #endif
+				{
 					UnityEngine.Object.Destroy(material);
+				}
 			}
 
 			material = null;
@@ -44,7 +48,10 @@ namespace Coffee.UISoftMask
 
 		public static Material Register(Material material, Hash128 hash, Action<Material> onModify)
 		{
-			if (!hash.isValid) return null;
+			if (!hash.isValid)
+			{
+				return null;
+			}
 
 			if (!s_MaterialMap.TryGetValue(hash, out MaterialEntry entry))
 			{
@@ -67,10 +74,16 @@ namespace Coffee.UISoftMask
 
 		public static void Unregister(Hash128 hash)
 		{
-			if (!hash.isValid || !s_MaterialMap.TryGetValue(hash, out MaterialEntry entry)) return;
+			if (!hash.isValid || !s_MaterialMap.TryGetValue(hash, out MaterialEntry entry))
+			{
+				return;
+			}
 			//Debug.LogFormat("Unregister: {0}, {1}", hash, entry.referenceCount -1);
 
-			if (--entry.referenceCount > 0) return;
+			if (--entry.referenceCount > 0)
+			{
+				return;
+			}
 
 			entry.Release();
 			s_MaterialMap.Remove(hash);

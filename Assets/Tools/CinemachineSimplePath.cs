@@ -45,7 +45,10 @@ namespace JD
 			{
 				int count = waypoints.Length - 1;
 				if (count < 1)
+				{
 					return 0;
+				}
+
 				return loop ? count + 1 : count;
 			}
 		}
@@ -95,7 +98,9 @@ namespace JD
 			}
 			indexB = indexA + 1;
 			if (indexB >= waypoints.Length)
+			{
 				indexB = 0;
+			}
 
 			return pos - indexA;
 		}

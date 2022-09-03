@@ -177,12 +177,16 @@ namespace JD
 		public static Texture2D GenerateModelPreviewWithShader(Transform model, Shader shader, string replacementTag, int width = 64, int height = 64, bool shouldCloneModel = false)
 		{
 			if (!model)
+			{
 				return null;
+			}
 
 			Texture2D result = null;
 
 			if (!model.gameObject.scene.IsValid() || !model.gameObject.scene.isLoaded)
+			{
 				shouldCloneModel = true;
+			}
 
 			Transform previewObject;
 			if (shouldCloneModel)
@@ -218,11 +222,15 @@ namespace JD
 				}
 
 				if (!wasActive)
+				{
 					previewObject.gameObject.SetActive(true);
+				}
 
 				Bounds previewBounds = new Bounds();
 				if (!CalculateBounds(previewObject, out previewBounds))
+				{
 					return null;
+				}
 
 #if DEBUG_BOUNDS
 			if( !boundsDebugMaterial )
@@ -257,14 +265,20 @@ namespace JD
 					renderTexture = RenderTexture.GetTemporary(width, height, 16);
 					RenderTexture.active = renderTexture;
 					if (m_backgroundColor.a < 1f)
+					{
 						GL.Clear(true, true, m_backgroundColor);
+					}
 
 					renderCamera.targetTexture = renderTexture;
 
 					if (!shader)
+					{
 						renderCamera.Render();
+					}
 					else
+					{
 						renderCamera.RenderWithShader(shader, replacementTag ?? string.Empty);
+					}
 
 					renderCamera.targetTexture = null;
 
@@ -277,7 +291,9 @@ namespace JD
 					RenderTexture.active = activeRT;
 
 					if (renderTexture)
+					{
 						RenderTexture.ReleaseTemporary(renderTexture);
+					}
 				}
 			}
 			catch (Exception e)
@@ -292,11 +308,15 @@ namespace JD
 #endif
 
 				if (shouldCloneModel)
+				{
 					Object.DestroyImmediate(previewObject.gameObject);
+				}
 				else
 				{
 					if (!wasActive)
+					{
 						previewObject.gameObject.SetActive(false);
+					}
 
 					if (!isStatic)
 					{
@@ -308,7 +328,9 @@ namespace JD
 				}
 
 				if (renderCamera == m_previewRenderCamera)
+				{
 					cameraSetup.ApplySetup(renderCamera);
+				}
 			}
 
 			return result;
@@ -325,7 +347,9 @@ namespace JD
 			for (int i = 0; i < renderersList.Count; i++)
 			{
 				if (!renderersList[i].enabled)
+				{
 					continue;
+				}
 
 				if (!hasBounds)
 				{
@@ -333,7 +357,9 @@ namespace JD
 					hasBounds = true;
 				}
 				else
+				{
 					bounds.Encapsulate(renderersList[i].bounds);
+				}
 			}
 
 			return hasBounds;
@@ -348,7 +374,9 @@ namespace JD
 			float aspect = camera.aspect;
 
 			if (padding != 0f)
+			{
 				bounds.size *= 1f + padding * 2f; // Padding applied to both edges, hence multiplied by 2
+			}
 
 			Vector3 boundsCenter = bounds.center;
 			Vector3 boundsExtents = bounds.extents;
@@ -383,13 +411,24 @@ namespace JD
 				{
 					Vector3 localPoint = cameraTR.InverseTransformPoint(boundingBoxPoints[i]);
 					if (localPoint.x < minX)
+					{
 						minX = localPoint.x;
+					}
+
 					if (localPoint.x > maxX)
+					{
 						maxX = localPoint.x;
+					}
+
 					if (localPoint.y < minY)
+					{
 						minY = localPoint.y;
+					}
+
 					if (localPoint.y > maxY)
+					{
 						maxY = localPoint.y;
+					}
 				}
 
 				float distance = boundsExtents.magnitude + 1f;
@@ -419,13 +458,24 @@ namespace JD
 				for (int i = 0; i < boundingBoxPoints.Length; i++)
 				{
 					if (leftmostPoint < 0 && IsOutermostPointInDirection(i, leftFrustumPlaneNormal))
+					{
 						leftmostPoint = i;
+					}
+
 					if (rightmostPoint < 0 && IsOutermostPointInDirection(i, rightFrustumPlaneNormal))
+					{
 						rightmostPoint = i;
+					}
+
 					if (topmostPoint < 0 && IsOutermostPointInDirection(i, topFrustumPlaneNormal))
+					{
 						topmostPoint = i;
+					}
+
 					if (bottommostPoint < 0 && IsOutermostPointInDirection(i, bottomFrustumPlaneNormal))
+					{
 						bottommostPoint = i;
+					}
 				}
 
 				Ray horizontalIntersection = GetPlanesIntersection(new Plane(leftFrustumPlaneNormal, boundingBoxPoints[leftmostPoint]), new Plane(rightFrustumPlaneNormal, boundingBoxPoints[rightmostPoint]));
@@ -444,7 +494,9 @@ namespace JD
 			for (int i = 0; i < boundingBoxPoints.Length; i++)
 			{
 				if (i != pointIndex && Vector3.Dot(direction, boundingBoxPoints[i] - point) > 0)
+				{
 					return false;
+				}
 			}
 
 			return true;
@@ -495,7 +547,9 @@ namespace JD
 				renderCamera.cullingMask = PREVIEW_LAYER;
 			}
 			else
+			{
 				renderCamera = InternalCamera;
+			}
 
 			renderCamera.backgroundColor = m_backgroundColor;
 			renderCamera.orthographic = m_orthographicMode;
@@ -505,12 +559,16 @@ namespace JD
 		private static bool IsStatic(Transform obj)
 		{
 			if (obj.gameObject.isStatic)
+			{
 				return true;
+			}
 
 			for (int i = 0; i < obj.childCount; i++)
 			{
 				if (IsStatic(obj.GetChild(i)))
+				{
 					return true;
+				}
 			}
 
 			return false;

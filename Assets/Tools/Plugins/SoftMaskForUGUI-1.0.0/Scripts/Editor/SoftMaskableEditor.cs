@@ -61,14 +61,20 @@ namespace Coffee.UISoftMask
 		private void DrawMaskInteractions()
 		{
 			SoftMaskable softMaskable = target as SoftMaskable;
-			if (softMaskable == null) return;
+			if (softMaskable == null)
+			{
+				return;
+			}
 
 			softMaskable.GetComponentsInParent(true, s_TmpMasks);
 			s_TmpMasks.RemoveAll(x => !x.enabled);
 			s_TmpMasks.Reverse();
 
 			MaskInteraction = (MaskInteraction)EditorGUILayout.EnumPopup("Mask Interaction", MaskInteraction);
-			if (!_custom) return;
+			if (!_custom)
+			{
+				return;
+			}
 
 			float l = EditorGUIUtility.labelWidth;
 			EditorGUIUtility.labelWidth = 45;
@@ -119,10 +125,16 @@ namespace Coffee.UISoftMask
 			serializedObject.ApplyModifiedProperties();
 
 			SoftMaskable current = target as SoftMaskable;
-			if (current == null) return;
+			if (current == null)
+			{
+				return;
+			}
 
 			SoftMask mask = current.SoftMask;
-			if (mask) return;
+			if (mask)
+			{
+				return;
+			}
 
 			GUILayout.BeginHorizontal();
 			EditorGUILayout.HelpBox("This is unnecessary SoftMaskable.\nCan't find any SoftMask components above.", MessageType.Warning);

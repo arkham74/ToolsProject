@@ -235,7 +235,9 @@ namespace DependenciesHunter
 			_ignorePatternsFoldout = EditorGUILayout.Foldout(_ignorePatternsFoldout, "Ignored in Output Assets Patterns");
 
 			if (!_ignorePatternsFoldout)
+			{
 				return;
+			}
 
 			bool isDirty = false;
 

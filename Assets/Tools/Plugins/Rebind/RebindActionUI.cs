@@ -187,8 +187,15 @@ namespace UnityEngine.InputSystem
 
 			foreach (InputBinding inputBinding in action.actionMap.bindings)
 			{
-				if (Compare(inputBinding, binding)) continue;
-				if (inputBinding.effectivePath == binding.effectivePath) return true;
+				if (Compare(inputBinding, binding))
+				{
+					continue;
+				}
+
+				if (inputBinding.effectivePath == binding.effectivePath)
+				{
+					return true;
+				}
 			}
 
 			return false;
@@ -228,13 +235,19 @@ namespace UnityEngine.InputSystem
 			if (Application.isPlaying)
 			{
 				if (useFallback)
+				{
 					text.SetLocalizedTextFallback(tableKey, key, display, format);
+				}
 				else
+				{
 					text.SetLocalizedText(tableKey, key, format);
+				}
 			}
 			else
 #endif
-			text.SetText(string.Format(format, display));
+			{
+				text.SetText(string.Format(format, display));
+			}
 		}
 	}
 }

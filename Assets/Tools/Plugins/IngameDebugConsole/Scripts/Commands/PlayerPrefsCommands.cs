@@ -8,7 +8,11 @@ namespace IngameDebugConsole.Commands
 		[ConsoleMethod("prefs.int", "Returns the value of an Integer PlayerPrefs field"), UnityEngine.Scripting.Preserve]
 		public static string PlayerPrefsGetInt(string key)
 		{
-			if (!PlayerPrefs.HasKey(key)) return "Key Not Found";
+			if (!PlayerPrefs.HasKey(key))
+			{
+				return "Key Not Found";
+			}
+
 			return PlayerPrefs.GetInt(key).ToString();
 		}
 
@@ -21,7 +25,11 @@ namespace IngameDebugConsole.Commands
 		[ConsoleMethod("prefs.float", "Returns the value of a Float PlayerPrefs field"), UnityEngine.Scripting.Preserve]
 		public static string PlayerPrefsGetFloat(string key)
 		{
-			if (!PlayerPrefs.HasKey(key)) return "Key Not Found";
+			if (!PlayerPrefs.HasKey(key))
+			{
+				return "Key Not Found";
+			}
+
 			return PlayerPrefs.GetFloat(key).ToString();
 		}
 
@@ -34,7 +42,11 @@ namespace IngameDebugConsole.Commands
 		[ConsoleMethod("prefs.string", "Returns the value of a String PlayerPrefs field"), UnityEngine.Scripting.Preserve]
 		public static string PlayerPrefsGetString(string key)
 		{
-			if (!PlayerPrefs.HasKey(key)) return "Key Not Found";
+			if (!PlayerPrefs.HasKey(key))
+			{
+				return "Key Not Found";
+			}
+
 			return PlayerPrefs.GetString(key);
 		}
 

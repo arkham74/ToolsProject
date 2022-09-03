@@ -20,27 +20,42 @@ namespace JD
 
 		private void Awake()
 		{
-			if (state.HasFlag(State.AWAKE)) Trigger();
+			if (state.HasFlag(State.AWAKE))
+			{
+				Trigger();
+			}
 		}
 
 		private void OnEnable()
 		{
-			if (state.HasFlag(State.ON_ENABLE)) Trigger();
+			if (state.HasFlag(State.ON_ENABLE))
+			{
+				Trigger();
+			}
 		}
 
 		private void Start()
 		{
-			if (state.HasFlag(State.START)) Trigger();
+			if (state.HasFlag(State.START))
+			{
+				Trigger();
+			}
 		}
 
 		private void OnDisable()
 		{
-			if (state.HasFlag(State.ON_DISABLE)) Trigger();
+			if (state.HasFlag(State.ON_DISABLE))
+			{
+				Trigger();
+			}
 		}
 
 		private void OnDestroy()
 		{
-			if (state.HasFlag(State.ON_DESTROY)) Trigger();
+			if (state.HasFlag(State.ON_DESTROY))
+			{
+				Trigger();
+			}
 		}
 	}
 }

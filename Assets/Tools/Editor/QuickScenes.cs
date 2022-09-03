@@ -32,7 +32,9 @@ namespace JD.Editor
 				text = "Load";
 
 				if (sceneIcon == null)
+				{
 					sceneIcon = EditorGUIUtility.FindTexture("d_Scene");
+				}
 
 				icon = sceneIcon;
 				clicked += ShowDropdown;

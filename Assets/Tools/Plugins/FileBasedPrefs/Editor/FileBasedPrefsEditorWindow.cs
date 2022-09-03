@@ -140,7 +140,11 @@ namespace JD.Editor
 			EditorGUILayout.LabelField(item.Key);
 			string newValue = EditorGUILayout.DelayedTextField(item.Value);
 			FileBasedPrefs.SetString(item.Key, newValue);
-			if (GUILayout.Button("Delete")) Remove(item.Key);
+			if (GUILayout.Button("Delete"))
+			{
+				Remove(item.Key);
+			}
+
 			EditorGUILayout.EndHorizontal();
 		}
 
@@ -150,7 +154,11 @@ namespace JD.Editor
 			EditorGUILayout.LabelField(item.Key);
 			float newValue = EditorGUILayout.DelayedFloatField(item.Value);
 			FileBasedPrefs.SetFloat(item.Key, newValue);
-			if (GUILayout.Button("Delete")) Remove(item.Key);
+			if (GUILayout.Button("Delete"))
+			{
+				Remove(item.Key);
+			}
+
 			EditorGUILayout.EndHorizontal();
 		}
 
@@ -160,7 +168,11 @@ namespace JD.Editor
 			EditorGUILayout.LabelField(item.Key);
 			int newValue = EditorGUILayout.DelayedIntField(item.Value);
 			FileBasedPrefs.SetInt(item.Key, newValue);
-			if (GUILayout.Button("Delete")) Remove(item.Key);
+			if (GUILayout.Button("Delete"))
+			{
+				Remove(item.Key);
+			}
+
 			EditorGUILayout.EndHorizontal();
 		}
 
@@ -170,7 +182,11 @@ namespace JD.Editor
 			EditorGUILayout.LabelField(item.Key);
 			bool newValue = EditorGUILayout.Toggle(item.Value);
 			FileBasedPrefs.SetBool(item.Key, newValue);
-			if (GUILayout.Button("Delete")) Remove(item.Key);
+			if (GUILayout.Button("Delete"))
+			{
+				Remove(item.Key);
+			}
+
 			EditorGUILayout.EndHorizontal();
 		}
 

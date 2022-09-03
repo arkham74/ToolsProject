@@ -28,8 +28,16 @@ namespace JD
 
 		public static T Random<T>(this IList<T> list)
 		{
-			if (list == null) throw new ArgumentNullException();
-			if (list.Count <= 0) throw new ArgumentException("List must have more than 0 elements");
+			if (list == null)
+			{
+				throw new ArgumentNullException();
+			}
+
+			if (list.Count <= 0)
+			{
+				throw new ArgumentException("List must have more than 0 elements");
+			}
+
 			return list[UnityEngine.Random.Range(0, list.Count)];
 		}
 
@@ -110,9 +118,16 @@ namespace JD
 
 		public static T Random<T>(this IEnumerable<T> list)
 		{
-			if (list == null) throw new ArgumentNullException();
+			if (list == null)
+			{
+				throw new ArgumentNullException();
+			}
+
 			int count = list.Count();
-			if (count <= 0) throw new ArgumentException("List must have more than 0 elements");
+			if (count <= 0)
+			{
+				throw new ArgumentException("List must have more than 0 elements");
+			}
 
 			return list.ElementAt(UnityEngine.Random.Range(0, count));
 		}
@@ -172,8 +187,16 @@ namespace JD
 		public static bool TryRandom<T>(this IList<T> array, out T element)
 		{
 			element = default;
-			if (array == null) return false;
-			if (array.Count <= 0) return false;
+			if (array == null)
+			{
+				return false;
+			}
+
+			if (array.Count <= 0)
+			{
+				return false;
+			}
+
 			element = array[UnityEngine.Random.Range(0, array.Count)];
 			return true;
 		}
@@ -181,7 +204,9 @@ namespace JD
 		public static bool CompareList<T>(this IList<T> l1, IList<T> l2)
 		{
 			if (l1.Count != l2.Count)
+			{
 				return false;
+			}
 
 			return l2.All(e => l1.Contains(e));
 		}
@@ -189,10 +214,14 @@ namespace JD
 		public static C[] ForEachPair<T, C>(this IList<T> array, Func<T, T, C> method)
 		{
 			if (array == null)
+			{
 				throw new ArgumentException("ForEachPair", nameof(array));
+			}
 
 			if (method == null)
+			{
 				throw new ArgumentException("ForEachPair", nameof(method));
+			}
 
 			int count = array.Count - 1;
 			C[] list = new C[count];

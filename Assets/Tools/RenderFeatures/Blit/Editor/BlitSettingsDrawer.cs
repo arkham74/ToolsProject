@@ -20,7 +20,10 @@ namespace Cyan.Editor
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
 			//base.OnGUI(position, property, label);
-			if (!createdStyles) CreateStyles();
+			if (!createdStyles)
+			{
+				CreateStyles();
+			}
 
 			// Blit Settings
 			EditorGUI.BeginProperty(position, label, property);

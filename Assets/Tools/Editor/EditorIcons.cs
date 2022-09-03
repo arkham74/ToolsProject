@@ -32,13 +32,19 @@ namespace JD.Editor
 		{
 			using (new GUILayout.HorizontalScope())
 			{
-				if (IsWide) GUILayout.Space(10);
+				if (IsWide)
+				{
+					GUILayout.Space(10);
+				}
 
 				search = EditorGUILayout.TextField(search, EditorStyles.toolbarSearchField);
 				if (GUILayout.Button(EditorGUIUtility.IconContent("winbtn_mac_close_h"), //SVN_DeletedLocal
 						EditorStyles.toolbarButton,
 						GUILayout.Width(22))
-				) search = "";
+				)
+				{
+					search = "";
+				}
 			}
 		}
 
@@ -50,7 +56,11 @@ namespace JD.Editor
 		{
 			GUIContent valid = null;
 			Debug.unityLogger.logEnabled = false;
-			if (!string.IsNullOrEmpty(icon_name)) valid = EditorGUIUtility.IconContent(icon_name);
+			if (!string.IsNullOrEmpty(icon_name))
+			{
+				valid = EditorGUIUtility.IconContent(icon_name);
+			}
+
 			Debug.unityLogger.logEnabled = true;
 			return valid?.image == null ? null : valid;
 		}
@@ -106,8 +116,11 @@ namespace JD.Editor
 				//if (x.hideFlags != HideFlags.HideAndDontSave && x.hideFlags != skip_flag) skipped_flags++;  // skipped 27 icons
 
 				GUIContent icoContent = GetIcon(x.name);
-				if (icoContent == null) continue; // skipped 14 icons 
-																					//{ 
+				if (icoContent == null)
+				{
+					continue; // skipped 14 icons
+				}
+				//{
 																					//    skipped_nulls++; 
 																					//    continue; 
 																					//}
@@ -143,7 +156,10 @@ namespace JD.Editor
 
 			InitIcons();
 
-			if (!IsWide) SearchGUI();
+			if (!IsWide)
+			{
+				SearchGUI();
+			}
 
 			using (new GUILayout.HorizontalScope(EditorStyles.toolbar))
 			{
@@ -152,10 +168,16 @@ namespace JD.Editor
 					viewBigIcons ? 1 : 0, new string[] { "Small", "Big" },
 					2, EditorStyles.toolbarButton) == 1;
 
-				if (IsWide) SearchGUI();
+				if (IsWide)
+				{
+					SearchGUI();
+				}
 			}
 
-			if (IsWide) GUILayout.Space(3);
+			if (IsWide)
+			{
+				GUILayout.Space(3);
+			}
 
 			using (GUILayout.ScrollViewScope scope = new GUILayout.ScrollViewScope(scroll))
 			{
@@ -174,9 +196,15 @@ namespace JD.Editor
 
 				List<GUIContent> iconList;
 
-				if (DoSearch) iconList = iconContentListAll.Where(x => x.tooltip.ToLower()
+				if (DoSearch)
+				{
+					iconList = iconContentListAll.Where(x => x.tooltip.ToLower()
 						.Contains(search.ToLower())).ToList();
-				else iconList = viewBigIcons ? iconContentListBig : iconContentListSmall;
+				}
+				else
+				{
+					iconList = viewBigIcons ? iconContentListBig : iconContentListSmall;
+				}
 
 				while (index < iconList.Count)
 				{
@@ -201,7 +229,10 @@ namespace JD.Editor
 
 							index++;
 
-							if (index == iconList.Count) break;
+							if (index == iconList.Count)
+							{
+								break;
+							}
 						}
 					}
 
@@ -212,7 +243,10 @@ namespace JD.Editor
 			}
 
 
-			if (iconSelected == null) return;
+			if (iconSelected == null)
+			{
+				return;
+			}
 
 			GUILayout.FlexibleSpace();
 
@@ -248,9 +282,14 @@ namespace JD.Editor
 					EditorGUILayout.TextField("EditorGUIUtility.IconContent(\"" + iconSelected.tooltip + "\")");
 					GUILayout.Space(5);
 					if (GUILayout.Button("Copy to clipboard", EditorStyles.miniButton))
+					{
 						EditorGUIUtility.systemCopyBuffer = iconSelected.tooltip;
+					}
+
 					if (GUILayout.Button("Save icon to file ...", EditorStyles.miniButton))
+					{
 						SaveIcon(iconSelected.tooltip);
+					}
 				}
 
 				GUILayout.Space(10);
@@ -289,7 +328,10 @@ namespace JD.Editor
 
 		void InitIcons()
 		{
-			if (iconContentListSmall != null) return;
+			if (iconContentListSmall != null)
+			{
+				return;
+			}
 
 			iconButtonStyle = new GUIStyle(EditorStyles.miniButton)
 			{
@@ -323,8 +365,13 @@ namespace JD.Editor
 				iconContentListAll.Add(ico);
 
 				if (!(ico.image.width <= 36 || ico.image.height <= 36))
+				{
 					iconContentListBig.Add(ico);
-				else iconContentListSmall.Add(ico);
+				}
+				else
+				{
+					iconContentListSmall.Add(ico);
+				}
 			}
 		}
 

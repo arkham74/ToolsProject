@@ -101,7 +101,11 @@ namespace Coffee.UISoftMask
 			get { return m_DownSamplingRate; }
 			set
 			{
-				if (m_DownSamplingRate == value) return;
+				if (m_DownSamplingRate == value)
+				{
+					return;
+				}
+
 				m_DownSamplingRate = value;
 				HasChanged = true;
 			}
@@ -116,7 +120,11 @@ namespace Coffee.UISoftMask
 			set
 			{
 				value = Mathf.Clamp01(value);
-				if (Mathf.Approximately(m_Softness, value)) return;
+				if (Mathf.Approximately(m_Softness, value))
+				{
+					return;
+				}
+
 				m_Softness = value;
 				HasChanged = true;
 			}
@@ -131,7 +139,11 @@ namespace Coffee.UISoftMask
 			set
 			{
 				value = Mathf.Clamp01(value);
-				if (Mathf.Approximately(m_Alpha, value)) return;
+				if (Mathf.Approximately(m_Alpha, value))
+				{
+					return;
+				}
+
 				m_Alpha = value;
 				HasChanged = true;
 			}
@@ -146,7 +158,11 @@ namespace Coffee.UISoftMask
 			get { return m_IgnoreParent; }
 			set
 			{
-				if (m_IgnoreParent == value) return;
+				if (m_IgnoreParent == value)
+				{
+					return;
+				}
+
 				m_IgnoreParent = value;
 				HasChanged = true;
 				OnTransformParentChanged();
@@ -161,7 +177,11 @@ namespace Coffee.UISoftMask
 			get { return m_PartOfParent; }
 			set
 			{
-				if (m_PartOfParent == value) return;
+				if (m_PartOfParent == value)
+				{
+					return;
+				}
+
 				m_PartOfParent = value;
 				HasChanged = true;
 				OnTransformParentChanged();
@@ -220,7 +240,11 @@ namespace Coffee.UISoftMask
 			get { return m_IgnoreSelfGraphic; }
 			set
 			{
-				if (m_IgnoreSelfGraphic == value) return;
+				if (m_IgnoreSelfGraphic == value)
+				{
+					return;
+				}
+
 				m_IgnoreSelfGraphic = value;
 				HasChanged = true;
 				graphic.SetVerticesDirtyEx();
@@ -232,7 +256,11 @@ namespace Coffee.UISoftMask
 			get { return m_IgnoreSelfStencil; }
 			set
 			{
-				if (m_IgnoreSelfStencil == value) return;
+				if (m_IgnoreSelfStencil == value)
+				{
+					return;
+				}
+
 				m_IgnoreSelfStencil = value;
 				HasChanged = true;
 				graphic.SetVerticesDirtyEx();
@@ -260,7 +288,10 @@ namespace Coffee.UISoftMask
 		public override Material GetModifiedMaterial(Material baseMaterial)
 		{
 			HasChanged = true;
-			if (IgnoreSelfStencil) return baseMaterial;
+			if (IgnoreSelfStencil)
+			{
+				return baseMaterial;
+			}
 
 			Material result = base.GetModifiedMaterial(baseMaterial);
 			if (m_IgnoreParent && result != baseMaterial)
@@ -316,7 +347,10 @@ namespace Coffee.UISoftMask
 		/// <param name="g">Target graphic.</param>
 		public bool IsRaycastLocationValid(Vector2 sp, Graphic g, int[] interactions)
 		{
-			if (!isActiveAndEnabled || (g == graphic && !g.raycastTarget)) return true;
+			if (!isActiveAndEnabled || (g == graphic && !g.raycastTarget))
+			{
+				return true;
+			}
 
 			int x = (int)((SoftMaskBuffer.width - 1) * Mathf.Clamp01(sp.x / Screen.width));
 			int y = s_UVStartsAtTop && !s_IsMetal
@@ -461,17 +495,23 @@ namespace Coffee.UISoftMask
 			foreach (SoftMask sm in s_ActiveSoftMasks)
 			{
 				if (!sm || sm._hasChanged)
+				{
 					continue;
+				}
 
 				Canvas canvas = sm.graphic.canvas;
 				if (!canvas)
+				{
 					continue;
+				}
 
 				if (canvas.renderMode == RenderMode.WorldSpace)
 				{
 					Camera cam = canvas.worldCamera;
 					if (!cam)
+					{
 						continue;
+					}
 
 					Profiler.BeginSample("Check view projection matrix changed (world space)");
 					Matrix4x4 nowVP = cam.projectionMatrix * cam.worldToCameraMatrix;
@@ -505,13 +545,23 @@ namespace Coffee.UISoftMask
 			foreach (SoftMask sm in s_ActiveSoftMasks)
 			{
 				if (!sm || !sm._hasChanged)
+				{
 					continue;
+				}
 
 				sm._hasChanged = false;
-				if (sm._parent) continue;
+				if (sm._parent)
+				{
+					continue;
+				}
+
 				sm.UpdateMaskTexture();
 
-				if (!sm._hasStencilStateChanged) continue;
+				if (!sm._hasStencilStateChanged)
+				{
+					continue;
+				}
+
 				sm._hasStencilStateChanged = false;
 
 				Profiler.BeginSample("Notify stencil state changed");
@@ -549,7 +599,11 @@ namespace Coffee.UISoftMask
 		/// </summary>
 		private void UpdateMaskTexture()
 		{
-			if (!graphic || !graphic.canvas) return;
+			if (!graphic || !graphic.canvas)
+			{
+				return;
+			}
+
 			Profiler.BeginSample("UpdateMaskTexture");
 
 
@@ -664,7 +718,9 @@ namespace Coffee.UISoftMask
 			}
 
 			if (rate == DownSampling.None)
+			{
 				return;
+			}
 
 			float aspect = (float)w / h;
 			if (w < h)
@@ -685,7 +741,10 @@ namespace Coffee.UISoftMask
 		/// <param name="tmpRT">Object.</param>
 		private static void ReleaseRt(ref RenderTexture tmpRT)
 		{
-			if (!tmpRT) return;
+			if (!tmpRT)
+			{
+				return;
+			}
 
 			tmpRT.Release();
 			RenderTexture.ReleaseTemporary(tmpRT);
@@ -698,14 +757,21 @@ namespace Coffee.UISoftMask
 		/// <param name="obj">Object.</param>
 		private static void ReleaseObject(Object obj)
 		{
-			if (!obj) return;
+			if (!obj)
+			{
+				return;
+			}
 
 #if UNITY_EDITOR
 			if (!Application.isPlaying)
+			{
 				DestroyImmediate(obj);
+			}
 			else
 #endif
+			{
 				Destroy(obj);
+			}
 		}
 
 

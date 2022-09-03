@@ -33,10 +33,14 @@ namespace JD
 		public static float ClampEuler(this float eulerAngle)
 		{
 			if (eulerAngle > 180)
+			{
 				eulerAngle -= 360;
+			}
 
 			if (eulerAngle < -180)
+			{
 				eulerAngle += 360;
+			}
 
 			return eulerAngle;
 		}
@@ -169,7 +173,10 @@ namespace JD
 		public static float ToLogDBScale(this float value)
 		{
 			if (value <= 0)
+			{
 				value = 0.0001f;
+			}
+
 			return Mathf.Log10(value) * 20;
 		}
 

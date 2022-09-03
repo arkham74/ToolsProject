@@ -34,7 +34,10 @@ namespace Cyan
 
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 		{
-			if (!sceneView && renderingData.cameraData.camera.name == "SceneCamera") return;
+			if (!sceneView && renderingData.cameraData.camera.name == "SceneCamera")
+			{
+				return;
+			}
 
 			if (settings.requireDepthNormals)
 			{
@@ -44,7 +47,10 @@ namespace Cyan
 
 		public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 		{
-			if (!sceneView && renderingData.cameraData.camera.name == "SceneCamera") return;
+			if (!sceneView && renderingData.cameraData.camera.name == "SceneCamera")
+			{
+				return;
+			}
 
 			CommandBuffer cmd = CommandBufferPool.Get(m_ProfilerTag);
 			RenderTextureDescriptor opaqueDesc = renderingData.cameraData.cameraTargetDescriptor;

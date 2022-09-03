@@ -68,21 +68,31 @@ namespace IngameDebugConsole
 
 			EditorGUILayout.PropertyField( enablePopup );
 			if( enablePopup.boolValue )
+			{
 				DrawSubProperty( startInPopupMode );
+			}
 			else
+			{
 				DrawSubProperty( startMinimized );
+			}
 
 			EditorGUILayout.PropertyField( toggleWithKey );
 			if( toggleWithKey.boolValue )
+			{
 				DrawSubProperty( toggleKey );
+			}
 
 			EditorGUILayout.PropertyField( enableSearchbar );
 			if( enableSearchbar.boolValue )
+			{
 				DrawSubProperty( topSearchbarMinWidth );
+			}
 
 			EditorGUILayout.PropertyField( captureLogTimestamps );
 			if( captureLogTimestamps.boolValue )
+			{
 				DrawSubProperty( alwaysDisplayTimestamps );
+			}
 
 			EditorGUILayout.PropertyField( clearCommandAfterExecution );
 			EditorGUILayout.PropertyField( commandHistorySize );
@@ -90,7 +100,9 @@ namespace IngameDebugConsole
 
 			EditorGUILayout.PropertyField( receiveLogcatLogsInAndroid );
 			if( receiveLogcatLogsInAndroid.boolValue )
+			{
 				DrawSubProperty( logcatArguments );
+			}
 
 			DrawPropertiesExcluding( serializedObject, "m_Script" );
 			serializedObject.ApplyModifiedProperties();

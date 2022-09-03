@@ -16,7 +16,11 @@ namespace JD
 #endif
 		public void Set()
 		{
-			if (!prefab) return;
+			if (!prefab)
+			{
+				return;
+			}
+
 			int i = 0;
 			foreach (Transform child in transform)
 			{

@@ -16,7 +16,10 @@ namespace JD
 			{
 				string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
 				T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
-				if (asset) assets.Add(asset);
+				if (asset)
+				{
+					assets.Add(asset);
+				}
 			}
 
 			return assets.ToArray();

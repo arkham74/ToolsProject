@@ -63,7 +63,9 @@ namespace Michsky.UI.Shift
 			set
 			{
 				if (m_Direction != value)
+				{
 					m_Direction = value;
+				}
 			}
 		}
 
@@ -73,7 +75,9 @@ namespace Michsky.UI.Shift
 			set
 			{
 				if (m_Color1 != value)
+				{
 					m_Color1 = value;
+				}
 			}
 		}
 
@@ -83,7 +87,9 @@ namespace Michsky.UI.Shift
 			set
 			{
 				if (m_Color2 != value)
+				{
 					m_Color2 = value;
+				}
 			}
 		}
 
@@ -93,7 +99,9 @@ namespace Michsky.UI.Shift
 			set
 			{
 				if (m_Color3 != value)
+				{
 					m_Color3 = value;
+				}
 			}
 		}
 
@@ -103,7 +111,9 @@ namespace Michsky.UI.Shift
 			set
 			{
 				if (m_Color4 != value)
+				{
 					m_Color4 = value;
+				}
 			}
 		}
 
@@ -118,7 +128,9 @@ namespace Michsky.UI.Shift
 			set
 			{
 				if (!Mathf.Approximately(m_Rotation, value))
+				{
 					m_Rotation = value;
+				}
 			}
 		}
 
@@ -128,7 +140,9 @@ namespace Michsky.UI.Shift
 			set
 			{
 				if (m_Offset1 != value)
+				{
 					m_Offset1 = value;
+				}
 			}
 		}
 
@@ -151,7 +165,9 @@ namespace Michsky.UI.Shift
 			set
 			{
 				if (m_GradientStyle != value)
+				{
 					m_GradientStyle = value;
+				}
 			}
 		}
 
@@ -161,7 +177,9 @@ namespace Michsky.UI.Shift
 			set
 			{
 				if (m_ColorSpace != value)
+				{
 					m_ColorSpace = value;
+				}
 			}
 		}
 
@@ -171,23 +189,31 @@ namespace Michsky.UI.Shift
 			set
 			{
 				if (m_IgnoreAspectRatio != value)
+				{
 					m_IgnoreAspectRatio = value;
+				}
 			}
 		}
 
 		public override void ModifyMesh(VertexHelper vh)
 		{
 			if (!IsActive())
+			{
 				return;
+			}
 
 			Rect rect = default;
 			UIVertex vertex = default;
 
 			if (m_GradientStyle == GradientStyle.Rect)
+			{
 				rect = graphic.rectTransform.rect;
+			}
 
 			else if (m_GradientStyle == GradientStyle.Split)
+			{
 				rect.Set(0, 0, 1, 1);
+			}
 
 			else if (m_GradientStyle == GradientStyle.Fit)
 			{
@@ -222,10 +248,14 @@ namespace Michsky.UI.Shift
 				vh.PopulateUIVertex(ref vertex, i);
 
 				if (m_GradientStyle == GradientStyle.Split)
+				{
 					nomalizedPos = localMatrix * s_SplitedCharacterPosition[i % 4] + Offset2;
+				}
 
 				else
+				{
 					nomalizedPos = localMatrix * vertex.position + Offset2;
+				}
 
 				if (DirectionMain == Direction.Diagonal)
 				{
@@ -236,7 +266,9 @@ namespace Michsky.UI.Shift
 				}
 
 				else
+				{
 					color = Color.LerpUnclamped(m_Color2, m_Color1, nomalizedPos.y);
+				}
 
 				vertex.color *= (m_ColorSpace == ColorSpace.Gamma) ? color.gamma
 					 : (m_ColorSpace == ColorSpace.Linear) ? color.linear

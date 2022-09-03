@@ -16,9 +16,13 @@ namespace JD
 			float time = Time.realtimeSinceStartup;
 			float value = Mathf.Sin(time * speed);
 			if (invert)
+			{
 				callback.Invoke(value < threshold);
+			}
 			else
+			{
 				callback.Invoke(value > threshold);
+			}
 		}
 	}
 }

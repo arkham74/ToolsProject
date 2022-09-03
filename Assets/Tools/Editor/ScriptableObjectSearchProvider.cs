@@ -52,16 +52,48 @@ namespace JD.Editor
 			List<string> groups = new List<string>();
 			foreach (Type item in types)
 			{
-				if (item.IsSubclassOf(editorType)) continue;
-				if (item.IsSubclassOf(editorWindowType)) continue;
-				if (item.IsSubclassOf(volumeComponentType)) continue;
-				if (scriptableRendererFeatureType != null)
-					if (item.IsSubclassOf(scriptableRendererFeatureType)) continue;
+				if (item.IsSubclassOf(editorType))
+				{
+					continue;
+				}
 
-				if (item.IsAbstract) continue;
-				if (item.IsNotPublic) continue;
-				if (!item.IsPublic) continue;
-				if (item.ContainsGenericParameters) continue;
+				if (item.IsSubclassOf(editorWindowType))
+				{
+					continue;
+				}
+
+				if (item.IsSubclassOf(volumeComponentType))
+				{
+					continue;
+				}
+
+				if (scriptableRendererFeatureType != null)
+				{
+					if (item.IsSubclassOf(scriptableRendererFeatureType))
+					{
+						continue;
+					}
+				}
+
+				if (item.IsAbstract)
+				{
+					continue;
+				}
+
+				if (item.IsNotPublic)
+				{
+					continue;
+				}
+
+				if (!item.IsPublic)
+				{
+					continue;
+				}
+
+				if (item.ContainsGenericParameters)
+				{
+					continue;
+				}
 
 				string[] entryTitle = item.FullName.Split('.');
 				string groupName = "";
@@ -91,9 +123,13 @@ namespace JD.Editor
 		{
 			string[] parts = arg.FullName.Split('.');
 			if (parts.Length == 1)
+			{
 				return "ZZZZZZZZZZZZZZ" + arg.FullName;
+			}
 			else
+			{
 				return arg.FullName;
+			}
 		}
 
 		public bool OnSelectEntry(SearchTreeEntry entry, SearchWindowContext context)

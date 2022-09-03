@@ -17,9 +17,13 @@ namespace IngameDebugConsole
 		public void OnScroll(PointerEventData data)
 		{
 			if (IsScrollbarAtBottom())
+			{
 				debugLogManager.SetSnapToBottom(true);
+			}
 			else
+			{
 				debugLogManager.SetSnapToBottom(false);
+			}
 		}
 
 		public void OnBeginDrag(PointerEventData data)
@@ -30,9 +34,13 @@ namespace IngameDebugConsole
 		public void OnEndDrag(PointerEventData data)
 		{
 			if (IsScrollbarAtBottom())
+			{
 				debugLogManager.SetSnapToBottom(true);
+			}
 			else
+			{
 				debugLogManager.SetSnapToBottom(false);
+			}
 		}
 
 		public void OnScrollbarDragStart()
@@ -43,16 +51,22 @@ namespace IngameDebugConsole
 		public void OnScrollbarDragEnd()
 		{
 			if (IsScrollbarAtBottom())
+			{
 				debugLogManager.SetSnapToBottom(true);
+			}
 			else
+			{
 				debugLogManager.SetSnapToBottom(false);
+			}
 		}
 
 		private bool IsScrollbarAtBottom()
 		{
 			float scrollbarYPos = debugsScrollRect.verticalNormalizedPosition;
 			if (scrollbarYPos <= 1E-6f)
+			{
 				return true;
+			}
 
 			return false;
 		}

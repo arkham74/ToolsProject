@@ -51,7 +51,9 @@ namespace IngameDebugConsole
 		public override string ToString()
 		{
 			if( completeLog == null )
+			{
 				completeLog = string.Concat( logString, "\n", stackTrace );
+			}
 
 			return completeLog;
 		}
@@ -123,25 +125,37 @@ namespace IngameDebugConsole
 
 			int hour = dateTime.Hour;
 			if( hour >= 10 )
+			{
 				sb.Append( hour );
+			}
 			else
+			{
 				sb.Append( "0" ).Append( hour );
+			}
 
 			sb.Append( ":" );
 
 			int minute = dateTime.Minute;
 			if( minute >= 10 )
+			{
 				sb.Append( minute );
+			}
 			else
+			{
 				sb.Append( "0" ).Append( minute );
+			}
 
 			sb.Append( ":" );
 
 			int second = dateTime.Second;
 			if( second >= 10 )
+			{
 				sb.Append( second );
+			}
 			else
+			{
 				sb.Append( "0" ).Append( second );
+			}
 
 			sb.Append( "]" );
 		}

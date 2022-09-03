@@ -161,7 +161,10 @@ namespace JD.CustomRenderObjects.Editor
 			EditorGUI.BeginChangeCheck();
 			int selectedValue = EditorGUI.IntPopup(rect, Styles.Callback, mCallback.intValue, mEventOptionNames, mEventOptionValues);
 			if (EditorGUI.EndChangeCheck())
+			{
 				mCallback.intValue = selectedValue;
+			}
+
 			rect.y += Styles.DefaultLineSpace;
 
 			DoFilters(ref rect);
@@ -190,7 +193,9 @@ namespace JD.CustomRenderObjects.Editor
 
 			EditorGUI.EndProperty();
 			if (EditorGUI.EndChangeCheck())
+			{
 				property.serializedObject.ApplyModifiedProperties();
+			}
 		}
 
 		private void DoFilters(ref Rect rect)
@@ -228,7 +233,10 @@ namespace JD.CustomRenderObjects.Editor
 				EditorGUI.BeginChangeCheck();
 				EditorGUI.PropertyField(rect, mOverrideMaterialPass, Styles.OverrideMaterialPass);
 				if (EditorGUI.EndChangeCheck())
+				{
 					mOverrideMaterialPass.intValue = Mathf.Max(0, mOverrideMaterialPass.intValue);
+				}
+
 				EditorGUI.indentLevel--;
 			}
 		}
@@ -264,7 +272,10 @@ namespace JD.CustomRenderObjects.Editor
 				EditorGUI.BeginChangeCheck();
 				Vector3 newOffset = EditorGUI.Vector3Field(rect, Styles.PositionOffset, new Vector3(offset.x, offset.y, offset.z));
 				if (EditorGUI.EndChangeCheck())
+				{
 					mCameraOffset.vector4Value = new Vector4(newOffset.x, newOffset.y, newOffset.z, 1f);
+				}
+
 				rect.y += Styles.DefaultLineSpace;
 				//Restore prev camera projections
 				EditorGUI.PropertyField(rect, mRestoreCamera, Styles.RestoreCamera);

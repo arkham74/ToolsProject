@@ -21,7 +21,9 @@
 		public void Add( T value )
 		{
 			if( size == indices.Length )
+			{
 				System.Array.Resize( ref indices, size * 2 );
+			}
 
 			indices[size++] = value;
 		}

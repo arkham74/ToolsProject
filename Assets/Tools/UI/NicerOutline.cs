@@ -91,7 +91,10 @@ namespace UIExtensions
 		protected void ApplyShadowZeroAlloc(List<UIVertex> verts, Color32 color, int start, int end, float x, float y)
 		{
 			int neededCapacity = verts.Count * 2;
-			if (verts.Capacity < neededCapacity) verts.Capacity = neededCapacity;
+			if (verts.Capacity < neededCapacity)
+			{
+				verts.Capacity = neededCapacity;
+			}
 
 			for (int i = start; i < end; ++i)
 			{
@@ -103,7 +106,11 @@ namespace UIExtensions
 				v.y += y;
 				vt.position = v;
 				Color32 newColor = color;
-				if (useGraphicAlpha) newColor.a = (byte)(newColor.a * verts[i].color.a / 255);
+				if (useGraphicAlpha)
+				{
+					newColor.a = (byte)(newColor.a * verts[i].color.a / 255);
+				}
+
 				vt.color = newColor;
 				verts[i] = vt;
 			}
@@ -112,7 +119,10 @@ namespace UIExtensions
 		protected void ApplyShadow(List<UIVertex> verts, Color32 color, int start, int end, float x, float y)
 		{
 			int neededCapacity = verts.Count * 2;
-			if (verts.Capacity < neededCapacity) verts.Capacity = neededCapacity;
+			if (verts.Capacity < neededCapacity)
+			{
+				verts.Capacity = neededCapacity;
+			}
 
 			ApplyShadowZeroAlloc(verts, color, start, end, x, y);
 		}

@@ -39,9 +39,13 @@ namespace IngameDebugConsole.Commands
 			}
 
 			if (isAsync)
+			{
 				SceneManager.LoadSceneAsync(sceneName, mode);
+			}
 			else
+			{
 				SceneManager.LoadScene(sceneName, mode);
+			}
 		}
 
 		[ConsoleMethod("scene.unload", "Unloads a scene"), UnityEngine.Scripting.Preserve]

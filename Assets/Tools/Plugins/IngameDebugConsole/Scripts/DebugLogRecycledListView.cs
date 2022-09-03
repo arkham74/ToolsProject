@@ -85,7 +85,9 @@ namespace IngameDebugConsole
 		public void SelectAndFocusOnLogItemAtIndex(int itemIndex)
 		{
 			if (indexOfSelectedLogEntry != itemIndex) // Make sure that we aren't deselecting the target log item
+			{
 				OnLogItemClickedInternal(itemIndex);
+			}
 
 			float transformComponentCenterYAtTop = viewportHeight * 0.5f;
 			float transformComponentCenterYAtBottom = transformComponent.sizeDelta.y - viewportHeight * 0.5f;
@@ -106,7 +108,9 @@ namespace IngameDebugConsole
 				if (!referenceItem)
 				{
 					if (currentTopIndex == -1)
+					{
 						UpdateItemsInTheList(false); // Try to generate some DebugLogItems, we need one DebugLogItem to calculate the text height
+					}
 
 					referenceItem = logItemsAtIndices[currentTopIndex];
 				}
@@ -119,10 +123,14 @@ namespace IngameDebugConsole
 				manager.SetSnapToBottom(false);
 			}
 			else
+			{
 				DeselectSelectedLogItem();
+			}
 
 			if (indexOfSelectedLogEntry >= currentTopIndex && indexOfSelectedLogEntry <= currentBottomIndex)
+			{
 				ColorLogItem(logItemsAtIndices[indexOfSelectedLogEntry], indexOfSelectedLogEntry);
+			}
 
 			CalculateContentHeight();
 
@@ -142,7 +150,9 @@ namespace IngameDebugConsole
 			heightOfSelectedLogEntry = deltaHeightOfSelectedLogEntry = 0f;
 
 			if (indexOfPreviouslySelectedLogEntry >= currentTopIndex && indexOfPreviouslySelectedLogEntry <= currentBottomIndex)
+			{
 				ColorLogItem(logItemsAtIndices[indexOfPreviouslySelectedLogEntry], indexOfPreviouslySelectedLogEntry);
+			}
 		}
 
 		// Number of debug entries may be changed, update the list
@@ -152,7 +162,9 @@ namespace IngameDebugConsole
 			viewportHeight = viewportTransform.rect.height;
 
 			if (updateAllVisibleItemContents)
+			{
 				HardResetItems();
+			}
 
 			UpdateItemsInTheList(updateAllVisibleItemContents);
 		}
@@ -165,7 +177,9 @@ namespace IngameDebugConsole
 				logItem.ShowCount();
 
 				if (timestampsOfEntriesToShow != null)
+				{
 					logItem.UpdateTimestamp(timestampsOfEntriesToShow[index]);
+				}
 			}
 		}
 
@@ -173,13 +187,17 @@ namespace IngameDebugConsole
 		public void OnViewportWidthChanged()
 		{
 			if (indexOfSelectedLogEntry >= indicesOfEntriesToShow.Count)
+			{
 				return;
+			}
 
 			if (currentTopIndex == -1)
 			{
 				UpdateItemsInTheList(false); // Try to generate some DebugLogItems, we need one DebugLogItem to calculate the text height
 				if (currentTopIndex == -1) // No DebugLogItems are generated, weird
+				{
 					return;
+				}
 			}
 
 			DebugLogItem referenceItem = logItemsAtIndices[currentTopIndex];
@@ -235,16 +253,22 @@ namespace IngameDebugConsole
 						contentPosBottom -= deltaHeightOfSelectedLogEntry;
 
 						if (contentPosTop < positionOfSelectedLogEntry - 1f)
+						{
 							contentPosTop = positionOfSelectedLogEntry - 1f;
+						}
 
 						if (contentPosBottom < contentPosTop + 2f)
+						{
 							contentPosBottom = contentPosTop + 2f;
+						}
 					}
 					else
 					{
 						contentPosBottom -= deltaHeightOfSelectedLogEntry;
 						if (contentPosBottom < positionOfSelectedLogEntry + 1f)
+						{
 							contentPosBottom = positionOfSelectedLogEntry + 1f;
+						}
 					}
 				}
 
@@ -252,10 +276,14 @@ namespace IngameDebugConsole
 				int newBottomIndex = (int)(contentPosBottom * _1OverLogItemHeight);
 
 				if (newTopIndex < 0)
+				{
 					newTopIndex = 0;
+				}
 
 				if (newBottomIndex > indicesOfEntriesToShow.Count - 1)
+				{
 					newBottomIndex = indicesOfEntriesToShow.Count - 1;
+				}
 
 				if (currentTopIndex == -1)
 				{
@@ -288,10 +316,14 @@ namespace IngameDebugConsole
 						// the bounds of the scroll view. Don't destroy them but update their content,
 						// if necessary
 						if (newTopIndex > currentTopIndex)
+						{
 							DestroyLogItemsBetweenIndices(currentTopIndex, newTopIndex - 1);
+						}
 
 						if (newBottomIndex < currentBottomIndex)
+						{
 							DestroyLogItemsBetweenIndices(newBottomIndex + 1, currentBottomIndex);
+						}
 
 						if (newTopIndex < currentTopIndex)
 						{
@@ -301,7 +333,9 @@ namespace IngameDebugConsole
 							// then just update the newly created log items. Otherwise,
 							// wait for the major update
 							if (!updateAllVisibleItemContents)
+							{
 								UpdateLogItemContentsBetweenIndices(newTopIndex, currentTopIndex - 1);
+							}
 						}
 
 						if (newBottomIndex > currentBottomIndex)
@@ -312,7 +346,9 @@ namespace IngameDebugConsole
 							// then just update the newly created log items. Otherwise,
 							// wait for the major update
 							if (!updateAllVisibleItemContents)
+							{
 								UpdateLogItemContentsBetweenIndices(currentBottomIndex + 1, newBottomIndex);
+							}
 						}
 					}
 
@@ -327,7 +363,9 @@ namespace IngameDebugConsole
 				}
 			}
 			else
+			{
 				HardResetItems();
+			}
 		}
 
 		private void CreateLogItemsBetweenIndices(int topIndex, int bottomIndex)
@@ -344,7 +382,9 @@ namespace IngameDebugConsole
 			// Reposition the log item
 			Vector2 anchoredPosition = new Vector2(1f, -index * logItemHeight);
 			if (index > indexOfSelectedLogEntry)
+			{
 				anchoredPosition.y -= deltaHeightOfSelectedLogEntry;
+			}
 
 			logItem.Transform.anchoredPosition = anchoredPosition;
 
@@ -370,9 +410,13 @@ namespace IngameDebugConsole
 				logItem.SetContent(collapsedLogEntries[indicesOfEntriesToShow[i]], (timestampsOfEntriesToShow != null) ? timestampsOfEntriesToShow[i] : (DebugLogEntryTimestamp?)null, i, i == indexOfSelectedLogEntry);
 
 				if (isCollapseOn)
+				{
 					logItem.ShowCount();
+				}
 				else
+				{
 					logItem.HideCount();
+				}
 			}
 		}
 
@@ -380,8 +424,13 @@ namespace IngameDebugConsole
 		private void ColorLogItem(DebugLogItem logItem, int index)
 		{
 			if (index == indexOfSelectedLogEntry)
+			{
 				logItem.Image.color = logItemSelectedColor;
-			else logItem.Image.color = index % 2 == 0 ? logItemNormalColor1 : logItemNormalColor2;
+			}
+			else
+			{
+				logItem.Image.color = index % 2 == 0 ? logItemNormalColor1 : logItemNormalColor2;
+			}
 		}
 	}
 }

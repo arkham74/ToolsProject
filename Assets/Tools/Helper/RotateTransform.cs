@@ -18,9 +18,13 @@ namespace JD
 		{
 			float angle = Time.realtimeSinceStartup * speed;
 			if (localRotation)
+			{
 				target.localRotation = Quaternion.Euler(axis * angle);
+			}
 			else
+			{
 				target.rotation = Quaternion.Euler(axis * angle);
+			}
 		}
 	}
 }

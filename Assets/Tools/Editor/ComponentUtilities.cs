@@ -149,7 +149,10 @@ namespace JD.Editor
 
 			int childCount = body.childCount;
 			if (childCount == 0)
+			{
 				return;
+			}
+
 			Vector3 center = Vector3.zero;
 
 			List<Transform> children = new List<Transform>();

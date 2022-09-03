@@ -89,7 +89,10 @@ namespace Tayx.Graphy.Audio
 
 				MaxDB = 20 * Mathf.Log10(rmsValue / m_refValue); // calculate dB
 
-				if (MaxDB < -80) MaxDB = -80; // clamp it to -80dB min
+				if (MaxDB < -80)
+				{
+					MaxDB = -80; // clamp it to -80dB min
+				}
 
 				// Use this data to draw the spectrum in the graphs
 

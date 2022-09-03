@@ -66,19 +66,25 @@ namespace Michsky.UI.Shift
 			Color color2 = EditorGUI.ColorField(new Rect(position.x, position.y, colorWidth, position.height), property.colorValue);
 
 			if (!color2.Equals(color))
+			{
 				property.colorValue = color = color2;
+			}
 
 			string colorStringValue = EditorGUI.TextField(new Rect(position.x + colorWidth + spacing, position.y, hexFW, position.height), ColorUtility.ToHtmlStringRGBA(color));
 
 			if (ColorUtility.TryParseHtmlString(colorStringValue, out color2))
 			{
 				if (!color2.Equals(color))
+				{
 					property.colorValue = color2;
+				}
 			}
 			if (ColorUtility.TryParseHtmlString("#" + colorStringValue, out color2))
 			{
 				if (!color2.Equals(color))
+				{
 					property.colorValue = color2;
+				}
 			}
 
 			float a = property.colorValue.a.RoundToDecimal(2);
@@ -86,7 +92,9 @@ namespace Michsky.UI.Shift
 			//, 0f, 1f
 
 			if (!newAlpha.Equals(property.colorValue.a))
+			{
 				property.colorValue = new Color(property.colorValue.r, property.colorValue.g, property.colorValue.b, newAlpha);
+			}
 
 			EditorGUI.indentLevel = indent;
 			EditorGUI.EndProperty();

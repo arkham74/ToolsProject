@@ -16,7 +16,11 @@ namespace JD
 		{
 			if (smoothScroll)
 			{
-				if (!IsActive()) return;
+				if (!IsActive())
+				{
+					return;
+				}
+
 				Vector2 positionBefore = normalizedPosition;
 				this.DOKill(true);
 				base.OnScroll(data);

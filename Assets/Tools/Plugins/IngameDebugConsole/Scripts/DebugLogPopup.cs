@@ -61,9 +61,13 @@ namespace IngameDebugConsole
 
 			Vector2 pos = popupTransform.anchoredPosition;
 			if (pos.x != 0f || pos.y != 0f)
+			{
 				normalizedPosition = pos.normalized; // Respect the initial popup position set in the prefab
+			}
 			else
+			{
 				normalizedPosition = new Vector2(0.5f, 0f); // Right edge by default
+			}
 		}
 
 		public void NewLogsArrived(int newInfo, int newWarning, int newError)
@@ -87,8 +91,13 @@ namespace IngameDebugConsole
 			}
 
 			if (newErrorCount > 0)
+			{
 				backgroundImage.color = alertColorError;
-			else backgroundImage.color = newWarningCount > 0 ? alertColorWarning : alertColorInfo;
+			}
+			else
+			{
+				backgroundImage.color = newWarningCount > 0 ? alertColorWarning : alertColorInfo;
+			}
 		}
 
 		private void Reset()
@@ -124,7 +133,9 @@ namespace IngameDebugConsole
 		{
 			// Hide the popup and show the log window
 			if (!isPopupBeingDragged)
+			{
 				debugManager.ShowLogWindow();
+			}
 		}
 
 		// Hides the log window and shows the popup
@@ -165,7 +176,9 @@ namespace IngameDebugConsole
 		public void OnDrag(PointerEventData data)
 		{
 			if (RectTransformUtility.ScreenPointToLocalPointInRectangle(debugManager.canvasTR, data.position, data.pressEventCamera, out Vector2 localPoint))
+			{
 				popupTransform.anchoredPosition = localPoint;
+			}
 		}
 
 		// Smoothly translate the popup to the nearest edge
@@ -225,7 +238,9 @@ namespace IngameDebugConsole
 			}
 
 			if (immediately)
+			{
 				popupTransform.anchoredPosition = pos;
+			}
 			else
 			{
 				// Smoothly translate the popup to the specified position

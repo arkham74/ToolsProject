@@ -73,7 +73,11 @@ namespace JD
 
 		public static TweenerCore<int, int, NoOptions> DORevealText(this TextMeshProUGUI target, string endValue, float duration)
 		{
-			if (endValue == null) endValue = "";
+			if (endValue == null)
+			{
+				endValue = "";
+			}
+
 			target.text = endValue;
 			TweenerCore<int, int, NoOptions> t = DOTween.To(() => target.maxVisibleCharacters, x => target.maxVisibleCharacters = x, endValue.Length, duration);
 			t.SetTarget(target).From(0);

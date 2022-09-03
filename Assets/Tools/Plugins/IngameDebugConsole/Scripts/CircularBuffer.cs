@@ -19,12 +19,16 @@ namespace IngameDebugConsole
 		public void Add(T value)
 		{
 			if (Count < arr.Length)
+			{
 				arr[Count++] = value;
+			}
 			else
 			{
 				arr[startIndex] = value;
 				if (++startIndex >= arr.Length)
+				{
 					startIndex = 0;
+				}
 			}
 		}
 	}
@@ -96,7 +100,9 @@ namespace IngameDebugConsole
 #endif
 
 			if (++startIndex >= arr.Length)
+			{
 				startIndex = 0;
+			}
 
 			Count--;
 			return element;
