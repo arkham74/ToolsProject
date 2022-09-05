@@ -12,16 +12,14 @@ namespace JD
 #endif
 		}
 
-		public static void Destroy(this Object obj, float time = 0f)
+		public static void Destroy(this Object obj, float time)
 		{
-			if (time > 0)
-			{
-				Object.Destroy(obj, time);
-			}
-			else
-			{
-				Object.Destroy(obj);
-			}
+			Object.Destroy(obj, time);
+		}
+
+		public static void Destroy(this Object obj)
+		{
+			Object.Destroy(obj);
 		}
 	}
 }

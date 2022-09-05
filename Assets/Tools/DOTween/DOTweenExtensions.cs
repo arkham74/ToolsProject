@@ -94,16 +94,11 @@ namespace JD
 
 		public static void ScrollTo(this ScrollRect scroller, RectTransform target, float duration = 0.5f)
 		{
-			scroller.ScrollTo(target, Vector2.zero, duration);
-		}
-
-		public static void ScrollTo(this ScrollRect scroller, RectTransform target, Vector2 offset, float duration = 0.5f)
-		{
 			Canvas.ForceUpdateCanvases();
 
-			Vector2 contentPos = scroller.transform.InverseTransformPoint(scroller.content.position);
-			Vector2 childPos = scroller.transform.InverseTransformPoint(target.position);
-			Vector2 endPos = contentPos - childPos + offset;
+			Vector2 contentPos = scroller.viewport.InverseTransformPoint(scroller.content.position);
+			Vector2 childPos = scroller.viewport.InverseTransformPoint(target.position);
+			Vector2 endPos = contentPos - childPos;
 
 			if (!scroller.horizontal)
 			{
@@ -115,9 +110,15 @@ namespace JD
 				endPos.y = contentPos.y;
 			}
 
-			scroller.content.DOKill();
-			scroller.content.DOAnchorPos(endPos, duration).SetUpdate(true);
-			// DOTween.To(() => scroller.content.anchoredPosition, x => scroller.content.anchoredPosition = x, endPos, duration);
+			if (duration > 0)
+			{
+				scroller.content.DOKill(true);
+				scroller.content.DOLocalMove(endPos, duration).SetUpdate(true);
+			}
+			else
+			{
+				scroller.content.localPosition = endPos;
+			}
 		}
 	}
 }

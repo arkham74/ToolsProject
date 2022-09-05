@@ -19,8 +19,9 @@ namespace JD
 {
 	public class ScrollElement : MonoBehaviour, ISelectHandler
 	{
-		public float waitTime = 0.1f;
-		public RectTransform element;
+		[SerializeField] private float duration = 0.5f;
+		[SerializeField] private float waitTime = 0.1f;
+		[SerializeField] private RectTransform element;
 		private ScrollRect scrollRect;
 
 		private void Reset()
@@ -46,7 +47,7 @@ namespace JD
 		private IEnumerator ScrollToElement()
 		{
 			yield return new WaitForSeconds(waitTime);
-			scrollRect.ScrollTo(element);
+			scrollRect.ScrollTo(element, duration);
 		}
 	}
 }

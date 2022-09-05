@@ -4,8 +4,8 @@ namespace JD
 {
 	public sealed class WaitForFrames : CustomYieldInstruction
 	{
-		private int frame;
-		private int startFrame;
+		private readonly int frame;
+		private readonly int startFrame;
 
 		public WaitForFrames(int frames)
 		{
@@ -13,6 +13,6 @@ namespace JD
 			startFrame = Time.frameCount;
 		}
 
-		public override bool keepWaiting => (Time.frameCount - startFrame) < frame;
+		public override bool keepWaiting => Time.frameCount - startFrame < frame;
 	}
 }

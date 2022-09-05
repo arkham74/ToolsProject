@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -74,14 +75,14 @@ namespace JD
 				{
 					EventSystem.current.SetSelectedGameObject(null);
 					yield return new WaitForEndOfFrame();
-					bool activeInHierarchy = selectable.gameObject.activeInHierarchy;
 					bool interactable = selectable.interactable;
 					bool isActiveAndEnabled = selectable.isActiveAndEnabled;
-					if (selectable && isActiveAndEnabled && interactable && activeInHierarchy)
+					if (isActiveAndEnabled && interactable)
 					{
 						selectable.Select();
 					}
 				}
+
 				selectable.StartCoroutine(ButtonSelect());
 			}
 			else
