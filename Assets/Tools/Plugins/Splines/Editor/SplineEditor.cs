@@ -7,12 +7,13 @@ namespace JD.Splines.Editor
 	[CustomEditor(typeof(Spline))]
 	public class SplineEditor : UnityEditor.Editor
 	{
-		private const float lineSize = 2f;
-		private const float ballSize = 0.2f;
+		private const float LINE_SIZE = 2f;
+		private const float BALL_SIZE = 0.2f;
 
 		private SerializedProperty listProp;
 		private SerializedProperty mirrorProp;
 		private SerializedProperty loopProp;
+
 		private Transform transform;
 		private int selectedIndex = -1;
 		private ReorderableList reorderableList;
@@ -28,7 +29,8 @@ namespace JD.Splines.Editor
 			listProp = serializedObject.FindProperty("segments");
 			mirrorProp = serializedObject.FindProperty("mirrorTangents");
 			loopProp = serializedObject.FindProperty("loop");
-			transform = (target as Component).transform;
+
+			transform = ((Component)target).transform;
 			reorderableList = new ReorderableList(serializedObject, listProp);
 			reorderableList.drawHeaderCallback += DrawListHeader;
 			reorderableList.drawElementCallback += DrawListElement;
@@ -87,6 +89,7 @@ namespace JD.Splines.Editor
 				float lineHeight = EditorGUI.GetPropertyHeight(pointProp) + EditorGUIUtility.standardVerticalSpacing;
 				return lineHeight * 4;
 			}
+
 			return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 		}
 
@@ -118,13 +121,8 @@ namespace JD.Splines.Editor
 			serializedObject.Update();
 
 			EditorGUILayout.Separator();
-			// EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-			// EditorGUILayout.BeginVertical(EditorStyles.inspectorDefaultMargins);
-			// EditorGUILayout.BeginVertical(EditorStyles.inspectorFullWidthMargins);
 			EditorGUILayout.PropertyField(mirrorProp);
 			EditorGUILayout.PropertyField(loopProp);
-			// EditorGUILayout.EndVertical();
-			// EditorGUILayout.EndVertical();
 			EditorGUILayout.Separator();
 
 			reorderableList.DoLayoutList();
@@ -160,34 +158,12 @@ namespace JD.Splines.Editor
 					// Vector3 left2 = leftProp2.vector3Value + pos2;
 					Vector3 right2 = rightProp2.vector3Value + pos2;
 
-					Handles.DrawBezier(pos1, pos2, left1, right2, Color.green, null, lineSize);
-
-					// if (Event.current.type == EventType.Repaint)
-					// {
-					// 	Spline sp = target as Spline;
-					// 	const int samples = 5;
-					// 	for (int j = 0; j < samples; j++)
-					// 	{
-					// 		float t = j / (samples - 1f);
-					// 		Vector3 center = sp.Evaluate(t);
-					// 		Vector3 normal = sp.EvaluateNormal(t);
-					// 		Quaternion rot = Quaternion.LookRotation(normal);
-					// 		Handles.DrawWireDisc(center, normal, ballSize / 2f);
-					// 		Handles.color = Color.white;
-					// 		Handles.ArrowHandleCap(
-					// 				0,
-					// 				center,
-					// 				rot,
-					// 				ballSize * 2,
-					// 				EventType.Repaint
-					// 		);
-					// 	}
-					// }
+					Handles.DrawBezier(pos1, pos2, left1, right2, Color.green, null, LINE_SIZE);
 
 					if (DrawHandles(i * 3, elemProp2))
 					{
 						applyChanges = true;
-					};
+					}
 				}
 
 				DrawLoop();
@@ -195,7 +171,7 @@ namespace JD.Splines.Editor
 				if (DrawHandles(0, listProp.GetArrayElementAtIndex(0)))
 				{
 					applyChanges = true;
-				};
+				}
 			}
 
 			if (applyChanges)
@@ -223,7 +199,7 @@ namespace JD.Splines.Editor
 				Vector3 pos2 = pointProp2.vector3Value;
 				Vector3 left2 = leftProp2.vector3Value + pos2;
 
-				Handles.DrawBezier(pos1, pos2, right1, left2, Color.green, null, lineSize);
+				Handles.DrawBezier(pos1, pos2, right1, left2, Color.green, null, LINE_SIZE);
 			}
 		}
 
@@ -238,8 +214,8 @@ namespace JD.Splines.Editor
 			Vector3 right = rightProp.vector3Value + pos;
 
 			Handles.color = Color.red;
-			Handles.DrawLine(pos, left, lineSize);
-			Handles.DrawLine(pos, right, lineSize);
+			Handles.DrawLine(pos, left, LINE_SIZE);
+			Handles.DrawLine(pos, right, LINE_SIZE);
 
 			if (DrawPoint(index + 0, pointProp, null, Vector3.zero, pos))
 			{
@@ -262,7 +238,7 @@ namespace JD.Splines.Editor
 		private bool DrawPoint(int index, SerializedProperty prop, SerializedProperty opProp, Vector3 offset, Vector3 pos)
 		{
 			Handles.color = Color.white;
-			float s = HandleUtility.GetHandleSize(pos) * ballSize;
+			float s = HandleUtility.GetHandleSize(pos) * BALL_SIZE;
 
 			if (selectedIndex == index)
 			{

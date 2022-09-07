@@ -24,29 +24,22 @@ namespace JD.Splines
 			public Vector3 right;
 		}
 
-#pragma warning disable CS0414
-		[SerializeField] private bool mirrorTangents = true;
-		[SerializeField] private bool loop = false;
-#pragma warning restore CS0414
+		[SerializeField] private bool loop;
 
-		// private const int samples = 10;
-		// private float[] lut = new float[samples];
-
-		[SerializeField]
-		private Segment[] segments = new Segment[]
+		[SerializeField] private Segment[] segments = new Segment[]
 		{
-		new Segment()
-		{
-			point = new Vector3(-1,0,0),
-			left = new Vector3(-1,0,0),
-			right = new Vector3(1,0,0)
-		},
-		new Segment()
-		{
-			point = new Vector3(1,0,0),
-			left = new Vector3(-1,0,0),
-			right = new Vector3(1,0,0)
-		}
+			new Segment
+			{
+				point = new Vector3(-1, 0, 0),
+				left = new Vector3(-1, 0, 0),
+				right = new Vector3(1, 0, 0)
+			},
+			new Segment
+			{
+				point = new Vector3(1, 0, 0),
+				left = new Vector3(-1, 0, 0),
+				right = new Vector3(1, 0, 0)
+			}
 		};
 
 		public Segment[] Segments => segments;
@@ -64,21 +57,6 @@ namespace JD.Splines
 
 			return len;
 		}
-
-
-		// public void CalcLUT()
-		// {
-		// 	for (int i = 1; i < samples; i++)
-		// 	{
-		// 		float t1 = (i - 1) / (samples - 1);
-		// 		float t2 = i / (samples - 1);
-		// 		Vector3 pos1 = Evaluate(t1);
-		// 		Vector3 pos2 = Evaluate(t2);
-		// 		float dist = pos1.Distance(pos2);
-		// 		lut[i - 1] = dist;
-		// 		Debug.LogWarning(dist);
-		// 	}
-		// }
 
 		public Vector3 EvaluateNormalByDistance(float distance)
 		{
@@ -100,6 +78,7 @@ namespace JD.Splines
 					return Normal(segments[indexA], segments[indexB], newT);
 				}
 			}
+
 			return Vector3.zero;
 		}
 
@@ -123,6 +102,7 @@ namespace JD.Splines
 					return Bezier(segments[indexA], segments[indexB], newT);
 				}
 			}
+
 			return Vector3.zero;
 		}
 
@@ -174,7 +154,6 @@ namespace JD.Splines
 
 		public static Vector3 Normal(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
 		{
-			// float it = 1f - t;
 			Vector3 a = ((-3 * t * t) + (6 * t) - 3) * p0;
 			Vector3 b = ((9 * t * t) - (12 * t) + 3) * p1;
 			Vector3 c = ((-9 * t * t) + (6 * t)) * p2;

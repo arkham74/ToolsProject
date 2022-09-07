@@ -66,7 +66,6 @@ namespace JD
 	}
 }
 #else
-
 using System.Diagnostics;
 namespace JD
 {

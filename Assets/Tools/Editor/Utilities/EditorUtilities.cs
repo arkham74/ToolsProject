@@ -5,7 +5,7 @@ using Object = UnityEngine.Object;
 
 namespace JD.Editor
 {
-	public static class EditorTools
+	public static class EditorUtilities
 	{
 		public static T ObjectField<T>(string label, T obj, bool allowSceneObjects = false, params GUILayoutOption[] options) where T : Object
 		{

@@ -11,6 +11,18 @@ namespace JD
 {
 	public static class OtherExtensions
 	{
+		public static void ReplaceListener<T>(this UnityEvent<T> unityEvent, UnityAction<T> unityAction)
+		{
+			unityEvent.RemoveAllListeners();
+			unityEvent.AddListener(unityAction);
+		}
+
+		public static void ReplaceListener(this UnityEvent unityEvent, UnityAction unityAction)
+		{
+			unityEvent.RemoveAllListeners();
+			unityEvent.AddListener(unityAction);
+		}
+
 		public static bool CheckKeyPress(this KeyCode main, params KeyCode[] mod)
 		{
 			return Input.GetKeyDown(main) && mod.All(Input.GetKey);

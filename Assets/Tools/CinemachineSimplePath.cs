@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using Freya;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
@@ -11,7 +12,6 @@ using UnityEngine.Serialization;
 using TMPro;
 using Text = TMPro.TextMeshProUGUI;
 using Random = UnityEngine.Random;
-
 
 #if TOOLS_NAUATTR
 using NaughtyAttributes;
@@ -31,14 +31,10 @@ namespace JD
 		[SerializeField] private Vector3[] waypoints;
 		[SerializeField] private bool loop;
 
-#if TOOL_NAUATTR
-	[ShowNativeProperty]
-#endif
-		public float Length => waypoints.PathLength();
-
 		public override bool Looped => loop;
 		public override int DistanceCacheSampleStepsPerSegment => m_Resolution;
 		public override float MinPos => 0;
+
 		public override float MaxPos
 		{
 			get
@@ -56,90 +52,78 @@ namespace JD
 		private void Reset()
 		{
 			loop = false;
-			waypoints = new Vector3[2] { new Vector3(0, 0, -5), new Vector3(0, 0, 5) };
+			waypoints = new[] { new Vector3(0, 0, -5), Vector3.zero, new Vector3(-5, 0, 0) };
 			m_Appearance = new Appearance();
 			InvalidateDistanceCache();
 		}
 
 		private void OnValidate()
 		{
-			m_Appearance.width = Mathf.Max(m_Appearance.width, 0.1f);
 			InvalidateDistanceCache();
-		}
-
-		private void OnDrawGizmosSelected()
-		{
-			Gizmos.color = m_Appearance.inactivePathColor;
-			int max = (int)(Length * m_Appearance.width * 10);
-
-			for (int i = 0; i <= max; i++)
-			{
-				float t = (float)i / max;
-				Gizmos.DrawSphere(EvaluatePositionAtUnit(t, PositionUnits.Normalized), 0.01f);
-			}
-
-			Gizmos.color = m_Appearance.pathColor;
-			Gizmos.matrix = transform.localToWorldMatrix;
-			for (int i = 1; i < waypoints.Length; i++)
-			{
-				Gizmos.DrawLine(waypoints[i - 1], waypoints[i]);
-			}
-		}
-
-		private float GetBoundingIndices(float pos, out int indexA, out int indexB)
-		{
-			pos = StandardizePos(pos);
-
-			indexA = Mathf.FloorToInt(pos);
-			if (indexA >= waypoints.Length)
-			{
-				pos -= MaxPos;
-				indexA = 0;
-			}
-			indexB = indexA + 1;
-			if (indexB >= waypoints.Length)
-			{
-				indexB = 0;
-			}
-
-			return pos - indexA;
-		}
-
-		public override Quaternion EvaluateOrientation(float pos)
-		{
-			Quaternion rotation = Quaternion.Euler(0, 0, 0);
-
-			// if (waypoints.Length > 1)
-			// {
-			// 	pos = GetBoundingIndices(pos, out int indexA, out int indexB);
-			// 	Vector3 dir = waypoints[indexA].DirTo(waypoints[indexB]);
-			// 	if (dir != Vector3.zero)
-			// 		rotation = Quaternion.LookRotation(dir, Vector3.forward);
-			// }
-
-			return rotation;
-		}
-
-		public override Vector3 EvaluatePosition(float pos)
-		{
-			Vector3 result = Vector3.zero;
-
-			if (waypoints.Length > 1)
-			{
-				pos = GetBoundingIndices(pos, out int indexA, out int indexB);
-				result = Vector3.Lerp(waypoints[indexA], waypoints[indexB], pos);
-			}
-			else if (waypoints.Length == 1)
-			{
-				result = waypoints[0];
-			}
-
-			return transform.TransformPoint(result);
 		}
 
 		public override Vector3 EvaluateTangent(float pos)
 		{
-			return Vector3.up;
+			return Vector3.forward;
+		}
+
+		public override Quaternion EvaluateOrientation(float pos)
+		{
+			return Quaternion.Euler(EvaluateTangent(pos));
+		}
+
+		public override Vector3 EvaluatePosition(float pos)
+		{
+			pos = StandardizePos(pos);
+
+			switch (waypoints.Length)
+			{
+				case > 1:
+					(int a, int b, int c, int d, float t) = GetIndexes(pos);
+					return CatmullRom(waypoints[a], waypoints[b], waypoints[c], waypoints[d], t);
+				case > 0:
+					return waypoints[0];
+				default:
+					return transform.position;
+			}
+		}
+
+		private (int, int, int, int, float) GetIndexes(float pos)
+		{
+			int b = Mathf.FloorToInt(pos);
+			int a = b - 1;
+			int c = b + 1;
+			int d = b + 2;
+
+			if (loop)
+			{
+				a = Mathfs.Mod(a, waypoints.Length);
+				c = Mathfs.Mod(c, waypoints.Length);
+				d = Mathfs.Mod(d, waypoints.Length);
+			}
+			else
+			{
+				a = Mathfs.Clamp(a, 0, waypoints.Length - 1);
+				c = Mathfs.Clamp(c, 0, waypoints.Length - 1);
+				d = Mathfs.Clamp(d, 0, waypoints.Length - 1);
+			}
+
+			float t = pos - b;
+			return (a, b, c, d, t);
+		}
+
+		//Returns a position between 4 Vector3 with Catmull-Rom spline algorithm
+		//http://www.iquilezles.org/www/articles/minispline/minispline.htm
+		//https://www.habrador.com/tutorials/interpolation/1-catmull-rom-splines/
+		public static Vector3 CatmullRom(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
+		{
+			//The coefficients of the cubic polynomial (except the 0.5f * which I added later for performance)
+			Vector3 a = 2f * p1;
+			Vector3 b = p2 - p0;
+			Vector3 c = 2f * p0 - 5f * p1 + 4f * p2 - p3;
+			Vector3 d = -p0 + 3f * p1 - 3f * p2 + p3;
+			//The cubic polynomial: a + b * t + c * t^2 + d * t^3
+			return 0.5f * (a + b * t + c * (t * t) + d * (t * t * t));
 		}
 	}
 }

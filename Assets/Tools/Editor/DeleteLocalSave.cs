@@ -6,10 +6,10 @@ using Debug = UnityEngine.Debug;
 
 namespace JD.Editor
 {
-	public static class DeleteLocalSaveEditor
+	public static class DeleteLocalSave
 	{
 		[MenuItem("Tools/Saves/Open Local Save")]
-		public static void OpenLocalSave()
+		public static void LocalSaveOpen()
 		{
 			string path = Path.GetDirectoryName(Application.persistentDataPath);
 			path = Path.Combine(path, Application.productName);
@@ -23,7 +23,7 @@ namespace JD.Editor
 		}
 
 		[MenuItem("Tools/Saves/Delete Local Save")]
-		public static void DeleteLocalSave()
+		public static void LocalSaveDelete()
 		{
 			string path = Application.persistentDataPath;
 			if (Directory.Exists(path))

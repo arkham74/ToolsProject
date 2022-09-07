@@ -6,6 +6,7 @@ namespace JD
 	public abstract class ScriptableObjectSingleton<T> : ScriptableObject where T : ScriptableObjectSingleton<T>
 	{
 		private static T instance;
+
 		public static T Instance
 		{
 			get
