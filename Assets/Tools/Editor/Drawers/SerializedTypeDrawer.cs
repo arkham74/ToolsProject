@@ -15,13 +15,11 @@ namespace SAR.Editor
 		{
 			Type argument = fieldInfo.FieldType.GetGenericArguments()[0];
 			TypeCache.TypeCollection collection = TypeCache.GetTypesDerivedFrom(argument);
-			IEnumerable<string> select = collection.Where(e => !e.IsAbstract).Select(e => e.FullName);
-			string[] types = select.ToArray();
+			string[] select = collection.Where(e => !e.IsAbstract).Select(e => e.FullName).ToArray();
 			property.NextVisible(true);
-			SerializedProperty relative = property.Copy();
-			int index = types.IndexOf(relative.stringValue);
-			index = EditorGUI.Popup(position, label.text, index, types);
-			relative.stringValue = types[Mathf.Max(index, 0)];
+			int index = select.IndexOf(property.stringValue);
+			index = EditorGUI.Popup(position, label.text, index, select);
+			property.stringValue = select[Mathf.Max(index, 0)];
 		}
 	}
 }

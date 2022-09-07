@@ -187,19 +187,19 @@ namespace JD
 					{
 						if (!PixelSolid(texture, new Vector2Int(x, y + 1), alphaCutoff))
 						{
-							Output.Add(new List<Vector2Int>() { new Vector2Int(x, y + 1), new Vector2Int(x + 1, y + 1) });
+							Output.Add(new List<Vector2Int> { new Vector2Int(x, y + 1), new Vector2Int(x + 1, y + 1) });
 						}
 						if (!PixelSolid(texture, new Vector2Int(x, y - 1), alphaCutoff))
 						{
-							Output.Add(new List<Vector2Int>() { new Vector2Int(x, y), new Vector2Int(x + 1, y) });
+							Output.Add(new List<Vector2Int> { new Vector2Int(x, y), new Vector2Int(x + 1, y) });
 						}
 						if (!PixelSolid(texture, new Vector2Int(x + 1, y), alphaCutoff))
 						{
-							Output.Add(new List<Vector2Int>() { new Vector2Int(x + 1, y), new Vector2Int(x + 1, y + 1) });
+							Output.Add(new List<Vector2Int> { new Vector2Int(x + 1, y), new Vector2Int(x + 1, y + 1) });
 						}
 						if (!PixelSolid(texture, new Vector2Int(x - 1, y), alphaCutoff))
 						{
-							Output.Add(new List<Vector2Int>() { new Vector2Int(x, y), new Vector2Int(x, y + 1) });
+							Output.Add(new List<Vector2Int> { new Vector2Int(x, y), new Vector2Int(x, y + 1) });
 						}
 					}
 				}
@@ -219,26 +219,21 @@ namespace JD
 				{
 					return true;
 				}
-				else
-				{
-					return false;
-				}
+
+				return false;
 			}
-			else if (alphaCutoff == 1)
+
+			if (alphaCutoff == 1)
 			{
 				if (pixelAlpha == 1)
 				{
 					return true;
 				}
-				else
-				{
-					return false;
-				}
+
+				return false;
 			}
-			else
-			{
-				return pixelAlpha >= alphaCutoff;
-			}
+
+			return pixelAlpha >= alphaCutoff;
 		}
 	}
 }

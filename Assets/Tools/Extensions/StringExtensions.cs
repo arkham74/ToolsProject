@@ -122,14 +122,13 @@ namespace JD
 			{
 				return value;
 			}
-			else if (firstCharacters >= value.Length)
+
+			if (firstCharacters >= value.Length)
 			{
 				return string.Empty;
 			}
-			else
-			{
-				return value[firstCharacters..];
-			}
+
+			return value[firstCharacters..];
 		}
 
 		public static string Ellipsis(this string value, int maxLength, string trail)

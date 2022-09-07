@@ -40,7 +40,7 @@ namespace Michsky.UI.Shift
 		[Tooltip("Ignore aspect ratio")]
 		[SerializeField] bool m_IgnoreAspectRatio = true;
 
-		public Graphic TargetGraphic { get { return base.graphic; } }
+		public Graphic TargetGraphic { get { return graphic; } }
 
 		public enum Direction
 		{

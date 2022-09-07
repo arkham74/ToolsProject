@@ -82,7 +82,7 @@ namespace JD
 	private static Material boundsDebugMaterial;
 #endif
 
-		private static Camera m_internalCamera = null;
+		private static Camera m_internalCamera;
 		private static Camera InternalCamera
 		{
 			get
@@ -128,7 +128,7 @@ namespace JD
 			set { m_backgroundColor = value; }
 		}
 
-		private static bool m_orthographicMode = false;
+		private static bool m_orthographicMode;
 		public static bool OrthographicMode
 		{
 			get { return m_orthographicMode; }
@@ -155,7 +155,7 @@ namespace JD
 
 			try
 			{
-				return GenerateModelPreviewWithShader(previewModel.transform, shader, replacementTag, width, height, false);
+				return GenerateModelPreviewWithShader(previewModel.transform, shader, replacementTag, width, height);
 			}
 			catch (Exception e)
 			{
@@ -191,7 +191,7 @@ namespace JD
 			Transform previewObject;
 			if (shouldCloneModel)
 			{
-				previewObject = (Transform)Object.Instantiate(model, null, false);
+				previewObject = Object.Instantiate(model, null, false);
 				previewObject.gameObject.hideFlags = HideFlags.HideAndDontSave;
 			}
 			else

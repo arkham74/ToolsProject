@@ -21,7 +21,7 @@ namespace SerializableDictionary
 
 		// Serializable KeyValuePair struct
 		[Serializable]
-		private struct KeyValuePair
+		public struct KeyValuePair
 		{
 			public TKey key;
 			public TValue value;

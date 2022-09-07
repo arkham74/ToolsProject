@@ -23,28 +23,26 @@ namespace SebastianLague
 		{
 			Gradient gradient = new Gradient();
 
-			GradientColorKey[] colorKeys = new GradientColorKey[]
-			{
-			new GradientColorKey()
+			GradientColorKey[] colorKeys = {
+			new GradientColorKey
 			{
 				color = color,
 				time = 0
 			},
-			new GradientColorKey()
+			new GradientColorKey
 			{
 				color = color,
 				time = 1
 			}
 			};
 
-			GradientAlphaKey[] alphaKeys = new GradientAlphaKey[]
-			{
-			new GradientAlphaKey()
+			GradientAlphaKey[] alphaKeys = {
+			new GradientAlphaKey
 			{
 				alpha = color.a,
 				time = 0
 			},
-			new GradientAlphaKey()
+			new GradientAlphaKey
 			{
 				alpha = color.a,
 				time = 1

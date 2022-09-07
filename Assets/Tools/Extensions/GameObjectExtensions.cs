@@ -17,7 +17,8 @@ namespace JD
 			{
 				return true;
 			}
-			else if (gameObject.transform.parent.TryGetComponent(out result))
+
+			if (gameObject.transform.parent.TryGetComponent(out result))
 			{
 				return true;
 			}

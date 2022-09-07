@@ -206,7 +206,7 @@ namespace JD
 		/// <param name="t">The t-value from 0 to 1 representing position along the lerp</param>
 		public static float Eerp(this float t, float a, float b)
 		{
-			return Freya.Mathfs.Eerp(a, b, t);
+			return Mathfs.Eerp(a, b, t);
 		}
 
 		/// <summary>Inverse exponential interpolation, the multiplicative version of InverseLerp, useful for values such as scaling or zooming</summary>

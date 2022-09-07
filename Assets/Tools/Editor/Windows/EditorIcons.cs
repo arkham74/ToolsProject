@@ -165,7 +165,7 @@ namespace JD.Editor
 			{
 				GUILayout.Label("Select what icons to show", GUILayout.Width(160));
 				viewBigIcons = GUILayout.SelectionGrid(
-					viewBigIcons ? 1 : 0, new string[] { "Small", "Big" },
+					viewBigIcons ? 1 : 0, new[] { "Small", "Big" },
 					2, EditorStyles.toolbarButton) == 1;
 
 				if (IsWide)
@@ -263,7 +263,7 @@ namespace JD.Editor
 					GUILayout.Space(5);
 
 					darkPreview = GUILayout.SelectionGrid(
-						darkPreview ? 1 : 0, new string[] { "Light", "Dark" },
+						darkPreview ? 1 : 0, new[] { "Light", "Dark" },
 						2, EditorStyles.miniButton) == 1;
 
 					GUILayout.FlexibleSpace();
@@ -308,14 +308,14 @@ namespace JD.Editor
 		static List<GUIContent> iconContentListSmall;
 		static List<GUIContent> iconContentListBig;
 		static List<string> iconMissingNames;
-		static GUIStyle iconButtonStyle = null;
-		static GUIStyle iconPreviewBlack = null;
-		static GUIStyle iconPreviewWhite = null;
+		static GUIStyle iconButtonStyle;
+		static GUIStyle iconPreviewBlack;
+		static GUIStyle iconPreviewWhite;
 
 		void AllTheTEXTURES(ref GUIStyle s, Texture2D t)
 		{
 			s.hover.background = s.onHover.background = s.focused.background = s.onFocused.background = s.active.background = s.onActive.background = s.normal.background = s.onNormal.background = t;
-			s.hover.scaledBackgrounds = s.onHover.scaledBackgrounds = s.focused.scaledBackgrounds = s.onFocused.scaledBackgrounds = s.active.scaledBackgrounds = s.onActive.scaledBackgrounds = s.normal.scaledBackgrounds = s.onNormal.scaledBackgrounds = new Texture2D[] { t };
+			s.hover.scaledBackgrounds = s.onHover.scaledBackgrounds = s.focused.scaledBackgrounds = s.onFocused.scaledBackgrounds = s.active.scaledBackgrounds = s.onActive.scaledBackgrounds = s.normal.scaledBackgrounds = s.onNormal.scaledBackgrounds = new[] { t };
 		}
 
 		Texture2D Texture2DPixel(Color c)

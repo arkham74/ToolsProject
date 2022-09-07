@@ -86,11 +86,11 @@ namespace JD
 
 			if (time > 0)
 			{
-				Object.Destroy(@component.gameObject, time);
+				Object.Destroy(component.gameObject, time);
 			}
 			else
 			{
-				Object.Destroy(@component.gameObject);
+				Object.Destroy(component.gameObject);
 			}
 		}
 
@@ -103,11 +103,11 @@ namespace JD
 
 			if (time > 0)
 			{
-				Object.Destroy(@component, time);
+				Object.Destroy(component, time);
 			}
 			else
 			{
-				Object.Destroy(@component);
+				Object.Destroy(component);
 			}
 		}
 

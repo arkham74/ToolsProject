@@ -126,10 +126,8 @@ namespace JD.Editor
 			{
 				return "ZZZZZZZZZZZZZZ" + arg.FullName;
 			}
-			else
-			{
-				return arg.FullName;
-			}
+
+			return arg.FullName;
 		}
 
 		public bool OnSelectEntry(SearchTreeEntry entry, SearchWindowContext context)

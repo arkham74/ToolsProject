@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,18 +12,7 @@ namespace JD
 		public static T[] FindAssetsByName<T>(string name) where T : Object
 		{
 			string[] guids = AssetDatabase.FindAssets(name);
-			List<T> assets = new List<T>();
-			for (int i = 0; i < guids.Length; i++)
-			{
-				string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
-				T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
-				if (asset)
-				{
-					assets.Add(asset);
-				}
-			}
-
-			return assets.ToArray();
+			return guids.Select(AssetDatabase.GUIDToAssetPath).Select(AssetDatabase.LoadAssetAtPath<T>).Where(asset => asset).ToArray();
 		}
 
 		public static T FindAssetByName<T>(string name) where T : Object

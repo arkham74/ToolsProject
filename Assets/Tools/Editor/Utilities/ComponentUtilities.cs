@@ -16,7 +16,7 @@ namespace JD.Editor
 			Selectable selectable = (Selectable)command.context;
 			selectable.SetMode(Navigation.Mode.Vertical);
 			selectable.SetUp(selectable.transform.GetSiblingLoop(-1).GetComponent<Selectable>());
-			selectable.SetDown(selectable.transform.GetSiblingLoop(1).GetComponent<Selectable>());
+			selectable.SetDown(selectable.transform.GetSiblingLoop().GetComponent<Selectable>());
 		}
 
 		[MenuItem("CONTEXT/Selectable/Setup Navigation Horizontal")]
@@ -25,7 +25,7 @@ namespace JD.Editor
 			Selectable selectable = (Selectable)command.context;
 			selectable.SetMode(Navigation.Mode.Horizontal);
 			selectable.SetLeft(selectable.transform.GetSiblingLoop(-1).GetComponent<Selectable>());
-			selectable.SetRight(selectable.transform.GetSiblingLoop(1).GetComponent<Selectable>());
+			selectable.SetRight(selectable.transform.GetSiblingLoop().GetComponent<Selectable>());
 		}
 
 		[MenuItem("CONTEXT/AudioSource/Realistic Setup")]
