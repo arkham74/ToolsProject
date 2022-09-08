@@ -97,6 +97,7 @@ namespace JD
 					clos = item;
 				}
 			}
+
 			return clos;
 		}
 
@@ -113,6 +114,7 @@ namespace JD
 					clos = item;
 				}
 			}
+
 			return clos;
 		}
 

@@ -16,11 +16,11 @@ namespace SerializableDictionary.Editor
 
 		public override void OnGUI(Rect pos, SerializedProperty property, GUIContent label)
 		{
+			EditorGUI.BeginProperty(pos, label, property);
 			// Draw list.
 			SerializedProperty list = property.FindPropertyRelative("list");
-			string fieldName = ObjectNames.NicifyVariableName(fieldInfo.Name);
 			Rect currentPos = new Rect(LineHeight, pos.y, pos.width, LineHeight);
-			EditorGUI.PropertyField(currentPos, list, new GUIContent(fieldName), true);
+			EditorGUI.PropertyField(currentPos, list, label, true);
 
 			// Draw key collision warning.
 			bool keyCollision = property.FindPropertyRelative("keyCollision").boolValue;
@@ -30,6 +30,8 @@ namespace SerializableDictionary.Editor
 				Rect entryPos = new Rect(LineHeight, currentPos.y, pos.width, LineHeight * 2f);
 				EditorGUI.HelpBox(entryPos, "Duplicate keys will not be serialized.", MessageType.Warning);
 			}
+
+			EditorGUI.EndProperty();
 		}
 
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)

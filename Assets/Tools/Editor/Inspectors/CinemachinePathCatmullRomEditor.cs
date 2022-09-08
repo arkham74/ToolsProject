@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace JD.Editor
 {
-	[CustomEditor(typeof(CinemachineSimplePath))]
-	public class CinemachineSimplePathEditor : UnityEditor.Editor
+	[CustomEditor(typeof(CinemachinePathCatmullRom))]
+	public class CinemachinePathCatmullRomEditor : UnityEditor.Editor
 	{
 		private SerializedProperty waypointsProperty;
 		private SerializedProperty widthProperty;
@@ -39,8 +39,7 @@ namespace JD.Editor
 			const CinemachinePathBase.PositionUnits units = CinemachinePathBase.PositionUnits.Normalized;
 
 			Handles.color = pathColorProperty.colorValue;
-			CinemachineSimplePath path = (CinemachineSimplePath)target;
-			Handles.matrix = path.transform.localToWorldMatrix;
+			CinemachinePathCatmullRom path = (CinemachinePathCatmullRom)target;
 			int res = resolutionProperty.intValue;
 			float thickness = widthProperty.floatValue;
 
@@ -53,6 +52,7 @@ namespace JD.Editor
 				Handles.DrawLine(p1, p2, thickness);
 			}
 
+			Handles.matrix = path.transform.localToWorldMatrix;
 			Handles.color = inactivePathColorProperty.colorValue;
 			for (int i = 0; i < waypointsProperty.arraySize; i++)
 			{

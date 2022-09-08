@@ -8,16 +8,20 @@ namespace SerializableDictionary.Editor
 	{
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
+			EditorGUI.BeginProperty(position, label, property);
+
+			position = EditorGUI.PrefixLabel(position, label);
+
 			Vector2 size = position.size;
-			size.x /= 3f;
-			size.x -= EditorGUIUtility.standardVerticalSpacing / 2f;
+			size.x /= 2f;
+			size.x -= EditorGUIUtility.standardVerticalSpacing * 0.5f;
 			position.size = size;
 
-			EditorGUI.LabelField(position, label);
-			position.x += position.size.x + EditorGUIUtility.standardVerticalSpacing;
 			EditorGUI.PropertyField(position, property.FindPropertyRelative("key"), GUIContent.none);
 			position.x += position.size.x + EditorGUIUtility.standardVerticalSpacing;
 			EditorGUI.PropertyField(position, property.FindPropertyRelative("value"), GUIContent.none);
+
+			EditorGUI.EndProperty();
 		}
 	}
 }

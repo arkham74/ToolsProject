@@ -26,7 +26,7 @@ using Cinemachine;
 
 namespace JD
 {
-	public class CinemachineSimplePath : CinemachinePathBase
+	public class CinemachinePathCatmullRom : CinemachinePathBase
 	{
 		[SerializeField] private Vector3[] waypoints;
 		[SerializeField] private bool loop;
@@ -64,7 +64,7 @@ namespace JD
 
 		public override Vector3 EvaluateTangent(float pos)
 		{
-			return Vector3.forward;
+			return transform.forward;
 		}
 
 		public override Quaternion EvaluateOrientation(float pos)
@@ -80,11 +80,11 @@ namespace JD
 			{
 				case > 1:
 					(int a, int b, int c, int d, float t) = GetIndexes(pos);
-					return CatmullRom(waypoints[a], waypoints[b], waypoints[c], waypoints[d], t);
+					return transform.LocalToWorld(CatmullRom(waypoints[a], waypoints[b], waypoints[c], waypoints[d], t));
 				case > 0:
-					return waypoints[0];
+					return transform.LocalToWorld(waypoints[0]);
 				default:
-					return transform.position;
+					return transform.LocalToWorld(Vector3.zero);
 			}
 		}
 
