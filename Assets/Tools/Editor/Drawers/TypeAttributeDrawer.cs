@@ -1,4 +1,6 @@
-﻿using JD;
+﻿using System;
+using System.Linq;
+using JD;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,7 +13,8 @@ namespace JD
 		{
 			if (property.propertyType == SerializedPropertyType.String)
 			{
-				string[] types = (attribute as TypeAttribute).Types;
+				Type type = ((TypeAttribute)attribute).Type;
+				string[] types = TypeCache.GetTypesDerivedFrom(type).Where(e => !e.IsAbstract).Select(e => e.FullName).ToArray();
 				int index = types.IndexOf(property.stringValue);
 				index = EditorGUI.Popup(position, label.text, index, types);
 				property.stringValue = types[index];
