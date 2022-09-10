@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
@@ -12,6 +11,7 @@ using UnityEngine.Serialization;
 using TMPro;
 using JD;
 using Freya;
+using UnityEditor;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 using Tools = JD.Tools;
@@ -22,57 +22,8 @@ using UnityEngine.InputSystem;
 
 namespace JD
 {
-	public class CinemachinePathSimple : CinemachinePathBase
+	public class CinemachinePathSimple : CinemachinePathCustom
 	{
-		[SerializeField] [Range(0, 1)] private float radius = 0.5f;
-		[SerializeField] private bool loop;
-		[SerializeField] private Vector3[] waypoints;
-
-		public override bool Looped => loop;
-		public override int DistanceCacheSampleStepsPerSegment => m_Resolution;
-		public override float MinPos => 0;
-
-		public override float MaxPos
-		{
-			get
-			{
-				int count = waypoints.Length - 1;
-				if (count < 1)
-				{
-					return 0;
-				}
-
-				return Looped ? count + 1 : count;
-			}
-		}
-
-		private void Reset()
-		{
-			loop = false;
-			waypoints = new[] { new Vector3(0, 0, -5), Vector3.zero, new Vector3(-5, 0, 0) };
-			m_Appearance = new Appearance();
-			InvalidateDistanceCache();
-		}
-
-		private void OnValidate()
-		{
-			InvalidateDistanceCache();
-		}
-
-		private void OnDrawGizmosSelected()
-		{
-			Gizmos.color = m_Appearance.pathColor;
-
-			for (int i = 0; i < m_Resolution; i++)
-			{
-				float t1 = (i + 0f) / m_Resolution;
-				float t2 = (i + 1f) / m_Resolution;
-				Vector3 from = EvaluatePositionAtUnit(t1, PositionUnits.Normalized);
-				Vector3 to = EvaluatePositionAtUnit(t2, PositionUnits.Normalized);
-				Gizmos.DrawLine(from, to);
-			}
-		}
-
 		public override Vector3 EvaluateTangent(float pos)
 		{
 			return Vector3.forward;
@@ -89,25 +40,17 @@ namespace JD
 
 			switch (waypoints.Length)
 			{
-				case > 2:
-					(int a, int b, int c, float t) = GetIndexes3(pos);
-					return transform.LocalToWorld(RoundCorner(waypoints[a], waypoints[b], waypoints[c], t));
+				// case > 2:
+				// 	(int a, int b, int c, float t) = GetIndexes3(pos);
+				// 	return transform.LocalToWorld(RoundCorner(waypoints[a], waypoints[b], waypoints[c], t, pos));
 				case > 1:
-					(a, b, t) = GetIndexes2(pos);
+					(int a, int b, float t) = GetIndexes2(pos);
 					return transform.LocalToWorld(Vector3.Lerp(waypoints[a], waypoints[b], t));
 				case > 0:
 					return transform.LocalToWorld(waypoints[0]);
 				default:
 					return transform.LocalToWorld(Vector3.zero);
 			}
-		}
-
-		private Vector3 RoundCorner(Vector3 a, Vector3 b, Vector3 c, float t)
-		{
-			Vector3 ab = Vector3.Lerp(a, b, t);
-			Vector3 bc = Vector3.Lerp(b, c, t);
-			Vector3 rounded = Vector3.Lerp(ab, bc, t);
-			return rounded;
 		}
 
 		private (int, int, float) GetIndexes2(float pos)
@@ -124,9 +67,44 @@ namespace JD
 			return (a, b, t);
 		}
 
-		private (int a, int b, int c, float t) GetIndexes3(float pos)
-		{
-			return (0, 1, 2, pos);
-		}
+		// private Vector3 RoundCorner(Vector3 a, Vector3 b, Vector3 c, float t, float pos)
+		// {
+		// 	Vector3 ba = b.To(a);
+		// 	Vector3 bc = b.To(c);
+		// 	Vector3 axis = Vector3.Cross(ba, bc);
+		//
+		// 	float angle = Mathfs.AngleBetween(ba, bc);
+		// 	Vector3 halfVector = Vector3.Slerp(ba, bc, 0.5f);
+		//
+		// 	float distance = radius / Mathfs.Sin(angle / 2f);
+		//
+		// 	Vector3 center = b + halfVector.normalized * distance;
+		//
+		// 	float part = pos * 3f;
+		//
+		// 	Vector3 res = part switch
+		// 	{
+		// 		> 2 => Vector3.Lerp(b, c, part - 2),
+		// 		> 1 => DrawCircle(center, axis, part - 1),
+		// 		> 0 => Vector3.Lerp(a, b, part),
+		// 		_ => Vector3.zero
+		// 	};
+		//
+		// 	return res;
+		// }
+
+		// private Vector3 DrawCircle(Vector3 center, Vector3 normal, float t)
+		// {
+		// 	float x = Mathfs.Sin(t * Mathfs.TAU) * radius;
+		// 	float y = Mathfs.Cos(t * Mathfs.TAU) * radius;
+		// 	Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normal);
+		// 	Vector3 circle = new Vector3(x, 0, y);
+		// 	return rotation * circle + center;
+		// }
+
+		// private (int a, int b, int c, float t) GetIndexes3(float pos)
+		// {
+		// 	return (0, 1, 2, pos);
+		// }
 	}
 }

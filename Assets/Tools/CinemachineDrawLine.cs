@@ -24,7 +24,7 @@ namespace CordBot
 {
 	[ExecuteAlways]
 	[RequireComponent(typeof(LineRenderer))]
-	public class CinemachinePathLine : MonoBehaviour
+	public class CinemachineDrawLine : MonoBehaviour
 	{
 		// [SerializeField] [Min(1)] private float samplesPerUnit = 20;
 		[SerializeField] [Range(0, 1)] private float thickness = 0.05f;

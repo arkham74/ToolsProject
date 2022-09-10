@@ -5,13 +5,12 @@ using UnityEngine;
 
 namespace JD.Editor
 {
-	[CustomEditor(typeof(CinemachinePathCatmullRom))]
-	public class CinemachinePathCatmullRomEditor : UnityEditor.Editor
+	[CustomEditor(typeof(CinemachinePathCustom), true)]
+	public class CinemachinePathCustomEditor : UnityEditor.Editor
 	{
 		private SerializedProperty waypointsProperty;
 		private SerializedProperty widthProperty;
 		private SerializedProperty pathColorProperty;
-		private SerializedProperty inactivePathColorProperty;
 		private SerializedProperty resolutionProperty;
 
 		private int selected;
@@ -21,16 +20,9 @@ namespace JD.Editor
 			SerializedProperty property = serializedObject.FindProperty("m_Appearance");
 			widthProperty = property.FindPropertyRelative("width");
 			pathColorProperty = property.FindPropertyRelative("pathColor");
-			inactivePathColorProperty = property.FindPropertyRelative("inactivePathColor");
 			waypointsProperty = serializedObject.FindProperty("waypoints");
 			resolutionProperty = serializedObject.FindProperty("m_Resolution");
-			// UnityEditor.Tools.hidden = true;
 		}
-
-		// private void OnDisable()
-		// {
-		// UnityEditor.Tools.hidden = false;
-		// }
 
 		private void OnSceneGUI()
 		{
@@ -39,7 +31,7 @@ namespace JD.Editor
 			const CinemachinePathBase.PositionUnits units = CinemachinePathBase.PositionUnits.Normalized;
 
 			Handles.color = pathColorProperty.colorValue;
-			CinemachinePathCatmullRom path = (CinemachinePathCatmullRom)target;
+			CinemachinePathCustom path = (CinemachinePathCustom)target;
 			int res = resolutionProperty.intValue;
 			float thickness = widthProperty.floatValue;
 
@@ -53,7 +45,7 @@ namespace JD.Editor
 			}
 
 			Handles.matrix = path.transform.localToWorldMatrix;
-			Handles.color = inactivePathColorProperty.colorValue;
+			Handles.color = Color.white;
 			for (int i = 0; i < waypointsProperty.arraySize; i++)
 			{
 				SerializedProperty elem = waypointsProperty.GetArrayElementAtIndex(i);

@@ -26,42 +26,8 @@ using Cinemachine;
 
 namespace JD
 {
-	public class CinemachinePathCatmullRom : CinemachinePathBase
+	public class CinemachinePathCatmullRom : CinemachinePathCustom
 	{
-		[SerializeField] private Vector3[] waypoints;
-		[SerializeField] private bool loop;
-
-		public override bool Looped => loop;
-		public override int DistanceCacheSampleStepsPerSegment => m_Resolution;
-		public override float MinPos => 0;
-
-		public override float MaxPos
-		{
-			get
-			{
-				int count = waypoints.Length - 1;
-				if (count < 1)
-				{
-					return 0;
-				}
-
-				return loop ? count + 1 : count;
-			}
-		}
-
-		private void Reset()
-		{
-			loop = false;
-			waypoints = new[] { new Vector3(0, 0, -5), Vector3.zero, new Vector3(-5, 0, 0) };
-			m_Appearance = new Appearance();
-			InvalidateDistanceCache();
-		}
-
-		private void OnValidate()
-		{
-			InvalidateDistanceCache();
-		}
-
 		public override Vector3 EvaluateTangent(float pos)
 		{
 			return transform.forward;
