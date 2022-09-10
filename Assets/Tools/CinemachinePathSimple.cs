@@ -26,12 +26,16 @@ namespace JD
 	{
 		public override Vector3 EvaluateTangent(float pos)
 		{
-			return Vector3.forward;
+			pos = StandardizePos(pos);
+			(int a, int b, float t) = GetIndexes2(pos);
+			Vector3 from = waypoints[a];
+			Vector3 to = waypoints[b];
+			return transform.TransformDirection(from.DirTo(to));
 		}
 
 		public override Quaternion EvaluateOrientation(float pos)
 		{
-			return Quaternion.Euler(EvaluateTangent(pos));
+			return Quaternion.LookRotation(EvaluateTangent(pos));
 		}
 
 		public override Vector3 EvaluatePosition(float pos)
@@ -40,9 +44,6 @@ namespace JD
 
 			switch (waypoints.Length)
 			{
-				// case > 2:
-				// 	(int a, int b, int c, float t) = GetIndexes3(pos);
-				// 	return transform.LocalToWorld(RoundCorner(waypoints[a], waypoints[b], waypoints[c], t, pos));
 				case > 1:
 					(int a, int b, float t) = GetIndexes2(pos);
 					return transform.LocalToWorld(Vector3.Lerp(waypoints[a], waypoints[b], t));
@@ -67,6 +68,9 @@ namespace JD
 			return (a, b, t);
 		}
 
+		// case > 2:
+		// 	(int a, int b, int c, float t) = GetIndexes3(pos);
+		// 	return transform.LocalToWorld(RoundCorner(waypoints[a], waypoints[b], waypoints[c], t, pos));
 		// private Vector3 RoundCorner(Vector3 a, Vector3 b, Vector3 c, float t, float pos)
 		// {
 		// 	Vector3 ba = b.To(a);
@@ -92,7 +96,6 @@ namespace JD
 		//
 		// 	return res;
 		// }
-
 		// private Vector3 DrawCircle(Vector3 center, Vector3 normal, float t)
 		// {
 		// 	float x = Mathfs.Sin(t * Mathfs.TAU) * radius;
@@ -101,7 +104,6 @@ namespace JD
 		// 	Vector3 circle = new Vector3(x, 0, y);
 		// 	return rotation * circle + center;
 		// }
-
 		// private (int a, int b, int c, float t) GetIndexes3(float pos)
 		// {
 		// 	return (0, 1, 2, pos);
