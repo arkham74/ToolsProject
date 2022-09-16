@@ -27,7 +27,8 @@ namespace JD
 		public override Vector3 EvaluateTangent(float pos)
 		{
 			pos = StandardizePos(pos);
-			(int a, int b, float t) = GetIndexes2(pos);
+			int a = Mathf.FloorToInt(pos);
+			int b = Mathfs.Mod(a + 1, waypoints.Length);
 			Vector3 from = waypoints[a];
 			Vector3 to = waypoints[b];
 			return transform.TransformDirection(from.DirTo(to));

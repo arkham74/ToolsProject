@@ -13,6 +13,11 @@ namespace SAR
 			this.fullName = fullName;
 		}
 
+		public override string ToString()
+		{
+			return $"Type: {fullName}";
+		}
+
 		public static implicit operator SerializedType<T>(string fullName) => new SerializedType<T>(fullName);
 		public static implicit operator string(SerializedType<T> serializedType) => serializedType.fullName;
 

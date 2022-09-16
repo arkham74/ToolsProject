@@ -42,6 +42,7 @@ namespace JD
 		}
 
 		public static readonly StringBuilder StringBuilder = new StringBuilder();
+		public static readonly StringBuilder StringBuilderCopy = new StringBuilder();
 
 #if TOOLS_LOCALIZATION
 		public static string GetLocalizedString(string key)
@@ -65,7 +66,7 @@ namespace JD
 #if UNITY_EDITOR
 			EditorApplication.ExitPlaymode();
 #else
-		Application.Quit();
+			Application.Quit();
 #endif
 		}
 
@@ -210,6 +211,15 @@ namespace JD
 			float centerX = center.x + size * Mathf.Cos(angleRad);
 			float centerZ = center.z + size * Mathf.Sin(angleRad);
 			return new Vector3(centerX, 0, centerZ);
+		}
+
+		public static Vector2 GetHexCorner(Vector2 center, float size, int i, int pointTop = 0)
+		{
+			float angleDeg = 60f * i + 30f * pointTop;
+			float angleRad = Mathf.Deg2Rad * angleDeg;
+			float centerX = center.x + size * Mathf.Cos(angleRad);
+			float centerY = center.y + size * Mathf.Sin(angleRad);
+			return new Vector2(centerX, centerY);
 		}
 	}
 }

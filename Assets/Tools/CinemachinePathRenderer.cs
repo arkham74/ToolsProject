@@ -24,10 +24,9 @@ namespace CordBot
 {
 	[ExecuteAlways]
 	[RequireComponent(typeof(LineRenderer))]
-	public class CinemachineDrawLine : MonoBehaviour
+	public class CinemachinePathRenderer : MonoBehaviour
 	{
-		// [SerializeField] [Min(1)] private float samplesPerUnit = 20;
-		[SerializeField] [Range(0, 1)] private float thickness = 0.05f;
+		[SerializeField] [Min(2)] private int resolution = 10;
 		[SerializeField] private bool dynamic;
 		[SerializeField] private CinemachinePathBase path;
 		[SerializeField] private LineRenderer lineRenderer;
@@ -42,11 +41,12 @@ namespace CordBot
 		{
 			if (dynamic || !Application.isPlaying)
 			{
-				int samples = path.m_Resolution + 1; //Mathf.RoundToInt(path.PathLength * samplesPerUnit);
+				int samples = resolution + 1;
+				// Mathf.RoundToInt(path.PathLength * path.m_Resolution);
 				lineRenderer.loop = path.Looped;
 				lineRenderer.positionCount = samples;
-				lineRenderer.startWidth = thickness;
-				lineRenderer.endWidth = thickness;
+				lineRenderer.startWidth = path.m_Appearance.width;
+				lineRenderer.endWidth = path.m_Appearance.width;
 				for (int i = 0; i < samples; i++)
 				{
 					float t = i / (samples - 1f);
