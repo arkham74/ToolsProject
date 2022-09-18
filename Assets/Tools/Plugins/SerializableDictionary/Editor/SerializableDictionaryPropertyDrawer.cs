@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace SD.Editor
+namespace SerializableDictionary.Editor
 {
 	/// <summary>
 	/// Draws the generic dictionary a bit nicer than Unity would natively (not as many expand-arrows

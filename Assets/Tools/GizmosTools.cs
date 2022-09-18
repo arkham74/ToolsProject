@@ -39,18 +39,6 @@ namespace JD
 #endif
 		}
 
-		public static void DrawHex(Vector2 position, float radius, int pointTop = 0)
-		{
-#if UNITY_EDITOR
-			for (int i = 1; i < 7; i++)
-			{
-				Vector2 corner = Tools.GetHexCorner(position, radius, i - 1, pointTop);
-				Vector2 next = Tools.GetHexCorner(position, radius, i, pointTop);
-				Gizmos.DrawLine(corner, next);
-			}
-#endif
-		}
-
 		public static void DrawHex(Vector3 position, float radius)
 		{
 #if UNITY_EDITOR

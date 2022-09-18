@@ -213,13 +213,25 @@ namespace JD
 			return new Vector3(centerX, 0, centerZ);
 		}
 
-		public static Vector2 GetHexCorner(Vector2 center, float size, int i, int pointTop = 0)
+		public enum CustomFullScreenMode
 		{
-			float angleDeg = 60f * i + 30f * pointTop;
-			float angleRad = Mathf.Deg2Rad * angleDeg;
-			float centerX = center.x + size * Mathf.Cos(angleRad);
-			float centerY = center.y + size * Mathf.Sin(angleRad);
-			return new Vector2(centerX, centerY);
+			FullScreen,
+			Borderless,
+			Window,
 		}
+
+		public static CustomFullScreenMode ConvertFullScreenMode(FullScreenMode index) => index switch
+		{
+			FullScreenMode.ExclusiveFullScreen => CustomFullScreenMode.FullScreen,
+			FullScreenMode.Windowed => CustomFullScreenMode.Window,
+			_ => CustomFullScreenMode.Borderless,
+		};
+
+		public static FullScreenMode ConvertFullScreenMode(CustomFullScreenMode index) => index switch
+		{
+			CustomFullScreenMode.FullScreen => FullScreenMode.ExclusiveFullScreen,
+			CustomFullScreenMode.Window => FullScreenMode.Windowed,
+			_ => FullScreenMode.FullScreenWindow,
+		};
 	}
 }
