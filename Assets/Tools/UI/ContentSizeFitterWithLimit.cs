@@ -17,10 +17,7 @@ namespace JD
 
 		public bool LimitWidth
 		{
-			get
-			{
-				return limitWidth;
-			}
+			get => limitWidth;
 			set
 			{
 				limitWidth = value;
@@ -30,10 +27,7 @@ namespace JD
 
 		public float MaxWidth
 		{
-			get
-			{
-				return maxWidth;
-			}
+			get => maxWidth;
 			set
 			{
 				maxWidth = value;
@@ -43,10 +37,7 @@ namespace JD
 
 		public bool LimitHeight
 		{
-			get
-			{
-				return limitHeight;
-			}
+			get => limitHeight;
 			set
 			{
 				limitHeight = value;
@@ -56,10 +47,7 @@ namespace JD
 
 		public float MaxHeight
 		{
-			get
-			{
-				return maxHeight;
-			}
+			get => maxHeight;
 			set
 			{
 				maxHeight = value;
@@ -123,6 +111,5 @@ namespace JD
 				rect.sizeDelta = new Vector2(rect.sizeDelta.x, maxHeight);
 			}
 		}
-
 	}
 }

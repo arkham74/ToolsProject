@@ -18,7 +18,7 @@ using UnityEngine.InputSystem;
 
 namespace JD
 {
-	public class ButtonMultiGraphics : Button
+	public class ToggleMultiGraphics : Toggle
 	{
 		[SerializeField] private Graphic[] targets = Array.Empty<Graphic>();
 
