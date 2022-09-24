@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SerializableDictionary
+namespace SB
 {
 	public static class SerializableDictionaryExtensions
 	{

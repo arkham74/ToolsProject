@@ -204,13 +204,12 @@ namespace JD
 			return tex;
 		}
 
-		public static Vector3 GetHexCorner(Vector3 center, float size, int i)
+		public static Vector2 GetHexCorner(int i, float angle = 0f)
 		{
-			float angleDeg = 60f * i;
-			float angleRad = Mathf.Deg2Rad * angleDeg;
-			float centerX = center.x + size * Mathf.Cos(angleRad);
-			float centerZ = center.z + size * Mathf.Sin(angleRad);
-			return new Vector3(centerX, 0, centerZ);
+			float angleRad = Mathf.Deg2Rad * (60f * i + angle);
+			float centerX = Mathf.Cos(angleRad);
+			float centerY = Mathf.Sin(angleRad);
+			return new Vector2(centerX, centerY);
 		}
 
 		public enum CustomFullScreenMode

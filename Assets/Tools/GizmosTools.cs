@@ -1,22 +1,24 @@
-﻿using UnityEditor;
+﻿using System.Diagnostics;
+using UnityEditor;
 using UnityEngine;
 
 namespace JD
 {
 	public static class GizmosTools
 	{
+		[Conditional("UNITY_EDITOR")]
+		[Conditional("DEVELOPMENT_BUILD")]
 		public static void DrawWireSphere(Vector3 position, Quaternion rotation, float radius)
 		{
-#if UNITY_EDITOR
 			Handles.DrawWireDisc(position, rotation * Vector3.up, radius);
 			Handles.DrawWireDisc(position, rotation * Vector3.right, radius);
 			Handles.DrawWireDisc(position, rotation * Vector3.forward, radius);
-#endif
 		}
 
+		[Conditional("UNITY_EDITOR")]
+		[Conditional("DEVELOPMENT_BUILD")]
 		public static void DrawWireCapsule(Vector3 position, Quaternion rotation, float radius, float height)
 		{
-#if UNITY_EDITOR
 			Matrix4x4 angleMatrix = Matrix4x4.TRS(position, rotation, Handles.matrix.lossyScale);
 			using (new Handles.DrawingScope(angleMatrix))
 			{
@@ -36,42 +38,21 @@ namespace JD
 				Handles.DrawWireDisc(Vector3.up * pointOffset, Vector3.up, radius);
 				Handles.DrawWireDisc(Vector3.down * pointOffset, Vector3.up, radius);
 			}
-#endif
 		}
 
-		public static void DrawHex(Vector3 position, float radius)
+		[Conditional("UNITY_EDITOR")]
+		[Conditional("DEVELOPMENT_BUILD")]
+		public static void DrawHex(Vector3 center, Vector3 normal, float radius, float angle = 0f)
 		{
-#if UNITY_EDITOR
+			Quaternion look = Quaternion.LookRotation(normal);
 			for (int i = 1; i < 7; i++)
 			{
-				Vector3 corner = Tools.GetHexCorner(position, radius, i - 1);
-				Vector3 next = Tools.GetHexCorner(position, radius, i);
+				Vector3 corner = Tools.GetHexCorner(i - 1, angle);
+				Vector3 next = Tools.GetHexCorner(i, angle);
+				corner = look * corner * radius + center;
+				next = look * next * radius + center;
 				Gizmos.DrawLine(corner, next);
 			}
-#endif
-		}
-
-		public static void DrawHex(Vector3 position, float radius, float height)
-		{
-#if UNITY_EDITOR
-			if (Mathf.Approximately(height, 0))
-			{
-				DrawHex(position, radius);
-			}
-
-			Vector3 offset = 0.5f * height * Vector3.up;
-			for (int i = 1; i < 7; i++)
-			{
-				Vector3 cornerTop = Tools.GetHexCorner(position, radius, i - 1) + offset;
-				Vector3 nextTop = Tools.GetHexCorner(position, radius, i) + offset;
-				Vector3 cornerBot = Tools.GetHexCorner(position, radius, i - 1) - offset;
-				Vector3 nextBot = Tools.GetHexCorner(position, radius, i) - offset;
-
-				Gizmos.DrawLine(cornerTop, nextTop);
-				Gizmos.DrawLine(cornerBot, nextBot);
-				Gizmos.DrawLine(cornerTop, cornerBot);
-			}
-#endif
 		}
 	}
 }
