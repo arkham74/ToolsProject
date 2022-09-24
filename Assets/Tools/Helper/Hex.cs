@@ -1,71 +1,34 @@
 ﻿using UnityEngine;
 
-namespace SAR
+namespace JD
 {
-	public readonly struct Hex
+	public static class Hex
 	{
 		private const float SQRT3 = 1.732050807568877293527446341505872366942805253810380628055806f;
 
-		public readonly float Q, R, S;
-
-		public Hex Rounded => Hex.Round(this);
-
-		public Vector2 Position => new Vector2(Q, R);
-
-		public Hex(float q, float r, float s)
-		{
-			Q = q;
-			R = r;
-			S = s;
-		}
-
-		public Hex(float q, float r)
-		{
-			Q = q;
-			R = r;
-			S = -q - r;
-		}
-
-		public static Vector3 WorldToHexSpace(Vector2 point, float size = 1f)
+		public static Vector3 WorldToHex(Vector2 point, float size = 1f)
 		{
 			float q = (SQRT3 / 3f * point.x - 1f / 3f * point.y) / size;
-			float r = (2f / 3f * point.y) / size;
+			float r = 2f / 3f * point.y / size;
 			return new Vector3(q, r, -q - r);
-		}
-
-		public static Hex WorldToHex(Vector2 point, float size = 1f)
-		{
-			float q = (SQRT3 / 3f * point.x - 1f / 3f * point.y) / size;
-			float r = (2f / 3f * point.y) / size;
-			return new Hex(q, r);
 		}
 
 		public static Vector2 HexToWorld(Vector3 hex, float size = 1f)
 		{
-			return HexToWorld(hex.x, hex.y, size);
-		}
-
-		public static Vector2 HexToWorld(Hex hex, float size = 1f)
-		{
-			return HexToWorld(hex.Q, hex.R, size);
-		}
-
-		public static Vector2 HexToWorld(float q, float r, float size = 1f)
-		{
-			float x = size * (SQRT3 * q + SQRT3 / 2f * r);
-			float y = size * (3f / 2f * r);
+			float x = size * (SQRT3 * hex.x + SQRT3 / 2f * hex.y);
+			float y = size * (3f / 2f * hex.y);
 			return new Vector2(x, y);
 		}
 
-		public static Hex Round(Hex hex)
+		public static Vector3 Round(Vector3 hex)
 		{
-			float q = Mathf.Round(hex.Q);
-			float r = Mathf.Round(hex.R);
-			float s = Mathf.Round(hex.S);
+			float q = Mathf.Round(hex.x);
+			float r = Mathf.Round(hex.y);
+			float s = Mathf.Round(hex.z);
 
-			float qDiff = Mathf.Abs(q - hex.Q);
-			float rDiff = Mathf.Abs(r - hex.R);
-			float sDiff = Mathf.Abs(s - hex.S);
+			float qDiff = Mathf.Abs(q - hex.x);
+			float rDiff = Mathf.Abs(r - hex.y);
+			float sDiff = Mathf.Abs(s - hex.z);
 
 			if (qDiff > rDiff && qDiff > sDiff)
 			{
@@ -80,7 +43,7 @@ namespace SAR
 				s = -q - r;
 			}
 
-			return new Hex(q, r, s);
+			return new Vector3(q, r, s);
 		}
 	}
 }
