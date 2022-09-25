@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Freya;
+using UnityEngine;
 
 namespace JD
 {
@@ -6,18 +7,33 @@ namespace JD
 	{
 		private const float SQRT3 = 1.732050807568877293527446341505872366942805253810380628055806f;
 
-		public static Vector3 WorldToHex(Vector2 point, float size = 1f)
+		public static Vector3 WorldToHex(Vector2 point, float radius)
 		{
-			float q = (SQRT3 / 3f * point.x - 1f / 3f * point.y) / size;
-			float r = 2f / 3f * point.y / size;
+			return WorldToHex(point, Vector2.one * radius);
+		}
+
+		public static Vector2 HexToWorld(Vector3 hex, float radius)
+		{
+			return HexToWorld(hex, Vector2.one * radius);
+		}
+
+		public static Vector3 WorldToHex(Vector2 point, Vector2 radius)
+		{
+			float q = SQRT3 / 3f * (point.x / radius.x) - 1f / 3f * (point.y / radius.y);
+			float r = 2f / 3f * (point.y / radius.y);
 			return new Vector3(q, r, -q - r);
 		}
 
-		public static Vector2 HexToWorld(Vector3 hex, float size = 1f)
+		public static Vector2 HexToWorld(Vector3 hex, Vector2 radius)
 		{
-			float x = size * (SQRT3 * hex.x + SQRT3 / 2f * hex.y);
-			float y = size * (3f / 2f * hex.y);
+			float x = radius.x * (SQRT3 * hex.x + SQRT3 / 2f * hex.y);
+			float y = radius.y * (3f / 2f * hex.y);
 			return new Vector2(x, y);
+		}
+
+		public static Vector3Int RoundToInt(Vector3 hex)
+		{
+			return Round(hex).RoundToInt();
 		}
 
 		public static Vector3 Round(Vector3 hex)

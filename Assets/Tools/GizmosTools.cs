@@ -44,13 +44,22 @@ namespace JD
 		[Conditional("DEVELOPMENT_BUILD")]
 		public static void DrawHex(Vector3 center, Vector3 normal, float radius, float angle = 0f)
 		{
+			DrawHex(center, normal, Vector2.one * radius, angle);
+		}
+
+		[Conditional("UNITY_EDITOR")]
+		[Conditional("DEVELOPMENT_BUILD")]
+		public static void DrawHex(Vector3 center, Vector3 normal, Vector2 radius, float angle = 0f)
+		{
 			Quaternion look = Quaternion.LookRotation(normal);
 			for (int i = 1; i < 7; i++)
 			{
 				Vector3 corner = Tools.GetHexCorner(i - 1, angle);
 				Vector3 next = Tools.GetHexCorner(i, angle);
-				corner = look * corner * radius + center;
-				next = look * next * radius + center;
+				corner.Scale(radius);
+				next.Scale(radius);
+				corner = look * corner + center;
+				next = look * next + center;
 				Gizmos.DrawLine(corner, next);
 			}
 		}
