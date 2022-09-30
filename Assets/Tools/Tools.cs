@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
+using Object = UnityEngine.Object;
 
 #if TOOLS_LOCALIZATION
 using UnityEngine.Localization.Settings;
@@ -202,6 +203,20 @@ namespace JD
 			tex.SetPixels32(pixels);
 			tex.Apply();
 			return tex;
+		}
+
+		public static T Instantiate<T>(T prefab, Transform transform) where T : Object
+		{
+#if UNITY_EDITOR
+			if (!Application.isPlaying)
+			{
+				return PrefabUtility.InstantiatePrefab(prefab, transform) as T;
+			}
+			else
+#endif
+			{
+				return Object.Instantiate(prefab, transform);
+			}
 		}
 
 		public static Vector2 GetHexCorner(int i, float angle = 0f)
