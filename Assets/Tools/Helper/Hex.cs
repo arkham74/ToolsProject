@@ -104,7 +104,7 @@ namespace JD
 			return new Vector3(q, r, s);
 		}
 
-		public static Vector3Int[] GetNeighbours(Vector3Int start)
+		public static Vector3Int[] GetNeighboursHex(Vector3Int start)
 		{
 			return new Vector3Int[6]
 			{
