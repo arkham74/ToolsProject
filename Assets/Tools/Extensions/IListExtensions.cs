@@ -26,6 +26,20 @@ namespace JD
 			return array[Mathfs.Mod(index, array.Count)];
 		}
 
+		public static T Sample<T>(this IList<T> array, float t)
+		{
+			// Debug.Assert(array != null, "Array is null");
+			// Debug.Assert(array.Count > 0, "Array is zero");
+			// Debug.Assert(!float.IsNaN(t), "T is NaN");
+			// Debug.Assert(!float.IsInfinity(t), "T is infite");
+
+			t = Mathfs.Clamp01(t);
+			int size = Mathf.Max(array.Count - 1, 0);
+			float value = t * size;
+			int index = Mathfs.RoundToInt(value);
+			return array[index];
+		}
+
 		public static T Random<T>(this IList<T> list)
 		{
 			if (list == null)

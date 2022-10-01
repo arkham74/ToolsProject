@@ -1,3 +1,4 @@
+#if TOOLS_URP
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
@@ -143,3 +144,4 @@ namespace JD.CustomRenderObjects
 		}
 	}
 }
+#endif
