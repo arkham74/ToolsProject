@@ -51,16 +51,17 @@ namespace JD
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Hex[] Neighbours(this Hex hex)
+		public static Hex[] Neighbours(this Hex hex, int ring = 1)
 		{
+			ring = Mathf.Max(ring, 1);
 			return new Hex[6]
 			{
-				Add(new Hex(1, 0),hex),
-				Add(new Hex(-1, 0),hex),
-				Add(new Hex(0, 1),hex),
-				Add(new Hex(0, -1),hex),
-				Add(new Hex(1, -1),hex),
-				Add(new Hex(-1, 1),hex),
+				new Hex(1, 0) * ring + hex,
+				new Hex(-1, 0) * ring +  hex,
+				new Hex(0, 1) * ring + hex,
+				new Hex(0, -1) * ring +  hex,
+				new Hex(1, -1) * ring +  hex,
+				new Hex(-1, 1) * ring +  hex,
 			};
 		}
 
@@ -98,6 +99,24 @@ namespace JD
 			float q = a.q + b.q;
 			float r = a.r + b.r;
 			float s = a.s + b.s;
+			return new Hex(q, r, s);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Hex Mul(this Hex a, float b)
+		{
+			float q = a.q * b;
+			float r = a.r * b;
+			float s = a.s * b;
+			return new Hex(q, r, s);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Hex Div(this Hex a, float b)
+		{
+			float q = a.q / b;
+			float r = a.r / b;
+			float s = a.s / b;
 			return new Hex(q, r, s);
 		}
 

@@ -48,6 +48,12 @@ namespace JD
 		public static Hex operator -(Hex a, Hex b) => a.Sub(b);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Hex operator *(Hex a, float b) => a.Mul(b);
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Hex operator /(Hex a, float b) => a.Div(b);
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator ==(Hex a, Hex b) => a.Equals(b);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
