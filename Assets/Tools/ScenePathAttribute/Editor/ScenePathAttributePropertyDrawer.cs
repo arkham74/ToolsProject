@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace JD.Editor
 			guids ??= AssetDatabase.FindAssets("t:scene", Folders);
 			scenePaths ??= GetPaths(guids);
 			sceneNames ??= GetNames(scenePaths);
-			int index = Mathf.Max(scenePaths.IndexOf(serializedProperty.stringValue), 0);
+			int index = Mathf.Max(Array.IndexOf(scenePaths, serializedProperty.stringValue), 0);
 			int newIndex = EditorGUI.Popup(rect, index, sceneNames);
 			serializedProperty.stringValue = scenePaths.ElementAtOrDefault(newIndex);
 		}

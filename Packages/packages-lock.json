@@ -7,6 +7,13 @@
       "dependencies": {},
       "url": "https://package.openupm.com"
     },
+    "com.needle.compilation-visualizer": {
+      "version": "1.8.3",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
     "com.unity.cinemachine": {
       "version": "2.8.4",
       "depth": 0,

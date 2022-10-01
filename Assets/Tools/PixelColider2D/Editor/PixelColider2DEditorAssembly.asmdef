@@ -1,0 +1,18 @@
+{
+    "name": "PixelColider2DEditorAssembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c0d1a0af8f1d08d47a43113e869c7ae0"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

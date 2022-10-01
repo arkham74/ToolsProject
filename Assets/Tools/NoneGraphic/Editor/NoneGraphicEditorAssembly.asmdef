@@ -1,0 +1,18 @@
+{
+    "name": "NoneGraphicEditorAssembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:cf037165698f67d41988730219c25301"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

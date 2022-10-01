@@ -8,7 +8,6 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
-using UnityEditor.Rendering;
 using System;
 using Freya;
 
@@ -26,7 +25,8 @@ namespace JD.Splines
 
 		[SerializeField] private bool loop;
 
-		[SerializeField] private Segment[] segments = new Segment[]
+		[SerializeField]
+		private Segment[] segments = new Segment[]
 		{
 			new Segment
 			{

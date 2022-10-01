@@ -1,0 +1,18 @@
+{
+    "name": "BlitEditorAssembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c54455615c832e04fac8de66d40c1740"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

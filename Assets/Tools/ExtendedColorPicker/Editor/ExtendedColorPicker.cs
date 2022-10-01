@@ -1,9 +1,5 @@
-using System;
-using System.Globalization;
 using UnityEditor;
 using UnityEngine;
-using JD;
-using Freya;
 
 namespace Michsky.UI.Shift
 {
@@ -87,7 +83,7 @@ namespace Michsky.UI.Shift
 				}
 			}
 
-			float a = property.colorValue.a.RoundToDecimal(2);
+			float a = Mathf.Round(property.colorValue.a * 100f) / 100f;
 			float newAlpha = EditorGUI.FloatField(new Rect(position.x + colorWidth + hexFW + (spacing * 2f), position.y, alphaFW, position.height), a);
 			//, 0f, 1f
 

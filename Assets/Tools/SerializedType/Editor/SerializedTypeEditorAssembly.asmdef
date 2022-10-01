@@ -1,0 +1,18 @@
+{
+    "name": "SerializedTypeEditorAssembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:768b676ba520ede479340d5ff89774bd"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

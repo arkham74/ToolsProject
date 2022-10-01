@@ -42,8 +42,12 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
+    "com.unity.modules.xr": "1.0.0",
+    "com.needle.compilation-visualizer": "1.8.3"
   },
+    "testables": [
+    "com.needle.compilation-visualizer"
+  ],
   "scopedRegistries": [
     {
       "name": "package.openupm.com",
@@ -53,6 +57,7 @@
         "com.dbrizov.naughtyattributes",
         "com.demigiant.dotween",
         "com.facepunch.steamworks",
+        "com.needle.compilation-visualizer",
         "com.openupm"
       ]
     }

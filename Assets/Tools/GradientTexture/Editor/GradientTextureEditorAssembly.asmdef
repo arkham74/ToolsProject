@@ -1,0 +1,18 @@
+{
+    "name": "GradientTextureEditorAssembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:4c874782e8c29064ba548f5de1772717"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SAR
+namespace JD
 {
 	[Serializable]
 	public struct SerializedType<T>

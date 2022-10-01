@@ -1,0 +1,18 @@
+{
+    "name": "ColorBlockSyncEditorAssembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:152da7c3aa04595488afe8b0cb8a5a97"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

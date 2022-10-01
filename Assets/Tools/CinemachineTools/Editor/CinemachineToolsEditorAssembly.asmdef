@@ -1,0 +1,18 @@
+{
+    "name": "CinemachineToolsEditorAssembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b13449c866d0bcc44b4a1f88592cbacf"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

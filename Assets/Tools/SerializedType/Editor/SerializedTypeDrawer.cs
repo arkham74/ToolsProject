@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-namespace SAR.Editor
+namespace JD.Editor
 {
 	[CustomPropertyDrawer(typeof(SerializedType<>))]
 	public class SerializedTypeDrawer : PropertyDrawer
@@ -33,9 +33,10 @@ namespace SAR.Editor
 
 			string[] select = collection.Where(e => !e.IsAbstract).Select(e => e.FullName).ToArray();
 			property.NextVisible(true);
-			int index = select.IndexOf(property.stringValue);
+			int index = Array.IndexOf(select, property.stringValue);
 			index = EditorGUI.Popup(position, label.text, index, select);
-			property.stringValue = select.AtIndexClamp(index);
+			int v = Mathf.Clamp(index, 0, select.Length - 1);
+			property.stringValue = select[v];
 
 			EditorGUI.EndProperty();
 		}
