@@ -1,5 +1,5 @@
+using System;
 using System.Linq;
-using Freya;
 using UnityEditor;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
@@ -17,9 +17,9 @@ namespace JD.Editor
 			if (property.propertyType == SerializedPropertyType.String)
 			{
 				list ??= TypeCache.GetTypesDerivedFrom<InputDevice>().Select(e => e.Name).ToArray();
-				int index = list.IndexOf(property.stringValue);
+				int index = Array.IndexOf(list, property.stringValue);
 				index = EditorGUI.Popup(position, label.text, index, list);
-				property.stringValue = list[index.Mod(list.Length)];
+				property.stringValue = list[(int)Mathf.Repeat(index, list.Length)];
 			}
 			else
 			{
