@@ -14,6 +14,13 @@
       "dependencies": {},
       "url": "https://package.openupm.com"
     },
+    "com.redbluegames.mulligan": {
+      "version": "https://github.com/redbluegames/unity-mulligan-renamer.git?path=/Assets/RedBlueGames/MulliganRenamer",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "2571f2e28250162410b8b6c28f2ffde724391cf1"
+    },
     "com.unity.cinemachine": {
       "version": "2.8.4",
       "depth": 0,
