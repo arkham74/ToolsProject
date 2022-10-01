@@ -7,7 +7,9 @@
         "GUID:75469ad4d38634e559750d17036d5f7c",
         "GUID:df380645f10b7bc4b97d4f5eb6303d95",
         "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
-        "GUID:b85a9b696dea92b4f9d0efe8b3f0e5b7"
+        "GUID:b85a9b696dea92b4f9d0efe8b3f0e5b7",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:776d03a35f1b52c4a9aed9f56d7b4229"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -26,6 +28,16 @@
             "name": "com.unity.localization",
             "expression": "1.0.5",
             "define": "TOOLS_LOCALIZATION"
+        },
+        {
+            "name": "com.unity.cinemachine",
+            "expression": "2.9.1",
+            "define": "TOOLS_CINEMACHINE"
+        },
+        {
+            "name": "com.dbrizov.naughtyattributes",
+            "expression": "2.1.4",
+            "define": "TOOLS_NAUATTR"
         }
     ],
     "noEngineReferences": false

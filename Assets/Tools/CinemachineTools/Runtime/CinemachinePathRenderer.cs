@@ -2,14 +2,12 @@
 using Cinemachine;
 using Freya;
 using JD;
-using NaughtyAttributes;
 using Random = UnityEngine.Random;
 using SebastianLague;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Tag = NaughtyAttributes.TagAttribute;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;

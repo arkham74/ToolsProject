@@ -1,10 +1,10 @@
 {
   "dependencies": {
-    "com.demigiant.dotween": "1.2.632",
     "com.dbrizov.naughtyattributes": "2.1.4",
+    "com.demigiant.dotween": "1.2.632",
     "com.needle.compilation-visualizer": "1.8.3",
     "com.redbluegames.mulligan": "https://github.com/redbluegames/unity-mulligan-renamer.git?path=/Assets/RedBlueGames/MulliganRenamer",
-    "com.unity.cinemachine": "2.8.4",
+    "com.unity.cinemachine": "2.9.1",
     "com.unity.collab-proxy": "1.15.16",
     "com.unity.ide.rider": "3.0.14",
     "com.unity.ide.visualstudio": "2.0.15",
