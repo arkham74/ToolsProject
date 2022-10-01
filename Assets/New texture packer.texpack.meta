@@ -7,16 +7,16 @@ ScriptedImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-  script: {fileID: 11500000, guid: 646a71ce6a1692c42819ea85566e9d28, type: 3}
-  size: {x: 1, y: 1}
-  redTex: {fileID: 2800000, guid: a2789d9cefc3b564e9f8d58c157abea5, type: 3}
-  greenTex: {fileID: 2800000, guid: 28f5fc49b4278744c8d8534860ce63cc, type: 3}
-  blueTex: {fileID: 2800000, guid: 1dc54ba7f2eae924590e19df70a52b3e, type: 3}
-  alphaTex: {fileID: 2800000, guid: 31f1e1730a632f14bbf855f87e3992c7, type: 3}
+  script: {fileID: 11500000, guid: f6b4f669166f02a41be1a192b551f20f, type: 3}
+  size: {x: 512, y: 512}
+  redTex: {instanceID: 0}
+  greenTex: {instanceID: 0}
+  blueTex: {instanceID: 0}
+  alphaTex: {instanceID: 0}
   redChannel: 0
   greenChannel: 1
   blueChannel: 2
-  alphaChannel: 0
+  alphaChannel: 3
   redInvert: 0
   greenInvert: 0
   blueInvert: 0
