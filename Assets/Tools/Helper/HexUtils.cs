@@ -129,7 +129,7 @@ namespace JD
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Vector2 ToOffset(this Hex hex)
+		public static Vector2Int ToOffset(this Hex hex)
 		{
 			Hex rounded = hex.Round();
 			int q = (int)rounded.q;
