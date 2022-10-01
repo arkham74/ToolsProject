@@ -67,7 +67,16 @@ namespace JD
 
 		[Conditional("UNITY_EDITOR")]
 		[Conditional("DEVELOPMENT_BUILD")]
-		public static void DrawHex(Vector3 center, Vector3 normal, float radius, float angle = 0f)
+		public static void DrawHex(Vector3 center, float radius = 1f, float angle = 30f)
+		{
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			DrawHex(center, Vector3.forward, Vector2.one * radius, angle);
+#endif
+		}
+
+		[Conditional("UNITY_EDITOR")]
+		[Conditional("DEVELOPMENT_BUILD")]
+		public static void DrawHex(Vector3 center, Vector3 normal, float radius = 1f, float angle = 30f)
 		{
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 			DrawHex(center, normal, Vector2.one * radius, angle);
