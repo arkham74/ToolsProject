@@ -72,11 +72,6 @@ namespace JD.CustomRenderObjects
 			mCameraSettings = cameraSettings;
 		}
 
-		internal CustomRenderObjectsPass(URPProfileId profileId, RenderPassEvent renderPassEvent, string[] shaderTags, RenderQueueType renderQueueType, int layerMask, uint renderLayerMask, CustomRenderObjects.CustomCameraSettings cameraSettings) : this(profileId.GetType().Name, renderPassEvent, shaderTags, renderQueueType, layerMask, renderLayerMask, cameraSettings)
-		{
-			mProfilingSampler = ProfilingSampler.Get(profileId);
-		}
-
 		public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 		{
 			SortingCriteria sortingCriteria = (renderQueueType == RenderQueueType.Transparent) ? SortingCriteria.CommonTransparent : renderingData.cameraData.defaultOpaqueSortFlags;
@@ -89,7 +84,7 @@ namespace JD.CustomRenderObjects
 			Camera camera = cameraData.camera;
 
 			// In case of camera stacking we need to take the viewport rect from base camera
-			Rect pixelRect = renderingData.cameraData.pixelRect;
+			Rect pixelRect = renderingData.cameraData.camera.pixelRect;
 			float cameraAspect = pixelRect.width / pixelRect.height;
 
 			// NOTE: Do NOT mix ProfilingScope with named CommandBuffers i.e. CommandBufferPool.Get("name").
@@ -99,41 +94,25 @@ namespace JD.CustomRenderObjects
 			{
 				if (mCameraSettings.overrideCamera)
 				{
-					if (cameraData.xr.enabled)
-					{
-						Debug.LogWarning("CustomRenderObjects pass is configured to override camera matrices. While rendering in stereo camera matrices cannot be overridden.");
-					}
-					else
-					{
-						Matrix4x4 projectionMatrix = Matrix4x4.Perspective(mCameraSettings.cameraFieldOfView, cameraAspect,
-							camera.nearClipPlane, camera.farClipPlane);
-						projectionMatrix = GL.GetGPUProjectionMatrix(projectionMatrix, cameraData.IsCameraProjectionMatrixFlipped());
+					Matrix4x4 projectionMatrix = Matrix4x4.Perspective(mCameraSettings.cameraFieldOfView, cameraAspect,
+						camera.nearClipPlane, camera.farClipPlane);
+					projectionMatrix = GL.GetGPUProjectionMatrix(projectionMatrix, cameraData.IsCameraProjectionMatrixFlipped());
 
-						Matrix4x4 viewMatrix = cameraData.GetViewMatrix();
-						Vector4 cameraTranslation = viewMatrix.GetColumn(3);
-						viewMatrix.SetColumn(3, cameraTranslation + mCameraSettings.offset);
+					Matrix4x4 viewMatrix = cameraData.GetViewMatrix();
+					Vector4 cameraTranslation = viewMatrix.GetColumn(3);
+					viewMatrix.SetColumn(3, cameraTranslation + mCameraSettings.offset);
 
-						RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, projectionMatrix, false);
-					}
+					RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, projectionMatrix, false);
 				}
 
-				DebugHandler activeDebugHandler = GetActiveDebugHandler(renderingData);
-				if (activeDebugHandler != null)
-				{
-					activeDebugHandler.DrawWithDebugRenderState(context, cmd, ref renderingData, ref drawingSettings, ref mFilteringSettings, ref mRenderStateBlock,
-						(ScriptableRenderContext ctx, ref RenderingData data, ref DrawingSettings ds, ref FilteringSettings fs, ref RenderStateBlock rsb) => { ctx.DrawRenderers(data.cullResults, ref ds, ref fs, ref rsb); });
-				}
-				else
-				{
-					// Ensure we flush our command-buffer before we render...
-					context.ExecuteCommandBuffer(cmd);
-					cmd.Clear();
+				// Ensure we flush our command-buffer before we render...
+				context.ExecuteCommandBuffer(cmd);
+				cmd.Clear();
 
-					// Render the objects...
-					context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref mFilteringSettings, ref mRenderStateBlock);
-				}
+				// Render the objects...
+				context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref mFilteringSettings, ref mRenderStateBlock);
 
-				if (mCameraSettings.overrideCamera && mCameraSettings.restoreCamera && !cameraData.xr.enabled)
+				if (mCameraSettings.overrideCamera && mCameraSettings.restoreCamera)
 				{
 					RenderingUtils.SetViewAndProjectionMatrices(cmd, cameraData.GetViewMatrix(), cameraData.GetGPUProjectionMatrix(), false);
 				}

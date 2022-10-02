@@ -1,4 +1,4 @@
-#if TOOLS_URP && UNITY_EDITOR
+#if TOOLS_URP
 using System;
 using System.Linq;
 using UnityEngine;

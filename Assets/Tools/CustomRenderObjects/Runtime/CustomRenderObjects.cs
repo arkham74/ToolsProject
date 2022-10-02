@@ -93,11 +93,6 @@ namespace JD.CustomRenderObjects
 		{
 			renderer.EnqueuePass(renderObjectsPass);
 		}
-
-		internal override bool SupportsNativeRenderPass()
-		{
-			return true;
-		}
 	}
 }
 #endif
