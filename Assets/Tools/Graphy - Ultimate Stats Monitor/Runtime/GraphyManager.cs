@@ -20,7 +20,7 @@ using Tayx.Graphy.Utils;
 using Tayx.Graphy.Advanced;
 using Tayx.Graphy.Utils.NumString;
 
-#if GRAPHY_NEW_INPUT
+#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
@@ -109,7 +109,7 @@ namespace Tayx.Graphy
 
 		[SerializeField] private bool m_enableHotkeys = true;
 
-#if GRAPHY_NEW_INPUT
+#if ENABLE_INPUT_SYSTEM
 		[SerializeField] private Key m_toggleModeKeyCode = Key.G;
 #else
         [SerializeField] private    KeyCode                 m_toggleModeKeyCode                 = KeyCode.G;
@@ -117,7 +117,7 @@ namespace Tayx.Graphy
 		[SerializeField] private bool m_toggleModeCtrl = true;
 		[SerializeField] private bool m_toggleModeAlt = false;
 
-#if GRAPHY_NEW_INPUT
+#if ENABLE_INPUT_SYSTEM
 		[SerializeField] private Key m_toggleActiveKeyCode = Key.H;
 #else
         [SerializeField] private    KeyCode                 m_toggleActiveKeyCode               = KeyCode.H;
@@ -705,7 +705,7 @@ namespace Tayx.Graphy
 
 		private void CheckForHotkeyPresses()
 		{
-#if GRAPHY_NEW_INPUT
+#if ENABLE_INPUT_SYSTEM
 			// Toggle Mode ---------------------------------------
 			if (m_toggleModeCtrl && m_toggleModeAlt)
 			{
@@ -850,7 +850,7 @@ namespace Tayx.Graphy
 #endif
 		}
 
-#if GRAPHY_NEW_INPUT
+#if ENABLE_INPUT_SYSTEM
 		private bool CheckFor1KeyPress(Key key)
 		{
 			Keyboard currentKeyboard = Keyboard.current;

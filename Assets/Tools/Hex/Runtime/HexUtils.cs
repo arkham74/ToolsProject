@@ -7,9 +7,11 @@ namespace JD
 	public static class HexUtils
 	{
 		private const float SQRT3 = 1.732050807568877293527446341505872366942805253810380628055806f;
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Hex FromWorld(this Vector3 point) => FromWorld((Vector2)point);
+		private const float SQRT3D2 = SQRT3 / 2f;
+		private const float SQRT3D3 = SQRT3 / 3f;
+		private const float C1D3 = 1f / 3f;
+		private const float C2D3 = 2f / 3f;
+		private const float C3D2 = 3f / 2f;
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Hex FromAxial(this Vector2 qr) => FromAxial(qr.x, qr.y);
@@ -27,20 +29,26 @@ namespace JD
 		public static Vector3 ToCube(this Hex hex) => new Vector3(hex.Q, hex.R, hex.S);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Vector2 ToWorld(this Hex hex)
+		public static Vector2 ToWorld(this Hex hex) => ToWorld(hex, Vector3.one);
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Hex FromWorld(this Vector3 point) => FromWorld(point, Vector3.one);
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Vector2 ToWorld(this Hex hex, Vector3 radius)
 		{
-			float x = SQRT3 * hex.Q + SQRT3 / 2f * hex.R;
-			float y = 3f / 2f * hex.R;
+			float x = radius.x * SQRT3 * hex.Q + SQRT3D2 * hex.R;
+			float y = radius.y * C3D2 * hex.R;
 			return new Vector2(x, y);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Hex FromWorld(this Vector2 point)
+		public static Hex FromWorld(this Vector3 point, Vector3 radius)
 		{
-			float y = point.y;
-			float x = point.x;
-			float q = SQRT3 / 3f * x - 1f / 3f * y;
-			float r = 2f / 3f * y;
+			float x = point.x / radius.x;
+			float y = point.y / radius.y;
+			float q = SQRT3D3 * x - C1D3 * y;
+			float r = C2D3 * y;
 			return new Hex(q, r);
 		}
 
