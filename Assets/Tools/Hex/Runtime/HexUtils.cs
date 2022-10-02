@@ -15,28 +15,22 @@ namespace JD
 		public static Hex FromAxial(this Vector2 qr) => FromAxial(qr.x, qr.y);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Hex FromCube(this Vector3 qrs) => FromCube(qrs.x, qrs.y, qrs.z);
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Hex FromOffset(this Vector2Int xy) => FromOffset(xy.x, xy.y);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Hex FromAxial(float q, float r) => new Hex(q, r, -q - r);
+		public static Hex FromAxial(float q, float r) => new Hex(q, r);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Hex FromCube(float q, float r, float s) => new Hex(q, r, s);
+		public static Vector2 ToAxial(this Hex hex) => new Vector2(hex.Q, hex.R);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Vector2 ToAxial(this Hex hex) => new Vector2(hex.q, hex.r);
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Vector3 ToCube(this Hex hex) => new Vector3(hex.q, hex.r, hex.s);
+		public static Vector3 ToCube(this Hex hex) => new Vector3(hex.Q, hex.R, hex.S);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector2 ToWorld(this Hex hex)
 		{
-			float x = SQRT3 * hex.q + SQRT3 / 2f * hex.r;
-			float y = 3f / 2f * hex.r;
+			float x = SQRT3 * hex.Q + SQRT3 / 2f * hex.R;
+			float y = 3f / 2f * hex.R;
 			return new Vector2(x, y);
 		}
 
@@ -47,7 +41,7 @@ namespace JD
 			float x = point.x;
 			float q = SQRT3 / 3f * x - 1f / 3f * y;
 			float r = 2f / 3f * y;
-			return new Hex(q, r, -q - r);
+			return new Hex(q, r);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -69,55 +63,48 @@ namespace JD
 		public static float Distance(this Hex a, Hex b)
 		{
 			Hex vec = Sub(a, b);
-			float q = Mathf.Abs(vec.q);
-			float r = Mathf.Abs(vec.r);
-			float s = Mathf.Abs(vec.s);
+			float q = Mathf.Abs(vec.Q);
+			float r = Mathf.Abs(vec.R);
+			float s = Mathf.Abs(vec.S);
 			return (q + r + s) / 2f;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Hex Negate(this Hex hex)
 		{
-			float q = -hex.q;
-			float r = -hex.r;
-			float s = -q - r;
-			return new Hex(q, r, s);
+			return new Hex(-hex.Q, -hex.R);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Hex Sub(this Hex a, Hex b)
 		{
-			float q = a.q - b.q;
-			float r = a.r - b.r;
-			float s = a.s - b.s;
-			return new Hex(q, r, s);
+			float q = a.Q - b.Q;
+			float r = a.R - b.R;
+			return new Hex(q, r);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Hex Add(this Hex a, Hex b)
 		{
-			float q = a.q + b.q;
-			float r = a.r + b.r;
-			float s = a.s + b.s;
-			return new Hex(q, r, s);
+			float q = a.Q + b.Q;
+			float r = a.R + b.R;
+			return new Hex(q, r);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Hex Mul(this Hex a, float b)
 		{
-			float q = a.q * b;
-			float r = a.r * b;
-			float s = a.s * b;
-			return new Hex(q, r, s);
+			float q = a.Q * b;
+			float r = a.R * b;
+			return new Hex(q, r);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Hex Div(this Hex a, float b)
 		{
-			float q = a.q / b;
-			float r = a.r / b;
-			float s = a.s / b;
-			return new Hex(q, r, s);
+			float q = a.Q / b;
+			float r = a.R / b;
+			return new Hex(q, r);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -132,8 +119,8 @@ namespace JD
 		public static Vector2Int ToOffset(this Hex hex)
 		{
 			Hex rounded = hex.Round();
-			int q = (int)rounded.q;
-			int r = (int)rounded.r;
+			int q = (int)rounded.Q;
+			int r = (int)rounded.R;
 			int col = q + (r + (r & 1)) / 2;
 			int row = r;
 			return new Vector2Int(col, row);
@@ -142,13 +129,13 @@ namespace JD
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Hex Round(this Hex hex)
 		{
-			float q = Mathf.Round(hex.q);
-			float r = Mathf.Round(hex.r);
-			float s = Mathf.Round(hex.s);
+			float q = Mathf.Round(hex.Q);
+			float r = Mathf.Round(hex.R);
+			float s = Mathf.Round(hex.S);
 
-			float qDiff = Mathf.Abs(q - hex.q);
-			float rDiff = Mathf.Abs(r - hex.r);
-			float sDiff = Mathf.Abs(s - hex.s);
+			float qDiff = Mathf.Abs(q - hex.Q);
+			float rDiff = Mathf.Abs(r - hex.R);
+			float sDiff = Mathf.Abs(s - hex.S);
 
 			if (qDiff > rDiff && qDiff > sDiff)
 			{
@@ -163,7 +150,7 @@ namespace JD
 				s = -q - r;
 			}
 
-			return new Hex(q, r, s);
+			return new Hex(q, r);
 		}
 	}
 }

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.Events;
@@ -16,26 +17,25 @@ using System.Runtime.CompilerServices;
 
 namespace JD
 {
-	public readonly partial struct Hex : IEquatable<Hex>, IFormattable
+	[Serializable]
+	public struct Hex : IEquatable<Hex>, IFormattable
 	{
-		public readonly float q;
-		public readonly float r;
-		public readonly float s;
+		[SerializeField] private Vector2 qr;
+
+		public float Q => qr.x;
+		public float R => qr.y;
+		public float S => -Q - R;
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public Hex(float q, float r, float s)
+		public Hex(Vector2 qr)
 		{
-			this.q = q;
-			this.r = r;
-			this.s = s;
+			this.qr = qr;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public Hex(float q, float r)
+		public Hex(float q, float r) : this(new Vector2(q, r))
 		{
-			this.q = q;
-			this.r = r;
-			this.s = -q - r;
+
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -60,16 +60,16 @@ namespace JD
 		public static bool operator !=(Hex a, Hex b) => !a.Equals(b);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override int GetHashCode() => q.GetHashCode() ^ (r.GetHashCode() << 2) ^ (s.GetHashCode() >> 2);
+		public override int GetHashCode() => Q.GetHashCode() ^ (R.GetHashCode() << 2) ^ (S.GetHashCode() >> 2);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override string ToString() => ToString(null, null);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public string ToString(string format, IFormatProvider formatProvider) => $"({q}, {r}, {s})";
+		public string ToString(string format, IFormatProvider formatProvider) => $"({Q}, {R}, {S})";
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public bool Equals(Hex other) => q == other.q && r == other.r && s == other.s;
+		public bool Equals(Hex other) => Q == other.Q && R == other.R && S == other.S;
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override bool Equals(object obj)
