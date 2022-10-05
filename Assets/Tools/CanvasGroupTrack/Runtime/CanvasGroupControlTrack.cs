@@ -1,3 +1,4 @@
+#if TOOLS_TIMELINE
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -14,3 +15,4 @@ namespace JD.CanvasTrack
 		}
 	}
 }
+#endif

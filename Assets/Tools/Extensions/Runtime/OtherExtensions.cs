@@ -68,9 +68,11 @@ namespace JD
 			return a == b || a.IsSubclassOf(b) || b.IsSubclassOf(a);
 		}
 
+#if TOOLS_URP
 		public static T Get<T>(this VolumeProfile profile) where T : VolumeComponent
 		{
 			return profile.TryGet(out T component) ? component : default;
 		}
+#endif
 	}
 }

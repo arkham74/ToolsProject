@@ -46,7 +46,11 @@ namespace JD.Editor
 
 			Type editorType = typeof(UnityEditor.Editor);
 			Type editorWindowType = typeof(EditorWindow);
+
+#if TOOLS_URP
 			Type volumeComponentType = typeof(VolumeComponent);
+#endif
+
 			Type scriptableRendererFeatureType = Type.GetType("UnityEngine.Rendering.Universal.ScriptableRendererFeature, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
 
 			List<string> groups = new List<string>();
@@ -62,10 +66,12 @@ namespace JD.Editor
 					continue;
 				}
 
+#if TOOLS_URP
 				if (item.IsSubclassOf(volumeComponentType))
 				{
 					continue;
 				}
+#endif
 
 				if (scriptableRendererFeatureType != null)
 				{
