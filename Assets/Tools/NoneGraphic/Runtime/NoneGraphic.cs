@@ -10,7 +10,7 @@ namespace UIExtensions
 {
 	/// A concrete subclass of the Unity UI `Graphic` class that just skips drawing.
 	/// Useful for providing a raycast target without actually drawing anything.
-	[AddComponentMenu("Layout/Extensions/NonDrawingGraphic")]
+	[AddComponentMenu("Layout/Extensions/NoneGraphic")]
 	[RequireComponent(typeof(CanvasRenderer))]
 	public class NoneGraphic : MaskableGraphic
 	{

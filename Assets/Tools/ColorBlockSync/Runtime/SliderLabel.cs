@@ -24,6 +24,12 @@ namespace JD
 		[SerializeField] private ButtonNoSelectable prevButton;
 		[SerializeField] private Text label;
 
+		public bool interactable
+		{
+			get => slider.interactable && nextButton.interactable && prevButton.interactable;
+			set => slider.interactable = nextButton.interactable = prevButton.interactable = value;
+		}
+
 		private void Reset()
 		{
 			slider = GetComponentInChildren<Slider>();

@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using UnityEngine.EventSystems;
+using System.Text;
 
 namespace JD
 {
@@ -18,8 +19,17 @@ namespace JD
 		[SerializeField] private Graphic target;
 		[SerializeField] private ColorBlockData colors;
 		[SerializeField] private UnityEvent onClick;
+		[SerializeField] private bool _interactable = true;
+
+		private bool hover;
 
 		public UnityEvent OnClick => onClick;
+
+		public bool interactable
+		{
+			get => _interactable;
+			set => SetInteractable(value);
+		}
 
 #if UNITY_EDITOR
 		private void Reset()
@@ -30,12 +40,44 @@ namespace JD
 
 		private void OnValidate()
 		{
-			if (target && colors)
+			if (interactable)
 			{
-				target.color = colors.colorBlock.normalColor;
+				if (hover)
+				{
+					Hover();
+				}
+				else
+				{
+					Normal();
+				}
+			}
+			else
+			{
+				Disable();
 			}
 		}
 #endif
+
+		private void SetInteractable(bool value)
+		{
+			_interactable = value;
+
+			if (interactable)
+			{
+				if (hover)
+				{
+					Hover();
+				}
+				else
+				{
+					Normal();
+				}
+			}
+			else
+			{
+				Disable();
+			}
+		}
 
 		public void Register(UnityAction action)
 		{
@@ -45,18 +87,51 @@ namespace JD
 
 		public void OnPointerDown(PointerEventData eventData)
 		{
-			// target.color = colors.colorBlock.pressedColor;
-			onClick.Invoke();
+			if (interactable)
+			{
+				onClick.Invoke();
+			}
 		}
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			target.color = colors.colorBlock.highlightedColor;
+			if (interactable)
+			{
+				hover = true;
+				Hover();
+			}
+			else
+			{
+				Disable();
+			}
 		}
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
+			if (interactable)
+			{
+				hover = false;
+				Normal();
+			}
+			else
+			{
+				Disable();
+			}
+		}
+
+		private void Hover()
+		{
+			target.color = colors.colorBlock.highlightedColor;
+		}
+
+		private void Normal()
+		{
 			target.color = colors.colorBlock.normalColor;
+		}
+
+		private void Disable()
+		{
+			target.color = colors.colorBlock.disabledColor;
 		}
 	}
 }

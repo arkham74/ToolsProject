@@ -14,7 +14,7 @@ namespace UIExtensions.Editor
 		public override void OnInspectorGUI()
 		{
 			serializedObject.Update();
-			EditorGUILayout.PropertyField(m_Script);
+			// EditorGUILayout.PropertyField(m_Script);
 			RaycastControlsGUI();
 			serializedObject.ApplyModifiedProperties();
 		}
