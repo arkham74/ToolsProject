@@ -6,17 +6,6 @@ namespace JD
 {
 	public static class HexUtils
 	{
-		public enum Direction
-		{
-			Right = 1,
-			DownRight = 2,
-			DownLeft = 4,
-			Left = 8,
-			UpLeft = 16,
-			UpRight = 32,
-			All = -1,
-		}
-
 		private const float SQRT3 = 1.732050807568877293527446341505872366942805253810380628055806f;
 		private const float SQRT3D2 = SQRT3 / 2f;
 		private const float SQRT3D3 = SQRT3 / 3f;
@@ -64,35 +53,35 @@ namespace JD
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Hex[] GetNeighbours(this Hex hex, int ring = 1, Direction direction = Direction.All)
+		public static Hex[] GetNeighbours(this Hex hex, int ring = 1, HexDirection direction = HexDirection.All)
 		{
 			ring = Mathf.Abs(ring);
 			Hex[] list = new Hex[6];
-			list[0] = hex.GetNeighbour(Direction.Right) * ring;
-			list[1] = hex.GetNeighbour(Direction.DownRight) * ring;
-			list[2] = hex.GetNeighbour(Direction.DownLeft) * ring;
-			list[3] = hex.GetNeighbour(Direction.Left) * ring;
-			list[4] = hex.GetNeighbour(Direction.UpLeft) * ring;
-			list[5] = hex.GetNeighbour(Direction.UpRight) * ring;
+			list[0] = hex.GetNeighbour(HexDirection.Right) * ring;
+			list[1] = hex.GetNeighbour(HexDirection.DownRight) * ring;
+			list[2] = hex.GetNeighbour(HexDirection.DownLeft) * ring;
+			list[3] = hex.GetNeighbour(HexDirection.Left) * ring;
+			list[4] = hex.GetNeighbour(HexDirection.UpLeft) * ring;
+			list[5] = hex.GetNeighbour(HexDirection.UpRight) * ring;
 			return list;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Hex GetNeighbour(this Hex hex, Direction direction = Direction.All)
+		public static Hex GetNeighbour(this Hex hex, HexDirection direction)
 		{
 			return hex + GetOffset(direction);
 		}
 
-		private static Hex GetOffset(Direction direction)
+		private static Hex GetOffset(HexDirection direction)
 		{
 			return direction switch
 			{
-				Direction.Right => new Hex(1, 0),
-				Direction.Left => new Hex(-1, 0),
-				Direction.UpRight => new Hex(0, 1),
-				Direction.DownLeft => new Hex(0, -1),
-				Direction.DownRight => new Hex(1, -1),
-				Direction.UpLeft => new Hex(-1, 1),
+				HexDirection.Right => new Hex(1, 0),
+				HexDirection.Left => new Hex(-1, 0),
+				HexDirection.UpRight => new Hex(0, 1),
+				HexDirection.DownLeft => new Hex(0, -1),
+				HexDirection.DownRight => new Hex(1, -1),
+				HexDirection.UpLeft => new Hex(-1, 1),
 				_ => throw new ArgumentException("Direction is not valid", nameof(direction)),
 			};
 		}
