@@ -52,19 +52,6 @@ namespace JD.Editor
 			AS.spread = 60f;
 		}
 
-		[MenuItem("GameObject/Create parent for each", true, 0)]
-		public static bool CreateParentValid()
-		{
-			return Selection.gameObjects.Length > 1;
-		}
-
-		[MenuItem("GameObject/Create parent for each", false, 0)]
-		public static void CreateParent(MenuCommand command)
-		{
-			GameObject go = command.context as GameObject;
-			go.transform.SetParent(new GameObject(go.name).transform);
-		}
-
 		[MenuItem("CONTEXT/TMP_Text/Paste sample text")]
 		public static void PasteSampleTMPText(MenuCommand command)
 		{
