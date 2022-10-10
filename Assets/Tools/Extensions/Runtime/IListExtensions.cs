@@ -28,11 +28,6 @@ namespace JD
 
 		public static T Sample<T>(this IList<T> array, float t)
 		{
-			// Debug.Assert(array != null, "Array is null");
-			// Debug.Assert(array.Count > 0, "Array is zero");
-			// Debug.Assert(!float.IsNaN(t), "T is NaN");
-			// Debug.Assert(!float.IsInfinity(t), "T is infite");
-
 			t = Mathfs.Clamp01(t);
 			int size = Mathf.Max(array.Count - 1, 0);
 			float value = t * size;
@@ -52,6 +47,22 @@ namespace JD
 				throw new ArgumentException("List must have more than 0 elements");
 			}
 
+			return list[UnityEngine.Random.Range(0, list.Count)];
+		}
+
+		public static T Random<T>(this IList<T> list, int seed)
+		{
+			if (list == null)
+			{
+				throw new ArgumentNullException();
+			}
+
+			if (list.Count <= 0)
+			{
+				throw new ArgumentException("List must have more than 0 elements");
+			}
+
+			UnityEngine.Random.InitState(seed);
 			return list[UnityEngine.Random.Range(0, list.Count)];
 		}
 
