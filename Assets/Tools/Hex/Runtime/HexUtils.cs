@@ -37,7 +37,7 @@ namespace JD
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector2 ToWorld(this Hex hex, Vector3 radius)
 		{
-			float x = radius.x * SQRT3 * hex.Q + SQRT3D2 * hex.R;
+			float x = radius.x * (SQRT3 * hex.Q + SQRT3D2 * hex.R);
 			float y = radius.y * C3D2 * hex.R;
 			return new Vector2(x, y);
 		}

@@ -23,6 +23,7 @@ using UnityEngine.InputSystem;
 
 public class HexTest : MonoBehaviour
 {
+	[SerializeField] private HexDirection direction;
 	[SerializeField] private SerializableDictionary<Hex, HexNode> cells;
 
 	public float Size => 0.5f;
@@ -32,30 +33,40 @@ public class HexTest : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-		GizmosTools.SetColor(Color.red);
+		// GizmosTools.SetColor(Color.red);
 
-		foreach (Transform child in transform)
-		{
-			Vector3 world = child.position;
+		// foreach (Transform child in transform)
+		// {
+		// 	Vector3 world = child.position;
 
-			Hex hex = HexUtils.FromWorld(world / Size);
-			hex = hex.Round();
-			world = hex.ToWorld() * Size;
+		// 	Hex hex = HexUtils.FromWorld(world / Size);
+		// 	hex = hex.Round();
+		// 	world = hex.ToWorld() * Size;
 
-			child.position = world;
-			GizmosTools.DrawHex(world, Size);
-		}
+		// 	child.position = world;
+		// 	GizmosTools.DrawHex(world, Size);
+		// }
 
 
 		GizmosTools.SetColor(Color.blue);
 
 		if (start && end)
 		{
-			var list = AStar.GetPath(start, end);
-			foreach (HexNode node in list)
+			GizmosTools.DrawHex(start.Hex.ToWorld() * Size, Size);
+			GizmosTools.DrawHex(end.Hex.ToWorld() * Size, Size);
+
+			if (direction != 0 && Mathf.IsPowerOfTwo((int)direction))
 			{
-				GizmosTools.DrawHex(node.Hex.ToWorld() * Size, Size);
+				GizmosTools.SetColor(Color.red);
+				GizmosTools.DrawHex(start.Hex.GetNeighbour(direction).ToWorld() * Size, Size);
+				GizmosTools.DrawHex(end.Hex.GetNeighbour(direction).ToWorld() * Size, Size);
 			}
+
+			// var list = AStar.GetPath(start, end);
+			// foreach (HexNode node in list)
+			// {
+			// 	GizmosTools.DrawHex(node.Hex.ToWorld() * Size, Size);
+			// }
 		}
 	}
 
