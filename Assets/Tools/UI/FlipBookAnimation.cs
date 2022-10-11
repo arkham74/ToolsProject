@@ -5,11 +5,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-#if TOOLS_NAUATTR
-using NaughtyAttributes;
-using Tag = NaughtyAttributes.TagAttribute;
-#endif
-
 namespace JD
 {
 	public class FlipBookAnimation : MonoBehaviour
@@ -19,48 +14,25 @@ namespace JD
 		public bool loop = true;
 		public List<Sprite> frames = new List<Sprite>();
 
-#if UNITY_EDITOR
-		public string path;
-#if TOOLS_NAUATTR
-		[Button]
-#endif
-		private void Load()
-		{
-			string[] obj = AssetDatabase.FindAssets("t:sprite", new[] { path });
-			obj.LogWarning();
-			frames = obj.Select(AssetDatabase.GUIDToAssetPath).Select(AssetDatabase.LoadAssetAtPath<Sprite>).ToList();
-		}
-#endif
+		private float framefloat;
 
-		protected void Reset()
+		private void Reset()
 		{
-			target = GetComponent<Image>();
+			target = GetComponentInChildren<Image>();
 		}
 
-		protected void OnEnable()
+		private void Update()
 		{
-			StartCoroutine(Animate());
-		}
+			framefloat += Time.deltaTime * frameRate;
+			int frame = Mathf.FloorToInt(framefloat);
 
-		private IEnumerator Animate()
-		{
-			IEnumerator e = frames.GetEnumerator();
-			WaitForSecondsRealtime seconds = new WaitForSecondsRealtime(1f / frameRate);
-			while (true)
+			if (loop)
 			{
-				if (e.MoveNext())
-				{
-					target.sprite = e.Current as Sprite;
-					yield return seconds;
-				}
-				else if (loop)
-				{
-					e.Reset();
-				}
-				else
-				{
-					break;
-				}
+				target.sprite = frames.Repeat(frame);
+			}
+			else
+			{
+				target.sprite = frames.AtIndexClamp(frame);
 			}
 		}
 	}
