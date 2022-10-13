@@ -7,6 +7,11 @@ namespace JD
 {
 	public static class TextExtensions
 	{
+		public static void SetText(this TextMeshProUGUI text, string format, params object[] args)
+		{
+			text.text = string.Format(format, args);
+		}
+
 		public static void Register(this TMP_Dropdown dropdown, UnityAction<int> func)
 		{
 			dropdown.onValueChanged.RemoveAllListeners();
