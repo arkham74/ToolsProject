@@ -9,6 +9,11 @@ namespace JD
 {
 	public static class TransformExtensions
 	{
+		public static void SetPositionAndRotation(this Transform transform, Transform target)
+		{
+			transform.SetPositionAndRotation(target.position, target.rotation);
+		}
+
 		/// <summary>
 		/// Transforms Vector2 position from world space to local space.
 		/// </summary>
