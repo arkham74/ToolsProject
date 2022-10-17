@@ -56,5 +56,10 @@ namespace JD
 		{
 			return CountCornersVisibleFrom(rectTransform, camera) > 0; // True if any corners are visible
 		}
+
+		public static Vector2 GetCenter(this RectTransform rectTransform)
+		{
+			return rectTransform.TransformPoint(rectTransform.rect.center);
+		}
 	}
 }

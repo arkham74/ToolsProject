@@ -73,7 +73,6 @@ namespace JD
 			{
 				IEnumerator ButtonSelect()
 				{
-					EventSystem.current.SetSelectedGameObject(null);
 					yield return new WaitForEndOfFrame();
 					bool interactable = selectable.interactable;
 					bool isActiveAndEnabled = selectable.isActiveAndEnabled;
