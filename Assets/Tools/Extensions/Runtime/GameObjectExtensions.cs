@@ -80,19 +80,27 @@ namespace JD
 
 		public static void Disable(this GameObject go)
 		{
-			go.SetActive(false);
+			go.ChangeActive(false);
 		}
 
 		public static void Enable(this GameObject go)
 		{
-			go.SetActive(true);
+			go.ChangeActive(true);
 		}
 
 		public static void GroupSetActive(this IEnumerable<GameObject> components, bool value)
 		{
 			foreach (GameObject item in components)
 			{
-				item.SetActive(value);
+				item.ChangeActive(value);
+			}
+		}
+
+		public static void ChangeActive(this GameObject gameObject, bool value)
+		{
+			if (gameObject.activeSelf != value)
+			{
+				gameObject.SetActive(value);
 			}
 		}
 	}

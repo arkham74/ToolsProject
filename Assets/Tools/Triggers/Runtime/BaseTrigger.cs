@@ -8,19 +8,19 @@ namespace JD
 		[Flags]
 		public enum State
 		{
-			AWAKE = 1,
-			ON_ENABLE = 2,
-			START = 4,
-			ON_DISABLE = 8,
-			ON_DESTROY = 16
+			Awake = 1,
+			Enable = 2,
+			Start = 4,
+			Disable = 8,
+			Destroy = 16
 		}
 
-		public State state = State.START;
+		public State state = State.Start;
 		protected abstract void Trigger();
 
 		private void Awake()
 		{
-			if (state.HasFlag(State.AWAKE))
+			if (state.HasFlag(State.Awake))
 			{
 				Trigger();
 			}
@@ -28,7 +28,7 @@ namespace JD
 
 		private void OnEnable()
 		{
-			if (state.HasFlag(State.ON_ENABLE))
+			if (state.HasFlag(State.Enable))
 			{
 				Trigger();
 			}
@@ -36,7 +36,7 @@ namespace JD
 
 		private void Start()
 		{
-			if (state.HasFlag(State.START))
+			if (state.HasFlag(State.Start))
 			{
 				Trigger();
 			}
@@ -44,7 +44,7 @@ namespace JD
 
 		private void OnDisable()
 		{
-			if (state.HasFlag(State.ON_DISABLE))
+			if (state.HasFlag(State.Disable))
 			{
 				Trigger();
 			}
@@ -52,7 +52,7 @@ namespace JD
 
 		private void OnDestroy()
 		{
-			if (state.HasFlag(State.ON_DESTROY))
+			if (state.HasFlag(State.Destroy))
 			{
 				Trigger();
 			}

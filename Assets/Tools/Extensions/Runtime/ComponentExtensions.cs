@@ -64,17 +64,17 @@ namespace JD
 
 		public static void DisableGameObject(this Component go)
 		{
-			go.gameObject.SetActive(false);
+			go.gameObject.ChangeActive(false);
 		}
 
 		public static void EnableGameObject(this Component go)
 		{
-			go.gameObject.SetActive(true);
+			go.gameObject.ChangeActive(true);
 		}
 
 		public static void SetActiveGameObject(this Component go, bool state)
 		{
-			go.gameObject.SetActive(state);
+			go.gameObject.ChangeActive(state);
 		}
 
 		public static void Destroy(this Component component, float time = 0f)
