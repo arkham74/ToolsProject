@@ -7,6 +7,16 @@ namespace JD
 {
 	public static class IEnumerableExtensions
 	{
+		public static T MinBy<T, S>(this IEnumerable<T> array, Func<T, S> selector)
+		{
+			return array.Select(e => (selector(e), e)).Min().Item2;
+		}
+
+		public static T MaxBy<T, S>(this IEnumerable<T> array, Func<T, S> selector)
+		{
+			return array.Select(e => (selector(e), e)).Max().Item2;
+		}
+
 		public static string Join<T>(this IEnumerable<T> array, string separator = ", ")
 		{
 			return string.Join(separator, array);
