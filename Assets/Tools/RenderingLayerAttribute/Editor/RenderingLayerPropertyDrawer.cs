@@ -1,6 +1,8 @@
+using System;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Rendering;
 
 namespace JD.Editor
@@ -8,22 +10,41 @@ namespace JD.Editor
 	[CustomPropertyDrawer(typeof(RenderingLayerAttribute))]
 	public class RenderingLayerPropertyDrawer : PropertyDrawer
 	{
-		public override void OnGUI(Rect rect, SerializedProperty serializedProperty, GUIContent label)
+		private const string msg = " must be an uint";
+
+		// public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		// {
+		// 	bool isInt = property.propertyType == SerializedPropertyType.Integer;
+		// 	float height = base.GetPropertyHeight(property, label);
+		// 	return isInt ? height : height * 2;
+		// }
+
+		public override void OnGUI(Rect rect, SerializedProperty property, GUIContent label)
 		{
-			if (serializedProperty.propertyType == SerializedPropertyType.Integer)
+			EditorGUI.BeginProperty(rect, label, property);
+
+			if (property.propertyType == SerializedPropertyType.Integer)
 			{
-				RenderPipelineAsset pipeline = GraphicsSettings.defaultRenderPipeline;
-				if (pipeline && pipeline.renderingLayerMaskNames != null)
-				{
-					string[] options = pipeline.renderingLayerMaskNames;
-					long mask = serializedProperty.longValue;
-					uint value = (uint)EditorGUI.MaskField(rect, label, (int)mask, options);
-					serializedProperty.longValue = value;
-					return;
-				}
+				DrawPropertyForInt(rect, property, label);
+			}
+			else
+			{
+				EditorGUI.HelpBox(rect, property.name + msg, MessageType.Warning);
 			}
 
-			EditorGUI.PropertyField(rect, serializedProperty, label);
+			EditorGUI.EndProperty();
+		}
+
+		private static void DrawPropertyForInt(Rect rect, SerializedProperty property, GUIContent label)
+		{
+			string[] layers = GraphicsSettings.defaultRenderPipeline.renderingLayerMaskNames;
+			long mask = property.longValue;
+			uint value = (uint)EditorGUI.MaskField(rect, label, (int)mask, layers);
+
+			if (property.longValue != value)
+			{
+				property.longValue = value;
+			}
 		}
 	}
 }
