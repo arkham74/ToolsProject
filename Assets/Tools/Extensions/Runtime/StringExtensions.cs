@@ -47,7 +47,7 @@ namespace JD
 
 		private static StringBuilder BreakAfter(this string inputText, int lineLength)
 		{
-			StringBuilder sb = Tools.StringBuilder;
+			StringBuilder sb = Pools.StringBuilder;
 			sb.Clear();
 
 			char[] delimiters = { ' ' };

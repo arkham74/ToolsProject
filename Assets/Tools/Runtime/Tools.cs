@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -41,9 +40,6 @@ namespace JD
 				return obj.GetHashCode();
 			}
 		}
-
-		public static readonly StringBuilder StringBuilder = new StringBuilder();
-		public static readonly StringBuilder StringBuilderCopy = new StringBuilder();
 
 #if TOOLS_LOCALIZATION
 		public static string GetLocalizedString(string key)
