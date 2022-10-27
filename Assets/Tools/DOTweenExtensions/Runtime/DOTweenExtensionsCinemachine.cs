@@ -1,4 +1,3 @@
-#if DOTWEEN_ENABLED
 #if TOOLS_CINEMACHINE
 using Cinemachine;
 using DG.Tweening;
@@ -33,5 +32,4 @@ namespace JD
 		}
 	}
 }
-#endif
 #endif

@@ -1,4 +1,3 @@
-#if DOTWEEN_ENABLED
 using DG.Tweening;
 using UnityEngine;
 
@@ -29,4 +28,3 @@ namespace JD
 		}
 	}
 }
-#endif

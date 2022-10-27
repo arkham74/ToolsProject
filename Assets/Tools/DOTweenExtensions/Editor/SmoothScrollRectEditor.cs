@@ -1,4 +1,3 @@
-#if DOTWEEN_ENABLED
 using UnityEditor;
 using UnityEditor.UI;
 
@@ -37,4 +36,3 @@ namespace JD.Editor
 		}
 	}
 }
-#endif

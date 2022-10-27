@@ -1,4 +1,3 @@
-#if DOTWEEN_ENABLED
 using System;
 using System.Linq;
 using System.Collections;
@@ -51,4 +50,3 @@ namespace JD
 		}
 	}
 }
-#endif
