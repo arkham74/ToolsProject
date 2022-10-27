@@ -1,4 +1,4 @@
-﻿#if TOOLS_DOTWEEN
+﻿#if DOTWEEN_ENABLED
 using System;
 using DG.Tweening;
 using DG.Tweening.Core;

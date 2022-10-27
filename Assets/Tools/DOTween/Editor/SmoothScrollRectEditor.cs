@@ -1,4 +1,4 @@
-#if TOOLS_DOTWEEN
+#if DOTWEEN_ENABLED
 using UnityEditor;
 using UnityEditor.UI;
 

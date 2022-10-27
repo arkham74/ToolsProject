@@ -1,4 +1,4 @@
-#if TOOLS_DOTWEEN
+#if DOTWEEN_ENABLED
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;

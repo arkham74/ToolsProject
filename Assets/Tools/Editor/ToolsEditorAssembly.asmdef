@@ -21,11 +21,6 @@
     "defineConstraints": [],
     "versionDefines": [
         {
-            "name": "com.demigiant.dotween",
-            "expression": "1.2.632",
-            "define": "TOOLS_DOTWEEN"
-        },
-        {
             "name": "com.unity.localization",
             "expression": "1.0.5",
             "define": "TOOLS_LOCALIZATION"

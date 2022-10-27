@@ -11,7 +11,8 @@
         "GUID:b85a9b696dea92b4f9d0efe8b3f0e5b7",
         "GUID:4307f53044263cf4b835bd812fc161a4",
         "GUID:776d03a35f1b52c4a9aed9f56d7b4229",
-        "GUID:2665a8d13d1b3f18800f46e256720795"
+        "GUID:2665a8d13d1b3f18800f46e256720795",
+        "GUID:7c22fd5d7a7b0184f92b4c300eafe11c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -21,11 +22,6 @@
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [
-        {
-            "name": "com.demigiant.dotween",
-            "expression": "1.2.632",
-            "define": "TOOLS_DOTWEEN"
-        },
         {
             "name": "com.unity.localization",
             "expression": "1.0.5",

@@ -1,4 +1,4 @@
-#if TOOLS_DOTWEEN
+#if DOTWEEN_ENABLED
 #if TOOLS_CINEMACHINE
 using Cinemachine;
 using DG.Tweening;
