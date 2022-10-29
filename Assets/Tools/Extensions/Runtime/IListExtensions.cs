@@ -11,6 +11,14 @@ namespace JD
 {
 	public static class IListExtensions
 	{
+		public static void Trim<T>(this IList<T> array, int count)
+		{
+			while (array.Count > 12)
+			{
+				array.RemoveAt(array.Count - 1);
+			}
+		}
+
 		public static string Join<T>(this List<T> array, string separator = ", ")
 		{
 			return string.Join(separator, array);
