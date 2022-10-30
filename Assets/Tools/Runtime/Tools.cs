@@ -222,26 +222,5 @@ namespace JD
 			float centerY = Mathf.Sin(angleRad);
 			return new Vector2(centerX, centerY);
 		}
-
-		public enum CustomFullScreenMode
-		{
-			FullScreen,
-			Borderless,
-			Window,
-		}
-
-		public static CustomFullScreenMode ConvertFullScreenMode(FullScreenMode index) => index switch
-		{
-			FullScreenMode.ExclusiveFullScreen => CustomFullScreenMode.FullScreen,
-			FullScreenMode.Windowed => CustomFullScreenMode.Window,
-			_ => CustomFullScreenMode.Borderless,
-		};
-
-		public static FullScreenMode ConvertFullScreenMode(CustomFullScreenMode index) => index switch
-		{
-			CustomFullScreenMode.FullScreen => FullScreenMode.ExclusiveFullScreen,
-			CustomFullScreenMode.Window => FullScreenMode.Windowed,
-			_ => FullScreenMode.FullScreenWindow,
-		};
 	}
 }
