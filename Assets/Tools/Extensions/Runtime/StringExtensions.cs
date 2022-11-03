@@ -45,10 +45,9 @@ namespace JD
 			return stringBuilder.ToString();
 		}
 
-		private static StringBuilder BreakAfter(this string inputText, int lineLength)
+		private static string BreakAfter(this string inputText, int lineLength)
 		{
-			StringBuilder sb = Pools.StringBuilder;
-			sb.Clear();
+			StringBuilder sb = Pools.GetStringBuilder();
 
 			char[] delimiters = { ' ' };
 			string[] words = inputText.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
@@ -68,7 +67,9 @@ namespace JD
 			}
 
 			sb.TrimEnd();
-			return sb;
+			var val = sb.ToString();
+			Pools.Release(sb);
+			return val;
 		}
 
 		private static void TrimEnd(this StringBuilder stringBuilder)

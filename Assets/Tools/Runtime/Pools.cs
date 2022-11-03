@@ -1,5 +1,6 @@
 using System.Text;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 #if TOOLS_LOCALIZATION
 using UnityEngine.Localization.Settings;
@@ -9,35 +10,13 @@ namespace JD
 {
 	public static class Pools
 	{
-		private static readonly StringBuilder sb = new StringBuilder();
-		private static readonly StringBuilder sbc = new StringBuilder();
-		private static readonly MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+		private static ObjectPool<StringBuilder> sbPool = new ObjectPool<StringBuilder>(null, x => x.Clear());
+		private static ObjectPool<MaterialPropertyBlock> mbpPool = new ObjectPool<MaterialPropertyBlock>(null, x => x.Clear());
 
-		public static StringBuilder StringBuilder
-		{
-			get
-			{
-				sb.Clear();
-				return sb;
-			}
-		}
+		public static StringBuilder GetStringBuilder() => sbPool.Get();
+		public static MaterialPropertyBlock GetMaterialPropertyBlock() => mbpPool.Get();
 
-		public static StringBuilder StringBuilderCopy
-		{
-			get
-			{
-				sbc.Clear();
-				return sbc;
-			}
-		}
-
-		public static MaterialPropertyBlock MaterialPropertyBlock
-		{
-			get
-			{
-				mpb.Clear();
-				return mpb;
-			}
-		}
+		public static void Release(MaterialPropertyBlock buffer) => mbpPool.Release(buffer);
+		public static void Release(StringBuilder buffer) => sbPool.Release(buffer);
 	}
 }
