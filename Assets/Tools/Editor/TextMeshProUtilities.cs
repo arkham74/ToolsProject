@@ -1,4 +1,4 @@
-#if TOOLS_LOCAL
+#if TOOLS_LOCALIZATION
 using System;
 using System.Reflection;
 using TMPro;

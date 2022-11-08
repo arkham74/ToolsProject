@@ -45,7 +45,7 @@ namespace JD
 
 		public static void SetBlockFloat(this Renderer renderer, int nameID, float value)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetFloat(nameID, value);
 			renderer.SetPropertyBlock(mpb);
@@ -54,7 +54,7 @@ namespace JD
 
 		public static void SetBlockInteger(this Renderer renderer, int nameID, int value)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetInteger(nameID, value);
 			renderer.SetPropertyBlock(mpb);
@@ -63,7 +63,7 @@ namespace JD
 
 		public static void SetBlockVector(this Renderer renderer, int nameID, Vector4 value)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetVector(nameID, value);
 			renderer.SetPropertyBlock(mpb);
@@ -72,7 +72,7 @@ namespace JD
 
 		public static void SetBlockColor(this Renderer renderer, int nameID, Color value)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetColor(nameID, value);
 			renderer.SetPropertyBlock(mpb);
@@ -81,7 +81,7 @@ namespace JD
 
 		public static void SetBlockMatrix(this Renderer renderer, int nameID, Matrix4x4 value)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetMatrix(nameID, value);
 			renderer.SetPropertyBlock(mpb);
@@ -90,7 +90,7 @@ namespace JD
 
 		public static void SetBlockBuffer(this Renderer renderer, int nameID, ComputeBuffer value)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetBuffer(nameID, value);
 			renderer.SetPropertyBlock(mpb);
@@ -99,7 +99,7 @@ namespace JD
 
 		public static void SetBlockBuffer(this Renderer renderer, int nameID, GraphicsBuffer value)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetBuffer(nameID, value);
 			renderer.SetPropertyBlock(mpb);
@@ -108,7 +108,7 @@ namespace JD
 
 		public static void SetBlockTexture(this Renderer renderer, int nameID, Texture value)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetTexture(nameID, value);
 			renderer.SetPropertyBlock(mpb);
@@ -117,7 +117,7 @@ namespace JD
 
 		public static void SetBlockTexture(this Renderer renderer, int nameID, RenderTexture value, RenderTextureSubElement element)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetTexture(nameID, value, element);
 			renderer.SetPropertyBlock(mpb);
@@ -126,7 +126,7 @@ namespace JD
 
 		public static void SetBlockConstantBuffer(this Renderer renderer, int nameID, ComputeBuffer value, int offset, int size)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetConstantBuffer(nameID, value, offset, size);
 			renderer.SetPropertyBlock(mpb);
@@ -135,7 +135,7 @@ namespace JD
 
 		public static void SetBlockConstantBuffer(this Renderer renderer, int nameID, GraphicsBuffer value, int offset, int size)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetConstantBuffer(nameID, value, offset, size);
 			renderer.SetPropertyBlock(mpb);
@@ -144,7 +144,7 @@ namespace JD
 
 		public static void SetBlockFloatArray(this Renderer renderer, int nameID, List<float> values)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetFloatArray(nameID, values);
 			renderer.SetPropertyBlock(mpb);
@@ -153,7 +153,7 @@ namespace JD
 
 		public static void SetBlockFloatArray(this Renderer renderer, int nameID, float[] values)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetFloatArray(nameID, values);
 			renderer.SetPropertyBlock(mpb);
@@ -162,7 +162,7 @@ namespace JD
 
 		public static void SetBlockVectorArray(this Renderer renderer, int nameID, List<Vector4> values)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetVectorArray(nameID, values);
 			renderer.SetPropertyBlock(mpb);
@@ -171,7 +171,7 @@ namespace JD
 
 		public static void SetBlockVectorArray(this Renderer renderer, int nameID, Vector4[] values)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetVectorArray(nameID, values);
 			renderer.SetPropertyBlock(mpb);
@@ -180,7 +180,7 @@ namespace JD
 
 		public static void SetBlockMatrixArray(this Renderer renderer, int nameID, List<Matrix4x4> values)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetMatrixArray(nameID, values);
 			renderer.SetPropertyBlock(mpb);
@@ -189,7 +189,7 @@ namespace JD
 
 		public static void SetBlockMatrixArray(this Renderer renderer, int nameID, Matrix4x4[] values)
 		{
-			MaterialPropertyBlock mpb = Pools.GetMaterialPropertyBlock();
+			MaterialPropertyBlock mpb = Pools.GetPropertyBlock();
 			renderer.GetPropertyBlock(mpb);
 			mpb.SetMatrixArray(nameID, values);
 			renderer.SetPropertyBlock(mpb);

@@ -63,6 +63,11 @@ namespace JD
 			main.startColor = color;
 		}
 
+		public static bool Is(this Type a, Type b)
+		{
+			return a == b || a.IsSubclassOf(b);
+		}
+
 		public static bool CompareType(this Type a, Type b)
 		{
 			return a == b || a.IsSubclassOf(b) || b.IsSubclassOf(a);

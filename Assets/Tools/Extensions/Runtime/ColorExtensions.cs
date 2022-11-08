@@ -30,6 +30,13 @@ namespace JD
 			return ColorUtility.ToHtmlStringRGB(color);
 		}
 
+		public static Color FromHtml(this string html)
+		{
+			Color color = Color.black;
+			ColorUtility.TryParseHtmlString("#" + html, out color);
+			return color;
+		}
+
 		public static Color32 ToColor32(this Color color)
 		{
 			byte r = (byte)(color.r * 255);

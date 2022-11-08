@@ -72,7 +72,7 @@ namespace JD
 			return val;
 		}
 
-		private static void TrimEnd(this StringBuilder stringBuilder)
+		public static void TrimEnd(this StringBuilder stringBuilder)
 		{
 			while (stringBuilder.Length > 0 && char.IsWhiteSpace(stringBuilder[^1]))
 			{
