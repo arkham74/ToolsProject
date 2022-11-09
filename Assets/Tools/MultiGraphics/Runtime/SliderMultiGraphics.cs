@@ -9,12 +9,29 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using Freya;
 
 namespace JD
 {
 	public class SliderMultiGraphics : Slider
 	{
 		[SerializeField] private Graphic[] targets = Array.Empty<Graphic>();
+
+#if UNITY_EDITOR
+		protected override void Reset()
+		{
+			base.Reset();
+			Graphic[] graphics = GetComponentsInChildren<Graphic>();
+			if (graphics.Length > 0)
+			{
+				targetGraphic = graphics[0];
+				if (graphics.Length > 1)
+				{
+					targets = graphics[1..];
+				}
+			}
+		}
+#endif
 
 		protected override void DoStateTransition(SelectionState state, bool instant)
 		{
