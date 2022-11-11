@@ -78,12 +78,12 @@ namespace JD
 			return new Vector2(v.x, v.z);
 		}
 
-		public static Vector3 ClampEuler(this Vector3 eulerAngles)
+		public static Vector3 ClampAngle(this Vector3 lfAngle, Vector3 lfMin, Vector3 lfMax)
 		{
-			eulerAngles.x = eulerAngles.x.ClampEuler();
-			eulerAngles.y = eulerAngles.y.ClampEuler();
-			eulerAngles.z = eulerAngles.z.ClampEuler();
-			return eulerAngles;
+			lfAngle.x = lfAngle.x.ClampAngle(lfMin.x, lfMax.x);
+			lfAngle.y = lfAngle.y.ClampAngle(lfMin.y, lfMax.y);
+			lfAngle.z = lfAngle.z.ClampAngle(lfMin.z, lfMax.z);
+			return lfAngle;
 		}
 
 		public static Vector3 ClampMagnitude(this Vector3 v, float max)

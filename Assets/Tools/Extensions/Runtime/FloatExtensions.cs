@@ -30,27 +30,12 @@ namespace JD
 		// 		return array.OrderBy(e => e);
 		// 	}
 
-		public static float ClampEuler(this float eulerAngle)
+		public static float ClampAngle(this float lfAngle, float lfMin, float lfMax)
 		{
-			if (eulerAngle > 180)
-			{
-				eulerAngle -= 360;
-			}
-
-			if (eulerAngle < -180)
-			{
-				eulerAngle += 360;
-			}
-
-			return eulerAngle;
+			if (lfAngle > 360f) lfAngle -= 360f;
+			if (lfAngle < -360f) lfAngle += 360f;
+			return Mathf.Clamp(lfAngle, lfMin, lfMax);
 		}
-
-		// 	public static float ClampAngle(this float lfAngle, float lfMin, float lfMax)
-		// 	{
-		// 		if (lfAngle < -360f) lfAngle += 360f;
-		// 		if (lfAngle > 360f) lfAngle -= 360f;
-		// 		return Mathf.Clamp(lfAngle, lfMin, lfMax);
-		// 	}
 
 		// 	public static float Random(this float value, float start = 0)
 		// 	{
