@@ -10,12 +10,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Freya;
+using UnityEngine.EventSystems;
 
 namespace JD
 {
-	public class SliderMultiGraphics : Slider
+	public class SliderMultiGraphics : Slider, IPointerClickHandler, ISubmitHandler
 	{
 		[SerializeField] private Graphic[] targets = Array.Empty<Graphic>();
+		public readonly UnityEvent onClick = new UnityEvent();
 
 #if UNITY_EDITOR
 		protected override void Reset()
@@ -109,6 +111,16 @@ namespace JD
 					}
 				}
 			}
+		}
+
+		public void OnPointerClick(PointerEventData eventData)
+		{
+			onClick.Invoke();
+		}
+
+		public void OnSubmit(BaseEventData eventData)
+		{
+			onClick.Invoke();
 		}
 	}
 }

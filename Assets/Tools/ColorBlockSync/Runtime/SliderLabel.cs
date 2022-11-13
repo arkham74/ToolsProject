@@ -39,12 +39,12 @@ namespace JD
 			nextButton = GetComponentsInChildren<ButtonNoSelectable>()[1];
 		}
 
-		public void Init(int def, int x, int y, Action<int> onChange)
+		public void Init(int def, int min, int max, Action<int> onChange)
 		{
-			Init(def, x, y, onChange, e => e.ToStringNonAllocation());
+			Init(def, min, max, onChange, e => e.ToStringNonAllocation());
 		}
 
-		public void Init(int def, int x, int y, Action<int> onChange, Func<int, string> map)
+		public void Init(int def, int min, int max, Action<int> onChange, Func<int, string> map)
 		{
 			void Refresh(int value)
 			{
@@ -52,13 +52,10 @@ namespace JD
 				label.text = map(value).ToString();
 			}
 
-			slider.minValue = x;
-			slider.maxValue = y;
-			Refresh(def);
-
 			void Slider_Change(float value)
 			{
 				int start = (int)value;
+				start = start.Mod(min, max);
 				onChange(start);
 				Refresh(start);
 			}
@@ -73,9 +70,18 @@ namespace JD
 				Slider_Change(Mathf.Clamp(slider.value - 1, slider.minValue, slider.maxValue));
 			}
 
+			slider.minValue = min - 1;
+			slider.maxValue = max + 1;
+			Refresh(def);
+
 			slider.Register(Slider_Change);
 			nextButton.Register(Button_Next);
 			prevButton.Register(Button_Prev);
+
+			if (slider is SliderMultiGraphics multi)
+			{
+				multi.onClick.ReplaceListener(Button_Next);
+			}
 		}
 	}
 }
