@@ -7,19 +7,33 @@ namespace JD
 {
 	public static class IEnumerableExtensions
 	{
-		public static T MinBy<T, S>(this IEnumerable<T> array, Func<T, S> selector)
+		public static int FindIndex<T>(this IEnumerable<T> collection, T locale)
 		{
-			return array.Select(e => (selector(e), e)).Min().Item2;
+			int i = 0;
+			foreach (T item in collection)
+			{
+				if (item.Equals(locale))
+				{
+					return i;
+				}
+				i++;
+			}
+			return -1;
 		}
 
-		public static T MaxBy<T, S>(this IEnumerable<T> array, Func<T, S> selector)
+		public static T MinBy<T, S>(this IEnumerable<T> collection, Func<T, S> selector)
 		{
-			return array.Select(e => (selector(e), e)).Max().Item2;
+			return collection.Select(e => (selector(e), e)).Min().Item2;
 		}
 
-		public static string Join<T>(this IEnumerable<T> array, string separator = ", ")
+		public static T MaxBy<T, S>(this IEnumerable<T> collection, Func<T, S> selector)
 		{
-			return string.Join(separator, array);
+			return collection.Select(e => (selector(e), e)).Max().Item2;
+		}
+
+		public static string Join<T>(this IEnumerable<T> collection, string separator = ", ")
+		{
+			return string.Join(separator, collection);
 		}
 
 		public static T Closest<T>(this IEnumerable<T> enumerable, Component target) where T : Component
@@ -55,21 +69,21 @@ namespace JD
 			return list.ElementAt(UnityEngine.Random.Range(0, count));
 		}
 
-		public static IOrderedEnumerable<T> Shuffle<T>(this IEnumerable<T> array)
+		public static IOrderedEnumerable<T> Shuffle<T>(this IEnumerable<T> collection)
 		{
-			return array.OrderBy(e => UnityEngine.Random.value);
+			return collection.OrderBy(e => UnityEngine.Random.value);
 		}
 
-		public static IOrderedEnumerable<T> ShuffleThen<T>(this IOrderedEnumerable<T> array)
+		public static IOrderedEnumerable<T> ShuffleThen<T>(this IOrderedEnumerable<T> collection)
 		{
-			return array.ThenBy(e => UnityEngine.Random.value);
+			return collection.ThenBy(e => UnityEngine.Random.value);
 		}
 
-		public static T AtOrDefault<T>(this IEnumerable<IEnumerable<T>> array, int x, int y, T def = default)
+		public static T AtOrDefault<T>(this IEnumerable<IEnumerable<T>> collection, int x, int y, T def = default)
 		{
 			try
 			{
-				return array.ElementAt(x).ElementAt(y);
+				return collection.ElementAt(x).ElementAt(y);
 			}
 			catch (ArgumentOutOfRangeException)
 			{

@@ -32,9 +32,17 @@ namespace JD
 
 		public static Color FromHtml(this string html)
 		{
-			Color color = Color.black;
-			ColorUtility.TryParseHtmlString("#" + html, out color);
-			return color;
+			if (ColorUtility.TryParseHtmlString(html, out Color color))
+			{
+				return color;
+			}
+
+			if (ColorUtility.TryParseHtmlString("#" + html, out color))
+			{
+				return color;
+			}
+
+			return Color.black;
 		}
 
 		public static Color32 ToColor32(this Color color)
