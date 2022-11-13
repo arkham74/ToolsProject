@@ -9,6 +9,11 @@ namespace JD
 	{
 		public readonly static Dictionary<int, string> intCache = new Dictionary<int, string>(10000);
 
+		public static int Mod(this int index, int min, int max)
+		{
+			return (index - min).Mod(max + 1 - min) + min;
+		}
+
 		public static string IntArrayToString(this IReadOnlyList<int> intArray)
 		{
 			return string.Join(",", intArray);
@@ -18,16 +23,6 @@ namespace JD
 		// 	{
 		// 		return array.OrderBy(e => e);
 		// 	}
-
-		// 	// public static int Abs(this int value)
-		// 	// {
-		// 	// 	return Mathf.Abs(value);
-		// 	// }
-
-		// 	// public static int Clamp(this int value, int min, int max)
-		// 	// {
-		// 	// 	return Mathf.Clamp(value, min, max);
-		// 	// }
 
 		public static int LayerToMask(this int layerIndex)
 		{
