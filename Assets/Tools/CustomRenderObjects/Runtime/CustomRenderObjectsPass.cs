@@ -10,117 +10,102 @@ namespace JD.CustomRenderObjects
 {
 	public class CustomRenderObjectsPass : ScriptableRenderPass
 	{
-		private readonly RenderQueueType renderQueueType;
-		private FilteringSettings mFilteringSettings;
-		private readonly CustomRenderObjects.CustomCameraSettings mCameraSettings;
-		private readonly ProfilingSampler mProfilingSampler;
-
-		public Material OverrideMaterial { get; set; }
-		public int OverrideMaterialPassIndex { get; set; }
-
-		private readonly List<ShaderTagId> mShaderTagIdList = new List<ShaderTagId>();
-
-		public void SetDetphState(bool writeEnabled, CompareFunction function = CompareFunction.Less)
+		private static readonly List<ShaderTagId> shaderTagIds = new List<ShaderTagId>()
 		{
-			mRenderStateBlock.mask |= RenderStateMask.Depth;
-			mRenderStateBlock.depthState = new DepthState(writeEnabled, function);
+			new ShaderTagId("SRPDefaultUnlit"),
+			new ShaderTagId("UniversalForward"),
+			new ShaderTagId("UniversalForwardOnly"),
+		};
+
+		private readonly CustomRenderObjectsSettings settings;
+		private RenderTargetIdentifier cameraDepth;
+		private RenderTargetIdentifier cameraColor;
+
+		public CustomRenderObjectsPass(CustomRenderObjectsSettings settings)
+		{
+			settings.renderPassEvent = (RenderPassEvent)Mathf.Max((int)settings.renderPassEvent, (int)RenderPassEvent.BeforeRenderingPrePasses);
+			this.settings = settings;
+			this.renderPassEvent = settings.renderPassEvent;
 		}
 
-		public void SetStencilState(int reference, CompareFunction compareFunction, StencilOp passOp, StencilOp failOp, StencilOp zFailOp)
+		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 		{
-			StencilState stencilState = StencilState.defaultValue;
-			stencilState.enabled = true;
-			stencilState.SetCompareFunction(compareFunction);
-			stencilState.SetPassOperation(passOp);
-			stencilState.SetFailOperation(failOp);
-			stencilState.SetZFailOperation(zFailOp);
-
-			mRenderStateBlock.mask |= RenderStateMask.Stencil;
-			mRenderStateBlock.stencilReference = reference;
-			mRenderStateBlock.stencilState = stencilState;
+			ScriptableRenderer renderer = renderingData.cameraData.renderer;
+			cameraDepth = renderer.cameraDepthTarget;
+			cameraColor = renderer.cameraColorTarget;
 		}
 
-		private RenderStateBlock mRenderStateBlock;
-
-		public CustomRenderObjectsPass(string profilerTag, RenderPassEvent renderPassEvent, string[] shaderTags, RenderQueueType renderQueueType, int layerMask, uint renderLayerMask, CustomRenderObjects.CustomCameraSettings cameraSettings)
+		public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
 		{
-			profilingSampler = new ProfilingSampler(nameof(CustomRenderObjectsPass));
+			ConfigureInput(ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Depth);
 
-			mProfilingSampler = new ProfilingSampler(profilerTag);
-			this.renderPassEvent = renderPassEvent;
-			this.renderQueueType = renderQueueType;
-			OverrideMaterial = null;
-			OverrideMaterialPassIndex = 0;
-			RenderQueueRange renderQueueRange = (renderQueueType == RenderQueueType.Transparent)
-				? RenderQueueRange.transparent
-				: RenderQueueRange.opaque;
-			mFilteringSettings = new FilteringSettings(renderQueueRange, layerMask, renderLayerMask);
-
-			if (shaderTags is { Length: > 0 })
+			if (settings.target == string.Empty)
 			{
-				foreach (string passName in shaderTags)
-					mShaderTagIdList.Add(new ShaderTagId(passName));
+				ConfigureTarget(cameraColor, cameraDepth);
 			}
 			else
 			{
-				mShaderTagIdList.Add(new ShaderTagId("SRPDefaultUnlit"));
-				mShaderTagIdList.Add(new ShaderTagId("UniversalForward"));
-				mShaderTagIdList.Add(new ShaderTagId("UniversalForwardOnly"));
+				ConfigureTarget(settings.target, cameraDepth);
 			}
-
-			mRenderStateBlock = new RenderStateBlock(RenderStateMask.Nothing);
-			mCameraSettings = cameraSettings;
 		}
 
 		public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 		{
-			SortingCriteria sortingCriteria = (renderQueueType == RenderQueueType.Transparent) ? SortingCriteria.CommonTransparent : renderingData.cameraData.defaultOpaqueSortFlags;
-
-			DrawingSettings drawingSettings = CreateDrawingSettings(mShaderTagIdList, ref renderingData, sortingCriteria);
-			drawingSettings.overrideMaterial = OverrideMaterial;
-			drawingSettings.overrideMaterialPassIndex = OverrideMaterialPassIndex;
-
-			ref CameraData cameraData = ref renderingData.cameraData;
-			Camera camera = cameraData.camera;
-
-			// In case of camera stacking we need to take the viewport rect from base camera
-			Rect pixelRect = renderingData.cameraData.camera.pixelRect;
-			float cameraAspect = pixelRect.width / pixelRect.height;
-
-			// NOTE: Do NOT mix ProfilingScope with named CommandBuffers i.e. CommandBufferPool.Get("name").
-			// Currently there's an issue which results in mismatched markers.
-			CommandBuffer cmd = CommandBufferPool.Get();
-			using (new ProfilingScope(cmd, mProfilingSampler))
+			if (!renderingData.cameraData.isSceneViewCamera && !renderingData.cameraData.isPreviewCamera)
 			{
-				if (mCameraSettings.overrideCamera)
-				{
-					Matrix4x4 projectionMatrix = Matrix4x4.Perspective(mCameraSettings.cameraFieldOfView, cameraAspect,
-						camera.nearClipPlane, camera.farClipPlane);
-					projectionMatrix = GL.GetGPUProjectionMatrix(projectionMatrix, cameraData.IsCameraProjectionMatrixFlipped());
-
-					Matrix4x4 viewMatrix = cameraData.GetViewMatrix();
-					Vector4 cameraTranslation = viewMatrix.GetColumn(3);
-					viewMatrix.SetColumn(3, cameraTranslation + mCameraSettings.offset);
-
-					RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, projectionMatrix, false);
-				}
-
-				// Ensure we flush our command-buffer before we render...
-				context.ExecuteCommandBuffer(cmd);
-				cmd.Clear();
-
-				// Render the objects...
-				context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref mFilteringSettings, ref mRenderStateBlock);
-
-				if (mCameraSettings.overrideCamera && mCameraSettings.restoreCamera)
-				{
-					RenderingUtils.SetViewAndProjectionMatrices(cmd, cameraData.GetViewMatrix(), cameraData.GetGPUProjectionMatrix(), false);
-				}
+				CommandBuffer cmd = CommandBufferPool.Get(settings.name);
+				OverrideCamera(cmd, context, renderingData);
+				DrawRenderers(cmd, context, renderingData);
+				RestoreCamera(cmd, context, renderingData);
+				CommandBufferPool.Release(cmd);
 			}
-
-			context.ExecuteCommandBuffer(cmd);
-			CommandBufferPool.Release(cmd);
 		}
+
+		private void OverrideCamera(CommandBuffer cmd, ScriptableRenderContext context, RenderingData renderingData)
+		{
+			if (settings.cameraFieldOfView > 0)
+			{
+				cmd.Clear();
+				CameraData cameraData = renderingData.cameraData;
+				Camera camera = cameraData.camera;
+				Rect pixelRect = renderingData.cameraData.camera.pixelRect;
+				float cameraAspect = pixelRect.width / pixelRect.height;
+				Matrix4x4 projectionMatrix = Matrix4x4.Perspective(settings.cameraFieldOfView, cameraAspect, camera.nearClipPlane, camera.farClipPlane);
+				projectionMatrix = GL.GetGPUProjectionMatrix(projectionMatrix, cameraData.IsCameraProjectionMatrixFlipped());
+				RenderingUtils.SetViewAndProjectionMatrices(cmd, cameraData.GetViewMatrix(), projectionMatrix, false);
+				context.ExecuteCommandBuffer(cmd);
+			}
+		}
+
+		private void RestoreCamera(CommandBuffer cmd, ScriptableRenderContext context, RenderingData renderingData)
+		{
+			if (settings.cameraFieldOfView > 0)
+			{
+				cmd.Clear();
+				CameraData cameraData = renderingData.cameraData;
+				RenderingUtils.SetViewAndProjectionMatrices(cmd, cameraData.GetViewMatrix(), cameraData.GetGPUProjectionMatrix(), false);
+				context.ExecuteCommandBuffer(cmd);
+			}
+		}
+
+		private void DrawRenderers(CommandBuffer cmd, ScriptableRenderContext context, RenderingData renderingData)
+		{
+			RenderQueueRange renderQueueRange = GetQueueRange(settings.renderQueueType);
+			RenderStateBlock renderStateBlock = new RenderStateBlock(RenderStateMask.Depth);
+			renderStateBlock.depthState = new DepthState(settings.depthWrite, settings.depthCompareFunction);
+			FilteringSettings filteringSettings = new FilteringSettings(renderQueueRange, settings.layerMask, settings.renderLayerMask);
+			DrawingSettings drawingSettings = CreateDrawingSettings(shaderTagIds, ref renderingData, settings.sortingCriteria);
+			drawingSettings.overrideMaterial = settings.overrideMaterial;
+			drawingSettings.overrideMaterialPassIndex = settings.overrideMaterialPassIndex;
+			context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings, ref renderStateBlock);
+		}
+
+		private RenderQueueRange GetQueueRange(RenderQueueType renderQueueType) => renderQueueType switch
+		{
+			RenderQueueType.Opaque => RenderQueueRange.opaque,
+			RenderQueueType.Transparent => RenderQueueRange.transparent,
+			_ => RenderQueueRange.all,
+		};
 	}
 }
 #endif
