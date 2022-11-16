@@ -23,12 +23,12 @@ namespace JD
 
 		public static T MinBy<T, S>(this IEnumerable<T> collection, Func<T, S> selector)
 		{
-			return collection.Select(e => (selector(e), e)).Min().Item2;
+			return collection.Select(value => (selector(value), value)).Min().value;
 		}
 
 		public static T MaxBy<T, S>(this IEnumerable<T> collection, Func<T, S> selector)
 		{
-			return collection.Select(e => (selector(e), e)).Max().Item2;
+			return collection.Select(value => (selector(value), value)).Max().value;
 		}
 
 		public static string Join<T>(this IEnumerable<T> collection, string separator = ", ")

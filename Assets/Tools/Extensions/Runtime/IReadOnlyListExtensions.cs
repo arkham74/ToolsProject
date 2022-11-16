@@ -10,12 +10,12 @@ namespace JD
 			return string.Join(separator, array);
 		}
 
-		public static bool ContainsIndex<T>(this IReadOnlyList<T> list, int index)
-		{
-			bool greaterThanEqualZero = index >= 0;
-			bool lessThanCount = index < list.Count;
-			return greaterThanEqualZero && lessThanCount;
-		}
+		// public static bool ContainsIndex<T>(this IReadOnlyList<T> list, int index)
+		// {
+		// 	bool greaterThanEqualZero = index >= 0;
+		// 	bool lessThanCount = index < list.Count;
+		// 	return greaterThanEqualZero && lessThanCount;
+		// }
 
 		public static int IndexOf<T>(this IReadOnlyList<T> list, T element)
 		{

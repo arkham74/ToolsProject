@@ -9,6 +9,16 @@ namespace JD
 	{
 		public readonly static Dictionary<int, string> intCache = new Dictionary<int, string>(10000);
 
+		public static int Min(this int value, int min)
+		{
+			return Mathf.Min(value, min);
+		}
+
+		public static int Max(this int value, int max)
+		{
+			return Mathf.Max(value, max);
+		}
+
 		public static int Mod(this int index, int min, int max)
 		{
 			return (index - min).Mod(max + 1 - min) + min;

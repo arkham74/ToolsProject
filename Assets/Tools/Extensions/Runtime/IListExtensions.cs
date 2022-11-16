@@ -11,6 +11,19 @@ namespace JD
 {
 	public static class IListExtensions
 	{
+		// public static T Min<T, S>(this IList<T> collection, Func<T, S> selector) where S : IComparable<S>
+		// {
+		// 	T minimal = default;
+		// 	foreach (T value in collection)
+		// 	{
+		// 		if (selector(value).CompareTo(selector(minimal)) > 0)
+		// 		{
+		// 			minimal = value;
+		// 		}
+		// 	}
+		// 	return minimal;
+		// }
+
 		public static void Trim<T>(this IList<T> array, int count)
 		{
 			while (array.Count > 12)
