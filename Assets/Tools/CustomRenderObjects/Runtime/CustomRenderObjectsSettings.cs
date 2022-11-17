@@ -12,6 +12,7 @@ namespace JD.CustomRenderObjects
 	{
 		[NonSerialized] public string name;
 
+		public bool sceneView = true;
 		public RenderPassEvent renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
 		public CompareFunction depthCompareFunction = CompareFunction.LessEqual;
 		public RenderQueueType renderQueueType = RenderQueueType.Opaque;
@@ -19,7 +20,7 @@ namespace JD.CustomRenderObjects
 		public LayerMask layerMask = -1;
 		[RenderingLayer] public uint renderLayerMask = uint.MaxValue;
 
-		public string target = "_CameraColorAttachmentA";
+		public string target = string.Empty;
 
 		public bool depthWrite = true;
 		public Material overrideMaterial;

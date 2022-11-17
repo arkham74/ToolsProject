@@ -39,7 +39,7 @@ namespace JD.CustomRenderObjects
 		{
 			ConfigureInput(ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Depth);
 
-			if (settings.target == string.Empty)
+			if (settings.target.Trim().IsNullOrWhiteSpaceOrEmpty())
 			{
 				ConfigureTarget(cameraColor, cameraDepth);
 			}
@@ -51,7 +51,7 @@ namespace JD.CustomRenderObjects
 
 		public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 		{
-			if (!renderingData.cameraData.isSceneViewCamera && !renderingData.cameraData.isPreviewCamera)
+			if (settings.sceneView || !renderingData.cameraData.isSceneViewCamera && !renderingData.cameraData.isPreviewCamera)
 			{
 				CommandBuffer cmd = CommandBufferPool.Get(settings.name);
 				OverrideCamera(cmd, context, renderingData);
@@ -95,8 +95,11 @@ namespace JD.CustomRenderObjects
 			renderStateBlock.depthState = new DepthState(settings.depthWrite, settings.depthCompareFunction);
 			FilteringSettings filteringSettings = new FilteringSettings(renderQueueRange, settings.layerMask, settings.renderLayerMask);
 			DrawingSettings drawingSettings = CreateDrawingSettings(shaderTagIds, ref renderingData, settings.sortingCriteria);
-			drawingSettings.overrideMaterial = settings.overrideMaterial;
-			drawingSettings.overrideMaterialPassIndex = settings.overrideMaterialPassIndex;
+			if (settings.overrideMaterial)
+			{
+				drawingSettings.overrideMaterial = settings.overrideMaterial;
+				drawingSettings.overrideMaterialPassIndex = settings.overrideMaterialPassIndex;
+			}
 			context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings, ref renderStateBlock);
 		}
 
