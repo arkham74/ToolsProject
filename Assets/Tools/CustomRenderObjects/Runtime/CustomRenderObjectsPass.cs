@@ -23,9 +23,9 @@ namespace JD.CustomRenderObjects
 
 		public CustomRenderObjectsPass(CustomRenderObjectsSettings settings)
 		{
-			settings.renderPassEvent = (RenderPassEvent)Mathf.Max((int)settings.renderPassEvent, (int)RenderPassEvent.BeforeRenderingPrePasses);
+			settings.passEvent = (RenderPassEvent)Mathf.Max((int)settings.passEvent, (int)RenderPassEvent.BeforeRenderingPrePasses);
 			this.settings = settings;
-			this.renderPassEvent = settings.renderPassEvent;
+			this.renderPassEvent = settings.passEvent;
 		}
 
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
@@ -37,15 +37,28 @@ namespace JD.CustomRenderObjects
 
 		public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
 		{
-			ConfigureInput(ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Depth);
-
+			ConfigureInput(settings.passInput);
 			if (settings.target.Trim().IsNullOrWhiteSpaceOrEmpty())
 			{
-				ConfigureTarget(cameraColor, cameraDepth);
+				if (settings.passInput.HasFlag(ScriptableRenderPassInput.Depth))
+				{
+					ConfigureTarget(cameraColor, cameraDepth);
+				}
+				else
+				{
+					ConfigureTarget(cameraColor);
+				}
 			}
 			else
 			{
-				ConfigureTarget(settings.target, cameraDepth);
+				if (settings.passInput.HasFlag(ScriptableRenderPassInput.Depth))
+				{
+					ConfigureTarget(settings.target, cameraDepth);
+				}
+				else
+				{
+					ConfigureTarget(settings.target);
+				}
 			}
 		}
 
@@ -91,7 +104,7 @@ namespace JD.CustomRenderObjects
 		private void DrawRenderers(CommandBuffer cmd, ScriptableRenderContext context, RenderingData renderingData)
 		{
 			RenderQueueRange renderQueueRange = GetQueueRange(settings.renderQueueType);
-			RenderStateBlock renderStateBlock = new RenderStateBlock(RenderStateMask.Depth);
+			RenderStateBlock renderStateBlock = new RenderStateBlock(settings.renderStateMask);
 			renderStateBlock.depthState = new DepthState(settings.depthWrite, settings.depthCompareFunction);
 			FilteringSettings filteringSettings = new FilteringSettings(renderQueueRange, settings.layerMask, settings.renderLayerMask);
 			DrawingSettings drawingSettings = CreateDrawingSettings(shaderTagIds, ref renderingData, settings.sortingCriteria);
