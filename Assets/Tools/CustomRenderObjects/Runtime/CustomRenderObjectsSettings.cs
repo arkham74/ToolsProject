@@ -13,6 +13,7 @@ namespace JD.CustomRenderObjects
 		[NonSerialized] public string name;
 
 		public bool sceneView = true;
+		public bool clearDepth;
 		public RenderPassEvent passEvent = RenderPassEvent.AfterRenderingOpaques;
 		public ScriptableRenderPassInput passInput = ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Depth;
 		public CompareFunction depthCompareFunction = CompareFunction.LessEqual;

@@ -67,10 +67,21 @@ namespace JD.CustomRenderObjects
 			if (settings.sceneView || !renderingData.cameraData.isSceneViewCamera && !renderingData.cameraData.isPreviewCamera)
 			{
 				CommandBuffer cmd = CommandBufferPool.Get(settings.name);
+				ClearDepth(cmd, context, renderingData);
 				OverrideCamera(cmd, context, renderingData);
 				DrawRenderers(cmd, context, renderingData);
 				RestoreCamera(cmd, context, renderingData);
 				CommandBufferPool.Release(cmd);
+			}
+		}
+
+		private void ClearDepth(CommandBuffer cmd, ScriptableRenderContext context, RenderingData renderingData)
+		{
+			if (settings.clearDepth)
+			{
+				cmd.Clear();
+				cmd.ClearRenderTarget(true, false, Color.clear);
+				context.ExecuteCommandBuffer(cmd);
 			}
 		}
 
