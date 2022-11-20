@@ -1,10 +1,6 @@
 using System.Text;
 using UnityEngine;
-using UnityEngine.Rendering;
-
-#if TOOLS_LOCALIZATION
-using UnityEngine.Localization.Settings;
-#endif
+using UnityEngine.Pool;
 
 namespace JD
 {

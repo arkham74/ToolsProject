@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Freya;
@@ -33,6 +34,33 @@ namespace JD
 		// 	{
 		// 		return array.OrderBy(e => e);
 		// 	}
+
+		/// <summary>
+		/// Returns the difference between dates in months.
+		/// </summary>
+		/// <param name="current">First considered date.</param>
+		/// <param name="another">Second considered date.</param>
+		/// <returns>The number of full months between the given dates.</returns>
+		public static int DifferenceInMonths(this DateTime current, DateTime another)
+		{
+			DateTime previous = current;
+			DateTime next = another;
+
+			if (current > another)
+			{
+				previous = another;
+				next = current;
+			}
+
+			// multiply the difference in years by 12 months
+			int yearMonths = (next.Year - previous.Year) * 12;
+			// add difference in months
+			int months = next.Month - previous.Month;
+			// if the day of the next date has not reached the day of the previous one, then the last month has not yet ended
+			int lastMonth = (previous.Day <= next.Day ? 0 : -1);
+
+			return yearMonths + months + lastMonth;
+		}
 
 		public static int LayerToMask(this int layerIndex)
 		{

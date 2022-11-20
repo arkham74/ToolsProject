@@ -28,6 +28,11 @@ namespace JD
 			return GetFromDate(DateTime.Today);
 		}
 
+		public TimeSpan GetFromUtcNow()
+		{
+			return GetFromDate(DateTime.UtcNow);
+		}
+
 		public static implicit operator DateTime(SerializableDateTime date) => new DateTime(date.year, date.month, date.day, date.hour, date.minute, date.second);
 	}
 }
