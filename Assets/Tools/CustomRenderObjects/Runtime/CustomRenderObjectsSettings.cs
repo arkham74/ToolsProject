@@ -14,14 +14,16 @@ namespace JD.CustomRenderObjects
 
 		public bool sceneView = true;
 		public bool clearDepth;
-		public RenderPassEvent passEvent = RenderPassEvent.AfterRenderingOpaques;
-		public ScriptableRenderPassInput passInput = ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Depth;
-		public CompareFunction depthCompareFunction = CompareFunction.LessEqual;
-		public RenderQueueType renderQueueType = RenderQueueType.Opaque;
-		public SortingCriteria sortingCriteria = SortingCriteria.CommonOpaque;
-		public RenderStateMask renderStateMask = RenderStateMask.Nothing;
 		public LayerMask layerMask = -1;
 		[RenderingLayer] public uint renderLayerMask = uint.MaxValue;
+
+		public RenderPassEvent passEvent = RenderPassEvent.AfterRenderingOpaques;
+		public ScriptableRenderPassInput passInput = ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Depth;
+		public RenderQueueType renderQueueType = RenderQueueType.Opaque;
+		public SortingCriteria sortingCriteria = SortingCriteria.CommonOpaque;
+
+		public RenderStateMask renderStateMask = RenderStateMask.Nothing;
+		public CompareFunction depthCompareFunction = CompareFunction.LessEqual;
 
 		public string target = string.Empty;
 

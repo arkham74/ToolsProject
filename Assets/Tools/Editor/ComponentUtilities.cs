@@ -92,6 +92,7 @@ namespace JD.Editor
 			if (col)
 			{
 				Vector3 boundsSize = col.bounds.size;
+				Debug.LogWarning(boundsSize);
 				float volume = boundsSize.x * boundsSize.y * boundsSize.z;
 				body.mass = volume * density;
 			}
