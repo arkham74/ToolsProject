@@ -9,30 +9,39 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
+#if TOOLS_NAUATTR
+using NaughtyAttributes;
+#endif
+
 namespace JD.SharedVar
 {
 	public abstract class Shared<T> : ScriptableObject
 	{
-		public T m_value;
+#if TOOLS_NAUATTR
+		[ShowNonSerializedField]
+#endif
+		private T value;
 		public event Action<T> OnValueChanged;
 
 		public T Value
 		{
-			get => m_value;
+			get => value;
 			set
 			{
-				if (value.Equals(m_value))
+				if (value.Equals(this.value))
 				{
 					return;
 				}
 
-				m_value = value;
+				this.value = value;
 				if (OnValueChanged != null)
 				{
 					OnValueChanged(Value);
 				}
 			}
 		}
+
+		public static implicit operator T(Shared<T> shared) => shared.value;
 
 		public override string ToString()
 		{

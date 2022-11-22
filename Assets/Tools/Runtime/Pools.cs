@@ -6,8 +6,8 @@ namespace JD
 {
 	public static class Pools
 	{
-		private static ObjectPool<StringBuilder> sbPool = new ObjectPool<StringBuilder>(null, x => x.Clear());
-		private static ObjectPool<MaterialPropertyBlock> mbpPool = new ObjectPool<MaterialPropertyBlock>(null, x => x.Clear());
+		private static ObjectPool<StringBuilder> sbPool = new ObjectPool<StringBuilder>(() => new StringBuilder(), x => x.Clear());
+		private static ObjectPool<MaterialPropertyBlock> mbpPool = new ObjectPool<MaterialPropertyBlock>(() => new MaterialPropertyBlock(), x => x.Clear());
 
 		public static StringBuilder GetStringBuilder() => sbPool.Get();
 		public static MaterialPropertyBlock GetPropertyBlock() => mbpPool.Get();
