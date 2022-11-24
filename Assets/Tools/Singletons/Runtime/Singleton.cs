@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace JD
@@ -6,6 +7,12 @@ namespace JD
 	{
 		private static T instance;
 		public static bool Valid => instance != null;
+
+		// [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+		// public static void Init()
+		// {
+		// 	instance = null;
+		// }
 
 		public static T Instance
 		{
@@ -17,18 +24,16 @@ namespace JD
 					if (type.Length > 0)
 					{
 						instance = type[0];
+						if (type.Length > 1)
+						{
+							Debug.LogError($"There is more than one '{typeof(T)}' in scene");
+						}
 					}
 					else
 					{
-						Debug.LogError($"There is no '{typeof(T)}' present in scene");
-					}
-
-					if (type.Length > 1)
-					{
-						Debug.LogError($"There is more than one '{typeof(T)}'");
+						throw new Exception($"There is no '{typeof(T)}' present in scene");
 					}
 				}
-
 				return instance;
 			}
 		}
