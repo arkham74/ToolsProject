@@ -79,9 +79,14 @@ namespace JD
 			}
 		}
 
-		public void Register(UnityAction action)
+		public void ReplaceListener(UnityAction action)
 		{
 			onClick.RemoveAllListeners();
+			onClick.AddListener(action);
+		}
+
+		public void AddListener(UnityAction action)
+		{
 			onClick.AddListener(action);
 		}
 

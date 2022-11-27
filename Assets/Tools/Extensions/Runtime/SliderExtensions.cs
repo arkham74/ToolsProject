@@ -6,9 +6,14 @@ namespace JD
 {
 	public static class SliderExtensions
 	{
-		public static void Register(this Slider slider, UnityAction<float> func)
+		public static void ReplaceListener(this Slider slider, UnityAction<float> func)
 		{
 			slider.onValueChanged.RemoveAllListeners();
+			slider.onValueChanged.AddListener(func);
+		}
+
+		public static void AddListener(this Slider slider, UnityAction<float> func)
+		{
 			slider.onValueChanged.AddListener(func);
 		}
 

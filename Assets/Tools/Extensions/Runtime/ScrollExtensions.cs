@@ -35,9 +35,14 @@ namespace JD
 			scroller.content.anchoredPosition = endPos;
 		}
 
-		public static void Register(this Scrollbar button, UnityAction<float> func)
+		public static void ReplaceListener(this Scrollbar button, UnityAction<float> func)
 		{
 			button.onValueChanged.RemoveAllListeners();
+			button.onValueChanged.AddListener(func);
+		}
+
+		public static void AddListener(this Scrollbar button, UnityAction<float> func)
+		{
 			button.onValueChanged.AddListener(func);
 		}
 	}

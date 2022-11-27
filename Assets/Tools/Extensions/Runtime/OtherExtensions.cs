@@ -11,18 +11,6 @@ namespace JD
 {
 	public static class OtherExtensions
 	{
-		public static void ReplaceListener<T>(this UnityEvent<T> unityEvent, UnityAction<T> unityAction)
-		{
-			unityEvent.RemoveAllListeners();
-			unityEvent.AddListener(unityAction);
-		}
-
-		public static void ReplaceListener(this UnityEvent unityEvent, UnityAction unityAction)
-		{
-			unityEvent.RemoveAllListeners();
-			unityEvent.AddListener(unityAction);
-		}
-
 		public static bool CheckKeyPress(this KeyCode main, params KeyCode[] mod)
 		{
 			return Input.GetKeyDown(main) && mod.All(Input.GetKey);
@@ -43,18 +31,6 @@ namespace JD
 			WheelFrictionCurve sidewaysFriction = wheelCollider.sidewaysFriction;
 			sidewaysFriction.stiffness = mult;
 			wheelCollider.sidewaysFriction = sidewaysFriction;
-		}
-
-		public static void Register(this Toggle toggle, UnityAction<bool> func)
-		{
-			toggle.onValueChanged.RemoveAllListeners();
-			toggle.onValueChanged.AddListener(func);
-		}
-
-		public static void Register(this Dropdown dropdown, UnityAction<int> func)
-		{
-			dropdown.onValueChanged.RemoveAllListeners();
-			dropdown.onValueChanged.AddListener(func);
 		}
 
 		public static void StartColor(this ParticleSystem particleSystem, Color color)

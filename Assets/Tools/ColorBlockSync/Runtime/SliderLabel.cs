@@ -74,9 +74,9 @@ namespace JD
 			slider.maxValue = max + 1;
 			Refresh(def);
 
-			slider.Register(Slider_Change);
-			nextButton.Register(Button_Next);
-			prevButton.Register(Button_Prev);
+			slider.ReplaceListener(Slider_Change);
+			nextButton.ReplaceListener(Button_Next);
+			prevButton.ReplaceListener(Button_Prev);
 
 			if (slider is SliderMultiGraphics multi)
 			{
