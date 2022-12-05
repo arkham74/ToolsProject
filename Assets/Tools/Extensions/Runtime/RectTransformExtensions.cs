@@ -61,5 +61,29 @@ namespace JD
 		{
 			return rectTransform.TransformPoint(rectTransform.rect.center);
 		}
+
+		public static Vector3 ScreenPointToWorldPointInRectangle(this RectTransform rect, Vector2 screenPoint)
+		{
+			RectTransformUtility.ScreenPointToWorldPointInRectangle(rect, screenPoint, Camera.main, out Vector3 worldPoint);
+			return worldPoint;
+		}
+
+		public static Vector3 ScreenPointToLocalPointInRectangle(this RectTransform rect, Vector2 screenPoint)
+		{
+			RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, screenPoint, Camera.main, out Vector2 localPoint);
+			return localPoint;
+		}
+
+		public static Vector3 ScreenPointToWorldPointInRectangle(this RectTransform rect, Vector2 screenPoint, Camera cam)
+		{
+			RectTransformUtility.ScreenPointToWorldPointInRectangle(rect, screenPoint, cam, out Vector3 worldPoint);
+			return worldPoint;
+		}
+
+		public static Vector3 ScreenPointToLocalPointInRectangle(this RectTransform rect, Vector2 screenPoint, Camera cam)
+		{
+			RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, screenPoint, cam, out Vector2 localPoint);
+			return localPoint;
+		}
 	}
 }

@@ -11,6 +11,27 @@ namespace JD
 {
 	public static partial class DOTweenExtensions
 	{
+		public static Tweener DOBlendablePunchLocalRotation(this Transform target, Vector3 punch, float duration, int vibrato = 10, float elasticity = 1f)
+		{
+			if (duration <= 0f)
+			{
+				if (Debugger.logPriority > 0)
+				{
+					Debug.LogWarning("DOBlendablePunchRotation: duration can't be 0, returning NULL without creating a tween");
+				}
+				return null;
+			}
+			Vector3 to = Vector3.zero;
+			return DOTween.Punch(() => to, delegate (Vector3 v)
+			{
+				Quaternion rotation = Quaternion.Euler(to.x, to.y, to.z);
+				Quaternion quaternion = Quaternion.Euler(v.x, v.y, v.z) * Quaternion.Inverse(rotation);
+				to = v;
+				Quaternion rotation2 = target.localRotation;
+				target.localRotation = rotation2 * Quaternion.Inverse(rotation2) * quaternion * rotation2;
+			}, punch, duration, vibrato, elasticity).Blendable().SetTarget(target);
+		}
+
 		public static TweenerCore<Vector3, Vector3, VectorOptions> DOTransformPosition(this Transform source, Transform target, Vector3 offset, float duration)
 		{
 			Vector3 endValue() => target.position + offset;
