@@ -15,7 +15,6 @@ namespace JD.CustomRenderObjects.Editor
 		SerializedProperty passEventProp;
 		SerializedProperty passInputProp;
 		SerializedProperty renderQueueTypeProp;
-		SerializedProperty sortingCriteriaProp;
 		SerializedProperty renderStateMaskProp;
 		SerializedProperty depthCompareFunctionProp;
 		SerializedProperty depthWriteProp;
@@ -34,7 +33,6 @@ namespace JD.CustomRenderObjects.Editor
 			passEventProp = settingsProp.FindPropertyRelative("passEvent");
 			passInputProp = settingsProp.FindPropertyRelative("passInput");
 			renderQueueTypeProp = settingsProp.FindPropertyRelative("renderQueueType");
-			sortingCriteriaProp = settingsProp.FindPropertyRelative("sortingCriteria");
 			renderStateMaskProp = settingsProp.FindPropertyRelative("renderStateMask");
 			depthCompareFunctionProp = settingsProp.FindPropertyRelative("depthCompareFunction");
 			depthWriteProp = settingsProp.FindPropertyRelative("depthWrite");
@@ -45,6 +43,7 @@ namespace JD.CustomRenderObjects.Editor
 		}
 		public override void OnInspectorGUI()
 		{
+			serializedObject.Update();
 			EditorGUILayout.PropertyField(sceneViewProp);
 			EditorGUILayout.PropertyField(clearDepthProp);
 			EditorGUILayout.PropertyField(layerMaskProp);
@@ -52,7 +51,6 @@ namespace JD.CustomRenderObjects.Editor
 			EditorGUILayout.PropertyField(passEventProp);
 			EditorGUILayout.PropertyField(passInputProp);
 			EditorGUILayout.PropertyField(renderQueueTypeProp);
-			EditorGUILayout.PropertyField(sortingCriteriaProp);
 			EditorGUILayout.PropertyField(renderStateMaskProp);
 
 			if (((RenderStateMask)renderStateMaskProp.enumValueFlag).HasFlag(RenderStateMask.Depth))
@@ -63,8 +61,19 @@ namespace JD.CustomRenderObjects.Editor
 
 			EditorGUILayout.PropertyField(targetProp);
 			EditorGUILayout.PropertyField(overrideMaterialProp);
-			EditorGUILayout.PropertyField(overrideMaterialPassIndexProp);
+
+			Material mat = (Material)overrideMaterialProp.objectReferenceValue;
+			if (mat)
+			{
+				string[] passes = new string[mat.passCount];
+				for (int i = 0; i < passes.Length; i++) passes[i] = mat.GetPassName(i);
+				int newID = overrideMaterialPassIndexProp.intValue;
+				newID = EditorGUILayout.Popup(overrideMaterialPassIndexProp.displayName, newID, passes);
+				overrideMaterialPassIndexProp.intValue = newID;
+			}
+
 			EditorGUILayout.PropertyField(cameraFieldOfViewProp);
+			serializedObject.ApplyModifiedProperties();
 		}
 	}
 }

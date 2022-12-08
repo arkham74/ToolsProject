@@ -20,8 +20,6 @@ namespace JD.CustomRenderObjects
 		public RenderPassEvent passEvent = RenderPassEvent.AfterRenderingOpaques;
 		public ScriptableRenderPassInput passInput = ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Depth;
 		public RenderQueueType renderQueueType = RenderQueueType.Opaque;
-		public SortingCriteria sortingCriteria = SortingCriteria.CommonOpaque;
-
 		public RenderStateMask renderStateMask = RenderStateMask.Nothing;
 		public CompareFunction depthCompareFunction = CompareFunction.LessEqual;
 		public bool depthWrite = true;

@@ -5,6 +5,7 @@ using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using UnityEngine.Scripting.APIUpdating;
+using System;
 
 namespace JD.CustomRenderObjects
 {
@@ -122,7 +123,7 @@ namespace JD.CustomRenderObjects
 			RenderStateBlock renderStateBlock = new RenderStateBlock(settings.renderStateMask);
 			renderStateBlock.depthState = new DepthState(settings.depthWrite, settings.depthCompareFunction);
 			FilteringSettings filteringSettings = new FilteringSettings(renderQueueRange, settings.layerMask, settings.renderLayerMask);
-			DrawingSettings drawingSettings = CreateDrawingSettings(shaderTagIds, ref renderingData, settings.sortingCriteria);
+			DrawingSettings drawingSettings = CreateDrawingSettings(shaderTagIds, ref renderingData, GetSortCriteria(settings.renderQueueType));
 			if (settings.overrideMaterial)
 			{
 				drawingSettings.overrideMaterial = settings.overrideMaterial;
@@ -130,6 +131,13 @@ namespace JD.CustomRenderObjects
 			}
 			context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings, ref renderStateBlock);
 		}
+
+		private SortingCriteria GetSortCriteria(RenderQueueType renderQueueType) => renderQueueType switch
+		{
+			RenderQueueType.Opaque => SortingCriteria.CommonOpaque,
+			RenderQueueType.Transparent => SortingCriteria.CommonTransparent,
+			_ => SortingCriteria.CommonOpaque,
+		};
 
 		private RenderQueueRange GetQueueRange(RenderQueueType renderQueueType) => renderQueueType switch
 		{
