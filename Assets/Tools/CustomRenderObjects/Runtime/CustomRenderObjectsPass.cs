@@ -6,6 +6,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using UnityEngine.Scripting.APIUpdating;
 using System;
+using UnityEngine.Experimental.Rendering;
 
 namespace JD.CustomRenderObjects
 {
@@ -24,7 +25,6 @@ namespace JD.CustomRenderObjects
 
 		public CustomRenderObjectsPass(CustomRenderObjectsSettings settings)
 		{
-			// profilingSampler = new ProfilingSampler(settings.name);
 			settings.passEvent = (RenderPassEvent)Mathf.Max((int)settings.passEvent, (int)RenderPassEvent.BeforeRenderingPrePasses);
 			this.settings = settings;
 			this.renderPassEvent = settings.passEvent;
@@ -35,33 +35,48 @@ namespace JD.CustomRenderObjects
 			ScriptableRenderer renderer = renderingData.cameraData.renderer;
 			cameraDepth = renderer.cameraDepthTarget;
 			cameraColor = renderer.cameraColorTarget;
+
+			if (!settings.target.IsNullOrWhiteSpaceOrEmpty())
+			{
+				RenderTextureDescriptor desc = renderingData.cameraData.cameraTargetDescriptor;
+				desc.msaaSamples = 1;
+				desc.bindMS = false;
+				desc.width = desc.width.Max(1);
+				desc.height = desc.height.Max(1);
+				desc.graphicsFormat = settings.graphicsFormat;
+				cmd.GetTemporaryRT(Shader.PropertyToID(settings.target), desc);
+			}
+		}
+
+		public override void OnCameraCleanup(CommandBuffer cmd)
+		{
+			if (!settings.target.IsNullOrWhiteSpaceOrEmpty())
+			{
+				cmd.ReleaseTemporaryRT(Shader.PropertyToID(settings.target));
+			}
 		}
 
 		public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
 		{
 			ConfigureInput(settings.passInput);
-			if (settings.target.Trim().IsNullOrWhiteSpaceOrEmpty())
+			if (settings.passInput.HasFlag(ScriptableRenderPassInput.Depth))
 			{
-				if (settings.passInput.HasFlag(ScriptableRenderPassInput.Depth))
-				{
-					ConfigureTarget(cameraColor, cameraDepth);
-				}
-				else
-				{
-					ConfigureTarget(cameraColor);
-				}
+				ConfigureTarget(GetSourceTarget(settings.target), cameraDepth);
 			}
 			else
 			{
-				if (settings.passInput.HasFlag(ScriptableRenderPassInput.Depth))
-				{
-					ConfigureTarget(settings.target, cameraDepth);
-				}
-				else
-				{
-					ConfigureTarget(settings.target);
-				}
+				ConfigureTarget(GetSourceTarget(settings.target));
 			}
+		}
+
+		private RenderTargetIdentifier GetSourceTarget(string target)
+		{
+			if (target.IsNullOrWhiteSpaceOrEmpty())
+			{
+				return cameraColor;
+			}
+
+			return target;
 		}
 
 		public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
@@ -69,23 +84,20 @@ namespace JD.CustomRenderObjects
 			if (settings.sceneView || !renderingData.cameraData.isSceneViewCamera && !renderingData.cameraData.isPreviewCamera)
 			{
 				CommandBuffer cmd = CommandBufferPool.Get(settings.name);
-				// using (new ProfilingScope(cmd, profilingSampler))
-				{
-					ClearDepth(cmd, context, renderingData);
-					OverrideCamera(cmd, context, renderingData);
-					DrawRenderers(cmd, context, renderingData);
-					RestoreCamera(cmd, context, renderingData);
-				}
+				ClearDepth(cmd, context, renderingData);
+				OverrideCamera(cmd, context, renderingData);
+				DrawRenderers(cmd, context, renderingData);
+				RestoreCamera(cmd, context, renderingData);
 				CommandBufferPool.Release(cmd);
 			}
 		}
 
 		private void ClearDepth(CommandBuffer cmd, ScriptableRenderContext context, RenderingData renderingData)
 		{
-			if (settings.clearDepth)
+			if (settings.clearFlags != RTClearFlags.None)
 			{
 				cmd.Clear();
-				cmd.ClearRenderTarget(true, false, Color.clear);
+				cmd.ClearRenderTarget(settings.clearFlags, Color.black, 1, 0);
 				context.ExecuteCommandBuffer(cmd);
 			}
 		}

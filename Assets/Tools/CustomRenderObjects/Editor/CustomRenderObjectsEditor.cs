@@ -9,7 +9,7 @@ namespace JD.CustomRenderObjects.Editor
 	public class CustomRenderObjectsEditor : UnityEditor.Editor
 	{
 		SerializedProperty sceneViewProp;
-		SerializedProperty clearDepthProp;
+		SerializedProperty clearFlagsProp;
 		SerializedProperty layerMaskProp;
 		SerializedProperty renderLayerMaskProp;
 		SerializedProperty passEventProp;
@@ -22,12 +22,13 @@ namespace JD.CustomRenderObjects.Editor
 		SerializedProperty overrideMaterialProp;
 		SerializedProperty overrideMaterialPassIndexProp;
 		SerializedProperty cameraFieldOfViewProp;
+		SerializedProperty graphicsFormatProp;
 
 		private void OnEnable()
 		{
 			SerializedProperty settingsProp = serializedObject.FindProperty("settings");
 			sceneViewProp = settingsProp.FindPropertyRelative("sceneView");
-			clearDepthProp = settingsProp.FindPropertyRelative("clearDepth");
+			clearFlagsProp = settingsProp.FindPropertyRelative("clearFlags");
 			layerMaskProp = settingsProp.FindPropertyRelative("layerMask");
 			renderLayerMaskProp = settingsProp.FindPropertyRelative("renderLayerMask");
 			passEventProp = settingsProp.FindPropertyRelative("passEvent");
@@ -40,12 +41,13 @@ namespace JD.CustomRenderObjects.Editor
 			overrideMaterialProp = settingsProp.FindPropertyRelative("overrideMaterial");
 			overrideMaterialPassIndexProp = settingsProp.FindPropertyRelative("overrideMaterialPassIndex");
 			cameraFieldOfViewProp = settingsProp.FindPropertyRelative("cameraFieldOfView");
+			graphicsFormatProp = settingsProp.FindPropertyRelative("graphicsFormat");
 		}
 		public override void OnInspectorGUI()
 		{
 			serializedObject.Update();
 			EditorGUILayout.PropertyField(sceneViewProp);
-			EditorGUILayout.PropertyField(clearDepthProp);
+			EditorGUILayout.PropertyField(clearFlagsProp);
 			EditorGUILayout.PropertyField(layerMaskProp);
 			EditorGUILayout.PropertyField(renderLayerMaskProp);
 			EditorGUILayout.PropertyField(passEventProp);
@@ -60,6 +62,9 @@ namespace JD.CustomRenderObjects.Editor
 			}
 
 			EditorGUILayout.PropertyField(targetProp);
+			if (!targetProp.stringValue.IsNullOrWhiteSpaceOrEmpty())
+				EditorGUILayout.PropertyField(graphicsFormatProp);
+
 			EditorGUILayout.PropertyField(overrideMaterialProp);
 
 			Material mat = (Material)overrideMaterialProp.objectReferenceValue;
