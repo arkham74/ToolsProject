@@ -42,8 +42,21 @@ namespace Cyan.Editor
         }
 #endif
 
-			EditorGUILayout.PropertyField(property.FindPropertyRelative("blitMaterial"));
-			EditorGUILayout.PropertyField(property.FindPropertyRelative("blitMaterialPassIndex"));
+			SerializedProperty overrideMaterialProp = property.FindPropertyRelative("blitMaterial");
+			SerializedProperty overrideMaterialPassIndexProp = property.FindPropertyRelative("blitMaterialPassIndex");
+
+			EditorGUILayout.PropertyField(overrideMaterialProp);
+
+			Material mat = (Material)overrideMaterialProp.objectReferenceValue;
+			if (mat)
+			{
+				string[] passes = new string[mat.passCount];
+				for (int i = 0; i < passes.Length; i++) passes[i] = mat.GetPassName(i);
+				int newID = overrideMaterialPassIndexProp.intValue;
+				newID = EditorGUILayout.Popup(overrideMaterialPassIndexProp.displayName, newID, passes);
+				overrideMaterialPassIndexProp.intValue = newID;
+			}
+
 			EditorGUILayout.PropertyField(property.FindPropertyRelative("setInverseViewMatrix"));
 #if UNITY_2020_1_OR_NEWER
 			EditorGUILayout.PropertyField(property.FindPropertyRelative("requireDepthNormals"));
