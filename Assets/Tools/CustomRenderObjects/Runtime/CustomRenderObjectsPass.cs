@@ -23,6 +23,7 @@ namespace JD.CustomRenderObjects
 
 		public CustomRenderObjectsPass(CustomRenderObjectsSettings settings)
 		{
+			// profilingSampler = new ProfilingSampler(settings.name);
 			settings.passEvent = (RenderPassEvent)Mathf.Max((int)settings.passEvent, (int)RenderPassEvent.BeforeRenderingPrePasses);
 			this.settings = settings;
 			this.renderPassEvent = settings.passEvent;
@@ -67,10 +68,13 @@ namespace JD.CustomRenderObjects
 			if (settings.sceneView || !renderingData.cameraData.isSceneViewCamera && !renderingData.cameraData.isPreviewCamera)
 			{
 				CommandBuffer cmd = CommandBufferPool.Get(settings.name);
-				ClearDepth(cmd, context, renderingData);
-				OverrideCamera(cmd, context, renderingData);
-				DrawRenderers(cmd, context, renderingData);
-				RestoreCamera(cmd, context, renderingData);
+				// using (new ProfilingScope(cmd, profilingSampler))
+				{
+					ClearDepth(cmd, context, renderingData);
+					OverrideCamera(cmd, context, renderingData);
+					DrawRenderers(cmd, context, renderingData);
+					RestoreCamera(cmd, context, renderingData);
+				}
 				CommandBufferPool.Release(cmd);
 			}
 		}

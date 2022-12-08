@@ -24,13 +24,15 @@ namespace JD.CustomRenderObjects
 
 		public RenderStateMask renderStateMask = RenderStateMask.Nothing;
 		public CompareFunction depthCompareFunction = CompareFunction.LessEqual;
+		public bool depthWrite = true;
 
 		public string target = string.Empty;
 
-		public bool depthWrite = true;
 		public Material overrideMaterial;
 		public int overrideMaterialPassIndex;
 		public int cameraFieldOfView = 0;
+
+		public bool overrideDepth => renderStateMask.HasFlag(RenderStateMask.Depth);
 	}
 }
 #endif

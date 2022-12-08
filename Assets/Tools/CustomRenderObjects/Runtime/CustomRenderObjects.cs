@@ -12,6 +12,7 @@ namespace JD.CustomRenderObjects
 
 		public override void Create()
 		{
+			settings.name = name;
 			renderObjectsPass = new CustomRenderObjectsPass(settings);
 		}
 
