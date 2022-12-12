@@ -121,7 +121,7 @@ namespace JD.Splines.Editor
 			serializedObject.Update();
 
 			EditorGUILayout.Separator();
-			EditorGUILayout.PropertyField(mirrorProp);
+			// EditorGUILayout.PropertyField(mirrorProp);
 			EditorGUILayout.PropertyField(loopProp);
 			EditorGUILayout.Separator();
 
