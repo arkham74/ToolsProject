@@ -1,36 +1,112 @@
 using System;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Audio;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using TMPro;
+using JD;
+using Freya;
+using Random = UnityEngine.Random;
+using Text = TMPro.TextMeshProUGUI;
+using Tools = JD.Tools;
+using UnityEngine.Splines;
+using Unity.Jobs;
+using Unity.Collections;
+using Unity.Burst;
+
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 namespace JD.Splines
 {
 	[ExecuteAlways]
-	[RequireComponent(typeof(Spline))]
+	[RequireComponent(typeof(SplineContainer))]
 	public abstract class SplineSampler : MonoBehaviour
 	{
-		[SerializeField] private bool updateInPlayMode;
-		[SerializeField][Min(2)] protected int samples = 30;
-		[SerializeField] protected Spline spline;
+		[BurstCompile]
+		private struct SampleJob : IJobParallelFor
+		{
+			[ReadOnly] public NativeSpline spline;
+			[WriteOnly] public NativeArray<Vector3> positions;
+
+			public SampleJob(NativeSpline spline, NativeArray<Vector3> positions) : this()
+			{
+				this.spline = spline;
+				this.positions = positions;
+			}
+
+			public void Execute(int index)
+			{
+				positions[index] = spline.EvaluatePosition((float)index / ((float)positions.Length - 1f));
+			}
+		}
+
+		[SerializeField] private SplineContainer splineContainer;
+		[SerializeField][Range(1, 100)] protected int samplesPerUnit = 10;
+		private bool dirty;
+		private int oldSamples;
+
+		protected abstract void PositionsAndNormals(NativeArray<Vector3> positions, Spline spline);
 
 		protected virtual void Reset()
 		{
-			spline = GetComponent<Spline>();
+			splineContainer = GetComponentInChildren<SplineContainer>(true);
 		}
 
-		protected abstract void PositionsAndNormals(Span<Vector3> positions, Span<Vector3> normals);
-
-		private void LateUpdate()
+		private void OnEnable()
 		{
-			if (!Application.isPlaying || updateInPlayMode)
+			Spline.Changed += OnChanged;
+		}
+
+		private void OnDisable()
+		{
+			Spline.Changed -= OnChanged;
+		}
+
+		private void OnChanged(Spline spline, int index, SplineModification mod)
+		{
+			if (splineContainer.Spline == spline)
 			{
-				Span<Vector3> positions = stackalloc Vector3[samples];
-				Span<Vector3> normals = stackalloc Vector3[samples];
-				for (int i = 0; i < samples; i++)
-				{
-					float t = (float)i / (samples - 1);
-					positions[i] = spline.Evaluate(t);
-					normals[i] = spline.EvaluateNormal(t);
-				}
-				PositionsAndNormals(positions, normals);
+				dirty = true;
+			}
+		}
+
+		private void Update()
+		{
+			CheckSamplesChange();
+			SampleCurve();
+		}
+
+		private void SampleCurve()
+		{
+			if (dirty)
+			{
+				Spline spline = splineContainer.Spline;
+				int samples = Mathf.CeilToInt(samplesPerUnit * spline.GetLength());
+				NativeArray<Vector3> positions = new NativeArray<Vector3>(samples, Allocator.Persistent);
+				NativeSpline nativeSpline = new NativeSpline(spline, Allocator.Persistent);
+				SampleJob job = new SampleJob(nativeSpline, positions);
+				JobHandle handle = job.Schedule(samples, 1);
+				handle.Complete();
+				PositionsAndNormals(positions, spline);
+				positions.Dispose();
+				nativeSpline.Dispose();
+				dirty = false;
+			}
+		}
+
+		private void CheckSamplesChange()
+		{
+			if (oldSamples != samplesPerUnit)
+			{
+				oldSamples = samplesPerUnit;
+				dirty = true;
 			}
 		}
 	}

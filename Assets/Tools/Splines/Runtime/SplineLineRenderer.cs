@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using UnityEngine.Profiling;
+using UnityEngine.Splines;
+using Unity.Collections;
 
 namespace JD.Splines
 {
@@ -28,10 +30,12 @@ namespace JD.Splines
 			lineRenderer.sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
 		}
 
-		protected override void PositionsAndNormals(Span<Vector3> positions, Span<Vector3> normals)
+		protected override void PositionsAndNormals(NativeArray<Vector3> positions, Spline spline)
 		{
-			lineRenderer.positionCount = samples;
-			for (int i = 0; i < positions.Length; i++)
+			int length = positions.Length;
+			lineRenderer.loop = spline.Closed;
+			lineRenderer.positionCount = length;
+			for (int i = 0; i < length; i++)
 			{
 				lineRenderer.SetPosition(i, positions[i]);
 			}
