@@ -1,3 +1,4 @@
+#if TOOLS_SPLINES
 using System;
 using System.Linq;
 using System.Collections;
@@ -111,3 +112,4 @@ namespace JD.Splines
 		}
 	}
 }
+#endif
