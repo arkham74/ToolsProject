@@ -74,7 +74,7 @@ namespace JD
 
 		public static float InverseLerp(this Vector4 v, Vector4 a, Vector4 b)
 		{
-			return Mathfs.InverseLerp(a, b, v);
+			return VectorMath.InverseLerp(a, b, v);
 		}
 	}
 }

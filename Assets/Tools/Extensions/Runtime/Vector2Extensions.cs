@@ -97,11 +97,6 @@ namespace JD
 			return sum;
 		}
 
-		public static float InverseLerp(this Vector2 v, Vector2 a, Vector2 b)
-		{
-			return Mathfs.InverseLerp(a, b, v);
-		}
-
 		public static float Random(this Vector2 v)
 		{
 			return UnityEngine.Random.Range(v.x, v.y);
@@ -110,6 +105,11 @@ namespace JD
 		public static int Random(this Vector2Int v)
 		{
 			return UnityEngine.Random.Range(v.x, v.y + 1);
+		}
+
+		public static float InverseLerp(this Vector2 v, Vector2 a, Vector2 b)
+		{
+			return VectorMath.InverseLerp(a, b, v);
 		}
 	}
 }

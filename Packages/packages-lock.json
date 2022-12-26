@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.acegikmo.mathfs": {
+      "version": "0.1.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
     "com.needle.compilation-visualizer": {
       "version": "1.8.3",
       "depth": 0,
