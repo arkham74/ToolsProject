@@ -4,10 +4,10 @@ namespace JD
 {
 	public static class QuaternionExtensions
 	{
-		public static Quaternion Inverse(this Quaternion q)
-		{
-			return Quaternion.Inverse(q);
-		}
+		// public static Quaternion Inverse(this Quaternion q)
+		// {
+		// 	return Quaternion.Inverse(q);
+		// }
 
 		public static Quaternion RotateToDirection(this Quaternion quaternion, Vector3 direction, float time)
 		{
