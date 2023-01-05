@@ -112,7 +112,22 @@ namespace JD
 			return VectorMath.InverseLerp(a, b, v);
 		}
 
+		/// <summary>
+		/// Converts euler angles vector from -360..360 range to -180..180 range
+		/// Same as NormalizeAngle
+		/// </summary>
 		public static Vector2 WrapAngle(this Vector2 angle)
+		{
+			angle.x = angle.x.WrapAngle();
+			angle.y = angle.y.WrapAngle();
+			return angle;
+		}
+
+		/// <summary>
+		/// Converts euler angles vector from -360..360 range to -180..180 range
+		/// Same as WrapAngle
+		/// </summary>
+		public static Vector2 NormalizeAngle(this Vector2 angle)
 		{
 			angle.x = angle.x.WrapAngle();
 			angle.y = angle.y.WrapAngle();

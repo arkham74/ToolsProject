@@ -39,8 +39,15 @@ namespace JD
 
 		public static float WrapAngle(this float angle)
 		{
-			if (angle > 360f) angle -= 360f;
-			if (angle < -360f) angle += 360f;
+			if (angle > 180) angle -= 360;
+			else if (angle < -180) angle += 360;
+			return angle;
+		}
+
+		public static float NormalizeAngle(this float angle)
+		{
+			if (angle > 180) angle -= 360;
+			else if (angle < -180) angle += 360;
 			return angle;
 		}
 
