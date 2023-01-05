@@ -20,7 +20,14 @@ namespace JD
 
 		public T CreateInstance()
 		{
-			return (T)Activator.CreateInstance(Type.GetType(fullName));
+			Type type = Type.GetType(fullName);
+			object v = Activator.CreateInstance(type);
+			T v1 = (T)v;
+			Debug.LogWarning(fullName);
+			Debug.LogWarning(type);
+			Debug.LogWarning(v);
+			Debug.LogWarning(v1);
+			return v1;
 		}
 
 		// public static implicit operator SerializedType<T>(string fullName) => new SerializedType<T>(fullName);

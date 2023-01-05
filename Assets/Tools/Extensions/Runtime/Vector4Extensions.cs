@@ -76,5 +76,14 @@ namespace JD
 		{
 			return VectorMath.InverseLerp(a, b, v);
 		}
+
+		public static Vector4 WrapAngle(this Vector4 angle)
+		{
+			angle.x = angle.x.WrapAngle();
+			angle.y = angle.y.WrapAngle();
+			angle.z = angle.z.WrapAngle();
+			angle.w = angle.w.WrapAngle();
+			return angle;
+		}
 	}
 }

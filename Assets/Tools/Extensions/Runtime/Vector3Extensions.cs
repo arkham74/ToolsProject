@@ -127,5 +127,13 @@ namespace JD
 		{
 			return VectorMath.InverseLerp(a, b, v);
 		}
+
+		public static Vector3 WrapAngle(this Vector3 angle)
+		{
+			angle.x = angle.x.WrapAngle();
+			angle.y = angle.y.WrapAngle();
+			angle.z = angle.z.WrapAngle();
+			return angle;
+		}
 	}
 }

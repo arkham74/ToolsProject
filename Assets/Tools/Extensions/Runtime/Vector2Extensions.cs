@@ -111,5 +111,12 @@ namespace JD
 		{
 			return VectorMath.InverseLerp(a, b, v);
 		}
+
+		public static Vector2 WrapAngle(this Vector2 angle)
+		{
+			angle.x = angle.x.WrapAngle();
+			angle.y = angle.y.WrapAngle();
+			return angle;
+		}
 	}
 }

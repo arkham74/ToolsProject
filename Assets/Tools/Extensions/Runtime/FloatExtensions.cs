@@ -37,6 +37,13 @@ namespace JD
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
 		}
 
+		public static float WrapAngle(this float angle)
+		{
+			if (angle > 360f) angle -= 360f;
+			if (angle < -360f) angle += 360f;
+			return angle;
+		}
+
 		// 	public static float Random(this float value, float start = 0)
 		// 	{
 		// 		return UnityEngine.Random.Range(start, value);
