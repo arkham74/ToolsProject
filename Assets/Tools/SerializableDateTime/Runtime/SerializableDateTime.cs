@@ -13,6 +13,42 @@ namespace JD
 		[SerializeField] private int minute;
 		[SerializeField] private int second;
 
+		public int Year
+		{
+			get => year;
+			set => year = value;
+		}
+
+		public int Month
+		{
+			get => month;
+			set => month = value;
+		}
+
+		public int Day
+		{
+			get => day;
+			set => day = value;
+		}
+
+		public int Hour
+		{
+			get => hour;
+			set => hour = value;
+		}
+
+		public int Minute
+		{
+			get => minute;
+			set => minute = value;
+		}
+
+		public int Second
+		{
+			get => second;
+			set => second = value;
+		}
+
 		public TimeSpan GetFromDate(DateTime date2)
 		{
 			return this - date2;
