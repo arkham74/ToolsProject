@@ -10,6 +10,11 @@ namespace JD
 	{
 		public readonly static Dictionary<int, string> intCache = new Dictionary<int, string>(10000);
 
+		public static int Clamp01(this int value)
+		{
+			return (int)Mathf.Clamp01(value);
+		}
+
 		public static int Min(this int value, int min)
 		{
 			return Mathf.Min(value, min);

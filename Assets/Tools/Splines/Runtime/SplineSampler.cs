@@ -26,7 +26,6 @@ using UnityEngine.InputSystem;
 
 namespace JD.Splines
 {
-	[ExecuteAlways]
 	[RequireComponent(typeof(SplineContainer))]
 	public abstract class SplineSampler : MonoBehaviour
 	{

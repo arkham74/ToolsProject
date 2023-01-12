@@ -17,6 +17,7 @@ using Unity.Collections;
 namespace JD.Splines
 {
 	[RequireComponent(typeof(LineRenderer))]
+	[ExecuteAlways]
 	public class SplineLineRenderer : SplineSampler
 	{
 		[SerializeField] private LineRenderer lineRenderer;

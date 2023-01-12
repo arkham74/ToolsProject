@@ -7,12 +7,12 @@ namespace JD
 {
 	public static class IEnumerableExtensions
 	{
-		public static int FindIndex<T>(this IEnumerable<T> collection, T locale)
+		public static int FindIndex<T>(this IEnumerable<T> collection, T element)
 		{
 			int i = 0;
 			foreach (T item in collection)
 			{
-				if (item.Equals(locale))
+				if (item.Equals(element))
 				{
 					return i;
 				}
