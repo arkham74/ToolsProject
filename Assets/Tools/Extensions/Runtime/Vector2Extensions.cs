@@ -133,5 +133,10 @@ namespace JD
 			angle.y = angle.y.WrapAngle();
 			return angle;
 		}
+
+		public static int Min(this Vector2Int size)
+		{
+			return Mathf.Min(size.x, size.y);
+		}
 	}
 }

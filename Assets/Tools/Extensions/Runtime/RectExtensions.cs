@@ -4,6 +4,16 @@ namespace JD
 {
 	public static class RectExtensions
 	{
+		public static Vector2[] GetCorners(this Rect rect)
+		{
+			Vector2[] array = new Vector2[4];
+			array[0] = rect.min;
+			array[1] = rect.min + Vector2.right * rect.width;
+			array[2] = rect.max;
+			array[3] = rect.min + Vector2.up * rect.height;
+			return array;
+		}
+
 		public static Vector2Int GetExtents(this RectInt rect)
 		{
 			return rect.size / 2;

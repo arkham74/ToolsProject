@@ -28,35 +28,35 @@ namespace JD
 			selectable.SetRight(selectable.FindSelectableOnRight());
 		}
 
-		public static void SetUp(this Selectable button, Selectable selectable)
+		public static void SetUp(this Selectable button, Selectable selectable, Navigation.Mode mode = Navigation.Mode.Explicit)
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.selectOnUp = selectable;
-			navdisplay.mode = Navigation.Mode.Explicit;
+			navdisplay.mode = mode;
 			button.navigation = navdisplay;
 		}
 
-		public static void SetDown(this Selectable button, Selectable selectable)
+		public static void SetDown(this Selectable button, Selectable selectable, Navigation.Mode mode = Navigation.Mode.Explicit)
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.selectOnDown = selectable;
-			navdisplay.mode = Navigation.Mode.Explicit;
+			navdisplay.mode = mode;
 			button.navigation = navdisplay;
 		}
 
-		public static void SetLeft(this Selectable button, Selectable selectable)
+		public static void SetLeft(this Selectable button, Selectable selectable, Navigation.Mode mode = Navigation.Mode.Explicit)
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.selectOnLeft = selectable;
-			navdisplay.mode = Navigation.Mode.Explicit;
+			navdisplay.mode = mode;
 			button.navigation = navdisplay;
 		}
 
-		public static void SetRight(this Selectable button, Selectable selectable)
+		public static void SetRight(this Selectable button, Selectable selectable, Navigation.Mode mode = Navigation.Mode.Explicit)
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.selectOnRight = selectable;
-			navdisplay.mode = Navigation.Mode.Explicit;
+			navdisplay.mode = mode;
 			button.navigation = navdisplay;
 		}
 
