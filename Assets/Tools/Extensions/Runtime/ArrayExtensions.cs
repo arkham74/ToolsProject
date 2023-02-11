@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,11 @@ namespace JD
 {
 	public static class ArrayExtensions
 	{
+		public static string Join<T>(this T[] array, Func<T, string> selector, string separator = ", ")
+		{
+			return string.Join(separator, array.Select(selector));
+		}
+
 		public static string Join<T>(this T[] array, string separator = ", ")
 		{
 			return string.Join(separator, array);

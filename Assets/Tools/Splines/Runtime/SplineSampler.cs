@@ -49,7 +49,7 @@ namespace JD.Splines
 
 		[SerializeField] private SplineContainer splineContainer;
 		[SerializeField][Range(1, 100)] protected int samplesPerUnit = 10;
-		private bool dirty;
+		protected bool dirty;
 		private int oldSamples;
 
 		protected abstract void PositionsAndNormals(NativeArray<Vector3> positions, Spline spline);

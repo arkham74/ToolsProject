@@ -6,11 +6,33 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace JD
 {
 	public static class OtherExtensions
 	{
+		public static void BreadthFirst<T>(this T root, Func<T, IEnumerable<T>> onElement)
+		{
+			Queue<T> queue = new Queue<T>();
+			HashSet<T> explored = new HashSet<T>();
+			explored.Add(root);
+			queue.Enqueue(root);
+			while (queue.Any())
+			{
+				T puzzle = queue.Dequeue();
+				IEnumerable<T> sides = onElement(puzzle);
+				foreach (T edge in sides)
+				{
+					if (!explored.Contains(edge))
+					{
+						explored.Add(edge);
+						queue.Enqueue(edge);
+					}
+				}
+			}
+		}
+
 		public static bool CheckKeyPress(this KeyCode main, params KeyCode[] mod)
 		{
 			return Input.GetKeyDown(main) && mod.All(Input.GetKey);

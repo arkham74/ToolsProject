@@ -80,5 +80,25 @@ namespace JD
 			Debug.DrawRay(point, normal * 0.5f, color, duration);
 			DrawCircle(point, normal, 0.1f, color, duration);
 		}
+
+		[Conditional("UNITY_EDITOR")]
+		[Conditional("DEVELOPMENT_BUILD")]
+		public static void DrawWireCube(Vector3 center, Vector3 size, Color color, float duration = 0f)
+		{
+			Bounds bounds = new Bounds(center, size);
+			Vector3[] corners = bounds.GetCorners();
+			Debug.DrawLine(corners[0], corners[1], color, duration);
+			Debug.DrawLine(corners[1], corners[2], color, duration);
+			Debug.DrawLine(corners[2], corners[3], color, duration);
+			Debug.DrawLine(corners[3], corners[0], color, duration);
+			Debug.DrawLine(corners[4], corners[5], color, duration);
+			Debug.DrawLine(corners[5], corners[6], color, duration);
+			Debug.DrawLine(corners[6], corners[7], color, duration);
+			Debug.DrawLine(corners[7], corners[4], color, duration);
+			Debug.DrawLine(corners[4], corners[4], color, duration);
+			Debug.DrawLine(corners[5], corners[5], color, duration);
+			Debug.DrawLine(corners[6], corners[6], color, duration);
+			Debug.DrawLine(corners[7], corners[7], color, duration);
+		}
 	}
 }

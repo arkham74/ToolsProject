@@ -166,5 +166,11 @@ namespace JD
 		{
 			return Mathfs.Remap(iMin * Vector2.one, iMax * Vector2.one, oMin * Vector2.one, oMax * Vector2.one, v);
 		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static float Cross(this Vector2 a, Vector2 b)
+		{
+			return a.x * b.y - a.y * b.x;
+		}
 	}
 }

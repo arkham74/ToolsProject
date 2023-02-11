@@ -17,16 +17,18 @@ namespace JD
 
 		public static Vector3[] GetCorners(this Bounds bounds)
 		{
-			Vector3[] corners = new Vector3[8];
-			corners[0] = bounds.min;
-			corners[1] = bounds.max;
-			corners[2] = new Vector3(corners[0].x, corners[0].y, corners[1].z);
-			corners[3] = new Vector3(corners[0].x, corners[1].y, corners[0].z);
-			corners[4] = new Vector3(corners[1].x, corners[0].y, corners[0].z);
-			corners[5] = new Vector3(corners[0].x, corners[1].y, corners[1].z);
-			corners[6] = new Vector3(corners[1].x, corners[0].y, corners[1].z);
-			corners[7] = new Vector3(corners[1].x, corners[1].y, corners[0].z);
-			return corners;
+			Vector3[] array = new Vector3[8];
+			Vector3 min = bounds.min;
+			Vector3 max = bounds.max;
+			array[0] = new Vector3(min.x, min.y, min.z);
+			array[1] = new Vector3(min.x, min.y, max.z);
+			array[2] = new Vector3(max.x, min.y, max.z);
+			array[3] = new Vector3(max.x, min.y, min.z);
+			array[4] = new Vector3(min.x, max.y, min.z);
+			array[5] = new Vector3(min.x, max.y, max.z);
+			array[6] = new Vector3(max.x, max.y, max.z);
+			array[7] = new Vector3(max.x, max.y, min.z);
+			return array;
 		}
 
 		public static Vector3 ClosestCorner(this Bounds bounds, Vector3 point)

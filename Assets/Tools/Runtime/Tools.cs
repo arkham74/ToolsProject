@@ -15,6 +15,27 @@ namespace JD
 {
 	public static class Tools
 	{
+		public enum CustomScreenMode
+		{
+			ExclusiveFullScreen,
+			FullScreenWindow,
+			Windowed
+		}
+
+		public static FullScreenMode ConvertScreenMode(CustomScreenMode mode) => mode switch
+		{
+			CustomScreenMode.ExclusiveFullScreen => FullScreenMode.ExclusiveFullScreen,
+			CustomScreenMode.Windowed => FullScreenMode.Windowed,
+			_ => FullScreenMode.FullScreenWindow,
+		};
+
+		public static CustomScreenMode ConvertScreenMode(FullScreenMode mode) => mode switch
+		{
+			FullScreenMode.ExclusiveFullScreen => CustomScreenMode.ExclusiveFullScreen,
+			FullScreenMode.Windowed => CustomScreenMode.Windowed,
+			_ => CustomScreenMode.FullScreenWindow,
+		};
+
 		public const float MPS2_KPH = 3.6f;
 
 #if UNITY_EDITOR

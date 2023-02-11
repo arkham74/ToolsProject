@@ -56,5 +56,24 @@ namespace JD
 			rand += rect.position;
 			return rand;
 		}
+
+		public static Rect OrderMinMax(this Rect rect)
+		{
+			if (rect.xMin > rect.xMax)
+			{
+				float num = rect.xMin;
+				rect.xMin = rect.xMax;
+				rect.xMax = num;
+			}
+
+			if (rect.yMin > rect.yMax)
+			{
+				float num2 = rect.yMin;
+				rect.yMin = rect.yMax;
+				rect.yMax = num2;
+			}
+			
+			return rect;
+		}
 	}
 }
