@@ -88,6 +88,11 @@ namespace JD
 			go.ChangeActive(true);
 		}
 
+		public static void Toggle(this GameObject go)
+		{
+			go.ChangeActive(!go.activeSelf);
+		}
+
 		public static void GroupSetActive(this IEnumerable<GameObject> components, bool value)
 		{
 			foreach (GameObject item in components)
