@@ -13,27 +13,22 @@ namespace JD.Texture3DGenerator
 	[ScriptedImporter(1, "tex3d")]
 	public class Texture3DGenerator : ScriptedImporter
 	{
-		private struct NoiseData
-		{
-			public int size;
-			public float scale;
-			public Vector3 offset;
-		}
-
 #if TOOLS_BURST
 		[BurstCompile]
 #endif
 		private struct NoiseJob : IJobParallelFor
 		{
-			[ReadOnly] public NoiseData data;
-			public NativeArray<Color32> result;
+			public int size;
+			public float scale;
+			public Vector3 offset;
+			[WriteOnly] public NativeArray<Color32> result;
 
 			public void Execute(int index)
 			{
-				result[index] = CalculateNoise(index, data);
+				result[index] = CalculateNoise(index, this);
 			}
 
-			private static Color32 CalculateNoise(int index, NoiseData data)
+			private static Color32 CalculateNoise(int index, NoiseJob data)
 			{
 				int x = index % data.size;
 				int y = index / data.size % data.size;
@@ -146,11 +141,15 @@ namespace JD.Texture3DGenerator
 
 		private NativeArray<Color32> ThreadedJob()
 		{
-			NoiseData data = new NoiseData { offset = offset, scale = scale, size = size };
 			NativeArray<Color32> result = new NativeArray<Color32>(size * size * size, Allocator.TempJob);
-			NoiseJob job = new NoiseJob { data = data, result = result };
-			// job.Run(result.Length);
-			JobHandle handle = job.Schedule(result.Length, 1);
+			NoiseJob job = new NoiseJob
+			{
+				result = result,
+				offset = offset,
+				scale = scale,
+				size = size
+			};
+			JobHandle handle = job.Schedule(result.Length, 32);
 			handle.Complete();
 			return result;
 		}
