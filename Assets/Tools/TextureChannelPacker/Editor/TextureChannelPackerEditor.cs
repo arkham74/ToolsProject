@@ -23,6 +23,8 @@ namespace JD.TextureChannelPacker.Editor
 		private SerializedProperty greenInvertProp;
 		private SerializedProperty blueInvertProp;
 		private SerializedProperty alphaInvertProp;
+		private SerializedProperty generateMipsProp;
+		private SerializedProperty sRGBProp;
 
 		private readonly GUIContent redContent = new GUIContent("Red");
 		private readonly GUIContent greenContent = new GUIContent("Green");
@@ -56,6 +58,8 @@ namespace JD.TextureChannelPacker.Editor
 			greenInvertProp = serializedObject.FindProperty("greenInvert");
 			blueInvertProp = serializedObject.FindProperty("blueInvert");
 			alphaInvertProp = serializedObject.FindProperty("alphaInvert");
+			generateMipsProp = serializedObject.FindProperty("generateMips");
+			sRGBProp = serializedObject.FindProperty("sRGB");
 		}
 
 		public override void OnInspectorGUI()
@@ -92,6 +96,11 @@ namespace JD.TextureChannelPacker.Editor
 			EditorGUILayout.PropertyField(wrapModeProp);
 			EditorGUILayout.PropertyField(filterModeProp);
 			EditorGUILayout.PropertyField(anisoLevelProp);
+			EditorGUILayout.Separator();
+
+			EditorGUILayout.Separator();
+			EditorGUILayout.PropertyField(generateMipsProp);
+			EditorGUILayout.PropertyField(sRGBProp);
 			EditorGUILayout.Separator();
 
 			EditorGUILayout.BeginHorizontal();
