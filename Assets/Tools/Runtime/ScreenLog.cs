@@ -60,7 +60,7 @@ namespace JD
 			sb.Clear();
 			sb.AppendJoin('\n', dict.Values);
 			string text = sb.ToString();
-			headStyle.fontSize = (int)(24f * Screen.height / 1080f),
+			headStyle.fontSize = (int)(24f * Screen.height / 1080f);
 			GUILayout.Label(text, headStyle);
 		}
 	}
