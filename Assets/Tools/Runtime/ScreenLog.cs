@@ -35,7 +35,6 @@ namespace JD
 					stretchHeight = true,
 					stretchWidth = true,
 					padding = new RectOffset(7, 7, 7, 7),
-					fontSize = (int)(24f * Screen.height / 1080f),
 				};
 
 				headStyle.normal.background = Resources.Load<Texture2D>("transparent_1x1");
@@ -61,6 +60,7 @@ namespace JD
 			sb.Clear();
 			sb.AppendJoin('\n', dict.Values);
 			string text = sb.ToString();
+			headStyle.fontSize = (int)(24f * Screen.height / 1080f),
 			GUILayout.Label(text, headStyle);
 		}
 	}
