@@ -1,29 +1,13 @@
 #if TOOLS_TOOLBAR
-using System;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
-using TMPro;
-using JD;
-using Random = UnityEngine.Random;
-using Text = TMPro.TextMeshProUGUI;
-using Tools = JD.Tools;
 using UnityToolbarExtender;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using System.IO;
 
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-
-namespace CordBot
+namespace JD.Editor
 {
 	[InitializeOnLoad]
 	public class ScenePicker
@@ -66,6 +50,21 @@ namespace CordBot
 				EditorSceneManager.OpenScene(scenes[index].path, OpenSceneMode.Single);
 
 			GUILayout.FlexibleSpace();
+		}
+	}
+}
+#else
+using UnityEditor;
+using UnityEditor.PackageManager;
+
+namespace JD.Editor
+{
+	[InitializeOnLoad]
+	public class ScenePicker
+	{
+		static ScenePicker()
+		{
+			Client.Add("https://github.com/marijnz/unity-toolbar-extender.git");
 		}
 	}
 }
