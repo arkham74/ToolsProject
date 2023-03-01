@@ -88,5 +88,49 @@ namespace JD
 			intCache.Add(value, str);
 			return str;
 		}
+
+		public static int PopCount(this int mask)
+		{
+			return ((uint)mask).PopCount();
+		}
+
+		public static int PopCount(this uint mask)
+		{
+			int bitCount = 0;
+			while (mask != 0)
+			{
+				if ((mask & 1) == 1)
+				{
+					bitCount++;
+				}
+				mask = mask >> 1;
+			}
+			return bitCount;
+		}
+
+		public static int[] GetPowerOfTwoComponents(this int mask)
+		{
+			return GetPowerOfTwoComponents((uint)mask);
+		}
+
+		public static int[] GetPowerOfTwoComponents(this uint mask)
+		{
+			int bitCount = mask.PopCount();
+			int[] setBits = new int[bitCount];
+			int bitPosition = 1;
+			int index = 0;
+
+			while (mask != 0)
+			{
+				if ((mask & 1) == 1)
+				{
+					setBits[index++] = bitPosition;
+				}
+				mask = mask >> 1;
+				bitPosition *= 2;
+			}
+
+			return setBits;
+		}
 	}
 }
