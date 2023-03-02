@@ -154,6 +154,13 @@ namespace JD
 			return gtz && ltl;
 		}
 
+		public static bool ContainsIndex<T>(this IReadOnlyList<T> list, int index)
+		{
+			bool gtz = index >= 0;
+			bool ltl = index < list.Count;
+			return gtz && ltl;
+		}
+
 		public static T AtIndexClamp<T>(this IList<T> array, int index)
 		{
 			return array[Mathf.Clamp(index, 0, array.Count - 1)];
