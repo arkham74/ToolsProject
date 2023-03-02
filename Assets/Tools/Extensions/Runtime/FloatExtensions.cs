@@ -32,9 +32,14 @@ namespace JD
 
 		public static float ClampAngle(this float lfAngle, float lfMin, float lfMax)
 		{
+			return Mathf.Clamp(ClampEuler(lfAngle), lfMin, lfMax);
+		}
+
+		public static float ClampEuler(this float lfAngle)
+		{
 			if (lfAngle > 360f) lfAngle -= 360f;
 			if (lfAngle < -360f) lfAngle += 360f;
-			return Mathf.Clamp(lfAngle, lfMin, lfMax);
+			return lfAngle;
 		}
 
 		public static float WrapAngle(this float angle)
