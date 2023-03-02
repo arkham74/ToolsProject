@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.acegikmo.mathfs": "0.1.0",
+    "com.acegikmo.mathfs": "https://github.com/FreyaHolmer/Mathfs.git",
     "com.marijnzwemmer.unity-toolbar-extender": "https://github.com/marijnz/unity-toolbar-extender.git",
     "com.needle.compilation-visualizer": "1.8.3",
     "com.redbluegames.mulligan": "https://github.com/redbluegames/unity-mulligan-renamer.git?path=/Assets/RedBlueGames/MulliganRenamer",
@@ -62,6 +62,7 @@
         "com.dbrizov.naughtyattributes",
         "com.demigiant.dotween",
         "com.facepunch.steamworks",
+        "com.freya.mathfs",
         "com.needle.compilation-visualizer",
         "com.openupm"
       ]

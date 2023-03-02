@@ -1,11 +1,11 @@
 {
   "dependencies": {
     "com.acegikmo.mathfs": {
-      "version": "0.1.0",
+      "version": "https://github.com/FreyaHolmer/Mathfs.git",
       "depth": 0,
-      "source": "registry",
+      "source": "git",
       "dependencies": {},
-      "url": "https://package.openupm.com"
+      "hash": "7faf902a16a0d00a8a000cc2f1a9c8503623d5ae"
     },
     "com.marijnzwemmer.unity-toolbar-extender": {
       "version": "https://github.com/marijnz/unity-toolbar-extender.git",
