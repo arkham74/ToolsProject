@@ -27,7 +27,7 @@ namespace JD.Editor
 
 			if (sceneCount < 1)
 			{
-				if (GUILayout.Button("Add active scene to build settings"))
+				if (GUILayout.Button("Add active scene to build settings", EditorStyles.toolbarButton))
 				{
 					EditorBuildSettingsScene editorScene = new EditorBuildSettingsScene(activeScene.path, true);
 					List<EditorBuildSettingsScene> ascenes = new List<EditorBuildSettingsScene>(scenes);
@@ -44,7 +44,7 @@ namespace JD.Editor
 			for (int i = 0; i < sceneCount; i++)
 				sceneNames[i] = Path.GetFileNameWithoutExtension(scenes[i].path);
 
-			int index = EditorGUILayout.Popup(activeScene.buildIndex, sceneNames);
+			int index = EditorGUILayout.Popup(activeScene.buildIndex, sceneNames, EditorStyles.toolbarPopup);
 
 			if (index != activeScene.buildIndex)
 				EditorSceneManager.OpenScene(scenes[index].path, OpenSceneMode.Single);
