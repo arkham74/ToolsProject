@@ -7,7 +7,7 @@ namespace JD
 	{
 		public static void RemoveLast(this StringBuilder stringBuilder, int count)
 		{
-			stringBuilder.Remove(stringBuilder.Length - (1 + count), count);
+			stringBuilder.Remove(stringBuilder.Length - count, count);
 		}
 
 		public static void TrimEnd(this StringBuilder stringBuilder)
