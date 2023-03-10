@@ -3,7 +3,6 @@ using System.ComponentModel;
 using Freya;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
-using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -23,7 +22,6 @@ namespace JD.Outline
 		public int width;
 		public Color outlineColor;
 		public Color backgroundColor;
-		private bool debug;
 
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 		{
@@ -49,18 +47,7 @@ namespace JD.Outline
 			if (!cameraData.isPreviewCamera && !cameraData.isSceneViewCamera)
 			{
 				CommandBuffer cmd = CommandBufferPool.Get("Outline Pass");
-				if (Keyboard.current != null && Keyboard.current.tKey.wasReleasedThisFrame)
-				{
-					debug = !debug;
-				}
-				if (debug)
-				{
-					DebugPass(cmd, context, renderingData);
-				}
-				else
-				{
-					SobelPass(cmd, context, renderingData);
-				}
+				SobelPass(cmd, context, renderingData);
 				CommandBufferPool.Release(cmd);
 			}
 		}
