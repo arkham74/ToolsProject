@@ -31,12 +31,14 @@ namespace JD.Editor
 				collection = TypeCache.GetTypesDerivedFrom(argument.GetGenericArguments()[0]);
 			}
 
-			string[] select = collection.Where(e => !e.IsAbstract).Select(e => e.FullName).ToArray();
+			IEnumerable<Type> enumerable = collection.Where(e => !e.IsAbstract);
+			string[] displayName = enumerable.Select(e => e.Name).ToArray();
+			string[] typeName = enumerable.Select(e => e.AssemblyQualifiedName).ToArray();
 			property.NextVisible(true);
-			int index = Array.IndexOf(select, property.stringValue);
-			index = EditorGUI.Popup(position, label.text, index, select);
-			int v = Mathf.Clamp(index, 0, select.Length - 1);
-			property.stringValue = select[v];
+			int index = Array.IndexOf(typeName, property.stringValue);
+			index = EditorGUI.Popup(position, label.text, index, displayName);
+			int v = Mathf.Clamp(index, 0, typeName.Length - 1);
+			property.stringValue = typeName[v];
 
 			EditorGUI.EndProperty();
 		}
