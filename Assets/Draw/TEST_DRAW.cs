@@ -16,7 +16,6 @@ using Text = TMPro.TextMeshProUGUI;
 using Tools = JD.Tools;
 using UnityEditor;
 using JD.Draw;
-using Redcode.Extensions;
 using UnityEngine.Tilemaps;
 
 #if ENABLE_INPUT_SYSTEM
