@@ -8,12 +8,8 @@ using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
-using TMPro;
 using JD;
-using Freya;
 using Random = UnityEngine.Random;
-using Text = TMPro.TextMeshProUGUI;
-using Tools = JD.Tools;
 using UnityEditor;
 
 namespace JD.Editor
