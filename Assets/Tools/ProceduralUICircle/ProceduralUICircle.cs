@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-namespace Village
+namespace JD
 {
 	[RequireComponent(typeof(Image))]
 	public class ProceduralUICircle : BaseMeshEffect
