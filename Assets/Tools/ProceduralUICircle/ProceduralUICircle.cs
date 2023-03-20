@@ -8,12 +8,7 @@ using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
-using TMPro;
-using JD;
-using Freya;
 using Random = UnityEngine.Random;
-using Text = TMPro.TextMeshProUGUI;
-using Tools = JD.Tools;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -29,12 +24,14 @@ namespace Village
 		[SerializeField][HideInInspector] private Material circleMaterial;
 		private Image image;
 
+#if UNITY_EDITOR
 		protected override void Reset()
 		{
 			base.Reset();
 			image = GetComponent<Image>();
 			image.material = circleMaterial;
 		}
+#endif
 
 		public override void ModifyMesh(VertexHelper vh)
 		{
