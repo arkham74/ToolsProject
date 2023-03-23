@@ -1,35 +1,37 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace JD
 {
 	[Serializable]
 	public struct SerializedType<T> where T : class
 	{
-		[SerializeField] private string fullName;
+		[SerializeField][FormerlySerializedAs("fullName")] private string assemblyQualifiedName;
 
-		private SerializedType(string fullName)
+		public SerializedType(string assemblyQualifiedName)
 		{
-			this.fullName = fullName;
+			this.assemblyQualifiedName = assemblyQualifiedName;
+		}
+
+		public SerializedType(Type type) : this(type.AssemblyQualifiedName)
+		{
+
 		}
 
 		public override string ToString()
 		{
-			return fullName;
+			return assemblyQualifiedName;
 		}
 
 		public T CreateInstance()
 		{
-			Type type = Type.GetType(fullName, true);
+			Type type = Type.GetType(assemblyQualifiedName, true);
 			object objectInstance = Activator.CreateInstance(type);
 			T typeInstance = objectInstance as T;
 			return typeInstance;
 		}
 
-		// public static implicit operator SerializedType<T>(string fullName) => new SerializedType<T>(fullName);
-		// public static implicit operator string(SerializedType<T> serializedType) => serializedType.fullName;
-
-		// public static implicit operator Type(SerializedType<T> serializedType) => Type.GetType(serializedType);
-		// public static implicit operator SerializedType<T>(Type type) => new SerializedType<T>(type.FullName);
+		public static implicit operator SerializedType<T>(Type type) => new SerializedType<T>(type);
 	}
 }
