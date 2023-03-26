@@ -18,10 +18,13 @@ namespace JD
 				return true;
 			}
 
-			if (gameObject.transform.parent.TryGetComponent(out result))
+			Transform parent = gameObject.transform.parent;
+
+			if (parent && parent.TryGetComponent(out result))
 			{
 				return true;
 			}
+
 			return false;
 		}
 
