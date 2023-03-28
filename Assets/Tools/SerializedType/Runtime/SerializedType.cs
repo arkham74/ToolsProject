@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 namespace JD
 {
 	[Serializable]
-	public struct SerializedType<T> where T : class
+	public struct SerializedType<T> : IEquatable<Type> where T : class
 	{
 		[SerializeField][FormerlySerializedAs("fullName")] private string assemblyQualifiedName;
 
@@ -30,6 +30,11 @@ namespace JD
 			object objectInstance = Activator.CreateInstance(type);
 			T typeInstance = objectInstance as T;
 			return typeInstance;
+		}
+
+		public bool Equals(Type other)
+		{
+			return assemblyQualifiedName.Equals(other.AssemblyQualifiedName);
 		}
 
 		public static implicit operator SerializedType<T>(Type type) => new SerializedType<T>(type);
