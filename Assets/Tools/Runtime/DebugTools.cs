@@ -6,7 +6,7 @@ using Debug = UnityEngine.Debug;
 
 namespace JD
 {
-	public static class DebugTools
+	public static partial class DebugTools
 	{
 		[Conditional("UNITY_EDITOR")]
 		[Conditional("DEVELOPMENT_BUILD")]

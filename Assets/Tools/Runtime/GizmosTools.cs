@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace JD
 {
-	public static class GizmosTools
+	public static partial class GizmosTools
 	{
 		[Conditional("UNITY_EDITOR")]
 		public static void SetColor(Color color)
