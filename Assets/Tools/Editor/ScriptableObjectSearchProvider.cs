@@ -18,9 +18,8 @@ namespace JD.Editor
 {
 	public class ScriptableObjectSearchProvider : ScriptableObject, ISearchWindowProvider
 	{
-		private static readonly float Width = 300;
-		private static readonly float Height = 500;
-		private static SearchWindowContext context = new SearchWindowContext(new Vector2(1800, 900) / 2f, Width, Height);
+		private const float WIDTH = 300;
+		private const float HEIGHT = 500;
 		private static ScriptableObjectSearchProvider provider;
 
 		[MenuItem("Assets/Create Scriptable Object")]
@@ -31,6 +30,7 @@ namespace JD.Editor
 				provider = CreateInstance<ScriptableObjectSearchProvider>();
 			}
 
+			SearchWindowContext context = new SearchWindowContext(new Vector2(1800, 900) / 2f, WIDTH, HEIGHT);
 			SearchWindow.Open(context, provider);
 		}
 

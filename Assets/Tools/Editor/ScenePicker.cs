@@ -6,26 +6,56 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using System.IO;
+using UnityEditor.Experimental.GraphView;
+using System;
 
 namespace JD.Editor
 {
 	[InitializeOnLoad]
-	public class ScenePicker
+	public class ScenePicker : ScriptableObject, ISearchWindowProvider
 	{
-		private static string[] sceneNames;
+		private static Texture2D icon;
 
 		static ScenePicker()
 		{
 			ToolbarExtender.RightToolbarGUI.Add(OnToolbarGUI);
 		}
 
+		public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
+		{
+			LoadIcon(ref icon, "d_Scene");
+			List<SearchTreeEntry> list = new List<SearchTreeEntry>();
+			list.Add(new SearchTreeGroupEntry(new GUIContent("Scenes", icon)));
+
+			EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
+			for (int i = 0; i < scenes.Length; i++)
+			{
+				string path = scenes[i].path;
+				string text = Path.GetFileNameWithoutExtension(path);
+				GUIContent content = new GUIContent(text, icon);
+				SearchTreeEntry item = new SearchTreeEntry(content)
+				{
+					userData = path,
+					level = 1,
+				};
+				list.Add(item);
+			}
+
+			return list;
+		}
+
+		public bool OnSelectEntry(SearchTreeEntry entry, SearchWindowContext context)
+		{
+			EditorSceneManager.OpenScene((string)entry.userData, OpenSceneMode.Single);
+			return true;
+		}
+
 		static void OnToolbarGUI()
 		{
-			EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
-			int sceneCount = scenes.Length;
 			Scene activeScene = EditorSceneManager.GetActiveScene();
+			EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
 
-			if (sceneCount < 1)
+			if (scenes.Length < 1)
 			{
 				if (GUILayout.Button("Add active scene to build settings", EditorStyles.toolbarButton))
 				{
@@ -34,22 +64,29 @@ namespace JD.Editor
 					ascenes.Add(editorScene);
 					EditorBuildSettings.scenes = ascenes.ToArray();
 				}
-				GUILayout.FlexibleSpace();
-				return;
+			}
+			else
+			{
+				LoadIcon(ref icon, "d_Scene");
+				Vector2 mousePosition = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+				mousePosition.y += 30;
+				SearchWindowContext context = new SearchWindowContext(mousePosition);
+				ScenePicker provider = ScriptableObject.CreateInstance<ScenePicker>();
+				if (GUILayout.Button(new GUIContent(activeScene.name, icon), EditorStyles.toolbarPopup))
+				{
+					SearchWindow.Open(context, provider);
+				}
 			}
 
-			if (sceneNames == null || sceneNames.Length != sceneCount)
-				sceneNames = new string[sceneCount];
-
-			for (int i = 0; i < sceneCount; i++)
-				sceneNames[i] = Path.GetFileNameWithoutExtension(scenes[i].path);
-
-			int index = EditorGUILayout.Popup(activeScene.buildIndex, sceneNames, EditorStyles.toolbarPopup);
-
-			if (index != activeScene.buildIndex)
-				EditorSceneManager.OpenScene(scenes[index].path, OpenSceneMode.Single);
-
 			GUILayout.FlexibleSpace();
+		}
+
+		private static void LoadIcon(ref Texture2D icon, string name)
+		{
+			if (icon == null)
+			{
+				icon = EditorGUIUtility.FindTexture(name);
+			}
 		}
 	}
 }
