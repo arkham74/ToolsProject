@@ -57,7 +57,7 @@ namespace JD.Editor
 
 			if (scenes.Length < 1)
 			{
-				if (GUILayout.Button("Add active scene to build settings", EditorStyles.toolbarButton))
+				if (GUILayout.Button(" Add active scene to build settings ", EditorStyles.toolbarButton))
 				{
 					EditorBuildSettingsScene editorScene = new EditorBuildSettingsScene(activeScene.path, true);
 					List<EditorBuildSettingsScene> ascenes = new List<EditorBuildSettingsScene>(scenes);
@@ -72,7 +72,7 @@ namespace JD.Editor
 				mousePosition.y += 30;
 				SearchWindowContext context = new SearchWindowContext(mousePosition);
 				ScenePicker provider = ScriptableObject.CreateInstance<ScenePicker>();
-				if (GUILayout.Button(new GUIContent(activeScene.name, icon), EditorStyles.toolbarPopup))
+				if (GUILayout.Button(new GUIContent(" " + activeScene.name + " ", icon), EditorStyles.toolbarPopup))
 				{
 					SearchWindow.Open(context, provider);
 				}
