@@ -33,8 +33,7 @@ namespace JD
 		public static int GetResolutionIndex()
 		{
 			List<Resolution> list = GetResolutions();
-			Resolution curr = Screen.currentResolution;
-			return list.FindIndex(e => e.height == curr.height && e.width == curr.width);
+			return list.FindIndex(e => e.height == Screen.height && e.width == Screen.width);
 		}
 	}
 }
