@@ -50,6 +50,9 @@ Shader "Hidden/DrawShader"
 			TEXTURE2D_X(_MainTex);
 			SAMPLER(sampler_MainTex);
 
+			TEXTURE2D_X(_CameraDepthTexture);
+			SAMPLER(sampler_CameraDepthTexture);
+
 			static const int MAX_LEN = 1023;
 
 			int _LineCount;
@@ -68,12 +71,12 @@ Shader "Hidden/DrawShader"
 				return pixel;
 			}
 
-			float DrawLine(int2 p, int2 a, int2 b, float width)
+			float DrawLine(int2 p, int2 a, int2 b, float width, out float h)
 			{
-				float w2 = width * (_ScreenParams.y/1080);
+				float w2 = width * (_ScreenParams.y / 1080.0);
 				float2 pa = p-a;
 				float2 ba = b-a;
-				float h = clamp( dot(pa, ba) / dot(ba, ba), 0.0, 1.0 );
+				h = clamp( dot(pa, ba) / dot(ba, ba), 0.0, 1.0 );
 				float dist = length( pa - ba * h ) - w2;
 				float change = fwidth(dist) * 0.5;
 				float aa = smoothstep(change, -change, dist);
@@ -83,6 +86,9 @@ Shader "Hidden/DrawShader"
 			float4 frag(v2f i) : SV_Target
 			{
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+
+				float depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_CameraDepthTexture, i.uv).r;
+				depth = LinearEyeDepth(depth, _ZBufferParams);
 
 				float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
 				int2 pos = i.uv * _ScreenParams.xy;
@@ -95,7 +101,15 @@ Shader "Hidden/DrawShader"
 
 					int2 startPos = WorldToPixel(start);
 					int2 endPos = WorldToPixel(end);
-					float mask = DrawLine(pos, startPos, endPos, abs(width));
+					float t = 0;
+					float mask = DrawLine(pos, startPos, endPos, abs(width), t);
+					float3 world = lerp(start, end, t);
+					float4 object = mul(unity_WorldToObject, float4(world, 1));
+					float4 clip = TransformObjectToHClip(object.xyz);
+					float d = clip.z / clip.w;
+					float dmask = step(0, depth - d);
+					
+					color *= dmask;
 					color *= 1 - mask;
 					color += mask * _LineColor[l];
 				}

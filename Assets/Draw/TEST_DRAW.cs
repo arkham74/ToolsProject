@@ -29,7 +29,7 @@ namespace Village
 	{
 		[SerializeField] private Color color1 = Color.white;
 		[SerializeField] private Color color2 = Color.white;
-		[SerializeField] private float width = 2f;
+		[SerializeField] private float width = 1f;
 		[SerializeField] private float radius = 1f;
 		[SerializeField] private int segments = 64;
 
