@@ -60,11 +60,16 @@ Shader "Hidden/DrawShader"
 			float4 _LineEnd[MAX_LEN];
 			float4 _LineColor[MAX_LEN];
 
-			int2 WorldToPixel(float3 world)
+			float4 WorldToScreen(float3 world)
 			{
 				float4 camera = mul(unity_WorldToCamera, float4(world,1));
 				float4 clip = mul(unity_CameraProjection, camera);
-				float4 screen = ComputeScreenPos(clip);
+				return ComputeScreenPos(clip);
+			}
+
+			int2 WorldToPixel(float3 world)
+			{
+				float4 screen = WorldToScreen(world);
 				screen.w = -abs(screen.w);
 				int2 pixel = (screen.xyz / screen.w).xy * _ScreenParams.xy;
 				pixel.x = _ScreenParams.x - pixel.x;
@@ -103,13 +108,12 @@ Shader "Hidden/DrawShader"
 					int2 endPos = WorldToPixel(end);
 					float t = 0;
 					float mask = DrawLine(pos, startPos, endPos, abs(width), t);
+
 					float3 world = lerp(start, end, t);
-					float4 object = mul(unity_WorldToObject, float4(world, 1));
-					float4 clip = TransformObjectToHClip(object.xyz);
-					float d = clip.z / clip.w;
-					float dmask = step(0, depth - d);
-					
-					color *= dmask;
+					float worldDepth = distance(world, _WorldSpaceCameraPos);
+					float depthMask = step(0, depth - worldDepth);
+
+					mask *= depthMask;
 					color *= 1 - mask;
 					color += mask * _LineColor[l];
 				}
