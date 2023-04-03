@@ -49,16 +49,17 @@ Shader "Hidden/PathTrace"
 
 // float4 unity_CameraWorldClipPlanes[6];
 
-			// sphere of size ra centered at point ce
-			float TraceSphere( float3 origin, float3 direction, float3 center, float radius )
+			struct Ray
 			{
-				float3 oc = origin - center;
-				float b = dot( oc, direction );
-				float c = dot( oc, oc ) - radius*radius;
-				float h = b*b - c;
-				if( h<0.0 ) return -1.0; // no intersection
-				return 1;
-			}
+				float3 origin;
+				float3 direction;
+			};
+
+			struct Sphere
+			{
+				float3 center;
+				float radius;
+			};
 
 			v2f vert(appdata v)
 			{
@@ -68,12 +69,40 @@ Shader "Hidden/PathTrace"
 				return o;
 			}
 
+			float TraceSphere( Ray ray, Sphere sphere )
+			{
+				float3 oc = ray.origin - sphere.center;
+				float b = dot( oc, ray.direction );
+				float c = dot( oc, oc ) - sphere.radius * sphere.radius;
+				float h = b*b - c;
+				if( h < 0.0 ) return -1.0; // no intersection
+				return 1;
+			}
+
 			float4 frag (v2f i) : SV_Target
 			{
-				float4 cameraSpace = mul(unity_CameraInvProjection, float4(i.uv - 0.5, 1, 1));
+				float nearPlane = _ProjectionParams.y;
+				float aspect = _ScreenParams.x / _ScreenParams.y;
+				
+				float fov = 2.0 * atan(1.0 / unity_CameraProjection[1][1]);
+				float height = nearPlane * tan(fov * 0.5f) * 2;
+				float width = aspect * height;
+
+				float4 viewParams = float4(width, height, nearPlane, 1);
+				float4 cameraSpace = viewParams * float4(i.uv - 0.5, 1, 1);
 				float4 worldSpace = mul(unity_CameraToWorld, cameraSpace);
+
 				float3 direction = normalize(worldSpace.xyz - _WorldSpaceCameraPos);
-				return TraceSphere(_WorldSpaceCameraPos, direction, float3(0,0,0), 1);
+
+				Ray ray = (Ray)0;
+				ray.origin = _WorldSpaceCameraPos;
+				ray.direction = direction;
+
+				Sphere sphere = (Sphere)0;
+				sphere.center = 0;
+				sphere.radius = 1;
+
+				return TraceSphere(ray, sphere);
 			}
 			ENDHLSL
 		}

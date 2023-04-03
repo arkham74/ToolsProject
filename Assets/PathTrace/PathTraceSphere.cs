@@ -8,6 +8,7 @@ namespace JD.PathTrace
 	{
 		private void OnDrawGizmos()
 		{
+			Gizmos.color = Color.red;
 			Gizmos.matrix = transform.localToWorldMatrix;
 			Gizmos.DrawWireSphere(Vector3.zero, 1);
 		}
