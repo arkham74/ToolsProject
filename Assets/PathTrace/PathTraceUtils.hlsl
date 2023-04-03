@@ -37,6 +37,7 @@ HitInfo TraceSphere( Ray ray, Sphere sphere )
 	hitInfo.distance = -b-sqrt(h);
 	hitInfo.position = ray.origin + ray.direction * hitInfo.distance;
 	hitInfo.normal = normalize(hitInfo.position - sphere.center);
+	hitInfo.material = sphere.material;
 
 	return hitInfo;
 }
@@ -57,7 +58,6 @@ HitInfo TraceAllSpheres(Ray ray)
 		if(hit.hit && hit.distance < hitInfo.distance)
 		{
 			hitInfo = hit;
-			hitInfo.material = sphere.material;
 		}
 	}
 	return hitInfo;
