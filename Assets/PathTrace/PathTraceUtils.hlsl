@@ -22,6 +22,7 @@ struct HitInfo
 	float distance;
 	float3 position;
 	float3 normal;
+	Material material;
 };
 
 HitInfo TraceSphere( Ray ray, Sphere sphere )
@@ -37,5 +38,27 @@ HitInfo TraceSphere( Ray ray, Sphere sphere )
 	hitInfo.position = ray.origin + ray.direction * hitInfo.distance;
 	hitInfo.normal = normalize(hitInfo.position - sphere.center);
 
+	return hitInfo;
+}
+
+StructuredBuffer<Sphere> _Spheres;
+int _SphereCount;
+
+HitInfo TraceAllSpheres(Ray ray)
+{
+	HitInfo hitInfo = (HitInfo)0;
+	hitInfo.distance = 1.#INF;
+
+	for(int i = 0; i < _SphereCount; i++)
+	{
+		Sphere sphere = _Spheres[i];
+		HitInfo hit = TraceSphere(ray, sphere);
+
+		if(hit.hit && hit.distance < hitInfo.distance)
+		{
+			hitInfo = hit;
+			hitInfo.material = sphere.material;
+		}
+	}
 	return hitInfo;
 }

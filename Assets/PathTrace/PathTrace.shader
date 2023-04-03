@@ -50,29 +50,12 @@ Shader "Hidden/PathTrace"
 
 			// float4 unity_CameraWorldClipPlanes[6];
 
-			StructuredBuffer<Sphere> _Spheres;
-			int _SphereCount;
-
 			v2f vert(appdata v)
 			{
 				v2f o;
 				o.vertex = GetFullScreenTriangleVertexPosition(v.vertexID, _ProjectionParams.y);
 				o.uv = GetFullScreenTriangleTexCoord(v.vertexID);
 				return o;
-			}
-
-			float4 TraceSpheres(Ray ray)
-			{
-				float4 color = 0;
-				for(int i = 0; i < _SphereCount; i++)
-				{
-					Sphere sphere = _Spheres[i];
-					if(TraceSphere(ray, sphere).hit)
-					{
-						color += sphere.material.color;
-					}
-				}
-				return color;
 			}
 
 			float4 frag (v2f i) : SV_Target
@@ -92,7 +75,7 @@ Shader "Hidden/PathTrace"
 				ray.origin = _WorldSpaceCameraPos;
 				ray.direction = normalize(worldSpace.xyz - _WorldSpaceCameraPos);
 
-				return TraceSpheres(ray);
+				return TraceAllSpheres(ray).material.color;
 			}
 			ENDHLSL
 		}
