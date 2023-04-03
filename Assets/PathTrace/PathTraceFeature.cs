@@ -11,7 +11,7 @@ namespace JD.PathTrace
 		public override void Create()
 		{
 			pass = new PathTracePass();
-			pass.renderPassEvent = RenderPassEvent.AfterRendering;
+			pass.renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
 		}
 
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)

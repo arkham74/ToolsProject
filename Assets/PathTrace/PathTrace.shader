@@ -63,11 +63,14 @@ Shader "Hidden/PathTrace"
 
 			float4 TraceSpheres(Ray ray)
 			{
-				float color = 0;
+				float4 color = 0;
 				for(int i = 0; i < _SphereCount; i++)
 				{
 					Sphere sphere = _Spheres[i];
-					color += TraceSphere(ray, sphere).hit;
+					if(TraceSphere(ray, sphere).hit)
+					{
+						color += sphere.material.color;
+					}
 				}
 				return color;
 			}
