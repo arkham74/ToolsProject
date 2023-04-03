@@ -85,11 +85,9 @@ Shader "Hidden/PathTrace"
 				float4 cameraSpace = viewParams * float4(i.uv - 0.5, 1, 1);
 				float4 worldSpace = mul(unity_CameraToWorld, cameraSpace);
 
-				float3 direction = normalize(worldSpace.xyz - _WorldSpaceCameraPos);
-
 				Ray ray = (Ray)0;
 				ray.origin = _WorldSpaceCameraPos;
-				ray.direction = direction;
+				ray.direction = normalize(worldSpace.xyz - _WorldSpaceCameraPos);
 
 				return TraceSpheres(ray);
 			}

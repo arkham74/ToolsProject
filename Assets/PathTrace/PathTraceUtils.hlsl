@@ -33,6 +33,9 @@ HitInfo TraceSphere( Ray ray, Sphere sphere )
 
 	HitInfo hitInfo = (HitInfo)0;
 	hitInfo.hit = step(0, h);
+	hitInfo.distance = -b-sqrt(h);
+	hitInfo.position = ray.origin + ray.direction * hitInfo.distance;
+	hitInfo.normal = normalize(hitInfo.position - sphere.center);
 
 	return hitInfo;
 }
