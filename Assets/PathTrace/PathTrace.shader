@@ -61,14 +61,15 @@ Shader "Hidden/PathTrace"
 				return o;
 			}
 
-			float TraceSphere( Ray ray, Sphere sphere )
+			float4 TraceSpheres(Ray ray)
 			{
-				float3 oc = ray.origin - sphere.center;
-				float b = dot( oc, ray.direction );
-				float c = dot( oc, oc ) - sphere.radius * sphere.radius;
-				float h = b*b - c;
-				if( h < 0.0 ) return 0.0;
-				return 1;
+				float color = 0;
+				for(int i = 0; i < _SphereCount; i++)
+				{
+					Sphere sphere = _Spheres[i];
+					color += TraceSphere(ray, sphere).hit;
+				}
+				return color;
 			}
 
 			float4 frag (v2f i) : SV_Target
@@ -90,15 +91,7 @@ Shader "Hidden/PathTrace"
 				ray.origin = _WorldSpaceCameraPos;
 				ray.direction = direction;
 
-				float color = 0;
-
-				for(int i = 0; i < _SphereCount; i++)
-				{
-					Sphere sphere = _Spheres[i];
-					color += TraceSphere(ray, sphere);
-				}
-
-				return color;
+				return TraceSpheres(ray);
 			}
 			ENDHLSL
 		}

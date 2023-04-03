@@ -23,3 +23,16 @@ struct HitInfo
 	float3 position;
 	float3 normal;
 };
+
+HitInfo TraceSphere( Ray ray, Sphere sphere )
+{
+	float3 oc = ray.origin - sphere.center;
+	float b = dot( oc, ray.direction );
+	float c = dot( oc, oc ) - sphere.radius * sphere.radius;
+	float h = b * b - c;
+
+	HitInfo hitInfo = (HitInfo)0;
+	hitInfo.hit = step(0, h);
+
+	return hitInfo;
+}
