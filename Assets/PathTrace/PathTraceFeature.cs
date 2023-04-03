@@ -3,7 +3,6 @@ using UnityEngine.Rendering.Universal;
 
 namespace JD.PathTrace
 {
-
 	public class PathTraceFeature : ScriptableRendererFeature
 	{
 		[SerializeField] private PathTraceSettings settings;

@@ -8,4 +8,17 @@ namespace JD.PathTrace
 	{
 		public Material material;
 	}
+
+	[Serializable]
+	public struct PathTraceMaterial
+	{
+		public Color color;
+	};
+
+	public struct Sphere
+	{
+		public Vector3 center;
+		public float radius;
+		public PathTraceMaterial material;
+	};
 }

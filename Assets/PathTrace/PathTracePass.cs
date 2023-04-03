@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -21,7 +22,7 @@ namespace JD.PathTrace
 
 			var spheres = PathTrace.Spheres.Select(e => e.ToSphere()).ToList();
 			int count = spheres.Count;
-			int stride = sizeof(float) * 4;
+			int stride = Marshal.SizeOf<Sphere>();
 
 			buffer?.Release();
 			buffer = new ComputeBuffer(count, stride, ComputeBufferType.Default);

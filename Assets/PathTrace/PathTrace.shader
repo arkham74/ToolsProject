@@ -23,6 +23,7 @@ Shader "Hidden/PathTrace"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "PathTraceUtils.hlsl"
 
 			struct appdata
 			{
@@ -35,31 +36,19 @@ Shader "Hidden/PathTrace"
 				float2 uv : TEXCOORD0;
 			};
 
-// float4x4 unity_CameraProjection;
-// float4x4 unity_CameraInvProjection;
-// float4x4 unity_WorldToCamera;
-// float4x4 unity_CameraToWorld;
+			// float4x4 unity_CameraProjection;
+			// float4x4 unity_CameraInvProjection;
+			// float4x4 unity_WorldToCamera;
+			// float4x4 unity_CameraToWorld;
 
-// float3 _WorldSpaceCameraPos;
+			// float3 _WorldSpaceCameraPos;
 
-// float4 _ProjectionParams;
-// float4 _ScreenParams;
-// float4 _ZBufferParams;
-// float4 unity_OrthoParams;
+			// float4 _ProjectionParams;
+			// float4 _ScreenParams;
+			// float4 _ZBufferParams;
+			// float4 unity_OrthoParams;
 
-// float4 unity_CameraWorldClipPlanes[6];
-
-			struct Ray
-			{
-				float3 origin;
-				float3 direction;
-			};
-
-			struct Sphere
-			{
-				float3 center;
-				float radius;
-			};
+			// float4 unity_CameraWorldClipPlanes[6];
 
 			StructuredBuffer<Sphere> _Spheres;
 			int _SphereCount;
@@ -106,8 +95,6 @@ Shader "Hidden/PathTrace"
 				for(int i = 0; i < _SphereCount; i++)
 				{
 					Sphere sphere = _Spheres[i];
-					// Sphere sphere = (Sphere)0;
-					// sphere.radius = 1;
 					color += TraceSphere(ray, sphere);
 				}
 

@@ -10,11 +10,7 @@ namespace JD.PathTrace
 	[ExecuteAlways]
 	public class PathTraceSphere : MonoBehaviour
 	{
-		public struct Sphere
-		{
-			public Vector3 center;
-			public float radius;
-		};
+		[SerializeField] private PathTraceMaterial material;
 
 		private void OnDrawGizmos()
 		{
@@ -39,6 +35,7 @@ namespace JD.PathTrace
 			{
 				center = transform.position,
 				radius = transform.lossyScale.Max(),
+				material = material,
 			};
 
 			return sphere;
