@@ -12,7 +12,8 @@ namespace JD.PathTrace
 	[Serializable]
 	public struct PathTraceMaterial
 	{
-		public Color color;
+		[ColorUsage(false, true)] public Color color;
+		[ColorUsage(false, true)] public Color emission;
 	};
 
 	public struct Sphere
