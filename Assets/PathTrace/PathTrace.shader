@@ -61,6 +61,9 @@ Shader "Hidden/PathTrace"
 				float radius;
 			};
 
+			StructuredBuffer<Sphere> _Spheres;
+			int _SphereCount;
+
 			v2f vert(appdata v)
 			{
 				v2f o;
@@ -75,7 +78,7 @@ Shader "Hidden/PathTrace"
 				float b = dot( oc, ray.direction );
 				float c = dot( oc, oc ) - sphere.radius * sphere.radius;
 				float h = b*b - c;
-				if( h < 0.0 ) return -1.0; // no intersection
+				if( h < 0.0 ) return 0.0;
 				return 1;
 			}
 
@@ -98,11 +101,17 @@ Shader "Hidden/PathTrace"
 				ray.origin = _WorldSpaceCameraPos;
 				ray.direction = direction;
 
-				Sphere sphere = (Sphere)0;
-				sphere.center = 0;
-				sphere.radius = 1;
+				float color = 0;
 
-				return TraceSphere(ray, sphere);
+				for(int i = 0; i < _SphereCount; i++)
+				{
+					Sphere sphere = _Spheres[i];
+					// Sphere sphere = (Sphere)0;
+					// sphere.radius = 1;
+					color += TraceSphere(ray, sphere);
+				}
+
+				return color;
 			}
 			ENDHLSL
 		}
