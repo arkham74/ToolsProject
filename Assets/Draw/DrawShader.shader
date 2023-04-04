@@ -35,6 +35,14 @@ Shader "Hidden/DrawShader"
 				float2 uv : TEXCOORD0;
 			};
 
+			struct Line
+			{
+				float3 start;
+				float3 end;
+				float4 color;
+				float width;
+			};
+
 			v2f vert(appdata v)
 			{
 				v2f o;
@@ -51,12 +59,8 @@ Shader "Hidden/DrawShader"
 			TEXTURE2D_X(_CameraDepthTexture);
 			SAMPLER(sampler_CameraDepthTexture);
 
-			static const int MAX_LEN = 1023;
-
+			StructuredBuffer<Line> _Lines;
 			int _LineCount;
-			float4 _LineStart[MAX_LEN];
-			float4 _LineEnd[MAX_LEN];
-			float4 _LineColor[MAX_LEN];
 
 			float4 WorldToScreen(float3 world)
 			{
@@ -98,9 +102,9 @@ Shader "Hidden/DrawShader"
 
 				for(int l = 0; l < _LineCount; l++)
 				{
-					float width = _LineStart[l].w;
-					float3 start = _LineStart[l].xyz;
-					float3 end = _LineEnd[l].xyz;
+					float3 start = _Lines[l].start;
+					float3 end = _Lines[l].end;
+					float width = _Lines[l].width;
 
 					int2 startPos = WorldToPixel(start);
 					int2 endPos = WorldToPixel(end);
@@ -115,7 +119,7 @@ Shader "Hidden/DrawShader"
 
 					mask *= depthMask;
 					color *= 1 - mask;
-					color += mask * _LineColor[l];
+					color += mask * _Lines[l].color;
 				}
 
 				return color;
