@@ -34,28 +34,29 @@ namespace JD.Draw
 		{
 			if (!renderingData.cameraData.isPreviewCamera && material)
 			{
-				CommandBuffer cmd = CommandBufferPool.Get("Draw Pass");
-
-				ScriptableRenderer renderer = renderingData.cameraData.renderer;
-				RenderTargetIdentifier cameraColorTarget = renderer.cameraColorTarget;
-				RenderTargetIdentifier cameraDepthTarget = renderer.cameraDepthTarget;
-
 				Draw.OnUpdate.Invoke();
 				int count = lines.Count;
-				int stride = Marshal.SizeOf<Line>();
-				buffer?.Release();
-				buffer = new ComputeBuffer(count, stride, ComputeBufferType.Default);
-				buffer.SetData(lines);
+				if (count > 0)
+				{
+					CommandBuffer cmd = CommandBufferPool.Get("Draw Pass");
+					ScriptableRenderer renderer = renderingData.cameraData.renderer;
+					RenderTargetIdentifier cameraColorTarget = renderer.cameraColorTarget;
+					RenderTargetIdentifier cameraDepthTarget = renderer.cameraDepthTarget;
+					int stride = Marshal.SizeOf<Line>();
+					buffer?.Release();
+					buffer = new ComputeBuffer(count, stride, ComputeBufferType.Default);
+					buffer.SetData(lines);
 
-				cmd.SetGlobalBuffer(linesId, buffer);
-				cmd.SetGlobalInteger(lineCountId, count);
+					cmd.SetGlobalBuffer(linesId, buffer);
+					cmd.SetGlobalInteger(lineCountId, count);
 
-				Blit(cmd, cameraColorTarget, targetID, material);
-				Blit(cmd, targetID, cameraColorTarget);
+					Blit(cmd, cameraColorTarget, targetID, material);
+					Blit(cmd, targetID, cameraColorTarget);
 
-				context.ExecuteCommandBuffer(cmd);
-				CommandBufferPool.Release(cmd);
-				lines.Clear();
+					context.ExecuteCommandBuffer(cmd);
+					CommandBufferPool.Release(cmd);
+					lines.Clear();
+				}
 			}
 		}
 
