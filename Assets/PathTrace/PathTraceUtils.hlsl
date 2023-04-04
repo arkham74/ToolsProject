@@ -29,7 +29,6 @@ struct HitInfo
 HitInfo TraceSphere( Ray ray, Sphere sphere )
 {
 	HitInfo hitInfo = (HitInfo)0;
-	hitInfo.distance = 1.#INF;
 
 	float3 oc = ray.origin - sphere.center;
 	float b = dot( oc, ray.direction );
@@ -38,7 +37,7 @@ HitInfo TraceSphere( Ray ray, Sphere sphere )
 
 	if(h >= 0)
 	{
-		hitInfo.distance = -b -sign(c) * sqrt(h);
+		hitInfo.distance = -b - sqrt(h);
 		if(hitInfo.distance >= 0)
 		{
 			hitInfo.hit = true;
@@ -77,19 +76,22 @@ uint _Bounces;
 
 float random(inout uint seed)
 {
-	float s = seed * 12.9898;
-	seed = s;
-	return frac(sin(s) * 43758.5453123);
+	seed = seed * 747796405 + 2891336453;
+	uint result = ((seed >> ((seed >> 28) + 4)) ^ seed) * 277803737;
+	result = (result >> 22) ^ result;
+	return float(result) / 4294967295.0;
 }
 
 float3 randomDirection(float3 normal, inout uint seed)
 {
-		float theta = random(seed) * 2.0 * 3.14159265358979323846;
-		float phi = random(seed) * 2.0 * 3.14159265358979323846;
-		float x = sin(theta) * cos(phi);
-		float y = sin(theta) * sin(phi);
-		float z = cos(theta);
-		return float3(x, y, z);
+	float theta = random(seed) * 2.0 * 3.14159265358979323846;
+	float phi = random(seed) * 2.0 * 3.14159265358979323846;
+	float x = sin(theta) * cos(phi);
+	float y = sin(theta) * sin(phi);
+	float z = cos(theta);
+	float3 dir = float3(x, y, z);
+	float NdotD = dot(normal, dir);
+	return dir * sign(NdotD);
 }
 
 float3 Trace(Ray ray, inout uint seed)
@@ -106,9 +108,9 @@ float3 Trace(Ray ray, inout uint seed)
 			light += mat.emission.rgb * color;
 			color *= mat.color.rgb;
 
-			ray.origin = hit.position;
 			ray.direction = randomDirection(hit.normal, seed);
 			// ray.direction = reflect(ray.direction, hit.normal);
+			ray.origin = hit.position + ray.direction * 0.1;
 		}
 		else
 		{

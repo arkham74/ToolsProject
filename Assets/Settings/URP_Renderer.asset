@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a51d9730647354c9e6ac8fa71ceff0, type: 3}
   m_Name: DrawFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   passEvent: 550
   material: {fileID: 2100000, guid: 815532018e9747d4e900c1c404a9d799, type: 2}
 --- !u!114 &7722967025492026938
@@ -81,6 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7830abe685772340b2ba58a9f386f92, type: 3}
   m_Name: PathTraceFeature
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     material: {fileID: 2100000, guid: a5d1ef3ff3f779844a788793de74c181, type: 2}
