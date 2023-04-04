@@ -108,8 +108,10 @@ Shader "Hidden/DrawShader"
 					float mask = DrawLine(pos, startPos, endPos, abs(width), t);
 
 					float3 world = lerp(start, end, t);
-					float worldDepth = distance(world, _WorldSpaceCameraPos);
-					float depthMask = step(0, depth - worldDepth);
+					float4 camera = mul(unity_WorldToCamera, float4(world,1));
+					VertexPositionInputs positionInputs = GetVertexPositionInputs(camera.xyz);
+					float d = positionInputs.positionVS.z;
+					float depthMask = step(0, depth - d);
 
 					mask *= depthMask;
 					color *= 1 - mask;
