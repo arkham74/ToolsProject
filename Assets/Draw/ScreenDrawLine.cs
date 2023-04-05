@@ -1,15 +1,15 @@
 using UnityEngine;
 
-namespace JD.Draw
+namespace JD.ScreenDraw
 {
-	public struct Line
+	public struct ScreenDrawLine
 	{
 		public Vector3 start;
 		public Vector3 end;
 		public Color color;
 		public float width;
 
-		public Line(Vector3 start, Vector3 end, Color color, float width = 0.1f)
+		public ScreenDrawLine(Vector3 start, Vector3 end, Color color, float width)
 		{
 			this.start = start;
 			this.end = end;

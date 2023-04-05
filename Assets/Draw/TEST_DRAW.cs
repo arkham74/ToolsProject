@@ -15,7 +15,7 @@ using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 using Tools = JD.Tools;
 using UnityEditor;
-using JD.Draw;
+using JD.ScreenDraw;
 using UnityEngine.Tilemaps;
 
 #if ENABLE_INPUT_SYSTEM
@@ -35,18 +35,18 @@ namespace Village
 
 		private void OnEnable()
 		{
-			Draw.OnUpdate.AddListener(DrawUpdate);
+			ScreenDraw.OnUpdate.AddListener(DrawUpdate);
 		}
 
 		private void OnDisable()
 		{
-			Draw.OnUpdate.RemoveListener(DrawUpdate);
+			ScreenDraw.OnUpdate.RemoveListener(DrawUpdate);
 		}
 
 		private void DrawUpdate()
 		{
-			Draw.Box(transform.position, transform.lossyScale, transform.rotation, color1, width);
-			Draw.Circle(transform.position, transform.rotation, color2, radius, width, segments);
+			ScreenDraw.Box(transform.position, transform.lossyScale, transform.rotation, color1, width);
+			ScreenDraw.Circle(transform.position, transform.rotation, color2, radius, width, segments);
 		}
 	}
 }

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DrawShader
+  m_Name: ScreenDrawShader
   m_Shader: {fileID: 4800000, guid: 47232ae6da2f7054ea6f334e216355d4, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []

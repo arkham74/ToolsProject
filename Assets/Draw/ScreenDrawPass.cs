@@ -7,18 +7,18 @@ using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace JD.Draw
+namespace JD.ScreenDraw
 {
-	internal class DrawPass : ScriptableRenderPass
+	public class ScreenDrawPass : ScriptableRenderPass
 	{
-		private static readonly int targetID = Shader.PropertyToID("_DrawTarget");
-		private static readonly int lineCountId = Shader.PropertyToID("_LineCount");
-		private static readonly int linesId = Shader.PropertyToID("_Lines");
+		public static readonly int targetID = Shader.PropertyToID("_DrawTarget");
+		public static readonly int lineCountId = Shader.PropertyToID("_LineCount");
+		public static readonly int linesId = Shader.PropertyToID("_Lines");
 
-		internal Material material;
+		public Material material;
 
-		private static readonly List<Line> lines = new List<Line>();
-		private ComputeBuffer buffer;
+		public static readonly List<ScreenDrawLine> lines = new List<ScreenDrawLine>();
+		public ComputeBuffer buffer;
 
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 		{
@@ -34,7 +34,7 @@ namespace JD.Draw
 		{
 			if (!renderingData.cameraData.isPreviewCamera && material)
 			{
-				Draw.OnUpdate.Invoke();
+				ScreenDraw.OnUpdate.Invoke();
 				int count = lines.Count;
 				if (count > 0)
 				{
@@ -42,7 +42,7 @@ namespace JD.Draw
 					ScriptableRenderer renderer = renderingData.cameraData.renderer;
 					RenderTargetIdentifier cameraColorTarget = renderer.cameraColorTarget;
 					RenderTargetIdentifier cameraDepthTarget = renderer.cameraDepthTarget;
-					int stride = Marshal.SizeOf<Line>();
+					int stride = Marshal.SizeOf<ScreenDrawLine>();
 					buffer?.Release();
 					buffer = new ComputeBuffer(count, stride, ComputeBufferType.Default);
 					buffer.SetData(lines);
@@ -65,9 +65,9 @@ namespace JD.Draw
 			cmd.ReleaseTemporaryRT(targetID);
 		}
 
-		internal static void AddLine(Line line)
+		public static void AddLine(Vector3 start, Vector3 end, Color color, float width)
 		{
-			lines.Add(line);
+			lines.Add(new ScreenDrawLine(start, end, color, width));
 		}
 	}
 }

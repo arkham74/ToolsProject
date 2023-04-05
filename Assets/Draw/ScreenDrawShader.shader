@@ -1,4 +1,4 @@
-Shader "Hidden/DrawShader"
+Shader "Hidden/ScreenDrawShader"
 {
 	Properties
 	{
@@ -14,7 +14,7 @@ Shader "Hidden/DrawShader"
 
 		Pass
 		{
-			Name "DrawShader"
+			Name "ScreenDrawShader"
 
 			HLSLPROGRAM
 			#pragma vertex vert

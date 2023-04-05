@@ -1,18 +1,18 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-namespace JD.Draw
+namespace JD.ScreenDraw
 {
-	internal class DrawFeature : ScriptableRendererFeature
+	public class ScreenDrawFeature : ScriptableRendererFeature
 	{
 		[SerializeField] private RenderPassEvent passEvent = RenderPassEvent.BeforeRenderingPostProcessing;
 		[SerializeField] private Material material;
 
-		private DrawPass pass;
+		public ScreenDrawPass pass;
 
 		public override void Create()
 		{
-			pass = new DrawPass();
+			pass = new ScreenDrawPass();
 			pass.renderPassEvent = passEvent;
 			pass.material = material;
 		}
