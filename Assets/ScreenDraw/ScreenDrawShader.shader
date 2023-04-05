@@ -2,7 +2,6 @@ Shader "Hidden/ScreenDrawShader"
 {
 	Properties
 	{
-		[MainTexture][HideInInspector] _MainTex ("Texture", 2D) = "white" {}
 	}
 	
 	SubShader
@@ -10,7 +9,7 @@ Shader "Hidden/ScreenDrawShader"
 		Cull Off
 		ZWrite Off
 		ZTest Off
-		Blend Off
+		Blend SrcAlpha OneMinusSrcAlpha
 
 		Pass
 		{
@@ -46,15 +45,10 @@ Shader "Hidden/ScreenDrawShader"
 			v2f vert(appdata v)
 			{
 				v2f o;
-				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 				o.vertex = GetFullScreenTriangleVertexPosition(v.vertexID);
 				o.uv = GetFullScreenTriangleTexCoord(v.vertexID);
 				return o;
 			}
-
-			TEXTURE2D_X(_MainTex);
-			SAMPLER(sampler_MainTex);
 
 			TEXTURE2D_X(_CameraDepthTexture);
 			SAMPLER(sampler_CameraDepthTexture);
@@ -92,12 +86,10 @@ Shader "Hidden/ScreenDrawShader"
 
 			float4 frag(v2f i) : SV_Target
 			{
-				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
-
 				float depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_CameraDepthTexture, i.uv).r;
 				depth = LinearEyeDepth(depth, _ZBufferParams);
 
-				float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
+				float4 color = 0;
 				int2 pos = i.uv * _ScreenParams.xy;
 
 				for(int l = 0; l < _LineCount; l++)
