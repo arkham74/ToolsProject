@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 namespace JD.ScreenDraw
@@ -6,7 +7,7 @@ namespace JD.ScreenDraw
 	public class ScreenDrawFeature : ScriptableRendererFeature
 	{
 		[SerializeField] private RenderPassEvent passEvent = RenderPassEvent.BeforeRenderingPostProcessing;
-		[SerializeField] private Material material;
+		[HideInInspector][SerializeField] private Shader shader;
 
 		public ScreenDrawPass pass;
 
@@ -14,7 +15,7 @@ namespace JD.ScreenDraw
 		{
 			pass = new ScreenDrawPass();
 			pass.renderPassEvent = passEvent;
-			pass.material = material;
+			pass.material = CoreUtils.CreateEngineMaterial(shader);
 		}
 
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
