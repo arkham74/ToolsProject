@@ -18,5 +18,11 @@ namespace JD.PathTrace
 		{
 			renderer.EnqueuePass(pass);
 		}
+
+		protected override void Dispose(bool disposing)
+		{
+			pass.Dispose(disposing);
+			base.Dispose(disposing);
+		}
 	}
 }

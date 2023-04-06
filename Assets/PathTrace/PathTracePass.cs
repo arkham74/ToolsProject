@@ -23,6 +23,10 @@ namespace JD.PathTrace
 
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 		{
+			if (buffer == null)
+			{
+				buffer = new ComputeBuffer(1000, stride, ComputeBufferType.Default);
+			}
 		}
 
 		public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
@@ -52,8 +56,6 @@ namespace JD.PathTrace
 			}
 
 			int count = spheres.Count;
-			buffer?.Release();
-			buffer = new ComputeBuffer(count, stride, ComputeBufferType.Default);
 			buffer.SetData(spheres);
 
 			cmd.SetGlobalInteger("_Samples", samples);
@@ -69,6 +71,11 @@ namespace JD.PathTrace
 
 		public override void OnCameraCleanup(CommandBuffer cmd)
 		{
+		}
+
+		internal void Dispose(bool disposing)
+		{
+			buffer?.Release();
 		}
 	}
 }

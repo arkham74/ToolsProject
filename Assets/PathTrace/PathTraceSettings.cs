@@ -15,5 +15,6 @@ namespace JD.PathTrace
 	{
 		[ColorUsage(false, true)] public Color color;
 		[ColorUsage(false, true)] public Color emission;
+		[Range(0, 1)] public float smoothness;
 	};
 }

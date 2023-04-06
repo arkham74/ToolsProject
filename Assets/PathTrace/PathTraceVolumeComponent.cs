@@ -9,7 +9,7 @@ namespace JD.PathTrace
 	public class PathTraceVolumeComponent : VolumeComponent
 	{
 		public BoolParameter scene = new BoolParameter(true);
-		public MinIntParameter samples = new MinIntParameter(1, 0);
-		public MinIntParameter bounces = new MinIntParameter(2, 0);
+		public MinIntParameter samples = new MinIntParameter(6, 0);
+		public MinIntParameter bounces = new MinIntParameter(3, 0);
 	}
 }

@@ -8,6 +8,7 @@ struct Material
 {
 	float4 color;
 	float4 emission;
+	float smoothness;
 };
 
 struct Sphere
@@ -105,25 +106,23 @@ float3 TracePath(Ray ray, inout uint seed)
 		HitInfo hit = TraceAllSpheres(ray);
 		if(hit.hit)
 		{
-			ray.direction = randomDirection(hit.normal, seed);
-			// return float3(seed & 0xFF, (seed >> 8) & 0xFF, (seed >> 16) & 0xFF) / 255.0; // Return seed value as color
-			// return float3(random(seed), random(seed), random(seed)); // Return random values as color
-			// return hit.normal;
-			// return ray.direction;
-			// ray.direction = reflect(ray.direction, hit.normal);
-			ray.origin = hit.position + ray.direction * 0.1;
-
 			Material mat = hit.material;
 			light += mat.emission.rgb * color;
 			color *= mat.color.rgb;
+
+			float3 diffuse = randomDirection(hit.normal, seed);
+			float3 specular = reflect(ray.direction, hit.normal);
+			ray.direction = lerp(diffuse, specular, mat.smoothness);
+			ray.origin = hit.position;
 		}
 		else
 		{
+			color *= unity_AmbientSky;
 			break;
 		}
 	}
 
-	return light;
+	return light + color;
 }
 
 int _Samples;
