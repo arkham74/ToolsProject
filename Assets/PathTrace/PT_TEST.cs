@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -6,41 +7,30 @@ using Random = UnityEngine.Random;
 
 public class PT_TEST : MonoBehaviour
 {
+	[SerializeField][Range(0, 1)] private float angle = 0f;
 	[SerializeField] private int count = 100;
-	[SerializeField] private uint seed = 2137;
+	[SerializeField] private int seed = 2137;
 	[SerializeField] private Quaternion normal;
 
 	private void OnDrawGizmos()
 	{
 		Gizmos.matrix = transform.localToWorldMatrix;
-		uint state = seed;
+		int state = seed;
 		for (int i = 0; i < count; i++)
 		{
-			Gizmos.DrawWireSphere(randomDirection(normal * Vector3.up, ref state), 0.01f);
+			Vector3 direction = RandomDirectionInCone(normal * Vector3.up, angle, ref state);
+			Gizmos.DrawLine(Vector3.zero, direction);
 		}
 	}
 
-	float random(ref uint state)
+	public static Vector3 RandomDirectionInCone(Vector3 coneDirection, float coneAngle, ref int seed)
 	{
-		state = state * 747796405 + 2891336453;
-		uint v = ((state >> 28) + 4);
-		uint word = ((state >> (int)v) ^ state) * 277803737u;
-		return (word >> 22) ^ word;
-	}
-
-	float3 randomDirection(float3 normal, ref uint state)
-	{
-		float theta = random(ref state) * 2.0f * 3.14159265358979323846f;
-		float phi = random(ref state) * 2.0f * 3.14159265358979323846f;
-		float x = math.sin(theta) * math.cos(phi);
-		float y = math.sin(theta) * math.sin(phi);
-		float z = math.cos(theta);
-		float3 dir = new float3(x, y, z);
-		float NdotD = math.dot(normal, dir);
-		if (NdotD < 0)
-		{
-			dir = -dir;
-		}
-		return dir;
+		// Generate a random vector direction within a unit hemisphere oriented around the z axis
+		Random.InitState(seed);
+		seed = seed * 2137 + 420;
+		float angle = Random.Range(0f, coneAngle * Mathf.PI * 0.5f);
+		float theta = Random.Range(0f, 2f * Mathf.PI);
+		Vector3 direction = Quaternion.AngleAxis(Mathf.Rad2Deg * angle, new Vector3(Mathf.Sin(theta), 0f, Mathf.Cos(theta))) * coneDirection;
+		return direction;
 	}
 }

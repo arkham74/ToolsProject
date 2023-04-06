@@ -9,6 +9,7 @@ using UnityEngine.Rendering;
 namespace JD.PathTrace
 {
 	[ExecuteAlways]
+	[SelectionBase]
 	public class PathTraceSphere : MonoBehaviour
 	{
 		[SerializeField] private PathTraceMaterial material;

@@ -96,6 +96,19 @@ float3 randomDirection(float3 normal, inout uint seed)
 	return dir * sign(NdotD);
 }
 
+float3 randomDirectionInCone(float3 dir, float angle, inout uint seed)
+{
+	float3 u = normalize(cross(dir, float3(0, 1, 0)));
+	float3 v = cross(u, dir);
+	float r = sqrt(random(seed));
+	float theta = random(seed) * 2.0 * 3.14159265358979323846;
+	float x = r * cos(theta);
+	float y = r * sin(theta);
+	float z = sqrt(1.0 - random(seed));
+	z = z * cos(angle);
+	return normalize(dir + x * u + y * v + z * dir);
+}
+
 float3 TracePath(Ray ray, inout uint seed)
 {
 	float3 light = 0;
@@ -113,7 +126,8 @@ float3 TracePath(Ray ray, inout uint seed)
 			float3 diffuse = randomDirection(hit.normal, seed);
 			float3 specular = reflect(ray.direction, hit.normal);
 			ray.direction = lerp(diffuse, specular, mat.smoothness);
-			ray.origin = hit.position;
+			// ray.direction = randomDirectionInCone(hit.normal, mat.smoothness * PI, seed);
+			ray.origin = hit.position + ray.direction * 0.1f;
 		}
 		else
 		{
