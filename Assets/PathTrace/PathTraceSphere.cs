@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Freya;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
+using UnityEngine.Rendering;
 
 namespace JD.PathTrace
 {
@@ -14,6 +15,7 @@ namespace JD.PathTrace
 
 		private void OnDrawGizmos()
 		{
+			if (VolumeManager.instance.stack.GetComponent<PathTraceVolumeComponent>().scene.value) return;
 			Gizmos.color = Color.red;
 			Gizmos.matrix = transform.localToWorldMatrix;
 			Gizmos.DrawWireSphere(Vector3.zero, 1);
@@ -37,7 +39,6 @@ namespace JD.PathTrace
 				radius = transform.lossyScale.Max(),
 				material = material,
 			};
-
 			return sphere;
 		}
 	}

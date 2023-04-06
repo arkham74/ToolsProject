@@ -79,7 +79,8 @@ float random(inout uint seed)
 	seed = seed * 747796405 + 2891336453;
 	uint result = ((seed >> ((seed >> 28) + 4)) ^ seed) * 277803737;
 	result = (result >> 22) ^ result;
-	return float(result) / 4294967295.0;
+	float value = float(result) / 4294967295.0;
+	return value;
 }
 
 float3 randomDirection(float3 normal, inout uint seed)
@@ -94,7 +95,7 @@ float3 randomDirection(float3 normal, inout uint seed)
 	return dir * sign(NdotD);
 }
 
-float3 Trace(Ray ray, inout uint seed)
+float3 TracePath(Ray ray, inout uint seed)
 {
 	float3 light = 0;
 	float3 color = 1;
@@ -104,13 +105,17 @@ float3 Trace(Ray ray, inout uint seed)
 		HitInfo hit = TraceAllSpheres(ray);
 		if(hit.hit)
 		{
+			ray.direction = randomDirection(hit.normal, seed);
+			// return float3(seed & 0xFF, (seed >> 8) & 0xFF, (seed >> 16) & 0xFF) / 255.0; // Return seed value as color
+			// return float3(random(seed), random(seed), random(seed)); // Return random values as color
+			// return hit.normal;
+			// return ray.direction;
+			// ray.direction = reflect(ray.direction, hit.normal);
+			ray.origin = hit.position + ray.direction * 0.1;
+
 			Material mat = hit.material;
 			light += mat.emission.rgb * color;
 			color *= mat.color.rgb;
-
-			ray.direction = randomDirection(hit.normal, seed);
-			// ray.direction = reflect(ray.direction, hit.normal);
-			ray.origin = hit.position + ray.direction * 0.1;
 		}
 		else
 		{
@@ -119,4 +124,18 @@ float3 Trace(Ray ray, inout uint seed)
 	}
 
 	return light;
+}
+
+int _Samples;
+
+float3 Trace(Ray ray, inout uint seed)
+{
+	uint rayCount = _Samples;
+	float3 color = 0;
+	for (uint j = 0; j < rayCount; j++)
+	{
+		color += TracePath(ray, seed);
+	}
+	color /= rayCount;
+	return color;
 }

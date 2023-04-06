@@ -2,8 +2,6 @@ Shader "Hidden/PathTrace"
 {
 	Properties
 	{
-		[MainTexture][HideInInspector] _MainTex ("Texture", 2D) = "white" {}
-		_Bounces ("Bounces", int) = 2
 	}
 
 	SubShader
@@ -38,20 +36,6 @@ Shader "Hidden/PathTrace"
 				float3 worldPos : TEXCOORD1;
 			};
 
-			// float4x4 unity_CameraProjection;
-			// float4x4 unity_CameraInvProjection;
-			// float4x4 unity_WorldToCamera;
-			// float4x4 unity_CameraToWorld;
-
-			// float3 _WorldSpaceCameraPos;
-
-			// float4 _ProjectionParams;
-			// float4 _ScreenParams;
-			// float4 _ZBufferParams;
-			// float4 unity_OrthoParams;
-
-			// float4 unity_CameraWorldClipPlanes[6];
-
 			v2f vert(appdata v)
 			{
 				v2f o;
@@ -78,14 +62,9 @@ Shader "Hidden/PathTrace"
 				ray.origin = _WorldSpaceCameraPos;
 				ray.direction = normalize(worldSpace.xyz - _WorldSpaceCameraPos);
 
-				uint seed = 2137;
+				uint2 pixelCoord = i.vertex.xy;
+				uint seed = pixelCoord.x | (pixelCoord.y << 16);
 
-				// Sphere sph = (Sphere)0;
-				// sph.center = 0;
-				// sph.radius = 1;
-				// sph.material.color = 1;
-				// return TraceSphere(ray, sph).material.color;
-				// return TraceAllSpheres(ray).material.color;
 				return float4(Trace(ray, seed), 1);
 			}
 			ENDHLSL
