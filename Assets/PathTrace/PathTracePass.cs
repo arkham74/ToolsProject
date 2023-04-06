@@ -9,7 +9,13 @@ namespace JD.PathTrace
 	public class PathTracePass : ScriptableRenderPass
 	{
 		public PathTraceSettings settings;
-		ComputeBuffer buffer;
+		private ComputeBuffer buffer;
+		private Material material;
+
+		public PathTracePass(Shader shader)
+		{
+			material = CoreUtils.CreateEngineMaterial(shader);
+		}
 
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 		{
@@ -28,9 +34,10 @@ namespace JD.PathTrace
 			buffer = new ComputeBuffer(count, stride, ComputeBufferType.Default);
 			buffer.SetData(spheres);
 
+			cmd.SetGlobalInteger("_Bounces", settings.bounces);
 			cmd.SetGlobalBuffer("_Spheres", buffer);
 			cmd.SetGlobalInteger("_SphereCount", count);
-			cmd.Blit(null, colorTarget, settings.material);
+			cmd.Blit(null, colorTarget, material);
 
 			context.ExecuteCommandBuffer(cmd);
 			CommandBufferPool.Release(cmd);

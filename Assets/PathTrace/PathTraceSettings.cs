@@ -6,7 +6,7 @@ namespace JD.PathTrace
 	[Serializable]
 	public struct PathTraceSettings
 	{
-		public Material material;
+		public int bounces;
 	}
 
 	[Serializable]
