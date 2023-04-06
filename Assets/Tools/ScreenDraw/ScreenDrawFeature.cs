@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace JD.ScreenDraw
 {
-	public class ScreenDrawFeature : ScriptableRendererFeature
+	internal class ScreenDrawFeature : ScriptableRendererFeature
 	{
 		[SerializeField] private RenderPassEvent passEvent = RenderPassEvent.BeforeRenderingPostProcessing;
 		[HideInInspector][SerializeField] private Shader shader;

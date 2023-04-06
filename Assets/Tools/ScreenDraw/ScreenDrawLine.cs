@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace JD.ScreenDraw
 {
-	public struct ScreenDrawLine
+	internal struct ScreenDrawLine
 	{
 		public Vector3 start;
 		public Vector3 end;

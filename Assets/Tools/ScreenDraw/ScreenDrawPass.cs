@@ -9,7 +9,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace JD.ScreenDraw
 {
-	public class ScreenDrawPass : ScriptableRenderPass
+	internal class ScreenDrawPass : ScriptableRenderPass
 	{
 		public static readonly int stride = Marshal.SizeOf<ScreenDrawLine>();
 		public static readonly int lineCountId = Shader.PropertyToID("_LineCount");

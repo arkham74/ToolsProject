@@ -9,7 +9,7 @@ namespace JD.ScreenDraw
 		public static readonly UnityEvent OnUpdate = new UnityEvent();
 
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-		public static void Init()
+		internal static void Init()
 		{
 			OnUpdate.RemoveAllListeners();
 		}
