@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -8,7 +9,8 @@ namespace JD.PathTrace
 {
 	public class PathTracePass : ScriptableRenderPass
 	{
-		public PathTraceSettings settings;
+		private readonly int stride = Marshal.SizeOf<Sphere>();
+
 		private ComputeBuffer buffer;
 		private Material material;
 
@@ -23,18 +25,30 @@ namespace JD.PathTrace
 
 		public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 		{
+			if (renderingData.cameraData.isPreviewCamera) return;
+
+			int bounces = 2;
+			bool scene = true;
+			PathTraceVolumeComponent comp = VolumeManager.instance.stack.GetComponent<PathTraceVolumeComponent>();
+			if (comp)
+			{
+				bounces = comp.bounces.value;
+				scene = comp.scene.value;
+			}
+
+			if (renderingData.cameraData.isSceneViewCamera && !scene) return;
+
 			CommandBuffer cmd = CommandBufferPool.Get("PathTrace");
 			RenderTargetIdentifier colorTarget = renderingData.cameraData.renderer.cameraColorTarget;
 
 			var spheres = PathTrace.Spheres.Select(e => e.ToSphere()).ToList();
 			int count = spheres.Count;
-			int stride = Marshal.SizeOf<Sphere>();
 
 			buffer?.Release();
 			buffer = new ComputeBuffer(count, stride, ComputeBufferType.Default);
 			buffer.SetData(spheres);
 
-			cmd.SetGlobalInteger("_Bounces", settings.bounces);
+			cmd.SetGlobalInteger("_Bounces", bounces);
 			cmd.SetGlobalBuffer("_Spheres", buffer);
 			cmd.SetGlobalInteger("_SphereCount", count);
 			cmd.Blit(null, colorTarget, material);

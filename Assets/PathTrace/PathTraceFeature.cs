@@ -5,7 +5,6 @@ namespace JD.PathTrace
 {
 	public class PathTraceFeature : ScriptableRendererFeature
 	{
-		[SerializeField] private PathTraceSettings settings;
 		[SerializeField][HideInInspector] private Shader shader;
 		private PathTracePass pass;
 
@@ -17,7 +16,6 @@ namespace JD.PathTrace
 
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
 		{
-			pass.settings = settings;
 			renderer.EnqueuePass(pass);
 		}
 	}
