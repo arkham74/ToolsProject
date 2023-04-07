@@ -96,7 +96,23 @@ float3 randomDirection(float3 normal, inout uint seed)
 	return dir * sign(NdotD);
 }
 
-float3 randomDirectionInCone(float3 dir, float angle, inout uint seed)
+float3 randomDirectionInCone(float3 coneDirection, float coneAngle, inout uint seed)
+{
+	float rand1 = random(seed); // use a random value based on some texture coordinates or other input
+	float rand2 = random(seed); // use a second random value based on different input
+	
+	float cosTheta = 1.0 - rand1 * (1.0 - cos(coneAngle));
+	float sinTheta = sqrt(1.0 - cosTheta * cosTheta);
+	float phi = rand2 * 2.0 * PI;
+	
+	float3 basis1 = normalize(cross(float3(0.0, 0.0, 1.0), coneDirection));
+	float3 basis2 = normalize(cross(basis1, coneDirection));
+	
+	float3 randomDirection = sinTheta * cos(phi) * basis1 + sinTheta * sin(phi) * basis2 + cosTheta * coneDirection;
+	return normalize(randomDirection);
+}
+
+/* float3 randomDirectionInCone(float3 dir, float angle, inout uint seed)
 {
 	float3 u = normalize(cross(dir, float3(0, 1, 0)));
 	float3 v = cross(u, dir);
@@ -108,7 +124,7 @@ float3 randomDirectionInCone(float3 dir, float angle, inout uint seed)
 	z = z * cos(angle);
 	return normalize(dir + x * u + y * v + z * dir);
 }
-
+ */
 float3 TracePath(Ray ray, inout uint seed)
 {
 	float3 light = 0;
@@ -126,8 +142,9 @@ float3 TracePath(Ray ray, inout uint seed)
 			float3 diffuse = randomDirection(hit.normal, seed);
 			float3 specular = reflect(ray.direction, hit.normal);
 			ray.direction = lerp(diffuse, specular, mat.smoothness);
-			// ray.direction = randomDirectionInCone(hit.normal, mat.smoothness * PI, seed);
-			ray.origin = hit.position + ray.direction * 0.1f;
+			ray.direction = randomDirectionInCone(specular, (1 - mat.smoothness) * PI, seed);
+			// return ray.direction;
+			ray.origin = hit.position + ray.direction * 0.01f;
 		}
 		else
 		{

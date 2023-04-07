@@ -33,4 +33,13 @@ public class PT_TEST : MonoBehaviour
 		Vector3 direction = Quaternion.AngleAxis(Mathf.Rad2Deg * angle, new Vector3(Mathf.Sin(theta), 0f, Mathf.Cos(theta))) * coneDirection;
 		return direction;
 	}
+
+	public static Vector3 RandomDirectionInCone(Vector3 coneDirection, float coneAngle)
+	{
+		// Generate a random vector direction within a unit hemisphere oriented around the z axis
+		float angle = Random.Range(0f, coneAngle * Mathf.PI * 0.5f);
+		float theta = Random.Range(0f, 2f * Mathf.PI);
+		Vector3 direction = Quaternion.AngleAxis(Mathf.Rad2Deg * angle, new Vector3(Mathf.Sin(theta), 0f, Mathf.Cos(theta))) * coneDirection;
+		return direction;
+	}
 }
