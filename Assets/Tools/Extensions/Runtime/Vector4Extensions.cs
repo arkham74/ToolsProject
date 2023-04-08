@@ -113,5 +113,11 @@ namespace JD
 		{
 			return Mathfs.Remap(iMin * Vector4.one, iMax * Vector4.one, oMin * Vector4.one, oMax * Vector4.one, v);
 		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool Approx(this Vector4 a, Vector4 b)
+		{
+			return Mathfs.Approximately(a.x, b.x) && Mathfs.Approximately(a.y, b.y) && Mathfs.Approximately(a.z, b.z) && Mathfs.Approximately(a.w, b.w);
+		}
 	}
 }

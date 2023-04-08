@@ -172,5 +172,11 @@ namespace JD
 		{
 			return a.x * b.y - a.y * b.x;
 		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool Approx(this Vector2 a, Vector2 b)
+		{
+			return Mathfs.Approximately(a.x, b.x) && Mathfs.Approximately(a.y, b.y);
+		}
 	}
 }

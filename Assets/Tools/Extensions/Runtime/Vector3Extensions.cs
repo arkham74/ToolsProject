@@ -135,12 +135,9 @@ namespace JD
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool Approx(this Vector3 a, Vector3 b, float threshold = 0.01f)
+		public static bool Approx(this Vector3 a, Vector3 b)
 		{
-			bool xt = Mathf.Abs(a.x - b.x) < threshold;
-			bool yt = Mathf.Abs(a.y - b.y) < threshold;
-			bool zt = Mathf.Abs(a.z - b.z) < threshold;
-			return xt && yt && zt;
+			return Mathfs.Approximately(a.x, b.x) && Mathfs.Approximately(a.y, b.y) && Mathfs.Approximately(a.z, b.z);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
