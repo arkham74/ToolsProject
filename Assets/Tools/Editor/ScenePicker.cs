@@ -31,7 +31,8 @@ namespace JD.Editor
 			for (int i = 0; i < scenes.Length; i++)
 			{
 				string path = scenes[i].path;
-				string text = Path.GetFileNameWithoutExtension(path);
+				string name = Path.GetFileNameWithoutExtension(path);
+				string text = $" {name} ({i}) ";
 				GUIContent content = new GUIContent(text, icon);
 				SearchTreeEntry item = new SearchTreeEntry(content)
 				{
@@ -72,7 +73,7 @@ namespace JD.Editor
 				mousePosition.y += 30;
 				SearchWindowContext context = new SearchWindowContext(mousePosition);
 				ScenePicker provider = ScriptableObject.CreateInstance<ScenePicker>();
-				if (GUILayout.Button(new GUIContent(" " + activeScene.name + " ", icon), EditorStyles.toolbarPopup))
+				if (GUILayout.Button(new GUIContent($" {activeScene.name} ({activeScene.buildIndex}) ", icon), EditorStyles.toolbarPopup))
 				{
 					SearchWindow.Open(context, provider);
 				}
