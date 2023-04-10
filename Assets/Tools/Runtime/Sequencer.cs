@@ -6,13 +6,28 @@ using Object = UnityEngine.Object;
 
 namespace JD
 {
-	internal class SequencerBehaviour : MonoBehaviour
+	public class SequencerBehaviour : MonoBehaviour
 	{
-		internal readonly static ObjectPool<SequencerBehaviour> Pool = new ObjectPool<SequencerBehaviour>(Create);
+		internal readonly static ObjectPool<SequencerBehaviour> Pool = new ObjectPool<SequencerBehaviour>(Create, Get, Release, Kill);
 
 		internal static SequencerBehaviour Create()
 		{
 			return new GameObject().AddComponent<SequencerBehaviour>();
+		}
+
+		private static void Get(SequencerBehaviour obj)
+		{
+			obj.SetActiveGameObject(true);
+		}
+
+		private static void Release(SequencerBehaviour obj)
+		{
+			obj.SetActiveGameObject(false);
+		}
+
+		private static void Kill(SequencerBehaviour obj)
+		{
+			Object.Destroy(obj.gameObject);
 		}
 
 		internal IEnumerator ReleaseAfter(Coroutine coroutine)
