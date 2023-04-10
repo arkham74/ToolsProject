@@ -6,7 +6,7 @@ namespace JD
 {
 	public static class MonoBehaviourExtensions
 	{
-		public static void Repeat(this MonoBehaviour mb, Action complete, Action<float> tick, float seconds)
+		public static Coroutine Repeat(this MonoBehaviour mb, Action complete, Action<float> tick, float seconds)
 		{
 			IEnumerator RepeatRoutine()
 			{
@@ -17,10 +17,10 @@ namespace JD
 				}
 				complete.Invoke();
 			}
-			mb.StartCoroutine(RepeatRoutine());
+			return mb.StartCoroutine(RepeatRoutine());
 		}
 
-		public static void RepeatRealtime(this MonoBehaviour mb, Action complete, Action<float> tick, float seconds)
+		public static Coroutine RepeatRealtime(this MonoBehaviour mb, Action complete, Action<float> tick, float seconds)
 		{
 			IEnumerator RepeatRoutine()
 			{
@@ -31,10 +31,10 @@ namespace JD
 				}
 				complete.Invoke();
 			}
-			mb.StartCoroutine(RepeatRoutine());
+			return mb.StartCoroutine(RepeatRoutine());
 		}
 
-		public static void Repeat(this MonoBehaviour mb, Action complete, Action<int> tick, int seconds)
+		public static Coroutine Repeat(this MonoBehaviour mb, Action complete, Action<int> tick, int seconds)
 		{
 			IEnumerator RepeatRoutine()
 			{
@@ -45,10 +45,10 @@ namespace JD
 				}
 				complete.Invoke();
 			}
-			mb.StartCoroutine(RepeatRoutine());
+			return mb.StartCoroutine(RepeatRoutine());
 		}
 
-		public static void RepeatRealtime(this MonoBehaviour mb, Action complete, Action<int> tick, int seconds)
+		public static Coroutine RepeatRealtime(this MonoBehaviour mb, Action complete, Action<int> tick, int seconds)
 		{
 			IEnumerator RepeatRoutine()
 			{
@@ -59,40 +59,40 @@ namespace JD
 				}
 				complete.Invoke();
 			}
-			mb.StartCoroutine(RepeatRoutine());
+			return mb.StartCoroutine(RepeatRoutine());
 		}
 
-		public static void DelayUntil(this MonoBehaviour mb, Action complete, Func<bool> untilTrue)
+		public static Coroutine DelayUntil(this MonoBehaviour mb, Action complete, Func<bool> untilTrue)
 		{
 			IEnumerator DelayRoutine()
 			{
 				yield return new WaitUntil(untilTrue);
 				complete.Invoke();
 			}
-			mb.StartCoroutine(DelayRoutine());
+			return mb.StartCoroutine(DelayRoutine());
 		}
 
-		public static void DelayWhile(this MonoBehaviour mb, Action complete, Func<bool> whileTrue)
+		public static Coroutine DelayWhile(this MonoBehaviour mb, Action complete, Func<bool> whileTrue)
 		{
 			IEnumerator DelayRoutine()
 			{
 				yield return new WaitWhile(whileTrue);
 				complete.Invoke();
 			}
-			mb.StartCoroutine(DelayRoutine());
+			return mb.StartCoroutine(DelayRoutine());
 		}
 
-		public static void Delay(this MonoBehaviour mb, Action complete, float seconds)
+		public static Coroutine Delay(this MonoBehaviour mb, Action complete, float seconds)
 		{
 			IEnumerator DelayRoutine()
 			{
 				yield return new WaitForSeconds(seconds);
 				complete.Invoke();
 			}
-			mb.StartCoroutine(DelayRoutine());
+			return mb.StartCoroutine(DelayRoutine());
 		}
 
-		public static void DelayFrame(this MonoBehaviour mb, Action complete, int frames = 1)
+		public static Coroutine DelayFrame(this MonoBehaviour mb, Action complete, int frames = 1)
 		{
 			IEnumerator DelayRoutine()
 			{
@@ -102,17 +102,17 @@ namespace JD
 				}
 				complete.Invoke();
 			}
-			mb.StartCoroutine(DelayRoutine());
+			return mb.StartCoroutine(DelayRoutine());
 		}
 
-		public static void DelayRealtime(this MonoBehaviour mb, Action complete, float seconds)
+		public static Coroutine DelayRealtime(this MonoBehaviour mb, Action complete, float seconds)
 		{
 			IEnumerator DelayRoutine()
 			{
 				yield return new WaitForSecondsRealtime(seconds);
 				complete.Invoke();
 			}
-			mb.StartCoroutine(DelayRoutine());
+			return mb.StartCoroutine(DelayRoutine());
 		}
 	}
 }
