@@ -41,13 +41,15 @@ namespace Redcode.Pools
 
 		public int Count => _count;
 
+		public int BusyCount => _busyObjects.Count;
+
 		private Transform _container;
 
 		public Transform Container => _container;
 
 		private List<T> _clones;
 
-		private readonly List<T> _busyObjects = new();
+		private readonly List<T> _busyObjects = new List<T>();
 		#endregion
 
 		private Pool() { }
@@ -59,7 +61,7 @@ namespace Redcode.Pools
 				_source = source,
 				_count = Math.Max(count, 0),
 				_container = container,
-				_clones = new(count)
+				_clones = new List<T>(count)
 			};
 
 
@@ -252,6 +254,9 @@ namespace Redcode.Pools
 
 			clone.gameObject.SetActive(false);
 		}
+
+		public void ReleaseFirst() => Release(_busyObjects[0]);
+
 		#endregion
 
 		public CustomYieldInstruction WaitForFreeObject() => new WaitWhile(() => _busyObjects.Count == _clones.Count);
