@@ -1,3 +1,4 @@
+#if UNITY_URP
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -59,3 +60,4 @@ namespace JD.ScreenDraw
 		}
 	}
 }
+#endif

@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+#if UNITY_URP
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -31,3 +31,4 @@ namespace JD.ScreenDraw
 		}
 	}
 }
+#endif

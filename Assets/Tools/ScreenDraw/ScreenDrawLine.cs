@@ -1,3 +1,4 @@
+#if UNITY_URP
 using UnityEngine;
 
 namespace JD.ScreenDraw
@@ -18,3 +19,4 @@ namespace JD.ScreenDraw
 		}
 	}
 }
+#endif

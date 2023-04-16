@@ -6,6 +6,11 @@ Shader "Hidden/ScreenDrawShader"
 	
 	SubShader
 	{
+		PackageRequirements
+		{
+			"com.unity.render-pipelines.universal": "12.1.6"
+		}
+
 		Cull Off
 		ZWrite Off
 		ZTest Off
