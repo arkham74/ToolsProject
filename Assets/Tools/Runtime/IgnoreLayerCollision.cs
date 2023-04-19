@@ -19,6 +19,7 @@ namespace JD
 		private void Awake()
 		{
 			Physics.IgnoreLayerCollision(layer1, layer2, ignore);
+			Physics2D.IgnoreLayerCollision(layer1, layer2, ignore);
 		}
 	}
 }
