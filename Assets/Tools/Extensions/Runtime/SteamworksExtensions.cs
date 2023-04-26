@@ -1,7 +1,7 @@
 using JD;
 using UnityEngine;
 
-namespace SAR
+namespace JD
 {
 	public static class SteamworksExtensions
 	{
