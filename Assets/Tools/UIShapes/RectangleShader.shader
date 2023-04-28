@@ -1,7 +1,7 @@
 // Created based on unity Unity built-in shader
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "Hidden/CircleShader"
+Shader "Hidden/RectangleShader"
 {
 	Properties
 	{
@@ -66,6 +66,7 @@ Shader "Hidden/CircleShader"
 					float4 color    : COLOR;
 					float2 texcoord : TEXCOORD0;
 					float4 params : TEXCOORD1;
+					float4 radius : TEXCOORD2;
 					UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -75,6 +76,7 @@ Shader "Hidden/CircleShader"
 					fixed4 color    : COLOR;
 					float2 texcoord  : TEXCOORD0;
 					float4 params : TEXCOORD1;
+					float4 radius : TEXCOORD2;
 					UNITY_VERTEX_OUTPUT_STEREO
 			};
 
@@ -92,6 +94,7 @@ Shader "Hidden/CircleShader"
 				OUT.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
 				OUT.color = v.color;
 				OUT.params = v.params;
+				OUT.radius = v.radius;
 				return OUT;
 			}
 
@@ -101,15 +104,35 @@ Shader "Hidden/CircleShader"
 				return smoothstep(distanceChange, -distanceChange, dist);;
 			}
 
+			float sdRoundedBox( in float2 p, in float2 b, in float4 r )
+			{
+				r.xy = (p.x>0.0) ? r.xy : r.zw;
+				r.x = (p.y>0.0) ? r.x : r.y;
+				float2 q = abs(p) - b + r.x;
+				return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r.x;
+			}
+
+			float opOnion( in float p, in float r )
+			{
+				return abs(p) - r;
+			}
+
 			float4 frag(v2f IN) : SV_Target
 			{
-				float _Radius = IN.params.x;
-				float _Width = IN.params.y;
-				float sdf = distance(IN.texcoord, float2(0.5,0.5));
-				float rad = sdf - _Radius / 2 + _Width / (4 / _Radius);
-				float wid = abs(rad) - _Width / (4 / _Radius);
+				float2 uv = IN.texcoord * 2 - 1;
+				float2 size = IN.params.xy;
+				float width = size.x;
+				float height = size.y;
+				float mininum = min(width, height);
+				float maximum = max(width, height);
+				float4 radius = IN.radius * mininum;
+				float fill = IN.params.z;
+
+				float sdf = sdRoundedBox(uv, size, radius);
+				float rad = sdf + fill * mininum * 0.5;
+				float wid = abs(rad) - fill * mininum * 0.5f;
 				float mask = AA(wid);
-				float4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color * float4(1, 1, 1, mask);
+				float4 color = (tex2D(_MainTex, uv) + _TextureSampleAdd) * IN.color * float4(1, 1, 1, mask);
 
 				#ifdef UNITY_UI_CLIP_RECT
 				color.a *= UnityGet2DClipping(IN.vertex.xy, _ClipRect);
@@ -119,6 +142,7 @@ Shader "Hidden/CircleShader"
 				clip (color.a - 0.001);
 				#endif
 
+				// return float4(wid,wid,wid, 1);
 				return color;
 			}
 			ENDCG
