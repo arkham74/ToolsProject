@@ -17,11 +17,17 @@ namespace JD
 	[AddComponentMenu("UI/Circle")]
 	public class CircleGraphic : MaskableGraphic
 	{
-		[SerializeField] private Texture2D texture;
+		[SerializeField] private Texture2D _texture;
 		[SerializeField][Range(0, 1)] private float radius = 1.0f;
 		[SerializeField][Range(0, 1)] private float fill = 1.0f;
 
-		public override Texture mainTexture => texture;
+		public Texture2D texture
+		{
+			get => _texture;
+			set => _texture = value;
+		}
+
+		public override Texture mainTexture => _texture;
 
 		protected override void OnPopulateMesh(VertexHelper vh)
 		{
