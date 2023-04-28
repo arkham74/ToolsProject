@@ -132,7 +132,7 @@ Shader "Hidden/RectangleShader"
 				float rad = sdf + fill * mininum * 0.5;
 				float wid = abs(rad) - fill * mininum * 0.5f;
 				float mask = AA(wid);
-				float4 color = (tex2D(_MainTex, uv) + _TextureSampleAdd) * IN.color * float4(1, 1, 1, mask);
+				float4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color * float4(1, 1, 1, mask);
 
 				#ifdef UNITY_UI_CLIP_RECT
 				color.a *= UnityGet2DClipping(IN.vertex.xy, _ClipRect);
