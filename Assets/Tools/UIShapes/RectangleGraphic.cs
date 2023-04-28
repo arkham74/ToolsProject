@@ -32,15 +32,14 @@ namespace JD
 		{
 			canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord1;
 			canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord2;
-			canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord3;
 
 			Rect pixelAdjustedRect = GetPixelAdjustedRect();
 			Vector4 vector = new Vector4(pixelAdjustedRect.x, pixelAdjustedRect.y, pixelAdjustedRect.x + pixelAdjustedRect.width, pixelAdjustedRect.y + pixelAdjustedRect.height);
 
 			UIVertex vert = new UIVertex();
-			vert.uv1 = new Vector4(width, height, fill, 0);
+			float aspect = pixelAdjustedRect.width / pixelAdjustedRect.height;
+			vert.uv1 = new Vector4(width, height, fill, aspect);
 			vert.uv2 = new Vector4(radius1, radius2, radius3, radius4);
-			vert.uv3 = new Vector4(pixelAdjustedRect.width, pixelAdjustedRect.height, 0, 0);
 			vert.color = color;
 
 			vh.Clear();

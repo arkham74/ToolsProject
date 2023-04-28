@@ -104,7 +104,7 @@ Shader "Hidden/CircleShader"
 			float4 frag(v2f IN) : SV_Target
 			{
 				float _Radius = IN.params.x;
-				float _Width = IN.params.y;
+				float _Width = IN.params.y + 0.004;
 				float sdf = distance(IN.texcoord, float2(0.5,0.5));
 				float rad = sdf - _Radius / 2 + _Width / (4 / _Radius);
 				float wid = abs(rad) - _Width / (4 / _Radius);

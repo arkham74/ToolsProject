@@ -117,16 +117,23 @@ Shader "Hidden/RectangleShader"
 				return abs(p) - r;
 			}
 
+			float2 center(float2 p)
+			{
+				return p * 2 - 1;
+			}
+
 			float4 frag(v2f IN) : SV_Target
 			{
-				float2 uv = IN.texcoord * 2 - 1;
-				float2 size = IN.params.xy;
+				float2 aspect = float2(IN.params.w, 1);
+				float2 uv = center(IN.texcoord) * aspect;
+
+				float2 size = IN.params.xy * aspect;
 				float width = size.x;
 				float height = size.y;
 				float mininum = min(width, height);
 				float maximum = max(width, height);
 				float4 radius = IN.radius * mininum;
-				float fill = IN.params.z;
+				float fill = IN.params.z + 0.008;
 
 				float sdf = sdRoundedBox(uv, size, radius);
 				float rad = sdf + fill * mininum * 0.5;

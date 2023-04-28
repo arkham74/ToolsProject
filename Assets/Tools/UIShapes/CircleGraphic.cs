@@ -19,7 +19,7 @@ namespace JD
 	{
 		[SerializeField] private Texture2D texture;
 		[SerializeField][Range(0, 1)] private float radius = 1.0f;
-		[SerializeField][Range(0, 1)] private float width = 0.25f;
+		[SerializeField][Range(0, 1)] private float fill = 1.0f;
 
 		public override Texture mainTexture => texture;
 
@@ -31,7 +31,7 @@ namespace JD
 			Vector4 vector = new Vector4(pixelAdjustedRect.x, pixelAdjustedRect.y, pixelAdjustedRect.x + pixelAdjustedRect.width, pixelAdjustedRect.y + pixelAdjustedRect.height);
 
 			UIVertex vert = new UIVertex();
-			vert.uv1 = new Vector4(radius, width, 0, 0);
+			vert.uv1 = new Vector4(radius, fill, 0, 0);
 			vert.color = color;
 
 			vh.Clear();
