@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7830abe685772340b2ba58a9f386f92, type: 3}
   m_Name: PathTraceFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
-  settings:
-    bounces: 1
+  m_Active: 0
   shader: {fileID: 4800000, guid: 79d60eb2e1aa11846afd485ba070da3e, type: 3}
 --- !u!114 &-6164300343803842607
 MonoBehaviour:
