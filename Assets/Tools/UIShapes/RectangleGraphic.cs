@@ -30,6 +30,10 @@ namespace JD
 
 		protected override void OnPopulateMesh(VertexHelper vh)
 		{
+			canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord1;
+			canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord2;
+			canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord3;
+
 			Rect pixelAdjustedRect = GetPixelAdjustedRect();
 			Vector4 vector = new Vector4(pixelAdjustedRect.x, pixelAdjustedRect.y, pixelAdjustedRect.x + pixelAdjustedRect.width, pixelAdjustedRect.y + pixelAdjustedRect.height);
 
