@@ -7,6 +7,14 @@ namespace JD
 {
 	public static class BoundsExtensions
 	{
+		public static Vector3 RandomPosition(this Bounds bounds)
+		{
+			float x = UnityEngine.Random.Range(bounds.min.x, bounds.max.x);
+			float y = UnityEngine.Random.Range(bounds.min.y, bounds.max.y);
+			float z = UnityEngine.Random.Range(bounds.min.z, bounds.max.z);
+			return new Vector3(x, y, z);
+		}
+
 		public static Vector3 Clamp(this Bounds bounds, Vector3 pos)
 		{
 			float posX = Mathf.Clamp(pos.x, bounds.min.x, bounds.max.x);
