@@ -35,7 +35,11 @@ namespace JD.Editor
 			string[] displayName = enumerable.Select(e => e.Name).ToArray();
 			string[] typeName = enumerable.Select(e => e.AssemblyQualifiedName).ToArray();
 			property.NextVisible(true);
-			int index = Array.IndexOf(typeName, property.stringValue);
+
+			int indexType = Array.IndexOf(typeName, property.stringValue);
+			int indexDisplay = Array.IndexOf(displayName, property.stringValue);
+			int index = Mathf.Max(indexType, indexDisplay);
+
 			index = EditorGUI.Popup(position, label.text, index, displayName);
 			int v = Mathf.Clamp(index, 0, typeName.Length - 1);
 			property.stringValue = typeName[v];
