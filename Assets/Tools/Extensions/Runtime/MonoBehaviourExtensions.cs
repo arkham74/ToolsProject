@@ -13,7 +13,7 @@ namespace JD
 				for (float i = 0; i < seconds; i += Time.deltaTime)
 				{
 					tick.Invoke(i);
-					yield return new WaitForEndOfFrame();
+					yield return Yield.WaitForEndOfFrame();
 				}
 				complete.Invoke();
 			}
@@ -27,7 +27,7 @@ namespace JD
 				for (float i = 0; i < seconds; i += Time.unscaledDeltaTime)
 				{
 					tick.Invoke(i);
-					yield return new WaitForEndOfFrame();
+					yield return Yield.WaitForEndOfFrame();
 				}
 				complete.Invoke();
 			}
@@ -41,7 +41,7 @@ namespace JD
 				for (int i = 0; i < seconds; i++)
 				{
 					tick.Invoke(i);
-					yield return new WaitForSeconds(1f);
+					yield return Yield.WaitForSeconds(1f);
 				}
 				complete.Invoke();
 			}
@@ -55,7 +55,7 @@ namespace JD
 				for (int i = 0; i < seconds; i++)
 				{
 					tick.Invoke(i);
-					yield return new WaitForSecondsRealtime(1f);
+					yield return Yield.WaitForSecondsRealtime(1f);
 				}
 				complete.Invoke();
 			}
@@ -86,7 +86,7 @@ namespace JD
 		{
 			IEnumerator DelayRoutine()
 			{
-				yield return new WaitForSeconds(seconds);
+				yield return Yield.WaitForSeconds(seconds);
 				complete.Invoke();
 			}
 			return mb.StartCoroutine(DelayRoutine());
@@ -98,7 +98,7 @@ namespace JD
 			{
 				for (int i = 0; i < frames; i++)
 				{
-					yield return new WaitForEndOfFrame();
+					yield return Yield.WaitForEndOfFrame();
 				}
 				complete.Invoke();
 			}
@@ -109,7 +109,7 @@ namespace JD
 		{
 			IEnumerator DelayRoutine()
 			{
-				yield return new WaitForSecondsRealtime(seconds);
+				yield return Yield.WaitForSecondsRealtime(seconds);
 				complete.Invoke();
 			}
 			return mb.StartCoroutine(DelayRoutine());
