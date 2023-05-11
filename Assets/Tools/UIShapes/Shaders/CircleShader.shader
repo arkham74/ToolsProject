@@ -56,6 +56,7 @@ Shader "Hidden/CircleShader"
 
 			#include "UnityCG.cginc"
 			#include "UnityUI.cginc"
+			#include "ShapeUtils.hlsl"
 
 			#pragma multi_compile_local _ UNITY_UI_CLIP_RECT
 			#pragma multi_compile_local _ UNITY_UI_ALPHACLIP
@@ -93,12 +94,6 @@ Shader "Hidden/CircleShader"
 				OUT.color = v.color;
 				OUT.params = v.params;
 				return OUT;
-			}
-
-			float AA(float dist)
-			{
-				float distanceChange = fwidth(dist) * 1;
-				return smoothstep(distanceChange, -distanceChange, dist);;
 			}
 
 			float4 frag(v2f IN) : SV_Target

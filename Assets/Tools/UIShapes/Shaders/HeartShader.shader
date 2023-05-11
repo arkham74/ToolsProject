@@ -1,7 +1,7 @@
 // Created based on unity Unity built-in shader
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "Hidden/RectangleShader"
+Shader "Hidden/HeartShader"
 {
 	Properties
 	{
@@ -67,7 +67,6 @@ Shader "Hidden/RectangleShader"
 					float4 color    : COLOR;
 					float2 texcoord : TEXCOORD0;
 					float4 params : TEXCOORD1;
-					float4 radius : TEXCOORD2;
 					UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -77,7 +76,6 @@ Shader "Hidden/RectangleShader"
 					fixed4 color    : COLOR;
 					float2 texcoord  : TEXCOORD0;
 					float4 params : TEXCOORD1;
-					float4 radius : TEXCOORD2;
 					UNITY_VERTEX_OUTPUT_STEREO
 			};
 
@@ -95,28 +93,20 @@ Shader "Hidden/RectangleShader"
 				OUT.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
 				OUT.color = v.color;
 				OUT.params = v.params;
-				OUT.radius = v.radius;
 				return OUT;
 			}
 
 			float4 frag(v2f IN) : SV_Target
 			{
-				float2 aspect = float2(IN.params.w, 1);
-				float2 uv = center(IN.texcoord) * aspect;
-
-				float2 size = IN.params.xy * aspect;
-				float width = size.x;
-				float height = size.y;
-				float mininum = min(width, height);
-				float maximum = max(width, height);
-				float4 radius = IN.radius * mininum;
-				float fill = IN.params.z + 0.008;
-
-				float sdf = sdRoundedBox(uv, size, radius);
-				float rad = sdf + fill * mininum * 0.5;
-				float wid = abs(rad) - fill * mininum * 0.5f;
-				float mask = AA(wid);
-				float4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color * float4(1, 1, 1, mask);
+				float fill = IN.params.x;
+				float round = IN.params.y;
+				float2 uv = center(IN.texcoord);
+				uv += float2(0, 2.5/3.0);
+				float sdf = sdHeart(uv * 2.0/3.0);
+				// sdf = opRound(sdf, round);
+				// sdf = opOnion(sdf, fill);
+				sdf = AA(sdf);
+				float4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color * float4(1, 1, 1, sdf);
 
 				#ifdef UNITY_UI_CLIP_RECT
 				color.a *= UnityGet2DClipping(IN.vertex.xy, _ClipRect);
