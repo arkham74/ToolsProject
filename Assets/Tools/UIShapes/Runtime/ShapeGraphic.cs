@@ -7,14 +7,14 @@ namespace JD
 	[RequireComponent(typeof(CanvasRenderer))]
 	public abstract class ShapeGraphic : MaskableGraphic
 	{
-		[SerializeField] private Sprite sprite;
+		[SerializeField] private Sprite sourceImage;
 		public override Texture mainTexture
 		{
 			get
 			{
-				if (sprite)
+				if (sourceImage)
 				{
-					return sprite.texture;
+					return sourceImage.texture;
 				}
 				return s_WhiteTexture;
 			}
