@@ -5,17 +5,17 @@ Shader "Hidden/CircleShader"
 {
 	Properties
 	{
-	[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
+		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 
-	_StencilComp ("Stencil Comparison", Float) = 8
-	_Stencil ("Stencil ID", Float) = 0
-	_StencilOp ("Stencil Operation", Float) = 0
-	_StencilWriteMask ("Stencil Write Mask", Float) = 255
-	_StencilReadMask ("Stencil Read Mask", Float) = 255
+		_StencilComp ("Stencil Comparison", Float) = 8
+		_Stencil ("Stencil ID", Float) = 0
+		_StencilOp ("Stencil Operation", Float) = 0
+		_StencilWriteMask ("Stencil Write Mask", Float) = 255
+		_StencilReadMask ("Stencil Read Mask", Float) = 255
 
-	_ColorMask ("Color Mask", Float) = 15
+		_ColorMask ("Color Mask", Float) = 15
 
-	[Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
+		[Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
 	}
 
 	SubShader
@@ -63,20 +63,20 @@ Shader "Hidden/CircleShader"
 
 			struct appdata_t
 			{
-					float4 vertex   : POSITION;
-					float4 color    : COLOR;
-					float2 texcoord : TEXCOORD0;
-					float4 params : TEXCOORD1;
-					UNITY_VERTEX_INPUT_INSTANCE_ID
+				float4 vertex   : POSITION;
+				float4 color    : COLOR;
+				float2 texcoord : TEXCOORD0;
+				float4 params : TEXCOORD1;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct v2f
 			{
-					float4 vertex   : SV_POSITION;
-					fixed4 color    : COLOR;
-					float2 texcoord  : TEXCOORD0;
-					float4 params : TEXCOORD1;
-					UNITY_VERTEX_OUTPUT_STEREO
+				float4 vertex   : SV_POSITION;
+				fixed4 color    : COLOR;
+				float2 texcoord  : TEXCOORD0;
+				float4 params : TEXCOORD1;
+				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			sampler2D _MainTex;
