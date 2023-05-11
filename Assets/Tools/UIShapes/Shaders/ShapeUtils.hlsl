@@ -12,9 +12,9 @@ float sdRoundedBox( in float2 p, in float2 b, in float4 r )
 	return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r.x;
 }
 
-float dot2 (in float2 vec)
+float dot2 (in float2 p)
 {
-	return dot(vec, vec);
+	return dot(p, p);
 }
 
 float sdHeart( in float2 p )
@@ -25,6 +25,16 @@ float sdHeart( in float2 p )
 		return sqrt(dot2(p-float2(0.25,0.75))) - sqrt(2.0)/4.0;
 
 	return sqrt(min(dot2(p-float2(0.00,1.00)), dot2(p-0.5*max(p.x+p.y,0.0)))) * sign(p.x-p.y);
+}
+
+float sdTriangle( in float2 p, in float r )
+{
+	const float k = sqrt(3.0);
+	p.x = abs(p.x) - r;
+	p.y = p.y + r/k;
+	if( p.x+k*p.y>0.0 ) p = float2(p.x-k*p.y,-k*p.x-p.y)/2.0;
+	p.x -= clamp( p.x, -2.0*r, 0.0 );
+	return -length(p)*sign(p.y);
 }
 
 float opRound( in float p, in float r )
