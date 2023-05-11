@@ -17,7 +17,7 @@ namespace JD
 	[AddComponentMenu("UI/Rectangle")]
 	public class RectangleGraphic : MaskableGraphic
 	{
-		[SerializeField] private Texture2D _texture;
+		[SerializeField] private Sprite sprite;
 		[SerializeField][Range(0, 1)] private float width = 1.0f;
 		[SerializeField][Range(0, 1)] private float height = 1.0f;
 		[SerializeField][Range(0, 1)] private float radius1 = 0.5f;
@@ -26,13 +26,17 @@ namespace JD
 		[SerializeField][Range(0, 1)] private float radius4 = 0.5f;
 		[SerializeField][Range(0, 1)] private float fill = 1.0f;
 
-		public Texture2D texture
+		public override Texture mainTexture
 		{
-			get => _texture;
-			set => _texture = value;
+			get
+			{
+				if (sprite)
+				{
+					return sprite.texture;
+				}
+				return s_WhiteTexture;
+			}
 		}
-
-		public override Texture mainTexture => _texture;
 
 		protected override void OnPopulateMesh(VertexHelper vh)
 		{
