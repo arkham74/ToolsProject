@@ -204,7 +204,7 @@ namespace Crosstales.TPB.Util
 				{
 					try
 					{
-						if (System.IO.File.Exists(Application.dataPath + Constants.DEFAULT_ASSET_PATH + idPath + idName))
+						if (System.IO.File.Exists(Constants.DEFAULT_ASSET_PATH + idPath + idName))
 						{
 							assetPath = Constants.DEFAULT_ASSET_PATH;
 						}
