@@ -1,7 +1,7 @@
 // Created based on unity Unity built-in shader
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "Hidden/TriangleShader"
+Shader "Hidden/StarShader"
 {
 	Properties
 	{
@@ -66,7 +66,8 @@ Shader "Hidden/TriangleShader"
 				float4 vertex   : POSITION;
 				float4 color    : COLOR;
 				float2 texcoord : TEXCOORD0;
-				float4 params : TEXCOORD1;
+				float4 params1 : TEXCOORD1;
+				float4 params2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -75,7 +76,8 @@ Shader "Hidden/TriangleShader"
 				float4 vertex   : SV_POSITION;
 				fixed4 color    : COLOR;
 				float2 texcoord  : TEXCOORD0;
-				float4 params : TEXCOORD1;
+				float4 params1 : TEXCOORD1;
+				float4 params2 : TEXCOORD2;
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
@@ -92,19 +94,23 @@ Shader "Hidden/TriangleShader"
 				OUT.vertex = UnityObjectToClipPos(v.vertex);
 				OUT.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
 				OUT.color = v.color;
-				OUT.params = v.params;
+				OUT.params1 = v.params1;
+				OUT.params2 = v.params2;
 				return OUT;
 			}
 
 			float4 frag(v2f IN) : SV_Target
 			{
-				float fill = IN.params.x;
-				float round = IN.params.y;
-				float radius = IN.params.z;
+				float fill = IN.params1.x;
+				float round = IN.params1.y;
+				float radius = IN.params1.z;
+				int sides = IN.params1.w;
+				float star = IN.params2.x * (sides - 2) + 2;
+				// star = remap(star, 0, 1, 0, 1);
 
-				float2 uv = center(IN.texcoord);
-				// uv += float2(0, 2.5/3.0);
-				float sdf = sdTriangle(uv, radius);
+				float2 uv = IN.texcoord;
+				uv = center(uv);
+				float sdf = sdStar(uv, radius - round - fill, sides, star);
 				sdf = opRound(sdf, round);
 				sdf = opOnion(sdf, fill);
 				sdf = AA(sdf);

@@ -37,6 +37,29 @@ float sdTriangle( in float2 p, in float r )
 	return -length(p)*sign(p.y);
 }
 
+float mod(float x, float y)
+{
+	return x - y * floor(x / y);
+}
+
+float sdStar(in float2 p, in float r, in int n, in float m) // m=[2,n]
+{
+	// these 4 lines can be precomputed for a given shape
+	float an = 3.141593 / float(n);
+	float en = 3.141593 / m;
+	float2 acs = float2(cos(an), sin(an));
+	float2 ecs = float2(cos(en), sin(en)); // ecs=float2(0,1) and simplify, for regular polygon,
+
+	// reduce to first sector
+	float bn = mod(atan2(p.x, p.y), 2.0 * an) - an;
+	p = length(p) * float2(cos(bn), abs(sin(bn)));
+
+	// line sdf
+	p -= r * acs;
+	p += ecs * clamp(-dot(p, ecs), 0.0, r * acs.y / ecs.y);
+	return length(p) * sign(p.x);
+}
+
 float opRound( in float p, in float r )
 {
   return p - r;

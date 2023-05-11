@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 27ded6a0a661afb49b0ea7c9a1de7609
+guid: b27d3d8a65bb05e479d63f221df57ef0
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - m_Material: {fileID: 2100000, guid: 9c650169f4e8b9249b520b9d8c6a0239, type: 2}
+  - m_Material: {fileID: 2100000, guid: ae4eab64879878d4faa3fa895956d3e0, type: 2}
   - sourceImage: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}

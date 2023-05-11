@@ -100,7 +100,8 @@ Shader "Hidden/HeartShader"
 			{
 				float fill = IN.params.x;
 				float round = IN.params.y;
-				float2 uv = center(IN.texcoord);
+				float2 uv = IN.texcoord;
+				uv = center(uv);
 				uv += float2(0, 2.5/3.0);
 				float sdf = sdHeart(uv * 2.0/3.0);
 				// sdf = opRound(sdf, round);
