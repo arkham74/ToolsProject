@@ -105,7 +105,7 @@ Shader "Hidden/StarShader"
 				float round = IN.params1.y;
 				float radius = IN.params1.z;
 				int sides = IN.params1.w;
-				float star = IN.params2.x * (sides - 2) + 2;
+				float star = (IN.params2.x / 2.0) * (sides - 2) + 2;
 				// star = remap(star, 0, 1, 0, 1);
 
 				float2 uv = IN.texcoord;

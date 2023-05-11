@@ -26,7 +26,7 @@ namespace JD
 		{
 			canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord1 | AdditionalCanvasShaderChannels.TexCoord2;
 			vert.uv1 = new Vector4(fill, round, radius, sides);
-			vert.uv2 = new Vector4(star / 2f, 0, 0, 0);
+			vert.uv2 = new Vector4(star, 0, 0, 0);
 		}
 	}
 }
