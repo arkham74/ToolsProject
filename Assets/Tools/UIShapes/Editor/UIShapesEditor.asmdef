@@ -1,0 +1,18 @@
+{
+    "name": "UIShapesEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f5388fef40e86774d85a73eae7bf0ee4"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
