@@ -4,6 +4,7 @@ using UnityEditor;
 namespace JD.Editor
 {
 	[CustomEditor(typeof(CircleGraphic))]
+	[CanEditMultipleObjects]
 	public class CircleGraphicEditor : ShapeGraphicEditor
 	{
 		protected override void OnShapeGUI()

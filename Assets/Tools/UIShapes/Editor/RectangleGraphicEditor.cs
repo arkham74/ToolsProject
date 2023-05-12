@@ -4,6 +4,7 @@ using UnityEditor;
 namespace JD.Editor
 {
 	[CustomEditor(typeof(RectangleGraphic))]
+	[CanEditMultipleObjects]
 	public class RectangleGraphicEditor : ShapeGraphicEditor
 	{
 		protected override void OnShapeGUI()

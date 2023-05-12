@@ -106,13 +106,15 @@ Shader "Hidden/StarShader"
 				float radius = IN.params1.z;
 				int sides = IN.params1.w;
 				float star = (IN.params2.x / 2.0) * (sides - 2) + 2;
+				float empty = IN.params2.y;
 				// star = remap(star, 0, 1, 0, 1);
 
 				float2 uv = IN.texcoord;
 				uv = center(uv);
-				float sdf = sdStar(uv, radius - round - fill, sides, star);
+				float sdf = sdStar(uv, radius - round - empty * fill, sides, star);
 				sdf = opRound(sdf, round);
-				sdf = opOnion(sdf, fill);
+				if(empty > 0)
+					sdf = opOnion(sdf, fill);
 				sdf = AA(sdf);
 				float4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color * float4(1, 1, 1, sdf);
 

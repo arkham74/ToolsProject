@@ -4,6 +4,7 @@ using UnityEditor;
 namespace JD.Editor
 {
 	[CustomEditor(typeof(HeartGraphic))]
+	[CanEditMultipleObjects]
 	public class HeartGraphicEditor : ShapeGraphicEditor
 	{
 		protected override void OnShapeGUI()
