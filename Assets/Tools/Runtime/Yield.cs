@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,18 @@ namespace JD
 		private readonly static Dictionary<float, WaitForSeconds> waitForSeconds = new Dictionary<float, WaitForSeconds>();
 		private readonly static Dictionary<float, WaitForSecondsRealtime> waitForSecondsRealtime = new Dictionary<float, WaitForSecondsRealtime>();
 
-		public static WaitForEndOfFrame WaitForEndOfFrame() => waitForEndOfFrame;
+		public static WaitForEndOfFrame WaitForEndOfFrame()
+		{
+			return waitForEndOfFrame;
+		}
+
+		public static IEnumerator WaitForEndOfFrame(int frames)
+		{
+			for (int i = 0; i < frames; i++)
+			{
+				yield return waitForEndOfFrame;
+			}
+		}
 
 		public static WaitForSeconds WaitForSeconds(float seconds)
 		{
