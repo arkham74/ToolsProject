@@ -15,17 +15,22 @@ namespace JD
 {
 	public static class ResolutionInfo
 	{
-		private static readonly List<Resolution> resolutions = new List<Resolution>();
-
 		public static List<Resolution> GetResolutions()
 		{
-			resolutions.Clear();
-			int maxRefresh = GetMaxRefreshRate();
-			resolutions.AddRange(Screen.resolutions.Where(e => e.refreshRate == maxRefresh));
-			return resolutions;
+			HashSet<Resolution> set = new HashSet<Resolution>();
+			int max = GetMaxRefreshRate();
+
+			foreach (Resolution res in Screen.resolutions)
+			{
+				Resolution resolution = res;
+				resolution.refreshRate = max;
+				set.Add(resolution);
+			}
+
+			return set.ToList();
 		}
 
-		private static int GetMaxRefreshRate()
+		public static int GetMaxRefreshRate()
 		{
 			return Screen.resolutions.Max(e => e.refreshRate);
 		}
