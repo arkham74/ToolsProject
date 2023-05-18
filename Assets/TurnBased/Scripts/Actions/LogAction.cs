@@ -22,5 +22,10 @@ namespace RTS
 			Debug.Log(message);
 			await Task.Yield();
 		}
+
+		public override string ToString()
+		{
+			return $"Log: {message}";
+		}
 	}
 }

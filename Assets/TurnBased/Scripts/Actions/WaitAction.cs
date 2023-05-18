@@ -31,5 +31,10 @@ namespace RTS
 				await Task.Yield();
 			}
 		}
+
+		public override string ToString()
+		{
+			return $"Wait: {duration}s";
+		}
 	}
 }
