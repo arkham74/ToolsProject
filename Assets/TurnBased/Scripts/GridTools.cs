@@ -12,7 +12,10 @@ namespace RTS
 	{
 		public static Vector3 WorldToGrid(Vector3 position)
 		{
-			return position.Floor() + new Vector3(0.5f, 0, 0.5f);
+			position.x = position.x.Floor();
+			position.y = position.y.Round();
+			position.z = position.z.Floor();
+			return position + new Vector3(0.5f, 0, 0.5f);
 		}
 	}
 }

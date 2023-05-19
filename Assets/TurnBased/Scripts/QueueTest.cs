@@ -39,6 +39,11 @@ namespace RTS
 			{
 				ActionQueue.AddAction(new SpawnUnitAction(testUnit, PointerTracker.WorldPosition));
 			}
+
+			if (Input.GetMouseButtonUp(1))
+			{
+				ActionQueue.AddAction(new MoveCameraAction(PointerTracker.WorldPosition));
+			}
 		}
 
 		private void OnGUI()
