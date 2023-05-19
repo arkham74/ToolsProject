@@ -1,4 +1,5 @@
 using System.Collections;
+using JD;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -10,7 +11,7 @@ namespace RTS
 	{
 		public IEnumerator Wait()
 		{
-			yield return null;
+			yield return Yield.WaitForEndOfFrame();
 		}
 	}
 }
