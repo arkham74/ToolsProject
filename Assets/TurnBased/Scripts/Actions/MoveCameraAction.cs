@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Threading.Tasks;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -7,8 +6,11 @@ using UnityEngine.InputSystem;
 
 namespace RTS
 {
-	public interface IAction
+	public struct MoveCameraAction : IAction
 	{
-		public IEnumerator Wait();
+		public IEnumerator Wait()
+		{
+			yield return null;
+		}
 	}
 }

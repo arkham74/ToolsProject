@@ -18,18 +18,9 @@ namespace RTS
 			this.duration = duration;
 		}
 
-		public async Task Wait()
+		public IEnumerator Wait()
 		{
-			await WaitAction.Wait(duration);
-		}
-
-		public static async Task Wait(float duration)
-		{
-			float start = Time.time;
-			while (Time.time < start + duration)
-			{
-				await Task.Yield();
-			}
+			yield return Yield.WaitForSeconds(duration);
 		}
 
 		public override string ToString()

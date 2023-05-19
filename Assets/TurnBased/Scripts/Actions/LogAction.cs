@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Threading.Tasks;
+using JD;
 using UnityEngine;
 
 #if ENABLE_INPUT_SYSTEM
@@ -17,10 +18,10 @@ namespace RTS
 			this.message = message;
 		}
 
-		public async Task Wait()
+		public IEnumerator Wait()
 		{
 			Debug.Log(message);
-			await Task.Yield();
+			yield return Yield.WaitForEndOfFrame();
 		}
 
 		public override string ToString()

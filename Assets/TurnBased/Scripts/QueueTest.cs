@@ -27,12 +27,10 @@ namespace RTS
 	{
 		private void Update()
 		{
-			GameQueue instance = GameQueue.Instance;
-
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
-				instance.AddAction(new WaitAction(0.5f));
-				instance.AddAction(new LogAction("Log " + (instance.Actions.Count + 1) / 2));
+				ActionQueue.AddAction(new WaitAction(0.5f));
+				ActionQueue.AddAction(new LogAction("Log " + (ActionQueue.Actions.Count + 1) / 2));
 			}
 		}
 
@@ -46,7 +44,7 @@ namespace RTS
 				fontSize = (int)(24f * Screen.height / 1080f),
 			};
 			headStyle.normal.background = Resources.Load<Texture2D>("transparent_1x1");
-			string text = GameQueue.Instance.Actions.Join("\n");
+			string text = ActionQueue.Actions.Join("\n");
 			GUILayout.Label(text, headStyle);
 		}
 	}
