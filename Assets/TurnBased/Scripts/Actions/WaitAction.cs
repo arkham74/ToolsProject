@@ -13,7 +13,7 @@ namespace RTS
 	{
 		private float duration;
 
-		public WaitAction(float duration)
+		public WaitAction(float duration) : this()
 		{
 			this.duration = duration;
 		}

@@ -25,12 +25,19 @@ namespace RTS
 {
 	public class QueueTest : MonoBehaviour
 	{
+		[SerializeField] private GameObject testUnit;
+
 		private void Update()
 		{
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
 				ActionQueue.AddAction(new WaitAction(0.5f));
 				ActionQueue.AddAction(new LogAction("Log " + (ActionQueue.Actions.Count + 1) / 2));
+			}
+
+			if (Input.GetMouseButtonUp(0))
+			{
+				ActionQueue.AddAction(new SpawnUnitAction(testUnit, PointerTracker.WorldPosition));
 			}
 		}
 

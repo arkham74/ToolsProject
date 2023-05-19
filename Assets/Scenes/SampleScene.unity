@@ -1006,7 +1006,7 @@ GameObject:
   - component: {fileID: 1215933053}
   - component: {fileID: 1215933054}
   m_Layer: 0
-  m_Name: GameQueue
+  m_Name: QueueTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1039,6 +1039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21e83e520be61044aa07156103ab75d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testUnit: {fileID: 2876391278599782758, guid: f18e22057065001448e9e9812e40b626, type: 3}
 --- !u!1 &1510278545
 GameObject:
   m_ObjectHideFlags: 0

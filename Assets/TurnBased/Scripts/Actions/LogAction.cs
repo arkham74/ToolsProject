@@ -2,6 +2,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using JD;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -13,13 +14,14 @@ namespace RTS
 	{
 		private object message;
 
-		public LogAction(object message)
+		public LogAction(object message) : this()
 		{
 			this.message = message;
 		}
 
 		public IEnumerator Wait()
 		{
+			Assert.IsNotNull(message);
 			Debug.Log(message);
 			yield return Yield.WaitForEndOfFrame();
 		}

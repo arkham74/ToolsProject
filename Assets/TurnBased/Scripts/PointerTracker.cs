@@ -23,15 +23,17 @@ namespace RTS
 {
 	public class PointerTracker : MonoBehaviour
 	{
+		public static Vector3 WorldPosition { get; private set; }
 		private static readonly int PointerPositionID = Shader.PropertyToID("_PointerPosition");
 
-		private void Update()
+		private void LateUpdate()
 		{
 			Plane plane = new Plane(Vector3.up, Vector3.zero);
 			Vector3 screenPoint = Input.mousePosition;
 			Ray ray = Camera.main.ScreenPointToRay(screenPoint);
 			if (plane.Raycast(ray, out RaycastHit hit))
 			{
+				WorldPosition = hit.point;
 				Shader.SetGlobalVector(PointerPositionID, hit.point);
 			}
 		}
