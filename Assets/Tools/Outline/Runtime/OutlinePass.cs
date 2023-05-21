@@ -43,6 +43,7 @@ namespace JD.Outline
 			cameraDepth = cameraData.renderer.cameraDepthTarget;
 
 			RenderTextureDescriptor desc = cameraData.cameraTargetDescriptor;
+			desc.depthBufferBits = 0;
 
 			desc.graphicsFormat = GraphicsFormat.R8_UNorm;
 			cmd.GetTemporaryRT(maskId, desc);
@@ -55,6 +56,7 @@ namespace JD.Outline
 		public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
 		{
 			ConfigureInput(ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Depth);
+			// ConfigureClear(ClearFlag.ColorStencil, Color.clear);
 			ConfigureTarget(maskId, cameraDepth);
 		}
 
@@ -86,7 +88,7 @@ namespace JD.Outline
 			cmd.Clear();
 			using (new ProfilingScope(cmd, m_ProfilingSampler))
 			{
-				cmd.ClearRenderTarget(false, true, Color.clear);
+				cmd.ClearRenderTarget(RTClearFlags.ColorStencil, Color.clear, 1, 0);
 			}
 			context.ExecuteCommandBuffer(cmd);
 		}

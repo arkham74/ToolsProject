@@ -200,12 +200,16 @@ Shader "Hidden/OutlineJFASobel"
 				// integer pixel position
 				int2 uvInt = i.pos.xy;
 
+				float mask = _OutlineTargetMask.Load(int3(uvInt, 0)).r;
+				// early out if inside mask
+				if (mask > 0.5)
+				return float4(0,0,0,0);
+
 				// load encoded position
 				float2 encodedPos = _MainTex.Load(int3(uvInt, 0)).rg;
-				float mask = _OutlineTargetMask.Load(int3(uvInt, 0)).r;
 
 				// early out if null position
-				if (encodedPos.y == FLOOD_NULL_POS || mask > 0.5)
+				if (encodedPos.y == FLOOD_NULL_POS)
 				return float4(0,0,0,0);
 
 				// decode closest position
