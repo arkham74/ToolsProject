@@ -21,7 +21,7 @@ namespace JD.Outline
 
 		private static readonly ShaderTagId uniShaderTag = new ShaderTagId("UniversalForward");
 
-		private OutlineSettings settings;
+		public readonly OutlineSettings settings;
 
 		private RenderTargetIdentifier cameraDepth;
 		private RenderTargetIdentifier cameraColor;

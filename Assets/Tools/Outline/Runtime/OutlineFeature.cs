@@ -6,21 +6,30 @@ namespace JD.Outline
 {
 	public class OutlineFeature : ScriptableRendererFeature
 	{
-		[SerializeField] private OutlineSettings settings;
 		[SerializeField][HideInInspector] private Material material;
-		private OutlinePass pass;
+		[SerializeField] private OutlineSettings[] settings;
+		private readonly List<OutlinePass> passList = new List<OutlinePass>();
 
 		public override void Create()
 		{
-			if (settings && settings.width > 0 && material)
-				pass = new OutlinePass(name, settings, material);
+			if (material == null) return;
+
+			passList.Clear();
+			foreach (OutlineSettings set in settings)
+			{
+				if (set && set.width > 0)
+				{
+					OutlinePass item = new OutlinePass(name, set, material);
+					passList.Add(item);
+				}
+			}
 		}
 
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
 		{
-			if (settings && settings.width > 0 && material)
+			foreach (OutlinePass pass in passList)
 			{
-				pass.renderPassEvent = settings.passEvent;
+				pass.renderPassEvent = pass.settings.passEvent;
 				renderer.EnqueuePass(pass);
 			}
 		}
