@@ -1,7 +1,9 @@
 {
     "name": "OutlineEditorAssembly",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:04c537308063fb349abff7504a0d9bc6"
+    ],
     "includePlatforms": [
         "Editor"
     ],
