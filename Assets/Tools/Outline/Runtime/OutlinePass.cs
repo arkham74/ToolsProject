@@ -14,9 +14,9 @@ namespace JD.Outline
 		private const int PASS_JFAOUTLINE = 3;
 		private const int PASS_SOBELOUTLINE = 4;
 
-		private static readonly int maskId = Shader.PropertyToID("_OutlineTargetMask");
-		private static readonly int pingId = Shader.PropertyToID("_OutlineTargetPing");
-		private static readonly int pongId = Shader.PropertyToID("_OutlineTargetPong");
+		private readonly int maskId = Shader.PropertyToID("_OutlineTargetMask");
+		private readonly int pingId = Shader.PropertyToID("_OutlineTargetPing");
+		private readonly int pongId = Shader.PropertyToID("_OutlineTargetPong");
 		private static readonly int stepId = Shader.PropertyToID("_StepWidth");
 
 		private static readonly ShaderTagId uniShaderTag = new ShaderTagId("UniversalForward");
@@ -30,6 +30,10 @@ namespace JD.Outline
 
 		public OutlinePass(string passName, OutlineSettings settings, Material material)
 		{
+			maskId = Shader.PropertyToID("_OutlineTargetMask" + this.GetHashCode());
+			pingId = Shader.PropertyToID("_OutlineTargetPing" + this.GetHashCode());
+			pongId = Shader.PropertyToID("_OutlineTargetPong" + this.GetHashCode());
+
 			m_ProfilingSampler = new ProfilingSampler(passName);
 			base.profilingSampler = m_ProfilingSampler;
 			this.outlineMaterial = material;
