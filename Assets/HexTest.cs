@@ -32,20 +32,19 @@ public class HexTest : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-		// GizmosTools.SetColor(Color.red);
+		GizmosTools.SetColor(Color.red);
 
-		// foreach (Transform child in transform)
-		// {
-		// 	Vector3 world = child.position;
+		foreach (Transform child in transform)
+		{
+			Vector3 world = child.position;
 
-		// 	Hex hex = HexUtils.FromWorld(world / Size);
-		// 	hex = hex.Round();
-		// 	world = hex.ToWorld() * Size;
+			Hex hex = HexUtils.FromWorld(world / Size);
+			hex = hex.Round();
+			world = hex.ToWorld() * Size;
 
-		// 	child.position = world;
-		// 	GizmosTools.DrawHex(world, Size);
-		// }
-
+			child.position = world;
+			// GizmosTools.DrawHex(world, Size);
+		}
 
 		GizmosTools.SetColor(Color.blue);
 
@@ -61,11 +60,11 @@ public class HexTest : MonoBehaviour
 				GizmosTools.DrawHex(end.Hex.GetNeighbour(direction).ToWorld() * Size, Size);
 			}
 
-			// var list = AStar.GetPath(start, end);
-			// foreach (HexNode node in list)
-			// {
-			// 	GizmosTools.DrawHex(node.Hex.ToWorld() * Size, Size);
-			// }
+			var list = AStar<HexNode>.GetPath(start, end);
+			foreach (HexNode node in list)
+			{
+				GizmosTools.DrawHex(node.Hex.ToWorld() * Size, Size);
+			}
 		}
 	}
 
