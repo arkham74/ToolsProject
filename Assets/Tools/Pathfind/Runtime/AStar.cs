@@ -23,39 +23,46 @@ using UnityEngine.InputSystem;
 
 namespace JD.Pathfind
 {
-	public interface IAStarNode
+	public interface IAStarNode<T>
 	{
-		public IAStarNode[] GetNeighbours();
-		public float GetCost(IAStarNode target);
-		public float GetDistance(IAStarNode target);
+		public IEnumerable<T> GetNeighbours();
+		public float GetCost(T target);
+		public float GetDistance(T target);
 	}
 
-	public static class AStar
+	public static class AStar<T> where T : IAStarNode<T>
 	{
-		private static readonly PriorityQueue<IAStarNode, float> frontier = new PriorityQueue<IAStarNode, float>();
-		private static readonly Dictionary<IAStarNode, IAStarNode> came_from = new Dictionary<IAStarNode, IAStarNode>();
-		private static readonly Dictionary<IAStarNode, float> cost_so_far = new Dictionary<IAStarNode, float>();
+		private static readonly PriorityQueue<T, float> frontier = new PriorityQueue<T, float>();
+		private static readonly Dictionary<T, T> came_from = new Dictionary<T, T>();
+		private static readonly Dictionary<T, float> cost_so_far = new Dictionary<T, float>();
 
-		public static void GetPath(IAStarNode start, IAStarNode goal, List<IAStarNode> path)
+		public static List<T> GetPath(T start, T goal)
+		{
+			List<T> path = new List<T>();
+			GetPathNonAlloc(start, goal, path);
+			return path;
+		}
+
+		public static void GetPathNonAlloc(T start, T goal, List<T> path)
 		{
 			frontier.Clear();
 			came_from.Clear();
 			cost_so_far.Clear();
 
 			frontier.Enqueue(start, 0);
-			came_from[start] = null;
+			came_from[start] = default;
 			cost_so_far[start] = 0;
 
 			while (frontier.Count > 0)
 			{
-				IAStarNode current = frontier.Dequeue();
+				T current = frontier.Dequeue();
 
-				if (current == goal)
+				if (current.Equals(goal))
 				{
 					break;
 				}
 
-				foreach (IAStarNode next in current.GetNeighbours())
+				foreach (T next in current.GetNeighbours())
 				{
 					float new_cost = cost_so_far[current] + current.GetCost(next);
 
@@ -69,9 +76,9 @@ namespace JD.Pathfind
 				}
 			}
 
-			IAStarNode curr = goal;
+			T curr = goal;
 
-			while (curr != start)
+			while (!curr.Equals(start))
 			{
 				path.Add(curr);
 				curr = came_from[curr];

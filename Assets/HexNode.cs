@@ -20,26 +20,29 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 #endif
 
-public class HexNode : MonoBehaviour, IAStarNode, IPointerClickHandler
+public class HexNode : MonoBehaviour, IAStarNode<HexNode>, IPointerClickHandler
 {
 	[SerializeField] private HexTest graph;
 
 	public Hex Hex => HexUtils.FromWorld(transform.position / graph.Size).Round();
 
-	public float GetCost(IAStarNode target)
+	public float GetCost(HexNode target)
 	{
 		return 1f;
 	}
 
-	public float GetDistance(IAStarNode target)
+	public float GetDistance(HexNode target)
 	{
 		HexNode t = target as HexNode;
 		return t.transform.Distance(transform);
 	}
 
-	public IAStarNode[] GetNeighbours()
+	public IEnumerable<HexNode> GetNeighbours()
 	{
-		return graph.GetNeighbours(this);
+		foreach (var item in graph.GetNeighbours(this))
+		{
+			yield return item;
+		}
 	}
 
 	public void OnPointerClick(PointerEventData eventData)
