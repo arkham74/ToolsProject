@@ -31,14 +31,12 @@ Shader "Hidden/OutlineJFASobel"
 		{
 			v2f o;
 			o.pos = TransformObjectToHClip(v.vertex.rgb);
+
 			return o;
 		}
 
 		TEXTURE2D(_MainTex);
 		SAMPLER(sampler_MainTex);
-
-		TEXTURE2D(_OutlineTargetMask);
-		SAMPLER(sampler_OutlineTargetMask);
 
 		CBUFFER_START(UnityPerMaterial)
 			float4 _MainTex_TexelSize;
@@ -186,6 +184,17 @@ Shader "Hidden/OutlineJFASobel"
 		Pass //3
 		{
 			Name "JFAOUTLINE"
+
+			Stencil
+			{
+				Ref 1
+				ReadMask 1
+				WriteMask 1
+				Comp NotEqual
+				Pass Zero
+				Fail Zero
+			}
+
 			Blend SrcAlpha OneMinusSrcAlpha
 
 			HLSLPROGRAM
@@ -200,11 +209,6 @@ Shader "Hidden/OutlineJFASobel"
 				// integer pixel position
 				int2 uvInt = i.pos.xy;
 
-				float mask = _OutlineTargetMask.Load(int3(uvInt, 0)).r;
-				// early out if inside mask
-				if (mask > 0.5)
-				return float4(0,0,0,0);
-
 				// load encoded position
 				float2 encodedPos = _MainTex.Load(int3(uvInt, 0)).rg;
 
@@ -217,6 +221,10 @@ Shader "Hidden/OutlineJFASobel"
 
 				// current pixel position
 				float2 currentPos = i.pos.xy;
+
+				float minDistance = 0.5;
+				if (abs(nearestPos.x - currentPos.x) <= minDistance && abs(nearestPos.y - currentPos.y) <= minDistance)
+				return float4(0,0,0,0);
 
 				// distance in pixels to closest position
 				float dist = length(nearestPos - currentPos);
@@ -273,5 +281,40 @@ Shader "Hidden/OutlineJFASobel"
 			}
 			ENDHLSL
 		}
+
+		// Pass // 5
+		// {
+			// 	Name "JFASTENCIL"
+			// 	Stencil
+			// 	{
+				// 		Ref 1
+				// 		ReadMask 1
+				// 		WriteMask 1
+				// 		Comp NotEqual
+				// 		Pass Replace
+			// 	}
+
+			// 	// ColorMask 0
+			// 	// Blend Zero One
+
+			// 	HLSLPROGRAM
+			// 	#pragma vertex vert2
+			// 	#pragma fragment frag
+
+			// 	v2f vert2(appdata v)
+			// 	{
+				// 		v2f o;
+				// 		o.pos = TransformObjectToHClip(v.vertex.rgb);
+				// 		return o;
+			// 	}
+
+			// 	// float4 frag () : SV_Target
+			// 	// {
+				// 		// 	return 1.0/2.0;
+			// 	// }
+
+			// 	void frag () {}
+			// 	ENDHLSL
+		// }
 	}
 }

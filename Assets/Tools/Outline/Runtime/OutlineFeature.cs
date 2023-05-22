@@ -12,25 +12,30 @@ namespace JD.Outline
 
 		public override void Create()
 		{
+			if (settings == null) return;
 			if (material == null) return;
 
 			passList.Clear();
 			foreach (OutlineSettings set in settings)
 			{
-				if (set && set.width > 0)
+				if (set)
 				{
-					OutlinePass item = new OutlinePass(name, set, material);
-					passList.Add(item);
+					OutlinePass outlinePass = new OutlinePass(name, set, material);
+					passList.Add(outlinePass);
 				}
 			}
 		}
 
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
 		{
-			foreach (OutlinePass pass in passList)
+			foreach (OutlinePass outlinePass in passList)
 			{
-				pass.renderPassEvent = pass.settings.passEvent;
-				renderer.EnqueuePass(pass);
+				if (outlinePass.settings.width > 0)
+				{
+					RenderPassEvent outlinePassEvent = outlinePass.settings.passEvent;
+					outlinePass.renderPassEvent = outlinePassEvent;
+					renderer.EnqueuePass(outlinePass);
+				}
 			}
 		}
 	}

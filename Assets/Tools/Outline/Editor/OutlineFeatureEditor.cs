@@ -13,10 +13,6 @@ using Random = UnityEngine.Random;
 using UnityEditor;
 using UnityEditorInternal;
 
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-
 namespace JD.Outline.Editor
 {
 	[CustomEditor(typeof(OutlineFeature))]

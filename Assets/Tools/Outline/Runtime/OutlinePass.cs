@@ -19,7 +19,7 @@ namespace JD.Outline
 		private readonly int pongId = Shader.PropertyToID("_OutlineTargetPong");
 		private static readonly int stepId = Shader.PropertyToID("_StepWidth");
 
-		private static readonly ShaderTagId uniShaderTag = new ShaderTagId("UniversalForward");
+		public static readonly ShaderTagId uniShaderTag = new ShaderTagId("UniversalForward");
 
 		public readonly OutlineSettings settings;
 
@@ -30,9 +30,9 @@ namespace JD.Outline
 
 		public OutlinePass(string passName, OutlineSettings settings, Material material)
 		{
-			maskId = Shader.PropertyToID("_OutlineTargetMask" + this.GetHashCode());
-			pingId = Shader.PropertyToID("_OutlineTargetPing" + this.GetHashCode());
-			pongId = Shader.PropertyToID("_OutlineTargetPong" + this.GetHashCode());
+			maskId = Shader.PropertyToID("_OutlineTargetMask");
+			pingId = Shader.PropertyToID("_OutlineTargetPing");
+			pongId = Shader.PropertyToID("_OutlineTargetPong");
 
 			m_ProfilingSampler = new ProfilingSampler(passName);
 			base.profilingSampler = m_ProfilingSampler;
@@ -61,6 +61,7 @@ namespace JD.Outline
 		{
 			ConfigureInput(ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Depth);
 			// ConfigureClear(ClearFlag.ColorStencil, Color.clear);
+			// ConfigureDepthStoreAction(RenderBufferStoreAction.Store);
 			ConfigureTarget(maskId, cameraDepth);
 		}
 
@@ -92,7 +93,7 @@ namespace JD.Outline
 			cmd.Clear();
 			using (new ProfilingScope(cmd, m_ProfilingSampler))
 			{
-				cmd.ClearRenderTarget(RTClearFlags.ColorStencil, Color.clear, 1, 0);
+				cmd.ClearRenderTarget(RTClearFlags.Color, Color.clear, 1, 0);
 			}
 			context.ExecuteCommandBuffer(cmd);
 		}
@@ -149,7 +150,9 @@ namespace JD.Outline
 
 				cmd.SetGlobalFloat("_OutlineWidth", settings.width);
 				cmd.SetGlobalColor("_OutlineColor", settings.color);
-				Blit(cmd, jfaIter % 2 == 0 ? pingId : pongId, cameraColor, outlineMaterial, PASS_JFAOUTLINE);
+				cmd.SetRenderTarget(cameraColor, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store, cameraDepth, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store);
+				cmd.Blit(jfaIter % 2 == 0 ? pingId : pongId, cameraColor, outlineMaterial, PASS_JFAOUTLINE);
+				// Blit(cmd, jfaIter % 2 == 0 ? pingId : pongId, cameraColor, outlineMaterial, PASS_JFAOUTLINE);
 			}
 			context.ExecuteCommandBuffer(cmd);
 		}
