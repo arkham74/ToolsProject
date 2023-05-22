@@ -222,7 +222,7 @@ Shader "Hidden/OutlineJFASobel"
 				// current pixel position
 				float2 currentPos = i.pos.xy;
 
-				float minDistance = 0.5;
+				const float minDistance = 0.5;
 				if (abs(nearestPos.x - currentPos.x) <= minDistance && abs(nearestPos.y - currentPos.y) <= minDistance)
 				return float4(0,0,0,0);
 

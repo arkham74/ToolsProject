@@ -1,15 +1,18 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace JD
 {
-	public class PriorityQueue<T, P> where P : IComparable
+	public class PriorityQueue<T, P> : IEnumerable<T> where P : IComparable
 	{
 		private class Cell : IComparable<Cell>
 		{
 			public T item;
-			private P priority;
+			public P priority;
 
 			public Cell(T item, P priority)
 			{
@@ -30,17 +33,39 @@ namespace JD
 
 		public void Enqueue(T item, P priority)
 		{
-			list.Add(new Cell(item, priority));
-			list.Sort();
+			Cell cell = new Cell(item, priority);
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (list[i].priority.CompareTo(priority) > 0)
+				{
+					list.Insert(i, cell);
+					return;
+				}
+			}
+			list.Add(cell);
 		}
 
 		public T Dequeue()
 		{
 			Debug.Assert(list.Count > 0);
-
 			Cell first = list[0];
-			list.Remove(first);
+			list.RemoveAt(0);
 			return first.item;
+		}
+
+		public void Clear()
+		{
+			list.Clear();
+		}
+
+		public IEnumerator<T> GetEnumerator()
+		{
+			return list.Select(e => e.item).GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
 		}
 	}
 }

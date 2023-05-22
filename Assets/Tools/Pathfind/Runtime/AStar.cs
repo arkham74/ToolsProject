@@ -32,15 +32,18 @@ namespace JD.Pathfind
 
 	public static class AStar
 	{
-		public static List<IAStarNode> GetPath(IAStarNode start, IAStarNode goal)
+		private static readonly PriorityQueue<IAStarNode, float> frontier = new PriorityQueue<IAStarNode, float>();
+		private static readonly Dictionary<IAStarNode, IAStarNode> came_from = new Dictionary<IAStarNode, IAStarNode>();
+		private static readonly Dictionary<IAStarNode, float> cost_so_far = new Dictionary<IAStarNode, float>();
+
+		public static void GetPath(IAStarNode start, IAStarNode goal, List<IAStarNode> path)
 		{
-			PriorityQueue<IAStarNode, float> frontier = new PriorityQueue<IAStarNode, float>();
+			frontier.Clear();
+			came_from.Clear();
+			cost_so_far.Clear();
+
 			frontier.Enqueue(start, 0);
-
-			Dictionary<IAStarNode, IAStarNode> came_from = new Dictionary<IAStarNode, IAStarNode>();
 			came_from[start] = null;
-
-			Dictionary<IAStarNode, float> cost_so_far = new Dictionary<IAStarNode, float>();
 			cost_so_far[start] = 0;
 
 			while (frontier.Count > 0)
@@ -67,7 +70,6 @@ namespace JD.Pathfind
 			}
 
 			IAStarNode curr = goal;
-			List<IAStarNode> path = new List<IAStarNode>();
 
 			while (curr != start)
 			{
@@ -77,8 +79,6 @@ namespace JD.Pathfind
 
 			path.Add(start);
 			path.Reverse();
-
-			return path;
 		}
 	}
 }
