@@ -1,15 +1,18 @@
 using System.Collections.Generic;
 
-public static class DictionaryExtensions
+namespace JD
 {
-	public static TValue GetAndCache<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
+	public static class DictionaryExtensions
 	{
-		if (dictionary.TryGetValue(key, out TValue value))
+		public static TValue GetAndCache<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
 		{
-			return value;
-		}
+			if (dictionary.TryGetValue(key, out TValue value))
+			{
+				return value;
+			}
 
-		dictionary.Add(key, defaultValue);
-		return defaultValue;
+			dictionary.Add(key, defaultValue);
+			return defaultValue;
+		}
 	}
 }
