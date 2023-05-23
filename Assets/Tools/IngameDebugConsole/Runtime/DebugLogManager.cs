@@ -7,8 +7,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
 using UnityEngine.InputSystem;
-
+using UnityEngine.InputSystem.UI;
 #endif
+
 #if UNITY_EDITOR && UNITY_2021_1_OR_NEWER
 using Screen = UnityEngine.Device.Screen; // To support Device Simulator on Unity 2021.1+
 #endif
@@ -600,11 +601,11 @@ namespace IngameDebugConsole
 			// when we hide the console, we don't want the commandInputField to capture the toggleKey.
 			// InputField captures input in LateUpdate so deactivating it in Update ensures that
 			// no further input is captured
-			if( toggleWithKey )
+			if (toggleWithKey)
 			{
-				if( Input.GetKeyDown( toggleKey ) )
+				if (Input.GetKeyDown(toggleKey))
 				{
-					if( isLogWindowVisible )
+					if (isLogWindowVisible)
 						HideLogWindow();
 					else
 						ShowLogWindow();
@@ -780,7 +781,7 @@ namespace IngameDebugConsole
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
 					if (Keyboard.current[Key.UpArrow].wasPressedThisFrame)
 #else
-					if( Input.GetKeyDown( KeyCode.UpArrow ) )
+					if (Input.GetKeyDown(KeyCode.UpArrow))
 #endif
 					{
 						if (commandHistoryIndex == -1)
@@ -799,7 +800,7 @@ namespace IngameDebugConsole
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
 					else if (Keyboard.current[Key.DownArrow].wasPressedThisFrame && commandHistoryIndex != -1)
 #else
-					else if( Input.GetKeyDown( KeyCode.DownArrow ) && commandHistoryIndex != -1 )
+					else if (Input.GetKeyDown(KeyCode.DownArrow) && commandHistoryIndex != -1)
 #endif
 					{
 						if (++commandHistoryIndex < commandHistory.Count)
@@ -827,6 +828,10 @@ namespace IngameDebugConsole
 
 		public void ShowLogWindow()
 		{
+#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+			FindObjectOfType<InputSystemUIInputModule>(true).actionsAsset.Disable();
+#endif
+
 			// Show the log window
 			logWindowCanvasGroup.blocksRaycasts = true;
 			logWindowCanvasGroup.alpha = 1f;
@@ -852,6 +857,10 @@ namespace IngameDebugConsole
 
 		public void HideLogWindow()
 		{
+#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+			FindObjectOfType<InputSystemUIInputModule>(true).actionsAsset.Enable();
+#endif
+
 			// Hide the log window
 			logWindowCanvasGroup.blocksRaycasts = false;
 			logWindowCanvasGroup.alpha = 0f;
@@ -1058,20 +1067,20 @@ namespace IngameDebugConsole
 			}
 			else if ((!isInSearchMode || queuedLogEntry.MatchesSearchTerm(searchTerm)) && (logFilter == DebugLogFilter.All ||
 																													 (logTypeSpriteRepresentation ==
-																													  infoLog &&
-																													  ((logFilter & DebugLogFilter
+																														infoLog &&
+																														((logFilter & DebugLogFilter
 																															.Info) ==
 																														DebugLogFilter.Info)) ||
 																													 (logTypeSpriteRepresentation ==
-																													  warningLog &&
-																													  ((logFilter & DebugLogFilter
+																														warningLog &&
+																														((logFilter & DebugLogFilter
 																															.Warning) ==
 																														DebugLogFilter.Warning)) ||
 																													 (logTypeSpriteRepresentation ==
-																													  errorLog &&
-																													  ((logFilter & DebugLogFilter
-																														  .Error) == DebugLogFilter
-																														  .Error))))
+																														errorLog &&
+																														((logFilter & DebugLogFilter
+																															.Error) == DebugLogFilter
+																															.Error))))
 			{
 				indicesOfListEntriesToShow.Add(logEntryIndex);
 				logEntryIndexInEntriesToShow = indicesOfListEntriesToShow.Count - 1;
