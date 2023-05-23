@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using JD;
 #endif
 
 #if UNITY_EDITOR && UNITY_2021_1_OR_NEWER
@@ -829,7 +830,8 @@ namespace IngameDebugConsole
 		public void ShowLogWindow()
 		{
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
-			FindObjectOfType<InputSystemUIInputModule>(true).actionsAsset.Disable();
+			FindObjectsOfType<InputSystemUIInputModule>(true).ForEach(e => e.actionsAsset.Disable());
+			FindObjectsOfType<PlayerInput>(true).ForEach(e => e.actions.Disable());
 #endif
 
 			// Show the log window
@@ -858,7 +860,8 @@ namespace IngameDebugConsole
 		public void HideLogWindow()
 		{
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
-			FindObjectOfType<InputSystemUIInputModule>(true).actionsAsset.Enable();
+			FindObjectsOfType<InputSystemUIInputModule>(true).ForEach(e => e.actionsAsset.Enable());
+			FindObjectsOfType<PlayerInput>(true).ForEach(e => e.actions.Enable());
 #endif
 
 			// Hide the log window

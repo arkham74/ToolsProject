@@ -707,7 +707,23 @@ MonoBehaviour:
   startInPopupMode: 1
   startMinimized: 1
   toggleWithKey: 1
-  toggleKey: 96
+  toggleBinding:
+    m_Name: Toggle Binding
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: 7179c78b-ad2f-4fb6-b023-df3a517cb5d7
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 8372da0b-b2ad-41d2-9eb3-9ac09fc8733b
+      m_Path: <Keyboard>/backquote
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Toggle Binding
+      m_Flags: 0
+    m_Flags: 0
   enableSearchbar: 1
   topSearchbarMinWidth: 360
   captureLogTimestamps: 0
