@@ -41,7 +41,7 @@ namespace JD
 
 		public static bool ScreenToWorldPointOnPlane(this Camera camera, out Vector3 point)
 		{
-			Vector3 mousePosition = Input.mousePosition;
+			Vector3 mousePosition = GetMouseScreenPosition();
 			Plane plane = new Plane(Vector3.up, Vector3.zero);
 			return camera.ScreenToWorldPointOnPlane(mousePosition, plane, out point);
 		}
