@@ -26,7 +26,7 @@ namespace JD.Pathfind
 	public interface IAStarNode<T>
 	{
 		public IEnumerable<T> GetNeighbours();
-		public float GetCost(T target);
+		public float GetCost();
 		public float GetDistance(T target);
 	}
 
@@ -64,7 +64,7 @@ namespace JD.Pathfind
 
 				foreach (T next in current.GetNeighbours())
 				{
-					float new_cost = cost_so_far[current] + current.GetCost(next);
+					float new_cost = cost_so_far[current] + next.GetCost();
 
 					if (!came_from.ContainsKey(next))
 					{
