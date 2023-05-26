@@ -26,7 +26,7 @@ public class HexNode : MonoBehaviour, IAStarNode<HexNode>, IPointerClickHandler
 
 	public Hex Hex => HexUtils.FromWorld(transform.position / graph.Size).Round();
 
-	public float GetCost(HexNode target)
+	public float GetCost()
 	{
 		return 1f;
 	}

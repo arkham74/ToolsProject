@@ -75,7 +75,7 @@ public class TestCell : IAStarNode<TestCell>
 		this.position = new Vector2Int(position.x, position.z);
 	}
 
-	public float GetCost(TestCell target)
+	public float GetCost()
 	{
 		return 1;
 	}
