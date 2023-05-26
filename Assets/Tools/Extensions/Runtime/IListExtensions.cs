@@ -233,5 +233,23 @@ namespace JD
 
 			return list;
 		}
+
+		public static void ForEachPair<T>(this IList<T> array, Action<T, T> method)
+		{
+			if (array == null)
+			{
+				throw new ArgumentException("ForEachPair", nameof(array));
+			}
+
+			if (method == null)
+			{
+				throw new ArgumentException("ForEachPair", nameof(method));
+			}
+
+			for (int i = 1; i < array.Count; i++)
+			{
+				method(array[i - 1], array[i]);
+			}
+		}
 	}
 }

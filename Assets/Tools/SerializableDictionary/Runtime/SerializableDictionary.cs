@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SD
+namespace JD
 {
 	/// <summary>
 	/// Generic Serializable Dictionary for Unity 2020.1.

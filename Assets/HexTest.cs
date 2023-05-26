@@ -13,7 +13,6 @@ using JD;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 using Tools = JD.Tools;
-using SD;
 using JD.Pathfind;
 
 #if ENABLE_INPUT_SYSTEM

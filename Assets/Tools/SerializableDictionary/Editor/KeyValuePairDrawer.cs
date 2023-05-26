@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace SD.Editor
+namespace JD.Editor
 {
 	[CustomPropertyDrawer(typeof(SerializableDictionary<,>.KeyValuePair))]
 	public class KeyValuePairDrawer : PropertyDrawer

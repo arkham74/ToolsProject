@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SD
+namespace JD
 {
 	public static class SerializableDictionaryExtensions
 	{
