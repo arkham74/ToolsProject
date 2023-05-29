@@ -12,7 +12,7 @@ namespace Crosstales.TPB.Task
 			if (importedAssets.Any(str => str.Contains(Crosstales.TPB.Util.Constants.ASSET_UID.ToString())))
 			{
 				SetupResources.Setup();
-				EditorIntegration.ConfigWindow.ShowWindow(3);
+				EditorIntegration.ConfigWindow.ShowWindow(0);
 			}
 		}
 	}
