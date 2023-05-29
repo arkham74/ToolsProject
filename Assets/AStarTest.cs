@@ -85,14 +85,6 @@ public class TestCell : IAStarNode<TestCell>
 		return Vector2.Distance(target.position, position);
 	}
 
-	public IEnumerable<TestCell> GetNeighbours()
-	{
-		if (Create(position.x + 1, position.y + 1)) yield return grid[position.x + 1, position.y + 1];
-		if (Create(position.x + 1, position.y - 1)) yield return grid[position.x + 1, position.y - 1];
-		if (Create(position.x - 1, position.y + 1)) yield return grid[position.x - 1, position.y + 1];
-		if (Create(position.x - 1, position.y - 1)) yield return grid[position.x - 1, position.y - 1];
-	}
-
 	private bool Create(int x, int y)
 	{
 		if (x < 0) return false;
@@ -115,5 +107,29 @@ public class TestCell : IAStarNode<TestCell>
 	public int GetHashCode(TestCell obj)
 	{
 		return position.GetHashCode();
+	}
+
+	public IList<TestCell> GetNeighbours()
+	{
+		return GetNeighboursNonAlloc(new List<TestCell>());
+	}
+
+	public IList<TestCell> GetNeighboursNonAlloc(IList<TestCell> list)
+	{
+		list.Clear();
+
+		if (Create(position.x + 1, position.y + 1))
+			list.Add(grid[position.x + 1, position.y + 1]);
+
+		if (Create(position.x + 1, position.y - 1))
+			list.Add(grid[position.x + 1, position.y - 1]);
+
+		if (Create(position.x - 1, position.y + 1))
+			list.Add(grid[position.x - 1, position.y + 1]);
+
+		if (Create(position.x - 1, position.y - 1))
+			list.Add(grid[position.x - 1, position.y - 1]);
+
+		return list;
 	}
 }

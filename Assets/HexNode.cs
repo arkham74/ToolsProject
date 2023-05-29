@@ -52,12 +52,19 @@ public class HexNode : MonoBehaviour, IAStarNode<HexNode>, IPointerClickHandler
 		return t.transform.Distance(transform);
 	}
 
-	public IEnumerable<HexNode> GetNeighbours()
+	public IList<HexNode> GetNeighbours()
 	{
-		foreach (var item in graph.GetNeighbours(this))
+		return graph.GetNeighbours(this);
+	}
+
+	public IList<HexNode> GetNeighboursNonAlloc(IList<HexNode> list)
+	{
+		list.Clear();
+		foreach (HexNode item in graph.GetNeighbours(this))
 		{
-			yield return item;
+			list.Add(item);
 		}
+		return list;
 	}
 
 	public void OnPointerClick(PointerEventData eventData)

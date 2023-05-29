@@ -25,7 +25,7 @@ namespace JD.Pathfind
 {
 	public interface IAStarNode<T> : IEquatable<T>, IEqualityComparer<T>
 	{
-		public IEnumerable<T> GetNeighbours();
+		public IList<T> GetNeighbours();
 		public float GetCost();
 		public float GetDistance(T target);
 	}
@@ -62,8 +62,10 @@ namespace JD.Pathfind
 					break;
 				}
 
-				foreach (T next in current.GetNeighbours())
+				IList<T> list = current.GetNeighbours();
+				for (int i = 0; i < list.Count; i++)
 				{
+					T next = list[i];
 					float new_cost = cost_so_far[current] + next.GetCost();
 
 					if (!came_from.ContainsKey(next))
@@ -87,5 +89,22 @@ namespace JD.Pathfind
 			path.Add(start);
 			path.Reverse();
 		}
+
+		// private static K GetItem<K>(Dictionary<T, K> dict, T key)
+		// {
+		// 	return dict[key];
+		// }
+
+		// private static bool ContainsKey(Dictionary<T, T> dict, T key)
+		// {
+		// 	foreach ((T v, T k) in dict)
+		// 	{
+		// 		if (k.Equals(key))
+		// 		{
+		// 			return true;
+		// 		}
+		// 	}
+		// 	return false;
+		// }
 	}
 }
