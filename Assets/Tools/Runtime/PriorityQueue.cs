@@ -2,65 +2,55 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace JD
 {
-	public class PriorityQueue<T, P> : IEnumerable<T> where P : IComparable
+	public class PriorityQueue<T> : IEnumerable<T>
 	{
-		private class Cell : IComparable<Cell>
+		private List<T> items = new List<T>();
+		private List<float> priorities = new List<float>();
+
+		public int Count => items.Count;
+		public int Length => items.Count;
+		public bool IsEmpty => items.Count == 0;
+
+		public void Enqueue(T item, float priority)
 		{
-			public T item;
-			public P priority;
-
-			public Cell(T item, P priority)
+			for (int i = 0; i < priorities.Count; i++)
 			{
-				this.item = item;
-				this.priority = priority;
-			}
-
-			public int CompareTo(Cell other)
-			{
-				return priority.CompareTo(other.priority);
-			}
-		}
-
-		private List<Cell> list = new List<Cell>();
-		public int Count => list.Count;
-		public int Length => list.Count;
-		public bool IsEmpty => list.Count == 0;
-
-		public void Enqueue(T item, P priority)
-		{
-			Cell cell = new Cell(item, priority);
-			for (int i = 0; i < list.Count; i++)
-			{
-				if (list[i].priority.CompareTo(priority) > 0)
+				if (priorities[i].CompareTo(priority) > 0)
 				{
-					list.Insert(i, cell);
+					items.Insert(i, item);
+					priorities.Insert(i, priority);
 					return;
 				}
 			}
-			list.Add(cell);
+			items.Add(item);
+			priorities.Add(priority);
 		}
 
 		public T Dequeue()
 		{
-			Debug.Assert(list.Count > 0);
-			Cell first = list[0];
-			list.RemoveAt(0);
-			return first.item;
+			Debug.Assert(items.Count > 0);
+			Debug.Assert(priorities.Count > 0);
+			T item = items[0];
+			items.RemoveAt(0);
+			priorities.RemoveAt(0);
+			return item;
 		}
 
 		public void Clear()
 		{
-			list.Clear();
+			items.Clear();
+			priorities.Clear();
 		}
 
 		public IEnumerator<T> GetEnumerator()
 		{
-			return list.Select(e => e.item).GetEnumerator();
+			return items.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()

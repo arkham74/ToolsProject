@@ -32,7 +32,7 @@ namespace JD.Pathfind
 
 	public static class AStar<T> where T : IAStarNode<T>
 	{
-		private static readonly PriorityQueue<T, float> frontier = new PriorityQueue<T, float>();
+		private static readonly PriorityQueue<T> frontier = new PriorityQueue<T>();
 		private static readonly Dictionary<T, T> came_from = new Dictionary<T, T>();
 		private static readonly Dictionary<T, float> cost_so_far = new Dictionary<T, float>();
 
