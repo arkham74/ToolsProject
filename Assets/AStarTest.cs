@@ -101,4 +101,19 @@ public class TestCell : IAStarNode<TestCell>
 		if (y >= 10) return false;
 		return true;
 	}
+
+	public bool Equals(TestCell other)
+	{
+		return position.Equals(other.position);
+	}
+
+	public bool Equals(TestCell x, TestCell y)
+	{
+		return x.Equals(y);
+	}
+
+	public int GetHashCode(TestCell obj)
+	{
+		return position.GetHashCode();
+	}
 }

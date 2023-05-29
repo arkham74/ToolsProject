@@ -23,7 +23,7 @@ using UnityEngine.InputSystem;
 
 namespace JD.Pathfind
 {
-	public interface IAStarNode<T>
+	public interface IAStarNode<T> : IEquatable<T>, IEqualityComparer<T>
 	{
 		public IEnumerable<T> GetNeighbours();
 		public float GetCost();

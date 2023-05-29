@@ -26,6 +26,21 @@ public class HexNode : MonoBehaviour, IAStarNode<HexNode>, IPointerClickHandler
 
 	public Hex Hex => HexUtils.FromWorld(transform.position / graph.Size).Round();
 
+	public bool Equals(HexNode other)
+	{
+		return gameObject.Equals(gameObject);
+	}
+
+	public bool Equals(HexNode x, HexNode y)
+	{
+		return x.Equals(y);
+	}
+
+	public int GetHashCode(HexNode obj)
+	{
+		return gameObject.GetHashCode();
+	}
+
 	public float GetCost()
 	{
 		return 1f;
