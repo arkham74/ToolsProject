@@ -43,6 +43,21 @@ namespace JD
 			Vector3 local = new Vector3(sin, 0, cos);
 			return transform.LocalToWorld(local);
 		}
+
+#if UNITY_2022_3_OR_NEWER
+		public override Vector3 EvaluateLocalPosition(float pos)
+		{
+			return transform.InverseTransformPoint(EvaluatePosition(pos));
+		}
+		public override Vector3 EvaluateLocalTangent(float pos)
+		{
+			return transform.InverseTransformDirection(EvaluateTangent(pos));
+		}
+		public override Quaternion EvaluateLocalOrientation(float pos)
+		{
+			return transform.InverseTransformRotation(EvaluateOrientation(pos));
+		}
+#endif
 	}
 }
 #endif

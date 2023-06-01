@@ -1,6 +1,7 @@
 ﻿#if TOOLS_CINEMACHINE
 
 using Cinemachine;
+using Freya;
 using UnityEngine;
 
 namespace JD
@@ -40,6 +41,21 @@ namespace JD
 		{
 			InvalidateDistanceCache();
 		}
+
+#if UNITY_2022_3_OR_NEWER
+		public override Vector3 EvaluateLocalPosition(float pos)
+		{
+			return transform.InverseTransformPoint(EvaluatePosition(pos));
+		}
+		public override Vector3 EvaluateLocalTangent(float pos)
+		{
+			return transform.InverseTransformDirection(EvaluateTangent(pos));
+		}
+		public override Quaternion EvaluateLocalOrientation(float pos)
+		{
+			return transform.InverseTransformRotation(EvaluateOrientation(pos));
+		}
+#endif
 	}
 }
 #endif
