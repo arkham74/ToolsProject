@@ -13,6 +13,7 @@ using Random = UnityEngine.Random;
 using UnityEngine.Profiling;
 using UnityEngine.Splines;
 using Unity.Collections;
+using Unity.Mathematics;
 
 namespace JD.Splines
 {
@@ -32,10 +33,10 @@ namespace JD.Splines
 			lineRenderer.sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
 		}
 
-		protected override void PositionsAndNormals(NativeArray<Vector3> positions, Spline spline)
+		protected override void EvaluatePositionTangentNormal(NativeArray<float3> positions, NativeArray<float3> tangents, NativeArray<float3> normals)
 		{
 			int length = positions.Length;
-			lineRenderer.loop = spline.Closed;
+			// lineRenderer.loop = spline.Closed;
 			lineRenderer.positionCount = length;
 			for (int i = 0; i < length; i++)
 			{

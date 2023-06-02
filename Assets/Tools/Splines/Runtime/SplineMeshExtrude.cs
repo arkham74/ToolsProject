@@ -18,6 +18,8 @@ using Tools = JD.Tools;
 using Unity.Collections;
 using UnityEngine.Splines;
 using Steamworks;
+using Unity.Mathematics;
+using UnityEngine.Pool;
 
 namespace JD.Splines
 {
@@ -29,7 +31,7 @@ namespace JD.Splines
 		[SerializeField] private bool simplify = false;
 		[SerializeField][Range(0.001f, 0.01f)] private float tolerance = 0.01f;
 		[SerializeField][Range(0.01f, 0.1f)] private float thickness = 0.1f;
-		[SerializeField] private MeshTopology topology = MeshTopology.LineStrip;
+		[SerializeField] private MeshTopology topology = MeshTopology.Triangles;
 		[SerializeField] private MeshFilter meshFilter;
 		[SerializeField] private MeshRenderer meshRenderer;
 
@@ -47,28 +49,23 @@ namespace JD.Splines
 			meshRenderer = GetComponentInChildren<MeshRenderer>(true);
 		}
 
-		protected override void PositionsAndNormals(NativeArray<Vector3> native, Spline spline)
+		protected override void EvaluatePositionTangentNormal(NativeArray<float3> positions, NativeArray<float3> tangents, NativeArray<float3> normals)
 		{
-			Debug.Log("PositionsAndNormals");
 			CreateMesh();
 			mesh.Clear();
 
 			List<Vector3> verts = new List<Vector3>();
 			Vector3 offset = Vector3.up * thickness;
 
-			List<Vector3> asd = new List<Vector3>(native);
-			List<Vector3> positions = new List<Vector3>();
+			List<float3> list = ListPool<float3>.Get();
+			list.AddRange(positions);
 
 			if (simplify)
 			{
-				LineUtility.Simplify(asd, tolerance, positions);
-			}
-			else
-			{
-				positions.AddRange(asd);
+				SplineUtility.ReducePoints(list, tolerance);
 			}
 
-			foreach (Vector3 item in positions)
+			foreach (Vector3 item in list)
 			{
 				verts.Add(item);
 				verts.Add(item + offset);
@@ -77,7 +74,7 @@ namespace JD.Splines
 
 			List<int> indices = new List<int>();
 
-			for (int i = 0; i < (positions.Count - 1) * 2; i++)
+			for (int i = 0; i < (list.Count - 1) * 2; i++)
 			{
 				if (i % 2 == 0)
 				{
@@ -98,6 +95,7 @@ namespace JD.Splines
 			mesh.OptimizeIndexBuffers();
 			mesh.OptimizeReorderVertexBuffer();
 			mesh.RecalculateNormals();
+			ListPool<float3>.Release(list);
 		}
 
 		private void CreateMesh()
