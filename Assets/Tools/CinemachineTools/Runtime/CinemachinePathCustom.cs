@@ -42,7 +42,6 @@ namespace JD
 			InvalidateDistanceCache();
 		}
 
-#if UNITY_2022_3_OR_NEWER
 		public override Vector3 EvaluateLocalPosition(float pos)
 		{
 			return transform.InverseTransformPoint(EvaluatePosition(pos));
@@ -55,7 +54,6 @@ namespace JD
 		{
 			return transform.InverseTransformRotation(EvaluateOrientation(pos));
 		}
-#endif
 	}
 }
 #endif
