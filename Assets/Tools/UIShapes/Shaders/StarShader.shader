@@ -68,6 +68,7 @@ Shader "Hidden/StarShader"
 				float2 texcoord : TEXCOORD0;
 				float4 params1 : TEXCOORD1;
 				float4 params2 : TEXCOORD2;
+				float4 emission : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -78,6 +79,7 @@ Shader "Hidden/StarShader"
 				float2 texcoord  : TEXCOORD0;
 				float4 params1 : TEXCOORD1;
 				float4 params2 : TEXCOORD2;
+				float4 emission : TEXCOORD3;
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
@@ -88,42 +90,43 @@ Shader "Hidden/StarShader"
 
 			v2f vert(appdata_t v)
 			{
-				v2f OUT;
+				v2f o;
 				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
-				OUT.vertex = UnityObjectToClipPos(v.vertex);
-				OUT.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
-				OUT.color = v.color;
-				OUT.params1 = v.params1;
-				OUT.params2 = v.params2;
-				return OUT;
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
+				o.color = v.color;
+				o.params1 = v.params1;
+				o.params2 = v.params2;
+				o.emission = v.emission;
+				return o;
 			}
 
-			float4 frag(v2f IN) : SV_Target
+			float4 frag(v2f i) : SV_Target
 			{
-				float fill = IN.params1.x;
-				float round = IN.params1.y;
-				float radius = IN.params1.z;
-				int sides = IN.params1.w;
-				float star = (IN.params2.x / 2.0) * (sides - 2) + 2;
-				float empty = IN.params2.y;
+				float fill = i.params1.x;
+				float round = i.params1.y;
+				float radius = i.params1.z;
+				int sides = i.params1.w;
+				float star = (i.params2.x / 2.0) * (sides - 2) + 2;
+				float empty = i.params2.y;
 				// star = remap(star, 0, 1, 0, 1);
 
-				float2 uv = IN.texcoord;
+				float2 uv = i.texcoord;
 				uv = center(uv);
 				float sdf = sdStar(uv, radius - round - empty * fill, sides, star);
 				sdf = opRound(sdf, round);
 				if(empty > 0)
-					sdf = opOnion(sdf, fill);
+				sdf = opOnion(sdf, fill);
 				sdf = AA(sdf);
-				float4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color * float4(1, 1, 1, sdf);
+				float4 color = (tex2D(_MainTex, i.texcoord) + _TextureSampleAdd) * (i.color + i.emission) * float4(1, 1, 1, sdf);
 
 				#ifdef UNITY_UI_CLIP_RECT
-				color.a *= UnityGet2DClipping(IN.vertex.xy, _ClipRect);
+					color.a *= UnityGet2DClipping(i.vertex.xy, _ClipRect);
 				#endif
 
 				#ifdef UNITY_UI_ALPHACLIP
-				clip (color.a - 0.001);
+					clip (color.a - 0.001);
 				#endif
 
 				return color;

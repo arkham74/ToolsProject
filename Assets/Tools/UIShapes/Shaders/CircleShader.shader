@@ -67,6 +67,7 @@ Shader "Hidden/CircleShader"
 				float4 color    : COLOR;
 				float2 texcoord : TEXCOORD0;
 				float4 params : TEXCOORD1;
+				float4 emission : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -76,6 +77,7 @@ Shader "Hidden/CircleShader"
 				fixed4 color    : COLOR;
 				float2 texcoord  : TEXCOORD0;
 				float4 params : TEXCOORD1;
+				float4 emission : TEXCOORD3;
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
@@ -86,32 +88,33 @@ Shader "Hidden/CircleShader"
 
 			v2f vert(appdata_t v)
 			{
-				v2f OUT;
+				v2f o;
 				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
-				OUT.vertex = UnityObjectToClipPos(v.vertex);
-				OUT.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
-				OUT.color = v.color;
-				OUT.params = v.params;
-				return OUT;
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
+				o.color = v.color;
+				o.params = v.params;
+				o.emission = v.emission;
+				return o;
 			}
 
-			float4 frag(v2f IN) : SV_Target
+			float4 frag(v2f i) : SV_Target
 			{
-				float _Radius = IN.params.x;
-				float _Width = IN.params.y + 0.004;
-				float sdf = distance(IN.texcoord, float2(0.5,0.5));
+				float _Radius = i.params.x;
+				float _Width = i.params.y + 0.004;
+				float sdf = distance(i.texcoord, float2(0.5,0.5));
 				float rad = sdf - _Radius / 2 + _Width / (4 / _Radius);
 				float wid = abs(rad) - _Width / (4 / _Radius);
 				float mask = AA(wid);
-				float4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color * float4(1, 1, 1, mask);
+				float4 color = (tex2D(_MainTex, i.texcoord) + _TextureSampleAdd) * (i.color + i.emission) * float4(1, 1, 1, mask);
 
 				#ifdef UNITY_UI_CLIP_RECT
-				color.a *= UnityGet2DClipping(IN.vertex.xy, _ClipRect);
+					color.a *= UnityGet2DClipping(i.vertex.xy, _ClipRect);
 				#endif
 
 				#ifdef UNITY_UI_ALPHACLIP
-				clip (color.a - 0.001);
+					clip (color.a - 0.001);
 				#endif
 
 				return color;

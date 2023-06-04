@@ -12,6 +12,7 @@ namespace JD.Editor
 			serializedObject.Update();
 			EditorGUILayout.PropertyField(serializedObject.FindProperty("sourceImage"));
 			EditorGUILayout.PropertyField(serializedObject.FindProperty("m_Color"));
+			EditorGUILayout.PropertyField(serializedObject.FindProperty("emission"));
 			EditorGUILayout.PropertyField(serializedObject.FindProperty("m_Maskable"));
 			EditorGUILayout.PropertyField(serializedObject.FindProperty("m_RaycastTarget"));
 			EditorGUILayout.BeginHorizontal();

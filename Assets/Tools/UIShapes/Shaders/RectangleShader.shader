@@ -68,6 +68,7 @@ Shader "Hidden/RectangleShader"
 				float2 texcoord : TEXCOORD0;
 				float4 params : TEXCOORD1;
 				float4 radius : TEXCOORD2;
+				float4 emission : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -78,6 +79,7 @@ Shader "Hidden/RectangleShader"
 				float2 texcoord  : TEXCOORD0;
 				float4 params : TEXCOORD1;
 				float4 radius : TEXCOORD2;
+				float4 emission : TEXCOORD3;
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
@@ -88,42 +90,43 @@ Shader "Hidden/RectangleShader"
 
 			v2f vert(appdata_t v)
 			{
-				v2f OUT;
+				v2f o;
 				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
-				OUT.vertex = UnityObjectToClipPos(v.vertex);
-				OUT.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
-				OUT.color = v.color;
-				OUT.params = v.params;
-				OUT.radius = v.radius;
-				return OUT;
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
+				o.color = v.color;
+				o.params = v.params;
+				o.radius = v.radius;
+				o.emission = v.emission;
+				return o;
 			}
 
-			float4 frag(v2f IN) : SV_Target
+			float4 frag(v2f i) : SV_Target
 			{
-				float2 aspect = float2(IN.params.w, 1);
-				float2 uv = center(IN.texcoord) * aspect;
+				float2 aspect = float2(i.params.w, 1);
+				float2 uv = center(i.texcoord) * aspect;
 
-				float2 size = IN.params.xy * aspect;
+				float2 size = i.params.xy * aspect;
 				float width = size.x;
 				float height = size.y;
 				float mininum = min(width, height);
 				float maximum = max(width, height);
-				float4 radius = IN.radius * mininum;
-				float fill = IN.params.z + 0.008;
+				float4 radius = i.radius * mininum;
+				float fill = i.params.z + 0.008;
 
 				float sdf = sdRoundedBox(uv, size, radius);
 				float rad = sdf + fill * mininum * 0.5;
 				float wid = abs(rad) - fill * mininum * 0.5f;
 				float mask = AA(wid);
-				float4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color * float4(1, 1, 1, mask);
+				float4 color = (tex2D(_MainTex, i.texcoord) + _TextureSampleAdd) * (i.color + i.emission) * float4(1, 1, 1, mask);
 
 				#ifdef UNITY_UI_CLIP_RECT
-				color.a *= UnityGet2DClipping(IN.vertex.xy, _ClipRect);
+					color.a *= UnityGet2DClipping(i.vertex.xy, _ClipRect);
 				#endif
 
 				#ifdef UNITY_UI_ALPHACLIP
-				clip (color.a - 0.001);
+					clip (color.a - 0.001);
 				#endif
 
 				return color;

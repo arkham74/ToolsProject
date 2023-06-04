@@ -67,6 +67,7 @@ Shader "Hidden/HeartShader"
 				float4 color    : COLOR;
 				float2 texcoord : TEXCOORD0;
 				float4 params : TEXCOORD1;
+				float4 emission : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -76,6 +77,7 @@ Shader "Hidden/HeartShader"
 				fixed4 color    : COLOR;
 				float2 texcoord  : TEXCOORD0;
 				float4 params : TEXCOORD1;
+				float4 emission : TEXCOORD3;
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
@@ -86,35 +88,36 @@ Shader "Hidden/HeartShader"
 
 			v2f vert(appdata_t v)
 			{
-				v2f OUT;
+				v2f o;
 				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
-				OUT.vertex = UnityObjectToClipPos(v.vertex);
-				OUT.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
-				OUT.color = v.color;
-				OUT.params = v.params;
-				return OUT;
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
+				o.color = v.color;
+				o.params = v.params;
+				o.emission = v.emission;
+				return o;
 			}
 
-			float4 frag(v2f IN) : SV_Target
+			float4 frag(v2f i) : SV_Target
 			{
-				float fill = IN.params.x;
-				float round = IN.params.y;
-				float2 uv = IN.texcoord;
+				float fill = i.params.x;
+				float round = i.params.y;
+				float2 uv = i.texcoord;
 				uv = center(uv);
 				uv += float2(0, 2.5/3.0);
 				float sdf = sdHeart(uv * 2.0/3.0);
 				// sdf = opRound(sdf, round);
 				// sdf = opOnion(sdf, fill);
 				sdf = AA(sdf);
-				float4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color * float4(1, 1, 1, sdf);
+				float4 color = (tex2D(_MainTex, i.texcoord) + _TextureSampleAdd) * (i.color + i.emission) * float4(1, 1, 1, sdf);
 
 				#ifdef UNITY_UI_CLIP_RECT
-				color.a *= UnityGet2DClipping(IN.vertex.xy, _ClipRect);
+					color.a *= UnityGet2DClipping(i.vertex.xy, _ClipRect);
 				#endif
 
 				#ifdef UNITY_UI_ALPHACLIP
-				clip (color.a - 0.001);
+					clip (color.a - 0.001);
 				#endif
 
 				return color;

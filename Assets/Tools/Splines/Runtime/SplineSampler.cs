@@ -27,12 +27,13 @@ using UnityEngine.InputSystem;
 
 namespace JD.Splines
 {
+	[ExecuteAlways]
 	[RequireComponent(typeof(SplineContainer))]
 	public abstract class SplineSampler : MonoBehaviour
 	{
 		[SerializeField] private SplineContainer splineContainer;
 		[SerializeField][Range(1, 100)] protected int samplesPerUnit = 10;
-		protected bool dirty;
+		protected bool dirty = true;
 		private int oldSamples;
 
 		protected abstract void EvaluatePositionTangentNormal(NativeArray<float3> positions, NativeArray<float3> tangents, NativeArray<float3> normals);
@@ -66,20 +67,25 @@ namespace JD.Splines
 			SampleCurve();
 		}
 
+		protected void Refresh()
+		{
+			Spline spline = splineContainer.Spline;
+			int samples = Mathf.CeilToInt(samplesPerUnit * spline.GetLength());
+			NativeArray<float3> positions = new NativeArray<float3>(samples, Allocator.TempJob);
+			NativeArray<float3> tangents = new NativeArray<float3>(samples, Allocator.TempJob);
+			NativeArray<float3> normals = new NativeArray<float3>(samples, Allocator.TempJob);
+			SplineJobs.EvaluatePositionTangentNormal(spline, positions, tangents, normals);
+			EvaluatePositionTangentNormal(positions, tangents, normals);
+			positions.Dispose();
+			tangents.Dispose();
+			normals.Dispose();
+		}
+
 		private void SampleCurve()
 		{
 			if (dirty)
 			{
-				Spline spline = splineContainer.Spline;
-				int samples = Mathf.CeilToInt(samplesPerUnit * spline.GetLength());
-				NativeArray<float3> positions = new NativeArray<float3>(samples, Allocator.TempJob);
-				NativeArray<float3> tangents = new NativeArray<float3>(samples, Allocator.TempJob);
-				NativeArray<float3> normals = new NativeArray<float3>(samples, Allocator.TempJob);
-				SplineJobs.EvaluatePositionTangentNormal(spline, positions, tangents, normals);
-				EvaluatePositionTangentNormal(positions, tangents, normals);
-				positions.Dispose();
-				tangents.Dispose();
-				normals.Dispose();
+				Refresh();
 				dirty = false;
 			}
 		}

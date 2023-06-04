@@ -7,6 +7,7 @@ namespace JD
 	[RequireComponent(typeof(CanvasRenderer))]
 	public abstract class ShapeGraphic : MaskableGraphic
 	{
+		[SerializeField][ColorUsage(false, true)] private Color emission = Color.black;
 		[SerializeField] private Sprite sourceImage;
 		public override Texture mainTexture
 		{
@@ -24,12 +25,15 @@ namespace JD
 
 		protected override void OnPopulateMesh(VertexHelper vh)
 		{
+			canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord3;
+
 			Rect pixelAdjustedRect = GetPixelAdjustedRect();
 			Vector4 vector = new Vector4(pixelAdjustedRect.x, pixelAdjustedRect.y, pixelAdjustedRect.x + pixelAdjustedRect.width, pixelAdjustedRect.y + pixelAdjustedRect.height);
 
 			UIVertex vert = new UIVertex();
 			OnPopulateVert(ref vert, pixelAdjustedRect);
 			vert.color = color;
+			vert.uv3 = emission;
 
 			vh.Clear();
 
