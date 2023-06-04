@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -67,7 +68,7 @@ namespace JD
 			button.navigation = navdisplay;
 		}
 
-		public static void SelectButton(this Selectable selectable)
+		public static void SelectDelayed(this Selectable selectable)
 		{
 			if (selectable.gameObject.activeInHierarchy)
 			{
@@ -87,6 +88,32 @@ namespace JD
 			else
 			{
 				selectable.Select();
+			}
+		}
+
+		public static void SetupNavigationVertical(this IList<Selectable> selectables)
+		{
+			for (int i = 0; i < selectables.Count; i++)
+			{
+				Selectable selectable = selectables[i];
+				Navigation nav = selectable.navigation;
+				nav.mode = Navigation.Mode.Explicit;
+				nav.selectOnUp = selectables.Repeat(i - 1);
+				nav.selectOnDown = selectables.Repeat(i + 1);
+				selectable.navigation = nav;
+			}
+		}
+
+		public static void SetupNavigationHorizontal(this IList<Selectable> selectables)
+		{
+			for (int i = 0; i < selectables.Count; i++)
+			{
+				Selectable selectable = selectables[i];
+				Navigation nav = selectable.navigation;
+				nav.mode = Navigation.Mode.Explicit;
+				nav.selectOnLeft = selectables.Repeat(i - 1);
+				nav.selectOnRight = selectables.Repeat(i + 1);
+				selectable.navigation = nav;
 			}
 		}
 	}
