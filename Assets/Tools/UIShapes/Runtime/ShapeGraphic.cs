@@ -33,6 +33,7 @@ namespace JD
 			UIVertex vert = new UIVertex();
 			OnPopulateVert(ref vert, pixelAdjustedRect);
 			vert.color = color;
+			emission.a = 0;
 			vert.uv3 = emission;
 
 			vh.Clear();
