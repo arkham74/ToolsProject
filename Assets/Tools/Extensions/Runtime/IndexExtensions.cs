@@ -21,7 +21,7 @@ using UnityEngine.InputSystem;
 
 namespace JD
 {
-	public static class ForEachExtensions
+	public static class IndexExtensions
 	{
 		public static ForEachEnumerator GetEnumerator(this Range range)
 		{

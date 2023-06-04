@@ -137,5 +137,21 @@ namespace JD
 				item.gameObject.SetActive(value);
 			}
 		}
+
+		public static T Closest<T>(this IEnumerable<T> enumerable, Component target) where T : Component
+		{
+			T clos = null;
+			float min = float.MaxValue;
+			foreach (T item in enumerable)
+			{
+				float dist = Vector3.Distance(item.transform.position, target.transform.position);
+				if (dist < min)
+				{
+					min = dist;
+					clos = item;
+				}
+			}
+			return clos;
+		}
 	}
 }

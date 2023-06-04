@@ -9,21 +9,6 @@ namespace JD
 {
 	public static class ArrayExtensions
 	{
-		public static string Join<T>(this T[] array, Func<T, string> selector, string separator = ", ")
-		{
-			return string.Join(separator, array.Select(selector));
-		}
-
-		public static string Join<T>(this T[] array, string separator = ", ")
-		{
-			return string.Join(separator, array);
-		}
-
-		public static T Loop<T>(this T[] array, int index)
-		{
-			return array[Mathfs.Mod(index, array.Length)];
-		}
-
 		public static bool Exists<T>(this T[] array, Predicate<T> match)
 		{
 			return Array.Exists(array, match);
