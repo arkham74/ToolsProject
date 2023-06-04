@@ -108,23 +108,6 @@ namespace JD
 			}
 		}
 
-		public static T Closest<T>(this IEnumerable<T> collection, Component target) where T : Component
-		{
-			T clos = null;
-			float min = float.MaxValue;
-			foreach (T item in collection)
-			{
-				float dist = Vector3.Distance(item.transform.position, target.transform.position);
-				if (dist < min)
-				{
-					min = dist;
-					clos = item;
-				}
-			}
-
-			return clos;
-		}
-
 		public static T AtIndexClamp<T>(this IEnumerable<T> collection, int index)
 		{
 			return collection.ElementAt(Mathf.Clamp(index, 0, collection.Count() - 1));
