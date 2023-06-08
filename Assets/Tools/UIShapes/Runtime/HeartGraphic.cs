@@ -19,6 +19,9 @@ namespace JD
 		[SerializeField][Range(0, 1)] private float fill = 1.0f;
 		[SerializeField][Range(0, 1)] private float round = 1.0f;
 
+		public void SetRound(float round) => this.round = round;
+		public void SetFill(float fill) => this.fill = fill;
+
 		protected override void OnPopulateVert(ref UIVertex vert, Rect pixelAdjustedRect)
 		{
 			canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord1;

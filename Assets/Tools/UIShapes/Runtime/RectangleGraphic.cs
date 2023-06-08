@@ -24,6 +24,17 @@ namespace JD
 		[SerializeField][Range(0, 1)] private float radius4 = 0.5f;
 		[SerializeField][Range(0, 1)] private float fill = 1.0f;
 
+		public void SetWidth(float width) => this.width = width;
+		public void SetHeight(float height) => this.height = height;
+		public void SetFill(float fill) => this.fill = fill;
+		public void SetRadius(Vector4 radius)
+		{
+			this.radius1 = radius.x;
+			this.radius2 = radius.y;
+			this.radius3 = radius.z;
+			this.radius4 = radius.w;
+		}
+
 		protected override void OnPopulateVert(ref UIVertex vert, Rect pixelAdjustedRect)
 		{
 			canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord1 | AdditionalCanvasShaderChannels.TexCoord2;
