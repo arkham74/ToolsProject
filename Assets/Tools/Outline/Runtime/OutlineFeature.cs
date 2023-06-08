@@ -1,3 +1,4 @@
+#if OUTLINE_URP
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -40,3 +41,4 @@ namespace JD.Outline
 		}
 	}
 }
+#endif

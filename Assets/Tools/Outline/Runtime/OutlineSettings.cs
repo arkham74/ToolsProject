@@ -1,3 +1,4 @@
+#if OUTLINE_URP
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,3 +16,4 @@ namespace JD.Outline
 		public CompareFunction compare = CompareFunction.LessEqual;
 	}
 }
+#endif

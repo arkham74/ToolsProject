@@ -1,3 +1,4 @@
+#if OUTLINE_URP
 using System;
 using System.Linq;
 using System.Collections;
@@ -47,3 +48,4 @@ namespace JD.Outline.Editor
 		}
 	}
 }
+#endif
