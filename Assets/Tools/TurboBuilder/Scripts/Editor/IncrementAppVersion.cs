@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Linq;
 using System.Collections;
@@ -38,3 +39,4 @@ namespace Crosstales.TPB
 		}
 	}
 }
+#endif
