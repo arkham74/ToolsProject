@@ -173,7 +173,6 @@ Shader "Hidden/OutlineJFASobel"
 					}
 				}
 
-				float mask = _MainTex.Load(int3(uvInt, 0)).a;
 				// if not valid best distance output null position, otherwise output encoded position
 				float2 result = isinf(bestDist) ? FLOOD_NULL_POS_FLOAT2 : bestCoord * _MainTex_TexelSize.xy;
 				return result;
