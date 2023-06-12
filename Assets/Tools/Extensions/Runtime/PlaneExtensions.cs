@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 #if ENABLE_INPUT_SYSTEM
@@ -8,6 +9,7 @@ namespace JD
 {
 	public static class PlaneExtensions
 	{
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool Raycast(this Plane plane, Ray ray, out RaycastHit hit)
 		{
 			hit = default;

@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace JD
 {
@@ -33,11 +34,13 @@ namespace JD
 			}
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool CheckKeyPress(this KeyCode main, params KeyCode[] mod)
 		{
 			return Input.GetKeyDown(main) && mod.All(Input.GetKey);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static TimeSpan Epoch(this DateTime today)
 		{
 			DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);

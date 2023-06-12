@@ -1,9 +1,11 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace JD
 {
 	public static class ByteExtensions
 	{
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool[] ToBoolArray(this byte b)
 		{
 			bool[] result = new bool[8];

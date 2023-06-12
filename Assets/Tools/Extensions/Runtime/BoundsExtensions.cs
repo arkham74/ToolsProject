@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace JD
 {
 	public static class BoundsExtensions
 	{
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector3 RandomPosition(this Bounds bounds)
 		{
 			float x = UnityEngine.Random.Range(bounds.min.x, bounds.max.x);
@@ -15,6 +17,7 @@ namespace JD
 			return new Vector3(x, y, z);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector3 Clamp(this Bounds bounds, Vector3 pos)
 		{
 			float posX = Mathf.Clamp(pos.x, bounds.min.x, bounds.max.x);
@@ -23,6 +26,7 @@ namespace JD
 			return new Vector3(posX, posY, posZ);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector3[] GetCorners(this Bounds bounds)
 		{
 			Vector3[] array = new Vector3[8];
@@ -39,6 +43,7 @@ namespace JD
 			return array;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector3 ClosestCorner(this Bounds bounds, Vector3 point)
 		{
 			float Distance(Vector3 corner)
@@ -54,6 +59,7 @@ namespace JD
 			return bounds.GetCorners().OrderBy(Distance).ThenBy(Height).First();
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector3 ClosestPointFromInside(this Bounds bounds, Vector3 point)
 		{
 			if (bounds.Contains(point))
@@ -97,6 +103,7 @@ namespace JD
 			return point;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector3Int Clamp(this BoundsInt bounds, Vector3 pos)
 		{
 			int posX = (int)Mathf.Clamp(pos.x, bounds.min.x, bounds.max.x);

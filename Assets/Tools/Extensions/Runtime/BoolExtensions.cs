@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace JD
 {
 	public static class BoolExtensions
 	{
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int ToInt(this bool value)
 		{
 			return Convert.ToInt32(value);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte ToByte(this bool[] source)
 		{
 			byte result = 0;

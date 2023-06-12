@@ -14,6 +14,7 @@ using Freya;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
 using Tools = JD.Tools;
+using System.Runtime.CompilerServices;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -23,16 +24,19 @@ namespace JD
 {
 	public static class IndexExtensions
 	{
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ForEachEnumerator GetEnumerator(this Range range)
 		{
 			return new ForEachEnumerator(range);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ForEachEnumerator GetEnumerator(this Index index)
 		{
 			return new ForEachEnumerator(index);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ForEachEnumerator GetEnumerator(this int index)
 		{
 			return new ForEachEnumerator(index);
