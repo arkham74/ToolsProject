@@ -10,5 +10,7 @@ namespace JD
 		JetSetCorps = 1376290,
 		Champions = 1613220,
 		Swarm = 2263740,
+		Pixels = 2480140,
+		Yosemite = 2480320,
 	}
 }

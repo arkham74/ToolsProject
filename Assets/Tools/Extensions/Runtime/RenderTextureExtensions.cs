@@ -20,7 +20,6 @@ namespace JD
 
 		public static void CopyTo(this Texture2D source, RenderTexture dest)
 		{
-			source.Apply();
 			Graphics.CopyTexture(source, dest);
 		}
 
