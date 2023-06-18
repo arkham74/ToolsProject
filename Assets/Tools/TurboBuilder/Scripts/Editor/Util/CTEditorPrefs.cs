@@ -6,22 +6,26 @@ namespace Crosstales.Common.Util
 	/// <summary>Wrapper for the EditorPrefs.</summary>
 	public abstract class CTEditorPrefs
 	{
-		/*
-		#if UNITY_EDITOR
-					private static readonly SerializableDictionary<string, string> content = new SerializableDictionary<string, string>();
+		private static string GetCompanyProductKey(string key)
+		{
+			return string.Concat(Application.companyName, Application.productName, key);
+		}
 
-					private static readonly string fileName = $"{Application.persistentDataPath}/crosstales.cfg";
+		// #if UNITY_EDITOR
+		// 			private static readonly SerializableDictionary<string, string> content = new SerializableDictionary<string, string>();
 
-					static CTEditorPrefs()
-					{
-						 if (System.IO.File.Exists(fileName))
-								content = XmlHelper.DeserializeFromFile<SerializableDictionary<string, string>>(fileName);
+		// 			private static readonly string fileName = $"{Application.persistentDataPath}/crosstales.cfg";
 
-						 if (content == null)
-								content = new SerializableDictionary<string, string>();
-					}
-		#endif
-		*/
+		// 			static CTEditorPrefs()
+		// 			{
+		// 				 if (System.IO.File.Exists(fileName))
+		// 						content = XmlHelper.DeserializeFromFile<SerializableDictionary<string, string>>(fileName);
+
+		// 				 if (content == null)
+		// 						content = new SerializableDictionary<string, string>();
+		// 			}
+		// #endif
+
 		/// <summary>Exists the key?</summary>
 		/// <param name="key">Key for the EditorPrefs.</param>
 		/// <returns>Value for the key.</returns>
@@ -87,7 +91,7 @@ namespace Crosstales.Common.Util
 				throw new System.ArgumentNullException(nameof(key));
 
 			//#if (UNITY_WSA || UNITY_WEBGL) && !UNITY_EDITOR
-			return EditorPrefs.GetString(key);
+			return EditorPrefs.GetString(GetCompanyProductKey(key));
 			//#else
 			//         return content[key];
 			//#endif
@@ -102,7 +106,7 @@ namespace Crosstales.Common.Util
 				throw new System.ArgumentNullException(nameof(key));
 
 			//#if (UNITY_WSA || UNITY_WEBGL) && !UNITY_EDITOR
-			return EditorPrefs.GetFloat(key);
+			return EditorPrefs.GetFloat(GetCompanyProductKey(key));
 			//#else
 			//         float.TryParse(GetString(key), out float result);
 			//         return result;
@@ -118,7 +122,7 @@ namespace Crosstales.Common.Util
 				throw new System.ArgumentNullException(nameof(key));
 
 			//#if (UNITY_WSA || UNITY_WEBGL) && !UNITY_EDITOR
-			return EditorPrefs.GetInt(key);
+			return EditorPrefs.GetInt(GetCompanyProductKey(key));
 			//#else
 			//         int.TryParse(GetString(key), out int result);
 			//         return result;
@@ -223,7 +227,7 @@ namespace Crosstales.Common.Util
 				throw new System.ArgumentNullException(nameof(key));
 
 			//#if (UNITY_WSA || UNITY_WEBGL) && !UNITY_EDITOR
-			EditorPrefs.SetString(key, value);
+			EditorPrefs.SetString(GetCompanyProductKey(key), value);
 			/*         
 			#else
 							 if (content.ContainsKey(key))
@@ -247,7 +251,7 @@ namespace Crosstales.Common.Util
 			if (string.IsNullOrEmpty(key))
 				throw new System.ArgumentNullException(nameof(key));
 
-			EditorPrefs.SetFloat(key, value);
+			EditorPrefs.SetFloat(GetCompanyProductKey(key), value);
 			//#else
 			//         SetString(key, value.ToString(System.Globalization.CultureInfo.InvariantCulture));
 			//#endif
@@ -262,7 +266,7 @@ namespace Crosstales.Common.Util
 			if (string.IsNullOrEmpty(key))
 				throw new System.ArgumentNullException(nameof(key));
 
-			EditorPrefs.SetInt(key, value);
+			EditorPrefs.SetInt(GetCompanyProductKey(key), value);
 			//#else
 			//         SetString(key, value.ToString());
 			//#endif
