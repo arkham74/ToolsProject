@@ -1081,7 +1081,7 @@ namespace Crosstales.TPB.EditorIntegration
 					drawVerticalSeparator();
 				}
 
-				// if (Config.SHOW_COLUMN_ARCHITECTURE && Helper.hasActiveArchitecturePlatforms)
+				if (Config.SHOW_COLUMN_ARCHITECTURE && Helper.hasActiveArchitecturePlatforms)
 				{
 					drawColumnArchitecture();
 					drawVerticalSeparator();
