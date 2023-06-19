@@ -31,7 +31,6 @@ Shader "Hidden/OutlineJFASobel"
 		{
 			v2f o;
 			o.pos = TransformObjectToHClip(v.vertex.rgb);
-
 			return o;
 		}
 

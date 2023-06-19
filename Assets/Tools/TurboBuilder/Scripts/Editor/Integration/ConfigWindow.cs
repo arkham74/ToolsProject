@@ -50,7 +50,7 @@ namespace Crosstales.TPB.EditorIntegration
 
 		private void OnGUI()
 		{
-			//  tab = GUILayout.Toolbar(tab, new[] { "Build", "Config", "Help", "About" });
+			// tab = GUILayout.Toolbar(tab, new[] { "Build", "Config", "Help", "About" });
 			tab = GUILayout.Toolbar(tab, new[] { "Build", "Config" });
 
 			if (tab != lastTab)

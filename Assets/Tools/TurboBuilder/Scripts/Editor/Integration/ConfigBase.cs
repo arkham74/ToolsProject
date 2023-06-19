@@ -253,7 +253,7 @@ namespace Crosstales.TPB.EditorIntegration
 
 				Config.CONFIRM_BUILD = EditorGUILayout.Toggle(new GUIContent("Confirm Build", "Enable or disable the build confirmation dialog (default: " + Constants.DEFAULT_CONFIRM_BUILD + ")."), Config.CONFIRM_BUILD);
 
-				//Config.COMPILE_DEFINES = EditorGUILayout.Toggle(new GUIContent("Compile Defines", "Enable or disable adding compile define 'CT_TPB' for the asset (default: " + Constants.DEFAULT_COMPILE_DEFINES + ")."), Config.COMPILE_DEFINES);
+				// Config.COMPILE_DEFINES = EditorGUILayout.Toggle(new GUIContent("Compile Defines", "Enable or disable adding compile define 'CT_TPB' for the asset (default: " + Constants.DEFAULT_COMPILE_DEFINES + ")."), Config.COMPILE_DEFINES);
 
 				Helper.SeparatorUI();
 
@@ -1081,7 +1081,7 @@ namespace Crosstales.TPB.EditorIntegration
 					drawVerticalSeparator();
 				}
 
-				if (Config.SHOW_COLUMN_ARCHITECTURE && Helper.hasActiveArchitecturePlatforms)
+				// if (Config.SHOW_COLUMN_ARCHITECTURE && Helper.hasActiveArchitecturePlatforms)
 				{
 					drawColumnArchitecture();
 					drawVerticalSeparator();
