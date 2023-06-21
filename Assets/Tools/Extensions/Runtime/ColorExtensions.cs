@@ -7,6 +7,14 @@ namespace JD
 	public static class ColorExtensions
 	{
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static ColorHSV ToHSV(this Color32 rgb32)
+		{
+			Color rgb = rgb32;
+			Color.RGBToHSV(rgb, out float h, out float s, out float v);
+			return new ColorHSV(h, s, v, rgb.a);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ColorHSV ToHSV(this Color rgb)
 		{
 			Color.RGBToHSV(rgb, out float h, out float s, out float v);

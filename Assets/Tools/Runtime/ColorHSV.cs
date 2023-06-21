@@ -89,6 +89,9 @@ namespace JD
 		public static implicit operator ColorHSV(Color rgb) => rgb.ToHSV();
 		public static explicit operator Color(ColorHSV hsv) => hsv.ToRGB();
 
+		public static implicit operator ColorHSV(Color32 rgb32) => rgb32.ToHSV();
+		public static explicit operator Color32(ColorHSV hsv) => hsv.ToRGB();
+
 		public static implicit operator Vector3(ColorHSV hsv) => new Vector3(hsv.h, hsv.s, hsv.v);
 		public static implicit operator Vector4(ColorHSV hsv) => new Vector4(hsv.h, hsv.s, hsv.v, hsv.a);
 
