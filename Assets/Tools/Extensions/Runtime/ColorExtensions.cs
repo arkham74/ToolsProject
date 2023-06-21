@@ -20,7 +20,7 @@ namespace JD
 			color.a = hsv.a;
 			return color;
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Color WithRed(this Color color, float r)
 		{
@@ -70,11 +70,25 @@ namespace JD
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Color32 ToColor32(this Color color)
 		{
-			byte r = (byte)(color.r * 255);
-			byte g = (byte)(color.g * 255);
-			byte b = (byte)(color.b * 255);
-			byte a = (byte)(color.a * 255);
-			return new Color32(r, g, b, a);
+			return (Color32)color;
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Color ToColor(this Color32 color32)
+		{
+			return (Color)color32;
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Color32 ToLinear(this Color32 color32)
+		{
+			return color32.ToColor().linear.ToColor32();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Color32 ToGamma(this Color32 color32)
+		{
+			return color32.ToColor().gamma.ToColor32();
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
