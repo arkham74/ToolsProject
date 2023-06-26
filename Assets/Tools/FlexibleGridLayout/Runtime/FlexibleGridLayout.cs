@@ -7,38 +7,26 @@ namespace UIExtensions
 	{
 		public enum FitType
 		{
-			UNIFORM,
-			WIDTH,
-			HEIGHT,
-			FIXED_ROWS,
-			FIXED_COLUMNS
+			Uniform,
+			Width,
+			Height,
+			FixedRows,
+			FixedColumns
 		}
 
-		public int rows, columns;
-		public FitType fitType;
-		public Vector2 spacing;
+		[SerializeField] private GridLayoutGroup.Corner startCorner;
+		[SerializeField] private GridLayoutGroup.Axis startAxis;
+		[SerializeField] private Vector2 spacing;
+		[SerializeField] private FitType fitType;
+		[SerializeField][Min(1)] private int rowsColumns;
 
-		// protected override void OnValidate()
-		// {
-		// 	base.OnValidate();
-		// 	RectOffset pad = padding;
-		// 	rows = Mathf.Max(rows, 1);
-		// 	columns = Mathf.Max(columns, 1);
-		// 	spacing.x = Mathf.Max(spacing.x, 0);
-		// 	spacing.y = Mathf.Max(spacing.y, 0);
-		// 	pad.left = Mathf.Max(pad.left, 0);
-		// 	pad.right = Mathf.Max(pad.right, 0);
-		// 	pad.top = Mathf.Max(pad.top, 0);
-		// 	pad.bottom = Mathf.Max(pad.bottom, 0);
-		// }
+		public override void CalculateLayoutInputVertical()
+		{
+		}
 
 		public override void SetLayoutHorizontal()
 		{
 			Calc();
-		}
-
-		public override void CalculateLayoutInputVertical()
-		{
 		}
 
 		public override void SetLayoutVertical()
@@ -47,7 +35,10 @@ namespace UIExtensions
 
 		private void Calc()
 		{
-			if (fitType == FitType.WIDTH || fitType == FitType.HEIGHT || fitType == FitType.UNIFORM)
+			int rows = rowsColumns;
+			int columns = rowsColumns;
+
+			if (fitType == FitType.Width || fitType == FitType.Height || fitType == FitType.Uniform)
 			{
 				float squareRoot = Mathf.Sqrt(rectChildren.Count);
 				rows = Mathf.CeilToInt(squareRoot);
@@ -56,12 +47,12 @@ namespace UIExtensions
 
 			switch (fitType)
 			{
-				case FitType.WIDTH:
-				case FitType.FIXED_COLUMNS:
+				case FitType.Width:
+				case FitType.FixedColumns:
 					rows = Mathf.CeilToInt(rectChildren.Count / (float)columns);
 					break;
-				case FitType.HEIGHT:
-				case FitType.FIXED_ROWS:
+				case FitType.Height:
+				case FitType.FixedRows:
 					columns = Mathf.CeilToInt(rectChildren.Count / (float)rows);
 					break;
 			}
@@ -85,16 +76,75 @@ namespace UIExtensions
 
 			for (int i = 0; i < rectChildren.Count; i++)
 			{
-				int rowCount = i / columns;
-				int columnCount = i % columns;
+				int rowT = i / columns;
+				int columnT = i % columns;
+
+				switch (startCorner)
+				{
+					case GridLayoutGroup.Corner.UpperLeft: break;
+					case GridLayoutGroup.Corner.UpperRight:
+						switch (startAxis)
+						{
+							case GridLayoutGroup.Axis.Horizontal:
+								columnT = 1 - columnT;
+								break;
+							case GridLayoutGroup.Axis.Vertical:
+								rowT = 1 - rowT;
+								break;
+						}
+						break;
+					case GridLayoutGroup.Corner.LowerLeft:
+						switch (startAxis)
+						{
+							case GridLayoutGroup.Axis.Horizontal:
+								rowT = 1 - rowT;
+								break;
+							case GridLayoutGroup.Axis.Vertical:
+								columnT = 1 - columnT;
+								break;
+						}
+						break;
+					case GridLayoutGroup.Corner.LowerRight:
+						rowT = 1 - rowT;
+						columnT = 1 - columnT;
+						break;
+				}
+
 
 				RectTransform item = rectChildren[i];
 
-				float xPos = cellWidth * columnCount + spacing.x * columnCount + pad.left;
-				float yPos = cellHeight * rowCount + spacing.y * rowCount + pad.top;
+				float xPos = cellWidth * columnT + spacing.x * columnT + pad.left;
+				float yPos = cellHeight * rowT + spacing.y * rowT + pad.top;
 
-				SetChildAlongAxis(item, 0, xPos, cellWidth);
-				SetChildAlongAxis(item, 1, yPos, cellHeight);
+				float xOffset = cellWidth * columns * (1f - 2f / columns);
+				float yOffset = cellHeight * rows * (1f - 2f / rows);
+
+				switch (startCorner)
+				{
+					case GridLayoutGroup.Corner.UpperLeft: break;
+					case GridLayoutGroup.Corner.UpperRight:
+						xPos += xOffset + spacing.x * (columns - 2);
+						break;
+					case GridLayoutGroup.Corner.LowerLeft:
+						yPos += yOffset + spacing.y * (rows - 2);
+						break;
+					case GridLayoutGroup.Corner.LowerRight:
+						xPos += xOffset + spacing.x * (columns - 2);
+						yPos += yOffset + spacing.y * (rows - 2);
+						break;
+				}
+
+				switch (startAxis)
+				{
+					case GridLayoutGroup.Axis.Horizontal:
+						SetChildAlongAxis(item, 0, xPos, cellWidth);
+						SetChildAlongAxis(item, 1, yPos, cellHeight);
+						break;
+					case GridLayoutGroup.Axis.Vertical:
+						SetChildAlongAxis(item, 1, xPos, cellWidth);
+						SetChildAlongAxis(item, 0, yPos, cellHeight);
+						break;
+				}
 			}
 		}
 	}
