@@ -9,8 +9,6 @@ namespace JD
 {
 	public static class IntExtensions
 	{
-		public readonly static Dictionary<int, string> intCache = new Dictionary<int, string>(10000);
-
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int Clamp01(this int value)
 		{
@@ -84,19 +82,6 @@ namespace JD
 		public static int Random(this int value)
 		{
 			return UnityEngine.Random.Range(0, value);
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static string ToStringNonAllocation(this int value)
-		{
-			if (intCache.TryGetValue(value, out string str))
-			{
-				return str;
-			}
-
-			str = value.ToString();
-			intCache.Add(value, str);
-			return str;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
