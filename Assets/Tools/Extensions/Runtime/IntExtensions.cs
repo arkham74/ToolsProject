@@ -9,8 +9,6 @@ namespace JD
 {
 	public static class IntExtensions
 	{
-		public readonly static Dictionary<int, string> intCache = new Dictionary<int, string>(10000);
-
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int Clamp01(this int value)
 		{
@@ -86,8 +84,9 @@ namespace JD
 			return UnityEngine.Random.Range(0, value);
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static string ToStringNonAllocation(this int value)
+		public readonly static Dictionary<int, string> intCache = new Dictionary<int, string>(int.MaxValue);
+
+		public static string ToStringNonAlloc(this int value)
 		{
 			if (intCache.TryGetValue(value, out string str))
 			{

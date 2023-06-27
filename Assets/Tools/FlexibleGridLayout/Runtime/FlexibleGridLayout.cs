@@ -123,10 +123,26 @@ namespace UIExtensions
 				{
 					case GridLayoutGroup.Corner.UpperLeft: break;
 					case GridLayoutGroup.Corner.UpperRight:
-						xPos += xOffset + spacing.x * (columns - 2);
+						switch (startAxis)
+						{
+							case GridLayoutGroup.Axis.Horizontal:
+								xPos += xOffset + spacing.x * (columns - 2);
+								break;
+							case GridLayoutGroup.Axis.Vertical:
+								yPos += yOffset + spacing.y * (rows - 2);
+								break;
+						}
 						break;
 					case GridLayoutGroup.Corner.LowerLeft:
-						yPos += yOffset + spacing.y * (rows - 2);
+						switch (startAxis)
+						{
+							case GridLayoutGroup.Axis.Horizontal:
+								yPos += yOffset + spacing.y * (rows - 2);
+								break;
+							case GridLayoutGroup.Axis.Vertical:
+								xPos += xOffset + spacing.x * (columns - 2);
+								break;
+						}
 						break;
 					case GridLayoutGroup.Corner.LowerRight:
 						xPos += xOffset + spacing.x * (columns - 2);

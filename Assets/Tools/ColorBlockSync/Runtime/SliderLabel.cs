@@ -41,7 +41,7 @@ namespace JD
 
 		public void Init(int def, int min, int max, Action<int> onChange)
 		{
-			Init(def, min, max, onChange, e => e.ToStringNonAllocation());
+			Init(def, min, max, onChange, e => e.ToStringNonAlloc());
 		}
 
 		public void Init(int def, int min, int max, Action<int> onChange, Func<int, string> map)
