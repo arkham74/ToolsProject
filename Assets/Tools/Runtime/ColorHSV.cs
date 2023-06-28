@@ -16,6 +16,41 @@ namespace JD
 		public float v;
 		public float a;
 
+		public float this[int index]
+		{
+			get
+			{
+				return index switch
+				{
+					0 => h,
+					1 => s,
+					2 => v,
+					3 => a,
+					_ => throw new IndexOutOfRangeException("Invalid ColorHSV index(" + index + ")!"),
+				};
+			}
+			set
+			{
+				switch (index)
+				{
+					case 0:
+						h = value;
+						break;
+					case 1:
+						s = value;
+						break;
+					case 2:
+						v = value;
+						break;
+					case 3:
+						a = value;
+						break;
+					default:
+						throw new IndexOutOfRangeException("Invalid ColorHSV index(" + index + ")!");
+				}
+			}
+		}
+
 		public ColorHSV(float h, float s, float v)
 		{
 			this.h = h;
