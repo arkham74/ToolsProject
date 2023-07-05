@@ -16,8 +16,8 @@ using UnityEditorInternal;
 
 namespace JD.Outline.Editor
 {
-	[CustomEditor(typeof(OutlineFeature))]
-	public class OutlineFeatureEditor : UnityEditor.Editor
+	[CustomEditor(typeof(Outline))]
+	public class OutlineEditor : UnityEditor.Editor
 	{
 		private SerializedProperty settingsProp;
 
