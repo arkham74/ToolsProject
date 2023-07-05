@@ -7,13 +7,12 @@ namespace JD.PlanarReflection
 {
 	public class PlanarReflection : ScriptableRendererFeature
 	{
-		[SerializeField] private RenderPassEvent renderEvent = RenderPassEvent.BeforeRenderingOpaques;
 		private PlanarReflectionPass pass;
 
 		public override void Create()
 		{
 			pass = new PlanarReflectionPass();
-			pass.renderPassEvent = renderEvent;
+			pass.renderPassEvent = RenderPassEvent.BeforeRenderingOpaques;
 		}
 
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
