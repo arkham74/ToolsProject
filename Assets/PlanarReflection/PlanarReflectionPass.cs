@@ -11,12 +11,6 @@ namespace JD.PlanarReflection
 	public class PlanarReflectionPass : ScriptableRenderPass
 	{
 		private static readonly int planarTexId = Shader.PropertyToID("_PlanarTex");
-		private static readonly List<ShaderTagId> universalForwardTag = new List<ShaderTagId>
-		{
-			new ShaderTagId("SRPDefaultUnlit"),
-			new ShaderTagId("UniversalForward"),
-			new ShaderTagId("UniversalForwardOnly"),
-		};
 
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 		{
@@ -34,7 +28,7 @@ namespace JD.PlanarReflection
 		{
 			CommandBuffer cmd = CommandBufferPool.Get();
 
-			using (new FrameScope(cmd, "Planar Reflection"))
+			using (new FrameScope(context, cmd, "Planar Reflection"))
 			{
 				cmd.ClearRenderTarget(true, true, Color.clear);
 
@@ -59,20 +53,20 @@ namespace JD.PlanarReflection
 				Matrix4x4 invertedProjectionMatrix = projection;
 
 				RenderingUtils.SetViewAndProjectionMatrices(cmd, invertedViewMatrix, projectionMatrix, false);
+
 				context.ExecuteCommandBuffer(cmd);
 				cmd.Clear();
 
-				DrawingSettings drawingSettings = CreateDrawingSettings(universalForwardTag, ref renderingData, SortingCriteria.CommonOpaque);
-				FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque, -1, uint.MaxValue);
-				RenderStateBlock renderStateBlock = new RenderStateBlock(RenderStateMask.Nothing);
-				context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings, ref renderStateBlock);
+				ShaderTagId shaderTagId = new ShaderTagId("UniversalForward");
+				DrawingSettings drawingSettings = CreateDrawingSettings(shaderTagId, ref renderingData, SortingCriteria.CommonOpaque);
+				FilteringSettings filteringSettings = FilteringSettings.defaultValue;
+				context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings);
 				context.DrawSkybox(cameraData.camera);
 
 				RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, gpuProjectionMatrix, false);
-
+				context.ExecuteCommandBuffer(cmd);
 			}
 
-			context.ExecuteCommandBuffer(cmd);
 			CommandBufferPool.Release(cmd);
 		}
 

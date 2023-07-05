@@ -66,4 +66,3 @@ MonoBehaviour:
   m_Name: PlanarReflection
   m_EditorClassIdentifier: 
   m_Active: 1
-  renderEvent: 250
