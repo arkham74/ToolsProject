@@ -31,7 +31,7 @@ namespace Cyan
 	as a workaround for 2D Renderer not supporting features (prior to 2021.2). Uncomment if needed.
 	*/
 	//	[CreateAssetMenu(menuName = "Cyan/Blit")] 
-	public class BlitFeature : ScriptableRendererFeature
+	public class Blit : ScriptableRendererFeature
 	{
 		public bool sceneView;
 		public BlitSettings settings = new BlitSettings();
