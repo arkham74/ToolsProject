@@ -12,6 +12,8 @@ namespace JD.PathTrace
 	[SelectionBase]
 	public class PathTraceSphere : MonoBehaviour
 	{
+		public static readonly List<PathTraceSphere> Spheres = new List<PathTraceSphere>();
+
 		[SerializeField] private PathTraceMaterial material;
 
 		private void OnDrawGizmos()
@@ -24,12 +26,12 @@ namespace JD.PathTrace
 
 		private void OnEnable()
 		{
-			PathTrace.Spheres.Add(this);
+			PathTraceSphere.Spheres.Add(this);
 		}
 
 		private void OnDisable()
 		{
-			PathTrace.Spheres.Remove(this);
+			PathTraceSphere.Spheres.Remove(this);
 		}
 
 		public Sphere ToSphere()

@@ -1,13 +1,28 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 namespace JD.PathTrace
 {
-	public static class PathTrace
+	public class PathTrace : ScriptableRendererFeature
 	{
-		public static readonly List<PathTraceSphere> Spheres = new List<PathTraceSphere>();
+		[SerializeField][HideInInspector] private Shader shader;
+		private PathTracePass pass;
+
+		public override void Create()
+		{
+			pass = new PathTracePass(shader);
+			pass.renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
+		}
+
+		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
+		{
+			renderer.EnqueuePass(pass);
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			pass.Dispose(disposing);
+			base.Dispose(disposing);
+		}
 	}
 }

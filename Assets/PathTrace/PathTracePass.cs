@@ -50,9 +50,9 @@ namespace JD.PathTrace
 			CommandBuffer cmd = CommandBufferPool.Get("PathTrace");
 			RenderTargetIdentifier colorTarget = cameraData.renderer.cameraColorTarget;
 
-			for (int i = 0; i < PathTrace.Spheres.Count; i++)
+			for (int i = 0; i < PathTraceSphere.Spheres.Count; i++)
 			{
-				spheres.Add(PathTrace.Spheres[i].ToSphere());
+				spheres.Add(PathTraceSphere.Spheres[i].ToSphere());
 			}
 
 			int count = spheres.Count;
