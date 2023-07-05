@@ -18,16 +18,6 @@ namespace JD.PlanarReflection
 			new ShaderTagId("UniversalForwardOnly"),
 		};
 
-		private PlanarReflectionSettings settings;
-		private readonly ProfilingSampler sampler;
-
-		public PlanarReflectionPass(PlanarReflectionSettings set, string profilerTag)
-		{
-			settings = set;
-			renderPassEvent = settings.renderPassEvent;
-			sampler = new ProfilingSampler(profilerTag);
-		}
-
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 		{
 			RenderTextureDescriptor desc = renderingData.cameraData.cameraTargetDescriptor;
@@ -42,42 +32,47 @@ namespace JD.PlanarReflection
 
 		public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 		{
-			CommandBuffer cmd = CommandBufferPool.Get(sampler.name);
+			CommandBuffer cmd = CommandBufferPool.Get();
 
-			cmd.ClearRenderTarget(true, true, Color.clear);
+			using (new FrameScope(cmd, "Planar Reflection"))
+			{
+				cmd.ClearRenderTarget(true, true, Color.clear);
 
-			Vector4 normal = new Vector4(0, -1, 0, 0);
-			Vector4 pos = new Vector4(0, 0, 0, 1);
+				Vector4 normal = Vector3.up;
+				Vector4 pos = Vector4.zero;
 
-			CameraData cameraData = renderingData.cameraData;
+				CameraData cameraData = renderingData.cameraData;
 
-			Matrix4x4 gpuProjectionMatrix = cameraData.GetGPUProjectionMatrix();
-			Matrix4x4 viewMatrix = cameraData.GetViewMatrix();
-			Matrix4x4 projectionMatrix = cameraData.GetProjectionMatrix();
+				Matrix4x4 gpuProjectionMatrix = cameraData.GetGPUProjectionMatrix();
+				Matrix4x4 viewMatrix = cameraData.GetViewMatrix();
+				Matrix4x4 projectionMatrix = cameraData.GetProjectionMatrix();
 
-			float d = -Vector3.Dot(normal, pos) - settings.clipPlaneOffset;
-			Vector4 reflectionPlane = new Vector4(normal.x, normal.y, normal.z, d);
-			Matrix4x4 reflection = Matrix4x4.zero;
-			CalculateReflectionMatrix(ref reflection, reflectionPlane);
+				float d = -Vector3.Dot(normal, pos);
+				Vector4 reflectionPlane = new Vector4(normal.x, normal.y, normal.z, d);
+				Matrix4x4 reflection = Matrix4x4.zero;
+				CalculateReflectionMatrix(ref reflection, reflectionPlane);
 
-			Matrix4x4 invertedViewMatrix = viewMatrix * reflection;
+				Matrix4x4 invertedViewMatrix = viewMatrix * reflection;
 
-			Vector4 clipPlane = CameraSpacePlane(reflection, pos, normal, 1.0f);
-			Matrix4x4 projection = cameraData.camera.CalculateObliqueMatrix(clipPlane);
-			Matrix4x4 invertedProjectionMatrix = projection;
+				Vector4 clipPlane = CameraSpacePlane(reflection, pos, normal, 1.0f);
+				Matrix4x4 projection = cameraData.camera.CalculateObliqueMatrix(clipPlane);
+				Matrix4x4 invertedProjectionMatrix = projection;
 
-			RenderingUtils.SetViewAndProjectionMatrices(cmd, invertedViewMatrix, projectionMatrix, false);
+				RenderingUtils.SetViewAndProjectionMatrices(cmd, invertedViewMatrix, projectionMatrix, false);
+				context.ExecuteCommandBuffer(cmd);
+				cmd.Clear();
+
+				DrawingSettings drawingSettings = CreateDrawingSettings(universalForwardTag, ref renderingData, SortingCriteria.CommonOpaque);
+				FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque, -1, uint.MaxValue);
+				RenderStateBlock renderStateBlock = new RenderStateBlock(RenderStateMask.Nothing);
+				context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings, ref renderStateBlock);
+				context.DrawSkybox(cameraData.camera);
+
+				RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, gpuProjectionMatrix, false);
+
+			}
+
 			context.ExecuteCommandBuffer(cmd);
-			cmd.Clear();
-
-			DrawingSettings drawingSettings = CreateDrawingSettings(universalForwardTag, ref renderingData, settings.sortingCriteria);
-			FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque, -1, uint.MaxValue);
-			RenderStateBlock renderStateBlock = new RenderStateBlock(RenderStateMask.Nothing);
-			context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings, ref renderStateBlock);
-
-			RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, gpuProjectionMatrix, false);
-			context.ExecuteCommandBuffer(cmd);
-
 			CommandBufferPool.Release(cmd);
 		}
 
@@ -89,7 +84,7 @@ namespace JD.PlanarReflection
 		// Given position/normal of the plane, calculates plane in camera space.
 		private Vector4 CameraSpacePlane(Matrix4x4 m, Vector3 pos, Vector3 normal, float sideSign)
 		{
-			Vector3 offsetPos = pos + normal * settings.clipPlaneOffset;
+			Vector3 offsetPos = pos + normal;
 			Vector3 cpos = m.MultiplyPoint(offsetPos);
 			Vector3 cnormal = m.MultiplyVector(normal).normalized * sideSign;
 			return new Vector4(cnormal.x, cnormal.y, cnormal.z, -Vector3.Dot(cpos, cnormal));
