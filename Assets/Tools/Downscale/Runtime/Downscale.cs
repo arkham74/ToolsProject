@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace JD
 {
-	public partial class DownscaleFeature : ScriptableRendererFeature
+	public class Downscale : ScriptableRendererFeature
 	{
 		[SerializeField][Min(1)] private int targetRes = 45;
 		[SerializeField] private bool bilinear = false;
