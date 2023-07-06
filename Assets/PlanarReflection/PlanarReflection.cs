@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -7,11 +6,12 @@ namespace JD.PlanarReflection
 {
 	public class PlanarReflection : ScriptableRendererFeature
 	{
+		[SerializeField] private PlanarReflectionSettings settings;
 		private PlanarReflectionPass pass;
 
 		public override void Create()
 		{
-			pass = new PlanarReflectionPass();
+			pass = new PlanarReflectionPass(settings);
 			pass.renderPassEvent = RenderPassEvent.BeforeRenderingOpaques;
 		}
 

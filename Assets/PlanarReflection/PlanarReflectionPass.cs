@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Freya;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering;
@@ -11,6 +12,12 @@ namespace JD.PlanarReflection
 	public class PlanarReflectionPass : ScriptableRenderPass
 	{
 		private static readonly int planarTexId = Shader.PropertyToID("_PlanarTex");
+		private PlanarReflectionSettings settings;
+
+		public PlanarReflectionPass(PlanarReflectionSettings settings)
+		{
+			this.settings = settings;
+		}
 
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 		{
@@ -30,82 +37,59 @@ namespace JD.PlanarReflection
 
 			using (new FrameScope(context, cmd, "Planar Reflection"))
 			{
-				cmd.ClearRenderTarget(true, true, Color.clear);
-
-				Vector4 normal = Vector3.up;
-				Vector4 pos = Vector4.zero;
-
-				CameraData cameraData = renderingData.cameraData;
-
-				Matrix4x4 gpuProjectionMatrix = cameraData.GetGPUProjectionMatrix();
-				Matrix4x4 viewMatrix = cameraData.GetViewMatrix();
-				Matrix4x4 projectionMatrix = cameraData.GetProjectionMatrix();
-
-				float d = -Vector3.Dot(normal, pos);
-				Vector4 reflectionPlane = new Vector4(normal.x, normal.y, normal.z, d);
-				Matrix4x4 reflection = Matrix4x4.zero;
-				CalculateReflectionMatrix(ref reflection, reflectionPlane);
-
-				Matrix4x4 invertedViewMatrix = viewMatrix * reflection;
-
-				Vector4 clipPlane = CameraSpacePlane(reflection, pos, normal, 1.0f);
-				Matrix4x4 projection = cameraData.camera.CalculateObliqueMatrix(clipPlane);
-				Matrix4x4 invertedProjectionMatrix = projection;
-
-				RenderingUtils.SetViewAndProjectionMatrices(cmd, invertedViewMatrix, projectionMatrix, false);
-
-				context.ExecuteCommandBuffer(cmd);
-				cmd.Clear();
-
-				ShaderTagId shaderTagId = new ShaderTagId("UniversalForward");
-				DrawingSettings drawingSettings = CreateDrawingSettings(shaderTagId, ref renderingData, SortingCriteria.CommonOpaque);
-				FilteringSettings filteringSettings = FilteringSettings.defaultValue;
-				context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings);
-				context.DrawSkybox(cameraData.camera);
-
-				RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, gpuProjectionMatrix, false);
-				context.ExecuteCommandBuffer(cmd);
+				Clear(cmd, ref context);
+				Override(cmd, ref context, ref renderingData);
+				Draw(ref context, ref renderingData);
+				Restore(cmd, ref context, ref renderingData);
 			}
 
 			CommandBufferPool.Release(cmd);
 		}
 
+		private void Override(CommandBuffer cmd, ref ScriptableRenderContext context, ref RenderingData renderingData)
+		{
+			Matrix4x4 projectionMatrix = renderingData.cameraData.GetGPUProjectionMatrix();
+			Matrix4x4 viewMatrix = renderingData.cameraData.GetViewMatrix();
+
+			Matrix4x4 reflectionMatrix = PlanarReflectionUtils.CalculateReflectionMatrix(settings.planePosition, settings.planeNormal);
+
+			viewMatrix = reflectionMatrix * viewMatrix;
+
+			cmd.Clear();
+			RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, projectionMatrix, false);
+			context.ExecuteCommandBuffer(cmd);
+			cmd.Clear();
+		}
+
+
+		private void Restore(CommandBuffer cmd, ref ScriptableRenderContext context, ref RenderingData renderingData)
+		{
+			cmd.Clear();
+			RenderingUtils.SetViewAndProjectionMatrices(cmd, renderingData.cameraData.GetViewMatrix(), renderingData.cameraData.GetGPUProjectionMatrix(), false);
+			context.ExecuteCommandBuffer(cmd);
+			cmd.Clear();
+		}
+
+		private void Clear(CommandBuffer cmd, ref ScriptableRenderContext context)
+		{
+			cmd.Clear();
+			cmd.ClearRenderTarget(true, true, Color.clear);
+			context.ExecuteCommandBuffer(cmd);
+			cmd.Clear();
+		}
+
+		private void Draw(ref ScriptableRenderContext context, ref RenderingData renderingData)
+		{
+			ShaderTagId shaderTagId = new ShaderTagId("UniversalForward");
+			DrawingSettings drawingSettings = CreateDrawingSettings(shaderTagId, ref renderingData, SortingCriteria.CommonOpaque);
+			FilteringSettings filteringSettings = FilteringSettings.defaultValue;
+			context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings);
+			context.DrawSkybox(renderingData.cameraData.camera);
+		}
+
 		public override void OnCameraCleanup(CommandBuffer cmd)
 		{
 			cmd.ReleaseTemporaryRT(planarTexId);
-		}
-
-		// Given position/normal of the plane, calculates plane in camera space.
-		private Vector4 CameraSpacePlane(Matrix4x4 m, Vector3 pos, Vector3 normal, float sideSign)
-		{
-			Vector3 offsetPos = pos + normal;
-			Vector3 cpos = m.MultiplyPoint(offsetPos);
-			Vector3 cnormal = m.MultiplyVector(normal).normalized * sideSign;
-			return new Vector4(cnormal.x, cnormal.y, cnormal.z, -Vector3.Dot(cpos, cnormal));
-		}
-
-		// Calculates reflection matrix around the given plane
-		private static void CalculateReflectionMatrix(ref Matrix4x4 reflectionMat, Vector4 plane)
-		{
-			reflectionMat.m00 = (1F - 2F * plane[0] * plane[0]);
-			reflectionMat.m01 = (-2F * plane[0] * plane[1]);
-			reflectionMat.m02 = (-2F * plane[0] * plane[2]);
-			reflectionMat.m03 = (-2F * plane[3] * plane[0]);
-
-			reflectionMat.m10 = (-2F * plane[1] * plane[0]);
-			reflectionMat.m11 = (1F - 2F * plane[1] * plane[1]);
-			reflectionMat.m12 = (-2F * plane[1] * plane[2]);
-			reflectionMat.m13 = (-2F * plane[3] * plane[1]);
-
-			reflectionMat.m20 = (-2F * plane[2] * plane[0]);
-			reflectionMat.m21 = (-2F * plane[2] * plane[1]);
-			reflectionMat.m22 = (1F - 2F * plane[2] * plane[2]);
-			reflectionMat.m23 = (-2F * plane[3] * plane[2]);
-
-			reflectionMat.m30 = 0F;
-			reflectionMat.m31 = 0F;
-			reflectionMat.m32 = 0F;
-			reflectionMat.m33 = 1F;
 		}
 	}
 }

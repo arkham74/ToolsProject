@@ -42,10 +42,7 @@ namespace JD
 		private Vector2 mousePos = Vector2.zero;
 #endif
 
-#if TOOLS_NAUATTR
-		[BoxGroup("Move")]
-#endif
-		public Vector3 moveSpeed = Vector3.zero;
+		private Vector3 moveSpeed = Vector3.zero;
 
 #if TOOLS_NAUATTR
 		[BoxGroup("Move")]
