@@ -84,7 +84,7 @@ namespace JD
 			return UnityEngine.Random.Range(0, value);
 		}
 
-		public readonly static Dictionary<int, string> intCache = new Dictionary<int, string>(int.MaxValue);
+		public readonly static Dictionary<int, string> intCache = new Dictionary<int, string>(10000);
 
 		public static string ToStringNonAlloc(this int value)
 		{
