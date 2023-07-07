@@ -14,7 +14,6 @@ using JD;
 using Freya;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
-using Tools = JD.Tools;
 using UnityEngine.Splines;
 using Unity.Jobs;
 using Unity.Collections;

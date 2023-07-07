@@ -28,7 +28,7 @@ namespace JD
 
 		public static T At1D<T>(this T[,] array, int index)
 		{
-			(int x, int y) = Tools.Map1DTo2D(index, array.GetLength(0));
+			(int x, int y) = IndexTools.Map1DTo2D(index, array.GetLength(0));
 			return array[x, y];
 		}
 
@@ -43,7 +43,7 @@ namespace JD
 
 		public static T AtOrDefault<T>(this T[,] array, int i, T def = default)
 		{
-			(int x, int y) = Tools.Map1DTo2D(i, array.GetLength(0));
+			(int x, int y) = IndexTools.Map1DTo2D(i, array.GetLength(0));
 			return array.AtOrDefault(x, y, def);
 		}
 

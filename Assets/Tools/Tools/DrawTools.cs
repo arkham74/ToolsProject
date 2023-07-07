@@ -8,20 +8,8 @@ using Object = UnityEngine.Object;
 
 namespace JD
 {
-	public static class Tools
+	public static class DrawTools
 	{
-		public const float MPS2_KPH = 3.6f;
-
-		public static int Map2DTo1D(int x, int y, int width)
-		{
-			return x + width * y;
-		}
-
-		public static (int, int) Map1DTo2D(int i, int width)
-		{
-			return (i % width, i / width);
-		}
-
 		public static List<Vector2Int> DrawLine(Vector2Int start, Vector2Int end)
 		{
 			List<Vector2Int> list = new List<Vector2Int>();

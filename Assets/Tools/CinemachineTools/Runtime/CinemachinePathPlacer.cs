@@ -13,7 +13,6 @@ using UnityEngine.Serialization;
 using JD;
 using Freya;
 using Random = UnityEngine.Random;
-using Tools = JD.Tools;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;

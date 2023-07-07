@@ -5,7 +5,6 @@ using JD;
 using SebastianLague;
 using UnityEditor;
 using UnityEngine;
-using Tools = JD.Tools;
 
 namespace JD
 {

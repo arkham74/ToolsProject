@@ -13,7 +13,6 @@ using JD;
 using Freya;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
-using Tools = JD.Tools;
 using DG.Tweening;
 
 #if ENABLE_INPUT_SYSTEM

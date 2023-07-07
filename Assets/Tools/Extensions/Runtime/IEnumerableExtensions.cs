@@ -204,7 +204,7 @@ namespace JD
 
 		public static T AtOrDefault<T>(this IEnumerable<T> collection, int x, int y, int width, T def = default)
 		{
-			return collection.AtOrDefault(Tools.Map2DTo1D(x, y, width), def);
+			return collection.AtOrDefault(IndexTools.Map2DTo1D(x, y, width), def);
 		}
 
 		public static T AtOrDefault<T>(this IEnumerable<T> collection, int i, T def = default)

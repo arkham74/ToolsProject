@@ -12,7 +12,6 @@ using JD;
 using Freya;
 using Random = UnityEngine.Random;
 using Text = TMPro.TextMeshProUGUI;
-using Tools = JD.Tools;
 using System.IO;
 using System.Runtime.InteropServices;
 
