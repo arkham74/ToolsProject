@@ -88,6 +88,8 @@ namespace JD
 #endif
 		}
 
+
+
 		[Conditional("UNITY_EDITOR")]
 		public static void DrawHex(Vector3 center, Vector3 normal, Vector2 radius, float angle = 0f)
 		{
@@ -95,8 +97,8 @@ namespace JD
 			Quaternion look = Quaternion.LookRotation(normal);
 			for (int i = 1; i < 7; i++)
 			{
-				Vector3 corner = Tools.GetHexCorner(i - 1, angle);
-				Vector3 next = Tools.GetHexCorner(i, angle);
+				Vector3 corner = ShapeTools.Hex(i - 1, angle);
+				Vector3 next = ShapeTools.Hex(i, angle);
 				corner.Scale(radius);
 				next.Scale(radius);
 				corner = look * corner + center;

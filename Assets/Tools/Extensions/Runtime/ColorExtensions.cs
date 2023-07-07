@@ -105,5 +105,15 @@ namespace JD
 			colorBlock.normalColor = normal;
 			return colorBlock;
 		}
+
+		public static bool EqualRGB(this Color32 a, Color32 b)
+		{
+			return a.r == b.r && a.g == b.g && a.b == b.b;
+		}
+
+		public static bool EqualRGBA(this Color32 a, Color32 b)
+		{
+			return EqualRGB(a, b) && a.a == b.a;
+		}
 	}
 }

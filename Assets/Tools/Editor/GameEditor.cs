@@ -14,7 +14,7 @@ namespace JD.Editor
 
 		private void OnGUI()
 		{
-			Tools.Test = EditorGUILayout.Toggle("Test", Tools.Test);
+			DebugTools.TestMode = EditorGUILayout.Toggle("Test", DebugTools.TestMode);
 			Application.targetFrameRate = EditorGUILayout.IntSlider("Target Frame Rate", Application.targetFrameRate, -1, 1000);
 			QualitySettings.maxQueuedFrames = EditorGUILayout.IntSlider("Max Queued Frames", QualitySettings.maxQueuedFrames, -1, 10);
 			QualitySettings.vSyncCount = EditorGUILayout.IntSlider("V-Sync Count", QualitySettings.vSyncCount, 0, 4);

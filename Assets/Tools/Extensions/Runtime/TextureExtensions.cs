@@ -1,3 +1,6 @@
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
@@ -118,6 +121,37 @@ namespace JD
 			RenderTexture.active = texture;
 			GL.ClearWithSkybox(clearDepth, camera);
 			RenderTexture.active = prev;
+		}
+
+		public static void Clear(this Texture2D texture2D)
+		{
+			Clear(texture2D, Color.clear);
+		}
+
+		public static void Clear(this Texture2D texture2D, Color color)
+		{
+			NativeArray<Color32> colors = texture2D.GetPixelData<Color32>(0);
+			ClearJob clearJob = new ClearJob(colors, color);
+			clearJob.Schedule(colors.Length, 64).Complete();
+			texture2D.Apply();
+		}
+
+		[BurstCompile]
+		private struct ClearJob : IJobParallelFor
+		{
+			[WriteOnly] private NativeArray<Color32> colors;
+			private Color color;
+
+			public ClearJob(NativeArray<Color32> colors, Color color)
+			{
+				this.colors = colors;
+				this.color = color;
+			}
+
+			public void Execute(int index)
+			{
+				colors[index] = color;
+			}
 		}
 	}
 }

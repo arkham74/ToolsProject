@@ -3,11 +3,24 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace JD
 {
 	public static partial class DebugTools
 	{
+#if UNITY_EDITOR
+		public static bool TestMode
+		{
+			get => EditorPrefs.GetBool("test", false);
+			set => EditorPrefs.SetBool("test", value);
+		}
+#else
+		public const bool Test = false;
+#endif
+
 		[Conditional("UNITY_EDITOR")]
 		[Conditional("DEVELOPMENT_BUILD")]
 		public static void LogWarning(params object[] array)
