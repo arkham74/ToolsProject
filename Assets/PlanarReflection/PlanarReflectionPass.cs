@@ -48,15 +48,17 @@ namespace JD.PlanarReflection
 
 		private void Override(CommandBuffer cmd, ref ScriptableRenderContext context, ref RenderingData renderingData)
 		{
-			Matrix4x4 projectionMatrix = renderingData.cameraData.GetGPUProjectionMatrix();
 			Matrix4x4 viewMatrix = renderingData.cameraData.GetViewMatrix();
+			Matrix4x4 mirrorMatrix = PlanarReflectionUtils.GetMirrorMatrix(settings.position, settings.rotation, settings.offset);
+			Matrix4x4 reflectionMatrix = mirrorMatrix * viewMatrix;
 
-			Matrix4x4 reflectionMatrix = PlanarReflectionUtils.CalculateReflectionMatrix(settings.planePosition, settings.planeNormal);
-
-			viewMatrix = reflectionMatrix * viewMatrix;
+			Matrix4x4 projectionMatrix = renderingData.cameraData.GetGPUProjectionMatrix();
+			// Vector4 mirrorPlane = PlanarReflectionUtils.GetMirrorPlane(settings.planePosition, settings.planeNormal, reflectionMatrix, settings.offset);
+			// projectionMatrix = renderingData.cameraData.camera.CalculateObliqueMatrix(mirrorPlane);
+			// projectionMatrix = GL.GetGPUProjectionMatrix(projectionMatrix, false);
 
 			cmd.Clear();
-			RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, projectionMatrix, false);
+			RenderingUtils.SetViewAndProjectionMatrices(cmd, reflectionMatrix, projectionMatrix, false);
 			context.ExecuteCommandBuffer(cmd);
 			cmd.Clear();
 		}
@@ -82,9 +84,9 @@ namespace JD.PlanarReflection
 		{
 			ShaderTagId shaderTagId = new ShaderTagId("UniversalForward");
 			DrawingSettings drawingSettings = CreateDrawingSettings(shaderTagId, ref renderingData, SortingCriteria.CommonOpaque);
-			FilteringSettings filteringSettings = FilteringSettings.defaultValue;
+			FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque, -1, settings.renderingLayerMask);
 			context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings);
-			context.DrawSkybox(renderingData.cameraData.camera);
+			// context.DrawSkybox(renderingData.cameraData.camera);
 		}
 
 		public override void OnCameraCleanup(CommandBuffer cmd)

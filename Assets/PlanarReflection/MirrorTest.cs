@@ -15,7 +15,8 @@ public class MirrorTest : MonoBehaviour
 		Gizmos.DrawWireSphere(position, 0.2f);
 		Gizmos.DrawRay(position, forward);
 
-		viewMatrix = PlanarReflectionUtils.CalculateReflectionMatrix(plane.position, plane.up) * viewMatrix;
+		Matrix4x4 mirrorMatrix = PlanarReflectionUtils.GetMirrorMatrix(plane.position, plane.rotation);
+		viewMatrix = mirrorMatrix * viewMatrix;
 
 		position = viewMatrix.GetPosition();
 		forward = -viewMatrix.GetColumn(2);

@@ -3,39 +3,45 @@ using UnityEngine;
 
 public static class PlanarReflectionUtils
 {
-	public static Matrix4x4 CalculateReflectionMatrix(Vector3 planePosition, Vector3 planeNormal)
+	private readonly static Vector3 normalDirection = Vector3.up;
+
+	public static Vector4 GetMirrorPlane(Vector3 position, Quaternion rotation, Matrix4x4 viewMatrix, float offset = 0.001f)
 	{
-		Matrix4x4 reflectionMatrix = default;
-		planeNormal.Normalize();
+		Vector3 normal = rotation * normalDirection;
+		var pos = position - normalDirection * 0.1f;
+		var offsetPos = pos + normal * offset;
+		var cpos = viewMatrix.MultiplyPoint(offsetPos);
+		var cnormal = viewMatrix.MultiplyVector(normal).normalized;
+		return new Vector4(cnormal.x, cnormal.y, cnormal.z, -Vector3.Dot(cpos, cnormal));
+	}
 
-		planePosition = planePosition.SetY(-planePosition.y);
+	public static Matrix4x4 GetMirrorMatrix(Vector3 position, Quaternion rotation, float offset = 0.001f)
+	{
+		Vector3 normal = rotation * normalDirection;
 
-		float v = Vector3.Dot(planePosition, planeNormal);
+		// Setup
+		var depth = -Vector3.Dot(normal, position) - offset;
 
-		float x = planeNormal.x;
-		float y = planeNormal.y;
-		float z = planeNormal.z;
-
-		reflectionMatrix.m00 = (1f - 2f * x * x);
-		reflectionMatrix.m01 = (-2f * x * y);
-		reflectionMatrix.m02 = (-2f * x * z);
-		reflectionMatrix.m03 = (-2f * v * x);
-
-		reflectionMatrix.m10 = (-2f * y * x);
-		reflectionMatrix.m11 = (1f - 2f * y * y);
-		reflectionMatrix.m12 = (-2f * y * z);
-		reflectionMatrix.m13 = (-2f * v * y);
-
-		reflectionMatrix.m20 = (-2f * z * x);
-		reflectionMatrix.m21 = (-2f * z * y);
-		reflectionMatrix.m22 = (1f - 2f * z * z);
-		reflectionMatrix.m23 = (-2f * v * z);
-
-		reflectionMatrix.m30 = 0f;
-		reflectionMatrix.m31 = 0f;
-		reflectionMatrix.m32 = 0f;
-		reflectionMatrix.m33 = 1f;
-
-		return reflectionMatrix;
+		// Create matrix
+		var mirrorMatrix = new Matrix4x4()
+		{
+			m00 = (1f - 2f * normal.x * normal.x),
+			m01 = (-2f * normal.x * normal.y),
+			m02 = (-2f * normal.x * normal.z),
+			m03 = (-2f * depth * normal.x),
+			m10 = (-2f * normal.y * normal.x),
+			m11 = (1f - 2f * normal.y * normal.y),
+			m12 = (-2f * normal.y * normal.z),
+			m13 = (-2f * depth * normal.y),
+			m20 = (-2f * normal.z * normal.x),
+			m21 = (-2f * normal.z * normal.y),
+			m22 = (1f - 2f * normal.z * normal.z),
+			m23 = (-2f * depth * normal.z),
+			m30 = 0f,
+			m31 = 0f,
+			m32 = 0f,
+			m33 = 1f,
+		};
+		return mirrorMatrix;
 	}
 }
