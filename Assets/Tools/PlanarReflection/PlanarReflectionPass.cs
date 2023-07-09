@@ -33,32 +33,46 @@ namespace JD.PlanarReflection
 
 		public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 		{
-			CommandBuffer cmd = CommandBufferPool.Get();
-
-			using (new FrameScope(context, cmd, "Planar Reflection"))
+			CameraType cameraType = renderingData.cameraData.cameraType;
+			if (cameraType != CameraType.Preview && cameraType != CameraType.VR && cameraType != CameraType.Reflection)
 			{
-				Clear(cmd, ref context);
-				Override(cmd, ref context, ref renderingData);
-				Draw(ref context, ref renderingData);
-				Restore(cmd, ref context, ref renderingData);
-			}
+				CommandBuffer cmd = CommandBufferPool.Get();
 
-			CommandBufferPool.Release(cmd);
+				using (new FrameScope(context, cmd, "Planar Reflection"))
+				{
+					Clear(cmd, ref context);
+					Override(cmd, ref context, ref renderingData);
+					Draw(ref context, ref renderingData);
+					Restore(cmd, ref context, ref renderingData);
+				}
+
+				CommandBufferPool.Release(cmd);
+			}
 		}
 
 		private void Override(CommandBuffer cmd, ref ScriptableRenderContext context, ref RenderingData renderingData)
 		{
-			Matrix4x4 viewMatrix = renderingData.cameraData.GetViewMatrix();
-			Matrix4x4 mirrorMatrix = PlanarReflectionUtils.GetMirrorMatrix(settings.position, settings.rotation, settings.offset);
-			Matrix4x4 reflectionMatrix = mirrorMatrix * viewMatrix;
-
 			Matrix4x4 projectionMatrix = renderingData.cameraData.GetGPUProjectionMatrix();
-			// Vector4 mirrorPlane = PlanarReflectionUtils.GetMirrorPlane(settings.planePosition, settings.planeNormal, reflectionMatrix, settings.offset);
-			// projectionMatrix = renderingData.cameraData.camera.CalculateObliqueMatrix(mirrorPlane);
-			// projectionMatrix = GL.GetGPUProjectionMatrix(projectionMatrix, false);
+			Matrix4x4 viewMatrix = renderingData.cameraData.GetViewMatrix();
+
+			Vector4 right = viewMatrix.GetColumn(0);
+			Vector4 up = viewMatrix.GetColumn(1);
+			Vector4 forward = viewMatrix.GetColumn(2);
+			Vector4 position = viewMatrix.GetColumn(3);
+
+			up = -PlanarReflectionUtils.MirrorDirection(up, settings.normal);
+			forward = PlanarReflectionUtils.MirrorDirection(forward, settings.normal);
+			right = Vector3.Cross(forward, up);
+
+			position = PlanarReflectionUtils.MirrorPosition(position, settings.position, settings.normal);
+
+			viewMatrix.SetColumn(0, right);
+			viewMatrix.SetColumn(1, up);
+			viewMatrix.SetColumn(2, forward);
+			viewMatrix.SetColumn(3, position);
 
 			cmd.Clear();
-			RenderingUtils.SetViewAndProjectionMatrices(cmd, reflectionMatrix, projectionMatrix, false);
+			RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, projectionMatrix, false);
 			context.ExecuteCommandBuffer(cmd);
 			cmd.Clear();
 		}
@@ -84,9 +98,8 @@ namespace JD.PlanarReflection
 		{
 			ShaderTagId shaderTagId = new ShaderTagId("UniversalForward");
 			DrawingSettings drawingSettings = CreateDrawingSettings(shaderTagId, ref renderingData, SortingCriteria.CommonOpaque);
-			FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque, -1, settings.renderingLayerMask);
+			FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque, settings.layer, settings.renderingLayer);
 			context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings);
-			// context.DrawSkybox(renderingData.cameraData.camera);
 		}
 
 		public override void OnCameraCleanup(CommandBuffer cmd)
