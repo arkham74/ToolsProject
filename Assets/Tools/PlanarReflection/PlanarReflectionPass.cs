@@ -40,10 +40,30 @@ namespace JD.PlanarReflection
 
 				using (new FrameScope(context, cmd, "Planar Reflection"))
 				{
+					if (settings.disableSSAO)
+					{
+						cmd.DisableShaderKeyword(ShaderKeywordStrings.ScreenSpaceOcclusion);
+						context.ExecuteCommandBuffer(cmd);
+						cmd.Clear();
+					}
+
 					Clear(cmd, ref context);
 					Override(cmd, ref context, ref renderingData);
 					Draw(ref context, ref renderingData);
 					Restore(cmd, ref context, ref renderingData);
+
+					if (settings.disableSSAO)
+					{
+						cmd.EnableShaderKeyword(ShaderKeywordStrings.ScreenSpaceOcclusion);
+						context.ExecuteCommandBuffer(cmd);
+						cmd.Clear();
+					}
+					else
+					{
+						cmd.DisableShaderKeyword(ShaderKeywordStrings.ScreenSpaceOcclusion);
+						context.ExecuteCommandBuffer(cmd);
+						cmd.Clear();
+					}
 				}
 
 				CommandBufferPool.Release(cmd);
@@ -108,5 +128,3 @@ namespace JD.PlanarReflection
 		}
 	}
 }
-
-
