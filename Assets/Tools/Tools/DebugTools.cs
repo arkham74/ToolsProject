@@ -18,7 +18,7 @@ namespace JD
 			set => EditorPrefs.SetBool("test", value);
 		}
 #else
-		public const bool Test = false;
+		public const bool TestMode = false;
 #endif
 
 		[Conditional("UNITY_EDITOR")]
