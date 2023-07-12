@@ -4,7 +4,7 @@ using Steamworks;
 
 namespace JD
 {
-	public class HideIfNotSubscribedToApp : MonoBehaviour
+	public class ShowIfNotSubscribedToApp : MonoBehaviour
 	{
 		[SerializeField] private SteamAppIds appid;
 
