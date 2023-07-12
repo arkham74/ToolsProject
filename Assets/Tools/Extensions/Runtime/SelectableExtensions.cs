@@ -9,27 +9,27 @@ namespace JD
 {
 	public static class SelectableExtensions
 	{
-		public static void FindAndSetUp(this Selectable selectable)
+		public static void FindAndSetUp<T>(this T selectable) where T : Selectable
 		{
 			selectable.SetUp(selectable.FindSelectableOnUp());
 		}
 
-		public static void FindAndSetDown(this Selectable selectable)
+		public static void FindAndSetDown<T>(this T selectable) where T : Selectable
 		{
 			selectable.SetDown(selectable.FindSelectableOnDown());
 		}
 
-		public static void FindAndSetLeft(this Selectable selectable)
+		public static void FindAndSetLeft<T>(this T selectable) where T : Selectable
 		{
 			selectable.SetLeft(selectable.FindSelectableOnLeft());
 		}
 
-		public static void FindAndSetRight(this Selectable selectable)
+		public static void FindAndSetRight<T>(this T selectable) where T : Selectable
 		{
 			selectable.SetRight(selectable.FindSelectableOnRight());
 		}
 
-		public static void SetUp(this Selectable button, Selectable selectable, Navigation.Mode mode = Navigation.Mode.Explicit)
+		public static void SetUp<T>(this T button, T selectable, Navigation.Mode mode = Navigation.Mode.Explicit) where T : Selectable
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.selectOnUp = selectable;
@@ -37,7 +37,7 @@ namespace JD
 			button.navigation = navdisplay;
 		}
 
-		public static void SetDown(this Selectable button, Selectable selectable, Navigation.Mode mode = Navigation.Mode.Explicit)
+		public static void SetDown<T>(this T button, T selectable, Navigation.Mode mode = Navigation.Mode.Explicit) where T : Selectable
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.selectOnDown = selectable;
@@ -45,7 +45,7 @@ namespace JD
 			button.navigation = navdisplay;
 		}
 
-		public static void SetLeft(this Selectable button, Selectable selectable, Navigation.Mode mode = Navigation.Mode.Explicit)
+		public static void SetLeft<T>(this T button, T selectable, Navigation.Mode mode = Navigation.Mode.Explicit) where T : Selectable
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.selectOnLeft = selectable;
@@ -53,7 +53,7 @@ namespace JD
 			button.navigation = navdisplay;
 		}
 
-		public static void SetRight(this Selectable button, Selectable selectable, Navigation.Mode mode = Navigation.Mode.Explicit)
+		public static void SetRight<T>(this T button, T selectable, Navigation.Mode mode = Navigation.Mode.Explicit) where T : Selectable
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.selectOnRight = selectable;
@@ -61,14 +61,14 @@ namespace JD
 			button.navigation = navdisplay;
 		}
 
-		public static void SetMode(this Selectable button, Navigation.Mode mode)
+		public static void SetMode<T>(this T button, Navigation.Mode mode) where T : Selectable
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.mode = mode;
 			button.navigation = navdisplay;
 		}
 
-		public static void SelectDelayed(this Selectable selectable)
+		public static void SelectDelayed<T>(this T selectable) where T : Selectable
 		{
 			if (selectable.gameObject.activeInHierarchy)
 			{
@@ -91,7 +91,7 @@ namespace JD
 			}
 		}
 
-		public static void SetupNavigationVertical(this IList<Selectable> selectables)
+		public static void SetupNavigationVertical<T>(this IList<T> selectables) where T : Selectable
 		{
 			for (int i = 0; i < selectables.Count; i++)
 			{
@@ -104,7 +104,7 @@ namespace JD
 			}
 		}
 
-		public static void SetupNavigationHorizontal(this IList<Selectable> selectables)
+		public static void SetupNavigationHorizontal<T>(this IList<T> selectables) where T : Selectable
 		{
 			for (int i = 0; i < selectables.Count; i++)
 			{
