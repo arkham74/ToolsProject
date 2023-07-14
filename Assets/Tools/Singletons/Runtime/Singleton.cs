@@ -6,13 +6,7 @@ namespace JD
 	public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 	{
 		private static T instance;
-		public static bool Valid => instance != null;
-
-		// [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-		// public static void Init()
-		// {
-		// 	instance = null;
-		// }
+		public static bool Valid => Instance != null;
 
 		public static T Instance
 		{
@@ -31,7 +25,7 @@ namespace JD
 					}
 					else
 					{
-						throw new Exception($"There is no '{typeof(T)}' present in scene");
+						Debug.LogError($"There is no '{typeof(T)}' present in scene");
 					}
 				}
 				return instance;
