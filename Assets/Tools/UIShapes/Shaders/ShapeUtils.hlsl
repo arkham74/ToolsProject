@@ -1,7 +1,7 @@
 float AA(float dist)
 {
 	float distanceChange = fwidth(dist) * 1;
-	return smoothstep(distanceChange, -distanceChange, dist);;
+	return smoothstep(distanceChange, -distanceChange, dist);
 }
 
 float sdRoundedBox( in float2 p, in float2 b, in float4 r )
@@ -22,7 +22,7 @@ float sdHeart( in float2 p )
 	p.x = abs(p.x);
 
 	if( p.y+p.x>1.0 )
-		return sqrt(dot2(p-float2(0.25,0.75))) - sqrt(2.0)/4.0;
+	return sqrt(dot2(p-float2(0.25,0.75))) - sqrt(2.0)/4.0;
 
 	return sqrt(min(dot2(p-float2(0.00,1.00)), dot2(p-0.5*max(p.x+p.y,0.0)))) * sign(p.x-p.y);
 }
@@ -62,7 +62,7 @@ float sdStar(in float2 p, in float r, in int n, in float m) // m=[2,n]
 
 float opRound( in float p, in float r )
 {
-  return p - r;
+	return p - r;
 }
 
 float opOnion( in float p, in float r )
@@ -73,4 +73,22 @@ float opOnion( in float p, in float r )
 float2 center(float2 p)
 {
 	return p * 2 - 1;
+}
+
+float sdSegment(float2 p, float2 a, float2 b)
+{
+	float2 pa = p-a;
+	float2 ba = b-a;
+	float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
+	return length(pa - ba * h);
+}
+
+float4 remap(float4 In, float2 InMinMax, float2 OutMinMax)
+{
+	return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
+}
+
+float4 remap(float4 In, float InMin, float InMax, float OutMin, float OutMax)
+{
+	return remap(In, float2(InMin, InMax), float2(OutMin, OutMax));
 }
