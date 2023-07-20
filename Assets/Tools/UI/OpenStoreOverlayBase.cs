@@ -1,13 +1,13 @@
 using UnityEngine;
-using JD;
 using UnityEngine.UI;
 using Steamworks;
+using System;
 
 namespace JD
 {
-	public class OpenStoreOverlay : MonoBehaviour
+	public class OpenStoreOverlayBase<T> : MonoBehaviour where T : struct, Enum
 	{
-		[SerializeField] private SteamAppIds appid;
+		[SerializeField] private T appid;
 		[SerializeField] private Button button;
 
 		private void Awake()
@@ -17,7 +17,7 @@ namespace JD
 
 		private void Button_Open()
 		{
-			SteamFriends.OpenStoreOverlay((uint)appid);
+			SteamFriends.OpenStoreOverlay((uint)(object)appid);
 		}
 	}
 }
