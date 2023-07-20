@@ -1,3 +1,4 @@
+#if OUTLINE_URP
 using System;
 using UnityEngine;
 
@@ -15,3 +16,4 @@ namespace JD.PlanarReflection
 		public Vector3 normal => rotation * Vector3.up;
 	}
 }
+#endif

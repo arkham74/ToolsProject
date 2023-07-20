@@ -1,6 +1,6 @@
+#if OUTLINE_URP
 using System;
 using System.Collections.Generic;
-using Freya;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering;
@@ -128,3 +128,4 @@ namespace JD.PlanarReflection
 		}
 	}
 }
+#endif

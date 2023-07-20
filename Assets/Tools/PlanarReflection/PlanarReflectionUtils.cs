@@ -1,3 +1,4 @@
+#if OUTLINE_URP
 using JD;
 using UnityEngine;
 
@@ -21,3 +22,4 @@ namespace JD.PlanarReflection
 		}
 	}
 }
+#endif
