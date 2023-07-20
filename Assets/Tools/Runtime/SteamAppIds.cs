@@ -12,5 +12,6 @@ namespace JD
 		Swarm = 2263740,
 		Pixels = 2480140,
 		Yosemite = 2480320,
+		MatureDLC = 2520150,
 	}
 }
