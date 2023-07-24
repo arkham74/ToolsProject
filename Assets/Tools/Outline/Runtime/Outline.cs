@@ -5,6 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace JD.Outline
 {
+	[DisallowMultipleRendererFeature]
 	public class Outline : ScriptableRendererFeature
 	{
 		[SerializeField][HideInInspector] private Material material;

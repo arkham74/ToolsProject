@@ -5,6 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace JD.PlanarReflection
 {
+	[DisallowMultipleRendererFeature]
 	public class PlanarReflection : ScriptableRendererFeature
 	{
 		[SerializeField] private PlanarReflectionSettings settings;
