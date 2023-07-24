@@ -27,6 +27,7 @@ namespace JD
 
 		protected override void OnPopulateVert(ref UIVertex vert, Rect pixelAdjustedRect)
 		{
+			if (!canvas) return;
 			canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord1 | AdditionalCanvasShaderChannels.TexCoord2;
 			float width = pixelAdjustedRect.width;
 			float height = pixelAdjustedRect.height;

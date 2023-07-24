@@ -24,6 +24,7 @@ namespace JD
 
 		protected override void OnPopulateVert(ref UIVertex vert, Rect pixelAdjustedRect)
 		{
+			if (!canvas) return;
 			canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord1;
 			vert.uv1 = new Vector4(radius, fill, 0, 0);
 		}
