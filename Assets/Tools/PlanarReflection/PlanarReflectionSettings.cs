@@ -12,6 +12,7 @@ namespace JD.PlanarReflection
 		public Vector3 position = Vector3.zero;
 		public Quaternion rotation = Quaternion.identity;
 		public bool disableSSAO = true;
+		[HideInInspector] public Material screenPassMaterial;
 
 		public Vector3 normal => rotation * Vector3.up;
 	}

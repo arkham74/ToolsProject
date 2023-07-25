@@ -51,6 +51,7 @@ namespace JD.PlanarReflection
 					Override(cmd, ref context, ref renderingData);
 					Draw(ref context, ref renderingData);
 					Restore(cmd, ref context, ref renderingData);
+					ScreenPass(cmd, ref context, ref renderingData);
 
 					if (settings.disableSSAO)
 					{
@@ -68,6 +69,15 @@ namespace JD.PlanarReflection
 
 				CommandBufferPool.Release(cmd);
 			}
+		}
+
+		private void ScreenPass(CommandBuffer cmd, ref ScriptableRenderContext context, ref RenderingData renderingData)
+		{
+			cmd.Clear();
+			RenderTargetIdentifier cameraColorTarget = renderingData.cameraData.renderer.cameraColorTarget;
+			Blit(cmd, planarTexId, cameraColorTarget, settings.screenPassMaterial);
+			context.ExecuteCommandBuffer(cmd);
+			cmd.Clear();
 		}
 
 		private void Override(CommandBuffer cmd, ref ScriptableRenderContext context, ref RenderingData renderingData)
