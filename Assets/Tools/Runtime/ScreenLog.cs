@@ -2,27 +2,27 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine.Pool;
 
 namespace JD
 {
 	public class ScreenLog : MonoBehaviour
 	{
-		private static readonly StringBuilder sb = new StringBuilder();
+		private const char SEPARATOR = '\n';
 		private static readonly Dictionary<string, object> dict = new Dictionary<string, object>();
 		private static ScreenLog instance;
 		private static GUIStyle headStyle;
 
 		private static void CreateLog()
 		{
+			if (!Application.isPlaying) return;
+			if (instance != null) return;
+
+			instance = FindObjectOfType<ScreenLog>(true);
 			if (instance == null)
 			{
-				instance = FindObjectOfType<ScreenLog>(true);
-
-				if (instance == null)
-				{
-					var go = new GameObject("ScreenLog");
-					instance = go.AddComponent<ScreenLog>();
-				}
+				var go = new GameObject("ScreenLog");
+				instance = go.AddComponent<ScreenLog>();
 			}
 		}
 
@@ -57,11 +57,12 @@ namespace JD
 		private void OnGUI()
 		{
 			CreateStyle();
-			sb.Clear();
-			sb.AppendJoin('\n', dict.Values);
+			StringBuilder sb = Pools.GetStringBuilder();
+			sb.AppendJoin(SEPARATOR, dict.Values);
 			string text = sb.ToString();
 			headStyle.fontSize = (int)(24f * Screen.height / 1080f);
 			GUILayout.Label(text, headStyle);
+			Pools.Release(sb);
 		}
 	}
 }
