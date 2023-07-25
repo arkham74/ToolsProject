@@ -1,3 +1,5 @@
+//based on https://github.com/Kink3d/kMirrors/blob/master/Runtime/Mirror.cs
+
 #if OUTLINE_URP
 using System;
 using System.Collections.Generic;
@@ -72,28 +74,11 @@ namespace JD.PlanarReflection
 
 		private void Override(CommandBuffer cmd, ref ScriptableRenderContext context, ref RenderingData renderingData)
 		{
-			Matrix4x4 projectionMatrix = renderingData.cameraData.GetGPUProjectionMatrix();
-			Matrix4x4 viewMatrix = renderingData.cameraData.GetViewMatrix();
-
 			Vector3 planeNormal = Vector3.up;
 			Vector3 planePosition = Vector3.zero;
 
-			Vector4 right = viewMatrix.GetColumn(0);
-			Vector4 up = viewMatrix.GetColumn(1);
-			Vector4 forward = viewMatrix.GetColumn(2);
-
-			Vector4 position = viewMatrix.GetColumn(3);
-
-			right = PlanarReflectionUtils.MirrorDirection(right, planeNormal);
-			up = -PlanarReflectionUtils.MirrorDirection(up, planeNormal);
-			forward = PlanarReflectionUtils.MirrorDirection(forward, planeNormal);
-
-			position = PlanarReflectionUtils.MirrorPosition(position, planePosition, planeNormal);
-
-			viewMatrix.SetColumn(0, right);
-			viewMatrix.SetColumn(1, up);
-			viewMatrix.SetColumn(2, forward);
-			viewMatrix.SetColumn(3, position);
+			Matrix4x4 viewMatrix = GetViewMatrix(ref renderingData, planeNormal, planePosition);
+			Matrix4x4 projectionMatrix = GetProjectionMatrix(ref renderingData, viewMatrix, planeNormal, planePosition);
 
 			cmd.Clear();
 			RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, projectionMatrix, false);
@@ -101,6 +86,40 @@ namespace JD.PlanarReflection
 			cmd.Clear();
 		}
 
+		private static Matrix4x4 GetProjectionMatrix(ref RenderingData renderingData, Matrix4x4 viewMatrix, Vector3 planeNormal, Vector3 planePosition)
+		{
+			Vector4 mirrorPlane = GetMirrorPlane(viewMatrix, planeNormal, planeNormal);
+			Matrix4x4 projMat = renderingData.cameraData.camera.CalculateObliqueMatrix(mirrorPlane);
+			return GL.GetGPUProjectionMatrix(projMat, true);
+		}
+
+		private static Vector4 GetMirrorPlane(Matrix4x4 viewMatrix, Vector3 planeNormal, Vector3 planePosition)
+		{
+			var offsetPos = planePosition - planeNormal * 0.99f;
+			var cpos = viewMatrix.MultiplyPoint(offsetPos);
+			var cnormal = viewMatrix.MultiplyVector(planeNormal).normalized;
+			return new Vector4(cnormal.x, cnormal.y, cnormal.z, -Vector3.Dot(cpos, cnormal));
+		}
+
+		private static Matrix4x4 GetViewMatrix(ref RenderingData renderingData, Vector3 planeNormal, Vector3 planePosition)
+		{
+			Matrix4x4 viewMatrix = renderingData.cameraData.GetViewMatrix();
+			Vector4 right = viewMatrix.GetColumn(0);
+			Vector4 up = viewMatrix.GetColumn(1);
+			Vector4 forward = viewMatrix.GetColumn(2);
+			Vector4 position = viewMatrix.GetColumn(3);
+
+			right = PlanarReflectionUtils.MirrorDirection(right, planeNormal);
+			up = -PlanarReflectionUtils.MirrorDirection(up, planeNormal);
+			forward = PlanarReflectionUtils.MirrorDirection(forward, planeNormal);
+			position = PlanarReflectionUtils.MirrorPosition(position, planePosition, planeNormal);
+
+			viewMatrix.SetColumn(0, right);
+			viewMatrix.SetColumn(1, up);
+			viewMatrix.SetColumn(2, forward);
+			viewMatrix.SetColumn(3, position);
+			return viewMatrix;
+		}
 
 		private void Restore(CommandBuffer cmd, ref ScriptableRenderContext context, ref RenderingData renderingData)
 		{
