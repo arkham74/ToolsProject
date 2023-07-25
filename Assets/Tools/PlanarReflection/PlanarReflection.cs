@@ -8,13 +8,22 @@ namespace JD.PlanarReflection
 	[DisallowMultipleRendererFeature]
 	public class PlanarReflection : ScriptableRendererFeature
 	{
-		[SerializeField] private PlanarReflectionSettings settings;
+		[HideInInspector][SerializeField] private Material material;
+
+		[SerializeField]
+		private PlanarReflectionSettings settings = new PlanarReflectionSettings()
+		{
+			layer = -1,
+			renderingLayer = uint.MaxValue,
+			disableSSAO = true,
+		};
+
 		private PlanarReflectionPass pass;
 
 		public override void Create()
 		{
 			pass = new PlanarReflectionPass(settings);
-			pass.renderPassEvent = RenderPassEvent.BeforeRenderingOpaques;
+			pass.renderPassEvent = RenderPassEvent.BeforeRenderingGbuffer;
 		}
 
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)

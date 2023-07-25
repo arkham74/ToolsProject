@@ -51,7 +51,6 @@ namespace JD.PlanarReflection
 					Override(cmd, ref context, ref renderingData);
 					Draw(ref context, ref renderingData);
 					Restore(cmd, ref context, ref renderingData);
-					ScreenPass(cmd, ref context, ref renderingData);
 
 					if (settings.disableSSAO)
 					{
@@ -71,30 +70,25 @@ namespace JD.PlanarReflection
 			}
 		}
 
-		private void ScreenPass(CommandBuffer cmd, ref ScriptableRenderContext context, ref RenderingData renderingData)
-		{
-			cmd.Clear();
-			RenderTargetIdentifier cameraColorTarget = renderingData.cameraData.renderer.cameraColorTarget;
-			Blit(cmd, planarTexId, cameraColorTarget, settings.screenPassMaterial);
-			context.ExecuteCommandBuffer(cmd);
-			cmd.Clear();
-		}
-
 		private void Override(CommandBuffer cmd, ref ScriptableRenderContext context, ref RenderingData renderingData)
 		{
 			Matrix4x4 projectionMatrix = renderingData.cameraData.GetGPUProjectionMatrix();
 			Matrix4x4 viewMatrix = renderingData.cameraData.GetViewMatrix();
 
+			Vector3 planeNormal = Vector3.up;
+			Vector3 planePosition = Vector3.zero;
+
 			Vector4 right = viewMatrix.GetColumn(0);
 			Vector4 up = viewMatrix.GetColumn(1);
 			Vector4 forward = viewMatrix.GetColumn(2);
+
 			Vector4 position = viewMatrix.GetColumn(3);
 
-			up = -PlanarReflectionUtils.MirrorDirection(up, settings.normal);
-			forward = PlanarReflectionUtils.MirrorDirection(forward, settings.normal);
-			right = Vector3.Cross(forward, up);
+			right = PlanarReflectionUtils.MirrorDirection(right, planeNormal);
+			up = -PlanarReflectionUtils.MirrorDirection(up, planeNormal);
+			forward = PlanarReflectionUtils.MirrorDirection(forward, planeNormal);
 
-			position = PlanarReflectionUtils.MirrorPosition(position, settings.position, settings.normal);
+			position = PlanarReflectionUtils.MirrorPosition(position, planePosition, planeNormal);
 
 			viewMatrix.SetColumn(0, right);
 			viewMatrix.SetColumn(1, up);
