@@ -9,9 +9,12 @@ namespace JD.PlanarReflection
 	public struct PlanarReflectionSettings
 	{
 		public LayerMask layer;
+		public RenderPassEvent renderPassEvent;
 		[RenderingLayer] public uint renderingLayer;
 		public bool disableSSAO;
 		public bool renderSkybox;
+		public bool useMips;
+		public bool sceneView;
 	}
 }
 #endif

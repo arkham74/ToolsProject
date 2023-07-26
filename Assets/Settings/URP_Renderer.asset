@@ -71,6 +71,9 @@ MonoBehaviour:
     layer:
       serializedVersion: 2
       m_Bits: 4294967295
+    renderPassEvent: 210
     renderingLayer: 4294967295
     disableSSAO: 0
     renderSkybox: 0
+    useMips: 0
+    sceneView: 1

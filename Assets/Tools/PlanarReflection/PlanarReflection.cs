@@ -15,19 +15,23 @@ namespace JD.PlanarReflection
 		{
 			layer = -1,
 			renderingLayer = uint.MaxValue,
+			renderPassEvent = RenderPassEvent.BeforeRenderingGbuffer,
 			disableSSAO = true,
+			useMips = false,
+			sceneView = true,
 		};
 
 		private PlanarReflectionPass pass;
 
 		public override void Create()
 		{
-			pass = new PlanarReflectionPass(settings);
-			pass.renderPassEvent = RenderPassEvent.BeforeRendering;
+			pass = new PlanarReflectionPass();
 		}
 
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
 		{
+			pass.SetupPass(settings);
+			pass.renderPassEvent = settings.renderPassEvent;
 			renderer.EnqueuePass(pass);
 		}
 	}

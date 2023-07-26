@@ -16,7 +16,7 @@ namespace JD.PlanarReflection
 		private static readonly int planarTexId = Shader.PropertyToID("_PlanarTex");
 		private PlanarReflectionSettings settings;
 
-		public PlanarReflectionPass(PlanarReflectionSettings settings)
+		public void SetupPass(PlanarReflectionSettings settings)
 		{
 			this.settings = settings;
 		}
@@ -24,8 +24,11 @@ namespace JD.PlanarReflection
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 		{
 			RenderTextureDescriptor desc = renderingData.cameraData.cameraTargetDescriptor;
-			desc.autoGenerateMips = true;
-			desc.useMipMap = true;
+			if (settings.useMips)
+			{
+				desc.autoGenerateMips = true;
+				desc.useMipMap = true;
+			}
 			cmd.GetTemporaryRT(planarTexId, desc);
 		}
 
@@ -40,6 +43,8 @@ namespace JD.PlanarReflection
 			CameraType cameraType = renderingData.cameraData.cameraType;
 			if (cameraType != CameraType.Preview && cameraType != CameraType.VR && cameraType != CameraType.Reflection)
 			{
+				if (cameraType == CameraType.SceneView && !settings.sceneView) return;
+
 				CommandBuffer cmd = CommandBufferPool.Get();
 
 				using (new FrameScope(context, cmd, "Planar Reflection"))
