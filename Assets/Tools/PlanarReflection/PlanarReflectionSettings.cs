@@ -11,6 +11,7 @@ namespace JD.PlanarReflection
 		public LayerMask layer;
 		[RenderingLayer] public uint renderingLayer;
 		public bool disableSSAO;
+		public bool renderSkybox;
 	}
 }
 #endif

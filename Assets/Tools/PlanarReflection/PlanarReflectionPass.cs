@@ -24,6 +24,8 @@ namespace JD.PlanarReflection
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
 		{
 			RenderTextureDescriptor desc = renderingData.cameraData.cameraTargetDescriptor;
+			desc.autoGenerateMips = true;
+			desc.useMipMap = true;
 			cmd.GetTemporaryRT(planarTexId, desc);
 		}
 
@@ -143,6 +145,10 @@ namespace JD.PlanarReflection
 			DrawingSettings drawingSettings = CreateDrawingSettings(shaderTagId, ref renderingData, SortingCriteria.CommonOpaque);
 			FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque, settings.layer, settings.renderingLayer);
 			context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings);
+			if (settings.renderSkybox)
+			{
+				context.DrawSkybox(renderingData.cameraData.camera);
+			}
 		}
 
 		public override void OnCameraCleanup(CommandBuffer cmd)

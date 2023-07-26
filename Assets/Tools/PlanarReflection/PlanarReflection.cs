@@ -23,7 +23,7 @@ namespace JD.PlanarReflection
 		public override void Create()
 		{
 			pass = new PlanarReflectionPass(settings);
-			pass.renderPassEvent = RenderPassEvent.BeforeRenderingGbuffer;
+			pass.renderPassEvent = RenderPassEvent.BeforeRendering;
 		}
 
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
