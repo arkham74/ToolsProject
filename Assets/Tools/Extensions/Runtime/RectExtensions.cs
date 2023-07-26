@@ -85,5 +85,18 @@ namespace JD
 
 			return rect;
 		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Collider2D Overlap(this Rect rect)
+		{
+			return rect.Overlap(Physics2D.DefaultRaycastLayers);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Collider2D Overlap(this Rect rect, LayerMask layerMask)
+		{
+			rect = rect.OrderMinMax();
+			return Physics2D.OverlapArea(rect.min, rect.max, layerMask);
+		}
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Freya;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -9,6 +10,7 @@ namespace JD
 {
 	public static class TransformExtensions
 	{
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void SetPositionAndRotation(this Transform transform, Transform target)
 		{
 			transform.SetPositionAndRotation(target.position, target.rotation);
@@ -17,6 +19,7 @@ namespace JD
 		/// <summary>
 		/// Transforms Vector2 position from world space to local space.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector2 WorldToLocal(this Transform transform, Vector2 world)
 		{
 			return transform.InverseTransformPoint(world);
@@ -25,6 +28,7 @@ namespace JD
 		/// <summary>
 		/// Transforms Vector2 position from local space to world space.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector2 LocalToWorld(this Transform transform, Vector2 local)
 		{
 			return transform.TransformPoint(local);
@@ -33,6 +37,7 @@ namespace JD
 		/// <summary>
 		/// Transforms Vector3 position from world space to local space.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector3 WorldToLocal(this Transform transform, Vector3 world)
 		{
 			return transform.InverseTransformPoint(world);
@@ -41,6 +46,7 @@ namespace JD
 		/// <summary>
 		/// Transforms Vector3 position from local space to world space.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector3 LocalToWorld(this Transform transform, Vector3 local)
 		{
 			return transform.TransformPoint(local);
@@ -103,16 +109,19 @@ namespace JD
 			t.localPosition = p;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Transform RandomChild(this Transform transform)
 		{
 			return transform.GetChild(Random.Range(0, transform.childCount));
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Distance(this Transform v1, Transform v2)
 		{
 			return Vector3.Distance(v1.position, v2.position);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Distance(this Transform v1, Vector3 v2)
 		{
 			return Vector3.Distance(v1.position, v2);
@@ -155,14 +164,30 @@ namespace JD
 			return kids.FirstOrDefault(child => string.Equals(child.name, name, StringComparison.OrdinalIgnoreCase));
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Transform GetLastChild(this Transform transform)
 		{
 			return transform.GetChild(transform.childCount - 1);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Transform GetFirstChild(this Transform transform)
 		{
 			return transform.GetChild(0);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Rect TransformRect(this Transform transform, Rect rect)
+		{
+			rect.position = transform.TransformPoint(rect.position);
+			return rect;
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Rect InverseTransformRect(this Transform transform, Rect rect)
+		{
+			rect.position = transform.InverseTransformPoint(rect.position);
+			return rect;
 		}
 	}
 }
