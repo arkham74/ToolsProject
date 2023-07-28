@@ -7,6 +7,30 @@
       "dependencies": {},
       "hash": "7faf902a16a0d00a8a000cc2f1a9c8503623d5ae"
     },
+    "com.annulusgames.tween-playables": {
+      "version": "https://github.com/AnnulusGames/TweenPlayables.git?path=/Assets/TweenPlayables",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.textmeshpro": "2.0.1",
+        "com.unity.timeline": "1.2.14"
+      },
+      "hash": "7dca23c000b2e439b17cc946c0d0767983342fa6"
+    },
+    "com.brunomikoski.animationsequencer": {
+      "version": "0.5.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
+    "com.dbrizov.naughtyattributes": {
+      "version": "2.1.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
     "com.marijnzwemmer.unity-toolbar-extender": {
       "version": "https://github.com/marijnz/unity-toolbar-extender.git",
       "depth": 0,
@@ -217,6 +241,18 @@
       "source": "registry",
       "dependencies": {
         "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.timeline": {
+      "version": "1.6.4",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.director": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.audio": "1.0.0",
+        "com.unity.modules.particlesystem": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },

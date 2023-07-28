@@ -1,4 +1,3 @@
-#if TOOLS_TOOLBAR
 using System.Collections.Generic;
 using UnityEngine;
 using UnityToolbarExtender;
@@ -91,19 +90,3 @@ namespace JD.Editor
 		}
 	}
 }
-#else
-using UnityEditor;
-using UnityEditor.PackageManager;
-
-namespace JD.Editor
-{
-	[InitializeOnLoad]
-	public class ScenePicker
-	{
-		static ScenePicker()
-		{
-			Client.Add("https://github.com/marijnz/unity-toolbar-extender.git");
-		}
-	}
-}
-#endif

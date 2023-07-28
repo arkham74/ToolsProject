@@ -11,7 +11,10 @@
         "GUID:2665a8d13d1b3f18800f46e256720795",
         "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
         "GUID:2e77701fe0ceda44fb763f03ee704c37",
-        "GUID:0a0471484b079be408cb3a0d7fe94736"
+        "GUID:0a0471484b079be408cb3a0d7fe94736",
+        "GUID:6071c9f2ce0a4407c93af459fa416e54",
+        "GUID:8286a857f75478b43aec13f736ffbc14",
+        "GUID:239ab2ce863ee4506b29f74add89aa3f"
     ],
     "includePlatforms": [
         "Editor"
@@ -52,6 +55,31 @@
             "name": "com.marijnzwemmer.unity-toolbar-extender",
             "expression": "1.4.2",
             "define": "TOOLS_TOOLBAR"
+        },
+        {
+            "name": "com.acegikmo.mathfs",
+            "expression": "0.0.0",
+            "define": "TOOLS_FREYA"
+        },
+        {
+            "name": "com.needle.compilation-visualizer",
+            "expression": "1.8.3",
+            "define": "TOOLS_COMP_VIS"
+        },
+        {
+            "name": "com.redbluegames.mulligan",
+            "expression": "1.7.5",
+            "define": "TOOLS_RENAMER"
+        },
+        {
+            "name": "com.brunomikoski.animationsequencer",
+            "expression": "0.5.2",
+            "define": "TOOLS_ANIM_SEQ"
+        },
+        {
+            "name": "com.annulusgames.tween-playables",
+            "expression": "0.9.1",
+            "define": "TOOLS_TWEEN_PLAYABLES"
         }
     ],
     "noEngineReferences": false

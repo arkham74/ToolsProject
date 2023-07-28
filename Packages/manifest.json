@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "com.acegikmo.mathfs": "https://github.com/FreyaHolmer/Mathfs.git",
+    "com.annulusgames.tween-playables": "https://github.com/AnnulusGames/TweenPlayables.git?path=/Assets/TweenPlayables",
+    "com.brunomikoski.animationsequencer": "0.5.2",
+    "com.dbrizov.naughtyattributes": "2.1.4",
     "com.marijnzwemmer.unity-toolbar-extender": "https://github.com/marijnz/unity-toolbar-extender.git",
     "com.needle.compilation-visualizer": "1.8.3",
     "com.redbluegames.mulligan": "https://github.com/redbluegames/unity-mulligan-renamer.git?path=/Assets/RedBlueGames/MulliganRenamer",
