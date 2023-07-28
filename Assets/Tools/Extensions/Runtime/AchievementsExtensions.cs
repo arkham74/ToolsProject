@@ -36,7 +36,7 @@ namespace JD
 		public static void Lock(this string id)
 		{
 			Achievement achievement = new Achievement(id);
-			DebugTools.LogWarning("Clear:", achievement.Identifier, achievement.State, achievement.Name, achievement.Description, achievement.UnlockTime);
+			DebugTools.LogWarning("Clear", achievement.Identifier, achievement.State, achievement.Name, achievement.Description, achievement.UnlockTime);
 			if (achievement.State)
 			{
 				achievement.Clear();
@@ -47,7 +47,7 @@ namespace JD
 		public static void Unlock(this string id)
 		{
 			Achievement achievement = new Achievement(id);
-			DebugTools.LogWarning("Unlock:", achievement.Identifier, achievement.State, achievement.Name, achievement.Description, achievement.UnlockTime);
+			DebugTools.LogWarning("Unlock", achievement.Identifier, achievement.State, achievement.Name, achievement.Description, achievement.UnlockTime);
 			if (!achievement.State)
 			{
 				achievement.Trigger();
