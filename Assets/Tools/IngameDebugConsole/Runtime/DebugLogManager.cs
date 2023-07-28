@@ -829,11 +829,6 @@ namespace IngameDebugConsole
 
 		public void ShowLogWindow()
 		{
-#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
-			// FindObjectsOfType<InputSystemUIInputModule>(true).ForEach(e => e.actionsAsset.Disable());
-			FindObjectsOfType<PlayerInput>(true).ForEach(e => e.actions.Disable());
-#endif
-
 			// Show the log window
 			logWindowCanvasGroup.blocksRaycasts = true;
 			logWindowCanvasGroup.alpha = 1f;
@@ -859,11 +854,6 @@ namespace IngameDebugConsole
 
 		public void HideLogWindow()
 		{
-#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
-			// FindObjectsOfType<InputSystemUIInputModule>(true).ForEach(e => e.actionsAsset.Enable());
-			FindObjectsOfType<PlayerInput>(true).ForEach(e => e.actions.Enable());
-#endif
-
 			// Hide the log window
 			logWindowCanvasGroup.blocksRaycasts = false;
 			logWindowCanvasGroup.alpha = 0f;
