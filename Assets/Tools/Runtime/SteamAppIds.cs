@@ -13,5 +13,6 @@ namespace JD
 		Pixels = 2480140,
 		Yosemite = 2480320,
 		MatureDLC = 2520150,
+		TheTrial = 594260,
 	}
 }
