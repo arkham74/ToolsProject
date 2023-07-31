@@ -80,6 +80,11 @@
             "name": "com.annulusgames.tween-playables",
             "expression": "0.9.1",
             "define": "TOOLS_TWEEN_PLAYABLES"
+        },
+        {
+            "name": "com.cyanilux.shadergraph-variables",
+            "expression": "1.0.2",
+            "define": "TOOLS_SG_VARS"
         }
     ],
     "noEngineReferences": false
