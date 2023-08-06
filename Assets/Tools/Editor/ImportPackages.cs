@@ -16,23 +16,23 @@ namespace JD.Editor
 #if !TOOLS_FREYA
 			ClientAdd("https://github.com/FreyaHolmer/Mathfs.git");
 #endif
-#if !TOOLS_COMP_VIS
-			ClientAdd("com.needle.compilation-visualizer");
-#endif
 #if !TOOLS_RENAMER
 			ClientAdd("https://github.com/redbluegames/unity-mulligan-renamer.git?path=/Assets/RedBlueGames/MulliganRenamer");
-#endif
-#if !TOOLS_NAUATTR
-			ClientAdd("com.dbrizov.naughtyattributes");
-#endif
-#if !TOOLS_ANIM_SEQ
-			ClientAdd("com.brunomikoski.animationsequencer");
 #endif
 #if !TOOLS_TWEEN_PLAYABLES
 			ClientAdd("https://github.com/AnnulusGames/TweenPlayables.git?path=/Assets/TweenPlayables");
 #endif
 #if !TOOLS_SG_VARS
 			ClientAdd("https://github.com/Cyanilux/ShaderGraphVariables.git");
+#endif
+#if !TOOLS_COMP_VIS
+			ClientAdd("com.needle.compilation-visualizer");
+#endif
+#if !TOOLS_NAUATTR
+			ClientAdd("com.dbrizov.naughtyattributes");
+#endif
+#if !TOOLS_ANIM_SEQ
+			ClientAdd("com.brunomikoski.animationsequencer");
 #endif
 		}
 
