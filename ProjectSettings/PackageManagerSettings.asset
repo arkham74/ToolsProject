@@ -31,7 +31,6 @@ MonoBehaviour:
     m_Scopes:
     - com.acegikmo.mathfs
     - com.brunomikoski.animationsequencer
-    - com.coffee.git-dependency-resolver
     - com.dbrizov.naughtyattributes
     - com.demigiant.dotween
     - com.facepunch.steamworks

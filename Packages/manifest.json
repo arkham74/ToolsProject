@@ -53,8 +53,7 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0",
-    "com.coffee.git-dependency-resolver": "2.0.0"
+    "com.unity.modules.xr": "1.0.0"
   },
   "testables": [
     "com.needle.compilation-visualizer"
@@ -66,7 +65,6 @@
       "scopes": [
         "com.acegikmo.mathfs",
         "com.brunomikoski.animationsequencer",
-        "com.coffee.git-dependency-resolver",
         "com.dbrizov.naughtyattributes",
         "com.demigiant.dotween",
         "com.facepunch.steamworks",

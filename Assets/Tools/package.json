@@ -7,12 +7,5 @@
 	"unityRelease": "0f1",
 	"author": {
 		"name": "Jason Davies"
-	},
-	"gitDependencies": {
-		"com.marijnzwemmer.unity-toolbar-extender": "https://github.com/marijnz/unity-toolbar-extender.git",
-		"com.acegikmo.mathfs": "https://github.com/FreyaHolmer/Mathfs.git",
-		"com.redbluegames.mulligan": "https://github.com/redbluegames/unity-mulligan-renamer.git?path=/Assets/RedBlueGames/MulliganRenamer",
-		"com.annulusgames.tween-playables": "https://github.com/AnnulusGames/TweenPlayables.git?path=/Assets/TweenPlayables",
-		"com.cyanilux.shadergraph-variables": "https://github.com/Cyanilux/ShaderGraphVariables.git"
 	}
 }
