@@ -5,6 +5,16 @@
 	"description": "Custom tools",
 	"unity": "2021.3",
 	"unityRelease": "0f1",
+	"dependencies": {
+		"com.dbrizov.naughtyattributes": "2.1.4",
+		"com.needle.compilation-visualizer": "1.8.3",
+		"com.brunomikoski.animationsequencer": "0.5.2",
+		"https: //github.com/marijnz/unity-toolbar-extender.git": "1.4.2",
+		"https: //github.com/FreyaHolmer/Mathfs.git": "0.1.0",
+		"https: //github.com/redbluegames/unity-mulligan-renamer.git?path=/Assets/RedBlueGames/MulliganRenamer": "1.7.5",
+		"https: //github.com/AnnulusGames/TweenPlayables.git?path=/Assets/TweenPlayables": "0.9.1",
+		"https: //github.com/Cyanilux/ShaderGraphVariables.git": "1.0.2"
+	},
 	"author": {
 		"name": "Jason Davies"
 	}

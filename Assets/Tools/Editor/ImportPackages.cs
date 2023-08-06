@@ -5,11 +5,12 @@ using UnityEngine;
 
 namespace JD.Editor
 {
-	[InitializeOnLoad]
 	public class ImportPackages
 	{
-		static ImportPackages()
+		[InitializeOnLoadMethod]
+		private static void AddPackages()
 		{
+			// Debug.LogWarning("InitializeOnLoadMethod");
 #if !TOOLS_TOOLBAR
 			ClientAdd("https://github.com/marijnz/unity-toolbar-extender.git");
 #endif
