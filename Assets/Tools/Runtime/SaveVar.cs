@@ -58,13 +58,13 @@ namespace JD
 
 		public SaveColor(string key, Color defaultValue = default) : base(key, defaultValue)
 		{
-			defaultJson = JsonHelper.ToJson(defaultValue);
+			defaultJson = JsonTools.ToJson(defaultValue);
 		}
 
 		public override Color Value
 		{
-			get => JsonHelper.FromJson<Color>(PP.GetString(key, defaultJson))[0];
-			set => PP.SetString(key, JsonHelper.ToJson(value));
+			get => JsonTools.FromJson<Color>(PP.GetString(key, defaultJson))[0];
+			set => PP.SetString(key, JsonTools.ToJson(value));
 		}
 	}
 

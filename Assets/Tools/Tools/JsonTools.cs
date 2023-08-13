@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace JD
 {
-	public static class JsonHelper
+	public static class JsonTools
 	{
 		public static T[] FromJson<T>(string json)
 		{

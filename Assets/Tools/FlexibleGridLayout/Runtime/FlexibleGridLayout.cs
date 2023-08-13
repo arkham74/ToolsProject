@@ -18,7 +18,7 @@ namespace UIExtensions
 		[SerializeField] private GridLayoutGroup.Axis startAxis;
 		[SerializeField] private Vector2 spacing;
 		[SerializeField] private FitType fitType;
-		[SerializeField][Min(1)] private int rowsColumns;
+		[SerializeField][Min(1)] private int rowsColumns = 1;
 
 		public override void CalculateLayoutInputVertical()
 		{
