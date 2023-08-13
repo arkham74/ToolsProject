@@ -1,0 +1,19 @@
+{
+    "name": "ToolsTestsAssembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:7cf5465677e6c2f40ab0d676cde53bc3",
+        "GUID:305667e3e63a730418d3d1216684584a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
