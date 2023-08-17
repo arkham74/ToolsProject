@@ -47,8 +47,7 @@ public class HexNode : MonoBehaviour, IAStarNode<HexNode>, IPointerClickHandler
 
 	public float GetDistance(HexNode target)
 	{
-		HexNode t = target as HexNode;
-		return t.transform.Distance(transform);
+		return target.transform.Distance(transform);
 	}
 
 	public IList<HexNode> GetNeighbours()

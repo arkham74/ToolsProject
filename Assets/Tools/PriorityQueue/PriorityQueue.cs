@@ -45,9 +45,17 @@ namespace JD
 			priorities.Clear();
 		}
 
+		public bool Contains(T item)
+		{
+			return items.Contains(item);
+		}
+
 		public IEnumerator<T> GetEnumerator()
 		{
-			return items.GetEnumerator();
+			for (int i = 0; i < items.Count; i++)
+			{
+				yield return items[i];
+			}
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
