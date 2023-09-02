@@ -23,10 +23,10 @@ namespace JD
 		[SerializeField] private ButtonNoSelectable prevButton;
 		[SerializeField] private Text label;
 
-		public bool interactable
+		public bool Interactable
 		{
-			get => slider.interactable && nextButton.interactable && prevButton.interactable;
-			set => slider.interactable = nextButton.interactable = prevButton.interactable = value;
+			get => slider.interactable && nextButton.Interactable && prevButton.Interactable;
+			set => slider.interactable = nextButton.Interactable = prevButton.Interactable = value;
 		}
 
 		private void Reset()

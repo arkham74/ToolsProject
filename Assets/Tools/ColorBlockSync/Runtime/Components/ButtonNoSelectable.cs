@@ -17,30 +17,30 @@ namespace JD
 	public class ButtonNoSelectable : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 	{
 		[SerializeField] private Graphic target;
-		[SerializeField] private ColorBlockData colors;
+		[FormerlySerializedAs("colors")][SerializeField] private ColorDataBlock colorsData;
 		[SerializeField] private UnityEvent onClick;
-		[SerializeField] private bool _interactable = true;
+		[FormerlySerializedAs("_interactable")][SerializeField] private bool interactable = true;
 
 		private bool hover;
 
 		public UnityEvent OnClick => onClick;
 
-		public bool interactable
+		public bool Interactable
 		{
-			get => _interactable;
+			get => interactable;
 			set => SetInteractable(value);
 		}
 
-#if UNITY_EDITOR
+		#if UNITY_EDITOR
 		private void Reset()
 		{
 			target = GetComponentInChildren<Graphic>();
-			colors = AssetTools.FindAssetByType<ColorBlockData>();
+			colorsData = AssetTools.FindAssetByType<ColorDataBlock>();
 		}
 
 		private void OnValidate()
 		{
-			if (interactable)
+			if (Interactable)
 			{
 				if (hover)
 				{
@@ -56,13 +56,13 @@ namespace JD
 				Disable();
 			}
 		}
-#endif
+		#endif
 
 		private void SetInteractable(bool value)
 		{
-			_interactable = value;
+			interactable = value;
 
-			if (interactable)
+			if (Interactable)
 			{
 				if (hover)
 				{
@@ -92,7 +92,7 @@ namespace JD
 
 		public void OnPointerDown(PointerEventData eventData)
 		{
-			if (interactable)
+			if (Interactable)
 			{
 				onClick.Invoke();
 			}
@@ -100,7 +100,7 @@ namespace JD
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			if (interactable)
+			if (Interactable)
 			{
 				hover = true;
 				Hover();
@@ -113,7 +113,7 @@ namespace JD
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
-			if (interactable)
+			if (Interactable)
 			{
 				hover = false;
 				Normal();
@@ -126,17 +126,20 @@ namespace JD
 
 		private void Hover()
 		{
-			target.color = colors.colorBlock.highlightedColor;
+			ColorBlock block = colorsData;
+			target.color = block.highlightedColor;
 		}
 
 		private void Normal()
 		{
-			target.color = colors.colorBlock.normalColor;
+			ColorBlock block = colorsData;
+			target.color = block.normalColor;
 		}
 
 		private void Disable()
 		{
-			target.color = colors.colorBlock.disabledColor;
+			ColorBlock block = colorsData;
+			target.color = block.disabledColor;
 		}
 	}
 }
