@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 #if TOOLS_NAUATTR
@@ -9,23 +10,31 @@ namespace JD
 	public class ColorBlockSync : MonoBehaviour
 	{
 		public Selectable selectable;
-#if TOOLS_NAUATTR
+		#if TOOLS_NAUATTR
 		[Expandable]
-#endif
+		#endif
 		public ColorBlockData data;
 
-#if UNITY_EDITOR
+		private void Start()
+		{
+			Sync();
+		}
+
+		#if UNITY_EDITOR
 		private void Reset()
 		{
 			selectable = GetComponent<Selectable>();
 			data = AssetTools.FindAssetByType<ColorBlockData>();
 		}
+		#endif
 
 		public void Sync()
 		{
-			selectable.colors = data.colorBlock;
-			selectable.MarkDirty();
+			if (selectable)
+			{
+				selectable.colors = data.colorBlock;
+				selectable.MarkDirty();
+			}
 		}
-#endif
 	}
 }
