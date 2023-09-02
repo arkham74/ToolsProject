@@ -13,9 +13,18 @@ namespace JD
 	{
 		[SerializeField] private Selectable selectable;
 
+		protected void Reset()
+		{
+			colorData = AssetTools.FindAssetByType<ColorDataBlock>();
+			selectable = GetComponentInChildren<Selectable>(true);
+		}
+
 		public override void Apply()
 		{
-			selectable.colors = colorData;
+			if (selectable)
+			{
+				selectable.colors = colorData;
+			}
 		}
 	}
 }

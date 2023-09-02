@@ -15,16 +15,22 @@ namespace JD
 	[ExecuteAlways]
 	public abstract class ColorSync<TData> : ColorSync where TData : ColorData
 	{
-		[SerializeField] protected TData colorData;
+		[SerializeField][Expandable] protected TData colorData;
 
 		private void OnEnable()
 		{
-			colorData.OnChange += Apply;
+			if (colorData)
+			{
+				colorData.OnChange += Apply;
+			}
 		}
 
 		private void OnDisable()
 		{
-			colorData.OnChange -= Apply;
+			if (colorData)
+			{
+				colorData.OnChange -= Apply;
+			}
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace JD
 {
@@ -7,11 +8,19 @@ namespace JD
 	{
 		[SerializeField] private SpriteRenderer spriteRenderer;
 
+		private void Reset()
+		{
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
+		}
+
 		public override void Apply()
 		{
-			spriteRenderer.color = colorData;
-			spriteRenderer.material = colorData;
-			spriteRenderer.sprite = colorData;
+			if (spriteRenderer)
+			{
+				spriteRenderer.color = colorData;
+				spriteRenderer.material = colorData;
+				spriteRenderer.sprite = colorData;
+			}
 		}
 	}
 }

@@ -8,9 +8,17 @@ namespace JD
 	{
 		[SerializeField] private Graphic graphic;
 
+		private void Reset()
+		{
+			graphic = GetComponentInChildren<Graphic>(true);
+		}
+		
 		public override void Apply()
 		{
-			graphic.color = colorData;
+			if (graphic)
+			{
+				graphic.color = colorData;
+			}
 		}
 	}
 }
