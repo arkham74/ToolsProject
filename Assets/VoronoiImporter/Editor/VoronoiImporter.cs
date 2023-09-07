@@ -17,56 +17,64 @@ namespace JD.VoronoiImporter
 	[ScriptedImporter(1, "voronoi")]
 	public class VoronoiImporter : ScriptedImporter
 	{
-		public enum TextureSize
-		{
-			_1 = 1,
-			_2 = 2,
-			_4 = 4,
-			_8 = 8,
-			_16 = 16,
-			_32 = 32,
-			_64 = 64,
-			_128 = 128,
-			_256 = 256,
-			_512 = 512,
-			_1024 = 1024,
-			_2048 = 2048,
-			_4096 = 4096,
-			_8192 = 8192,
-		}
+		private const int INNERLOOP_BATCH_COUNT = 32;
 
-		private const int INNER_LOOP_BATCH_COUNT = 32;
-		private const TextureFormat TEXTURE_FORMAT = TextureFormat.RGBA32;
-
-		[SerializeField] private TextureSize textureSize = TextureSize._256;
-		[SerializeField] private int points = 10;
-
-		private int Size => (int)textureSize;
+		[SerializeField] private Texture2D source;
+		[SerializeField] private Color32 background = Color.white;
 
 		public override void OnImportAsset(AssetImportContext ctx)
 		{
-			Texture2D texture = new Texture2D(Size, Size, TEXTURE_FORMAT, false);
-			for (int i = 0; i < points; i++)
+			if (source)
 			{
-				int x = Random.Range(0, Size - 1);
-				int y = Random.Range(0, Size - 1);
-				texture.SetPixel(x, y, new Color(Random.value, Random.value, Random.value, 1));
+				Texture2D texture = GenerateTexture();
+				ctx.AddObjectToAsset("texture", texture);
+				ctx.SetMainObject(texture);
 			}
-
-			GenerateTexture(texture);
-			ctx.AddObjectToAsset("texture", texture);
-			ctx.SetMainObject(texture);
 		}
 
-		private void GenerateTexture(Texture2D texture)
+		private Texture2D GenerateTexture()
 		{
+			Texture2D texture = source.CloneNonReadable(TextureFormat.RGBA32);
 			NativeArray<Color32> pixels = texture.GetPixelData<Color32>(0);
-			VoronoiInitJob initJob = new VoronoiInitJob(Size, pixels);
-			// long start = Stopwatch.GetTimestamp();
-			initJob.Schedule(pixels.Length, INNER_LOOP_BATCH_COUNT).Complete();
-			// long end = Stopwatch.GetTimestamp();
-			// Debug.LogWarning(TimeSpan.FromTicks(end - start).TotalMilliseconds);
-			pixels.Dispose();
+			VoronoiInitJob initJob = new VoronoiInitJob(pixels, background, texture.width, texture.height);
+			JobHandle handle = initJob.ScheduleParallel(pixels.Length, INNERLOOP_BATCH_COUNT, default);
+			handle.Complete();
+			texture.Apply();
+			return texture;
+		}
+	}
+
+	public struct VoronoiInitJob : IJobFor
+	{
+		private NativeArray<Color32> pixels;
+		private readonly Color32 background;
+		private readonly int width;
+		private readonly int height;
+
+		public VoronoiInitJob(NativeArray<Color32> pixels, Color32 background, int width, int height)
+		{
+			this.pixels = pixels;
+			this.background = background;
+			this.width = width;
+			this.height = height;
+		}
+
+		public void Execute(int index)
+		{
+			int x = index / width;
+			int y = index % width;
+
+			float nx = (float)x / width;
+			float ny = (float)y / height;
+
+			if (pixels[index].EqualRGBA(background) || pixels[index].a == 0)
+			{
+				pixels[index] = Color.clear;
+			}
+			else
+			{
+				pixels[index] = new Color(nx, ny, 0, 1);
+			}
 		}
 	}
 }
