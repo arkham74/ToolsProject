@@ -26,9 +26,11 @@ namespace JD
 		public static Texture2D ResizeBilinearNonAlloc(this Texture2D source, int width, int height)
 		{
 			RenderTextureDescriptor smallDescriptor = new RenderTextureDescriptor(width, height, RenderTextureFormat.ARGB32, 0);
-			RenderTextureDescriptor bigDescriptor = new RenderTextureDescriptor(source.width, source.height, RenderTextureFormat.ARGB32, 0);
-			bigDescriptor.useMipMap = true;
-			bigDescriptor.autoGenerateMips = true;
+			RenderTextureDescriptor bigDescriptor = new RenderTextureDescriptor(source.width, source.height, RenderTextureFormat.ARGB32, 0)
+			{
+				useMipMap = true,
+				autoGenerateMips = true
+			};
 			RenderTexture smallRenderTexture = RenderTexture.GetTemporary(smallDescriptor);
 			RenderTexture bigRenderTexture = RenderTexture.GetTemporary(bigDescriptor);
 			Graphics.Blit(source, bigRenderTexture);
@@ -53,9 +55,11 @@ namespace JD
 		public static Texture2D ResizeBilinear(this Texture2D source, int width, int height)
 		{
 			RenderTextureDescriptor smallDescriptor = new RenderTextureDescriptor(width, height, RenderTextureFormat.ARGB32, 0);
-			RenderTextureDescriptor bigDescriptor = new RenderTextureDescriptor(source.width, source.height, RenderTextureFormat.ARGB32, 0);
-			bigDescriptor.useMipMap = true;
-			bigDescriptor.autoGenerateMips = true;
+			RenderTextureDescriptor bigDescriptor = new RenderTextureDescriptor(source.width, source.height, RenderTextureFormat.ARGB32, 0)
+			{
+				useMipMap = true,
+				autoGenerateMips = true
+			};
 			RenderTexture smallRenderTexture = RenderTexture.GetTemporary(smallDescriptor);
 			RenderTexture bigRenderTexture = RenderTexture.GetTemporary(bigDescriptor);
 			Graphics.Blit(source, bigRenderTexture);
@@ -75,10 +79,12 @@ namespace JD
 			return dest;
 		}
 
-		public static RenderTexture ToRenderTexture(this Texture2D source)
+		public static RenderTexture ToRenderTexture(this Texture2D source, DefaultFormat format = DefaultFormat.HDR)
 		{
-			RenderTexture dest = new RenderTexture(source.width, source.height, 0, DefaultFormat.HDR);
-			dest.enableRandomWrite = true;
+			RenderTexture dest = new RenderTexture(source.width, source.height, 0, format)
+			{
+				enableRandomWrite = true
+			};
 			source.BlitTo(dest);
 			return dest;
 		}
@@ -97,7 +103,46 @@ namespace JD
 			RenderTexture.active = prev;
 		}
 
-		public static void CopyTo(this Texture2D source, RenderTexture dest)
+		public static Texture2D Clone(this Texture2D source)
+		{
+			Texture2D clone = new Texture2D(source.width, source.height, source.format, source.mipmapCount, false);
+			source.CopyTo(clone);
+			return clone;
+		}
+
+		public static Texture2D Clone(this Texture2D source, TextureFormat format)
+		{
+			return Clone(source, format, false);
+		}
+
+		public static Texture2D CloneNonReadable(this Texture2D source, TextureFormat format)
+		{
+			return Clone(source, format, true);
+		}
+
+		private static Texture2D Clone(Texture2D source, TextureFormat format, bool nonReadable)
+		{
+			if (source.format == format)
+			{
+				return source.Clone();
+			}
+
+			if (source.isReadable)
+			{
+				Texture2D clone = new Texture2D(source.width, source.height, format, source.mipmapCount, false);
+				clone.SetPixels32(source.GetPixels32());
+				return clone;
+			}
+
+			if (!nonReadable)
+			{
+				Debug.LogWarning($"Enable Read/Write in \"{source}\" import settings for better performance or use \"CloneNonReadable()\" to skip this warning", source);
+			}
+
+			return source.ToRenderTexture(DefaultFormat.LDR).ToTexture2D();
+		}
+
+		public static void CopyTo(this Texture2D source, Texture2D dest)
 		{
 			Graphics.CopyTexture(source, dest);
 		}
@@ -140,7 +185,7 @@ namespace JD
 		private struct ClearJob : IJobParallelFor
 		{
 			[WriteOnly] private NativeArray<Color32> colors;
-			private Color color;
+			private readonly Color color;
 
 			public ClearJob(NativeArray<Color32> colors, Color color)
 			{
