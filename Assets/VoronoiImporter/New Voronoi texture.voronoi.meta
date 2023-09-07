@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 705d9b885454f984795d21013bd89819
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 40d00762795fbfb4db1576e92139a9be, type: 3}
+  textureSize: 512
+  points: 100000
