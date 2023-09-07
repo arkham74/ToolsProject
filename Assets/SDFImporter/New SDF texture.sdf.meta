@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d9b9f91d0fdce3146964af3323774ed4
+guid: ab9657decfc9ed0409dafc49f9711a3c
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -8,5 +8,5 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: acf38b34679a9e248a983861fc62c816, type: 3}
-  radius: {x: 0.7, y: 0.3, z: 0.5}
-  _size: 256
+  radius: {x: 0.5, y: 0.3, z: 0.5}
+  textureSize: 256
