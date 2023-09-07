@@ -52,7 +52,7 @@ namespace JD.VoronoiImporter
 		{
 			NativeArray<Color32> pixels = texture.GetPixelData<Color32>(0);
 
-			VoronoiImporterTorusJob job = new VoronoiImporterTorusJob()
+			VoronoiJob job = new VoronoiJob()
 			{
 				Radius = radius,
 				Size = Size,

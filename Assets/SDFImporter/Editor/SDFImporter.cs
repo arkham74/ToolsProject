@@ -52,7 +52,7 @@ namespace JD.SDFImporter
 		{
 			NativeArray<Color32> pixels = texture.GetPixelData<Color32>(0);
 
-			SDFImporterTorusJob job = new SDFImporterTorusJob()
+			SDFJob job = new SDFJob()
 			{
 				Radius = radius,
 				Size = Size,
