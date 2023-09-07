@@ -2,7 +2,7 @@
 using UnityEditor.AssetImporters;
 using UnityEngine;
 
-namespace JD.TextureImporter.Editor
+namespace JD.SDFImporter.Editor
 {
 	[CustomEditor(typeof(SDFImporter))]
 	internal class SDFImporterEditor : ScriptedImporterEditor

@@ -10,10 +10,10 @@ using UnityEngine.Experimental.Rendering;
 using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
 
-namespace JD.SDFImporter
+namespace JD.VoronoiImporter
 {
-	[ScriptedImporter(1, "sdf")]
-	internal class SDFImporter : ScriptedImporter
+	[ScriptedImporter(1, "voronoi")]
+	internal class VoronoiImporter : ScriptedImporter
 	{
 		internal enum TextureSize
 		{
@@ -52,7 +52,7 @@ namespace JD.SDFImporter
 		{
 			NativeArray<Color32> pixels = texture.GetPixelData<Color32>(0);
 
-			SDFImporterTorusJob job = new SDFImporterTorusJob()
+			VoronoiImporterTorusJob job = new VoronoiImporterTorusJob()
 			{
 				Radius = radius,
 				Size = Size,
