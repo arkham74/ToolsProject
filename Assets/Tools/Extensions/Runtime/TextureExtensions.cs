@@ -1,3 +1,4 @@
+using System;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -79,11 +80,23 @@ namespace JD
 			return dest;
 		}
 
+		[Obsolete("TextureExtensions.ToRenderTexture(Texture2D, DefaultFormat) has been deprecated because it ignores mip count. Use TextureExtensions.ToRenderTexture(Texture2D, RenderTextureFormat) instead.", false)]
 		public static RenderTexture ToRenderTexture(this Texture2D source, DefaultFormat format = DefaultFormat.HDR)
 		{
 			RenderTexture dest = new RenderTexture(source.width, source.height, 0, format)
 			{
 				enableRandomWrite = true
+			};
+			source.BlitTo(dest);
+			return dest;
+		}
+
+		public static RenderTexture ToRenderTexture(this Texture2D source, RenderTextureFormat format = RenderTextureFormat.Default)
+		{
+			RenderTexture dest = new RenderTexture(source.width, source.height, 0, format, source.mipmapCount)
+			{
+				enableRandomWrite = true,
+				useMipMap = source.mipmapCount > 1,
 			};
 			source.BlitTo(dest);
 			return dest;
@@ -131,6 +144,7 @@ namespace JD
 			{
 				Texture2D clone = new Texture2D(source.width, source.height, format, source.mipmapCount, false);
 				clone.SetPixels32(source.GetPixels32());
+				clone.Apply();
 				return clone;
 			}
 
@@ -139,7 +153,7 @@ namespace JD
 				Debug.LogWarning($"Enable Read/Write in \"{source}\" import settings for better performance or use \"CloneNonReadable()\" to skip this warning", source);
 			}
 
-			return source.ToRenderTexture(DefaultFormat.LDR).ToTexture2D();
+			return source.ToRenderTexture(RenderTextureFormat.Default).ToTexture2D();
 		}
 
 		public static void CopyTo(this Texture2D source, Texture2D dest)
