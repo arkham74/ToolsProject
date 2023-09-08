@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Freya;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -36,9 +37,24 @@ namespace JD.VoronoiImporter
 		{
 			Texture2D texture = source.CloneNonReadable(TextureFormat.RGBA32);
 			NativeArray<Color32> pixels = texture.GetPixelData<Color32>(0);
+
 			VoronoiInitJob initJob = new VoronoiInitJob(pixels, background, texture.width, texture.height);
 			JobHandle handle = initJob.ScheduleParallel(pixels.Length, INNERLOOP_BATCH_COUNT, default);
 			handle.Complete();
+
+			int larger = Math.Max(texture.width, texture.height);
+			int passCount = Mathf.Log(larger, 2).CeilToInt();
+
+			for (int i = 0; i < passCount; i++)
+			{
+				int offset = Mathf.Pow(2, passCount - i - 1).CeilToInt();
+				NativeArray<Color32> readBuffer = new NativeArray<Color32>(pixels, Allocator.TempJob);
+				JFAJob jfaJob = new JFAJob(pixels, texture.width, readBuffer, offset);
+				handle = jfaJob.ScheduleParallel(pixels.Length, INNERLOOP_BATCH_COUNT, default);
+				handle.Complete();
+				readBuffer.Dispose();
+			}
+
 			texture.Apply();
 			return texture;
 		}
