@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Freya;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -8,6 +9,7 @@ using UnityEngine;
 
 namespace JD.VoronoiImporter
 {
+	[BurstCompile]
 	public readonly struct JFAJob : IJobFor
 	{
 		private readonly NativeArray<Color32> pixels;

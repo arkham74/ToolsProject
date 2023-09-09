@@ -55,6 +55,10 @@ namespace JD.VoronoiImporter
 				readBuffer.Dispose();
 			}
 
+			SDFJob sdfJob = new SDFJob(pixels);
+			handle = sdfJob.ScheduleParallel(pixels.Length, INNERLOOP_BATCH_COUNT, default);
+			handle.Complete();
+
 			texture.Apply();
 			return texture;
 		}
