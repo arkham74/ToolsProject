@@ -38,24 +38,27 @@ namespace JD.VoronoiImporter
 			Texture2D texture = source.CloneNonReadable(TextureFormat.RGBA32);
 			NativeArray<Color32> pixels = texture.GetPixelData<Color32>(0);
 
-			InitJob initJob = new InitJob(pixels, background, texture.width, texture.height);
+			int width = texture.width;
+			int height = texture.height;
+
+			InitJob initJob = new InitJob(pixels, background, width, height);
 			JobHandle handle = initJob.ScheduleParallel(pixels.Length, INNERLOOP_BATCH_COUNT, default);
 			handle.Complete();
 
-			int larger = Math.Max(texture.width, texture.height);
+			int larger = Math.Max(width, height);
 			int passCount = Mathf.Log(larger, 2).CeilToInt();
 
 			for (int i = 0; i < passCount; i++)
 			{
 				int offset = Mathf.Pow(2, passCount - i - 1).CeilToInt();
 				NativeArray<Color32> readBuffer = new NativeArray<Color32>(pixels, Allocator.TempJob);
-				JFAJob jfaJob = new JFAJob(pixels, texture.width, readBuffer, offset);
+				JFAJob jfaJob = new JFAJob(pixels, width, readBuffer, offset);
 				handle = jfaJob.ScheduleParallel(pixels.Length, INNERLOOP_BATCH_COUNT, default);
 				handle.Complete();
 				readBuffer.Dispose();
 			}
 
-			SDFJob sdfJob = new SDFJob(pixels);
+			SDFJob sdfJob = new SDFJob(pixels, width);
 			handle = sdfJob.ScheduleParallel(pixels.Length, INNERLOOP_BATCH_COUNT, default);
 			handle.Complete();
 

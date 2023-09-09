@@ -30,7 +30,7 @@ namespace JD.VoronoiImporter
 
 		public void Execute(int index)
 		{
-			int2 pos = ConvertToPosition(index);
+			int2 pos = index.ConvertToPosition(width);
 			Color32 color = default;
 			float distance = float.MaxValue;
 
@@ -39,8 +39,8 @@ namespace JD.VoronoiImporter
 				for (int v = -1; v <= 1; v++)
 				{
 					int2 offsetPos = pos + new int2(u, v) * offset;
-					Color32 offsetValue = ReadAt(readBuffer, offsetPos);
-					float dist = math.distancesq(Decode(offsetValue), pos);
+					Color32 offsetValue = readBuffer.ReadAt(offsetPos, width, height);
+					float dist = math.distancesq(offsetValue.Decode(width, height), pos);
 
 					if (offsetValue.a != 0 && dist < distance)
 					{
@@ -50,38 +50,7 @@ namespace JD.VoronoiImporter
 				}
 			}
 
-			WriteAt(pixels, pos, color);
-		}
-
-		private float2 Decode(Color32 color32)
-		{
-			Color color = color32;
-			return new float2(color.r * (width - 1), color.g * (height - 1));
-		}
-
-		private T ReadAt<T>(NativeArray<T> array, int2 pos) where T : struct
-		{
-			return array[ConvertToIndex(ClampToTexture(pos))];
-		}
-
-		private void WriteAt<T>(NativeArray<T> array, int2 pos, T color) where T : struct
-		{
-			array[ConvertToIndex(ClampToTexture(pos))] = color;
-		}
-
-		private int2 ClampToTexture(int2 pos)
-		{
-			return math.clamp(pos, new int2(0, 0), new int2(width - 1, height - 1));
-		}
-
-		private int ConvertToIndex(int2 pos)
-		{
-			return pos.x + pos.y * width;
-		}
-
-		private int2 ConvertToPosition(int index)
-		{
-			return new int2(index % width, index / width);
+			pixels.WriteAt(pos, color, width, height);
 		}
 	}
 }
