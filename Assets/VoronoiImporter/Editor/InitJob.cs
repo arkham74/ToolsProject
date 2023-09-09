@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace JD.VoronoiImporter
 {
-	public struct VoronoiInitJob : IJobFor
+	public struct InitJob : IJobFor
 	{
 		private NativeArray<Color32> pixels;
 		private readonly Color32 background;
 		private readonly int width;
 		private readonly int height;
 
-		public VoronoiInitJob(NativeArray<Color32> pixels, Color32 background, int width, int height)
+		public InitJob(NativeArray<Color32> pixels, Color32 background, int width, int height)
 		{
 			this.pixels = pixels;
 			this.background = background;

@@ -38,7 +38,7 @@ namespace JD.VoronoiImporter
 			Texture2D texture = source.CloneNonReadable(TextureFormat.RGBA32);
 			NativeArray<Color32> pixels = texture.GetPixelData<Color32>(0);
 
-			VoronoiInitJob initJob = new VoronoiInitJob(pixels, background, texture.width, texture.height);
+			InitJob initJob = new InitJob(pixels, background, texture.width, texture.height);
 			JobHandle handle = initJob.ScheduleParallel(pixels.Length, INNERLOOP_BATCH_COUNT, default);
 			handle.Complete();
 
