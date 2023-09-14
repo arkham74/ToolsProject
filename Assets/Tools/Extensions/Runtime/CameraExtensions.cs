@@ -17,11 +17,11 @@ namespace JD
 
 		public static Vector2 GetMouseScreenPosition()
 		{
-#if ENABLE_INPUT_SYSTEM
+			#if ENABLE_INPUT_SYSTEM
 			return Mouse.current.position.ReadValue();
-#else
+			#else
 			return Input.mousePosition;
-#endif
+			#endif
 		}
 
 		public static Vector3 MouseToViewportPoint(this Camera camera)

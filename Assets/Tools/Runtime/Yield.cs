@@ -6,9 +6,9 @@ namespace JD
 {
 	public static class Yield
 	{
-		private readonly static WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
-		private readonly static Dictionary<float, WaitForSeconds> waitForSeconds = new Dictionary<float, WaitForSeconds>();
-		private readonly static Dictionary<float, WaitForSecondsRealtime> waitForSecondsRealtime = new Dictionary<float, WaitForSecondsRealtime>();
+		private static readonly WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+		private static readonly Dictionary<float, WaitForSeconds> waitForSeconds = new Dictionary<float, WaitForSeconds>();
+		private static readonly Dictionary<float, WaitForSecondsRealtime> waitForSecondsRealtime = new Dictionary<float, WaitForSecondsRealtime>();
 
 		public static WaitForEndOfFrame WaitForEndOfFrame()
 		{

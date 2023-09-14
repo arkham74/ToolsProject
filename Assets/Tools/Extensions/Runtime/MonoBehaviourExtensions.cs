@@ -15,8 +15,10 @@ namespace JD
 					tick.Invoke(i);
 					yield return Yield.WaitForEndOfFrame();
 				}
+
 				complete.Invoke();
 			}
+
 			return mb.StartCoroutine(RepeatRoutine());
 		}
 
@@ -29,8 +31,10 @@ namespace JD
 					tick.Invoke(i);
 					yield return Yield.WaitForEndOfFrame();
 				}
+
 				complete.Invoke();
 			}
+
 			return mb.StartCoroutine(RepeatRoutine());
 		}
 
@@ -43,8 +47,10 @@ namespace JD
 					tick.Invoke(i);
 					yield return Yield.WaitForSeconds(1f);
 				}
+
 				complete.Invoke();
 			}
+
 			return mb.StartCoroutine(RepeatRoutine());
 		}
 
@@ -57,8 +63,10 @@ namespace JD
 					tick.Invoke(i);
 					yield return Yield.WaitForSecondsRealtime(1f);
 				}
+
 				complete.Invoke();
 			}
+
 			return mb.StartCoroutine(RepeatRoutine());
 		}
 
@@ -69,6 +77,7 @@ namespace JD
 				yield return new WaitUntil(untilTrue);
 				complete.Invoke();
 			}
+
 			return mb.StartCoroutine(DelayRoutine());
 		}
 
@@ -79,6 +88,7 @@ namespace JD
 				yield return new WaitWhile(whileTrue);
 				complete.Invoke();
 			}
+
 			return mb.StartCoroutine(DelayRoutine());
 		}
 
@@ -89,6 +99,7 @@ namespace JD
 				yield return Yield.WaitForSeconds(seconds);
 				complete.Invoke();
 			}
+
 			return mb.StartCoroutine(DelayRoutine());
 		}
 
@@ -100,8 +111,10 @@ namespace JD
 				{
 					yield return Yield.WaitForEndOfFrame();
 				}
+
 				complete.Invoke();
 			}
+
 			return mb.StartCoroutine(DelayRoutine());
 		}
 
@@ -112,6 +125,7 @@ namespace JD
 				yield return Yield.WaitForSecondsRealtime(seconds);
 				complete.Invoke();
 			}
+
 			return mb.StartCoroutine(DelayRoutine());
 		}
 	}

@@ -82,6 +82,7 @@ namespace JD
 					_current += 1;
 					return true;
 				}
+
 				return false;
 			}
 		}

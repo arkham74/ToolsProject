@@ -10,6 +10,7 @@ namespace JD
 			{
 				return value;
 			}
+
 			dictionary.Add(key, add);
 			return add;
 		}

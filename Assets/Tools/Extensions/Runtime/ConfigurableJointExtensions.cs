@@ -14,6 +14,7 @@ namespace JD
 			{
 				Debug.LogError("SetTargetRotationLocal should not be used with joints that are configured in world space. For world space joints, use SetTargetRotation.", joint);
 			}
+
 			SetTargetRotationInternal(joint, targetLocalRotation, startLocalRotation, Space.Self);
 		}
 
@@ -27,6 +28,7 @@ namespace JD
 			{
 				Debug.LogError("SetTargetRotation must be used with joints that are configured in world space. For local space joints, use SetTargetRotationLocal.", joint);
 			}
+
 			SetTargetRotationInternal(joint, targetWorldRotation, startWorldRotation, Space.World);
 		}
 

@@ -3,16 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using Freya;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace JD
 {
 	public static class IEnumerableExtensions
 	{
+		public static PooledObject<List<T>> AsList<T>(this IEnumerable<T> collection, out List<T> list)
+		{
+			PooledObject<List<T>> pooledObject = ListPool<T>.Get(out list);
+			list.AddRange(collection);
+			return pooledObject;
+		}
+
 		public static IEnumerable<T> Page<T>(this IEnumerable<T> collection, int page, int pageSize)
 		{
 			return collection.Skip(page * pageSize).Take(pageSize);
 		}
-		
+
 		public static string Join<T>(this IEnumerable<T> collection, Func<T, string> selector, string separator = ", ")
 		{
 			return string.Join(separator, collection.Select(selector));
@@ -32,8 +40,10 @@ namespace JD
 				{
 					return i;
 				}
+
 				i++;
 			}
+
 			return -1;
 		}
 
@@ -94,6 +104,7 @@ namespace JD
 			{
 				return collection.ElementAtOrDefault(UnityEngine.Random.Range(0, collection.Count()));
 			}
+
 			return default;
 		}
 
@@ -204,6 +215,7 @@ namespace JD
 					return i;
 				}
 			}
+
 			return -1;
 		}
 

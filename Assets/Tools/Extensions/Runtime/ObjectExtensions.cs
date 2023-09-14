@@ -10,9 +10,9 @@ namespace JD
 		[Conditional("UNITY_EDITOR")]
 		public static void MarkDirty(this Object target)
 		{
-#if UNITY_EDITOR
+			#if UNITY_EDITOR
 			EditorUtility.SetDirty(target);
-#endif
+			#endif
 		}
 
 		public static void Destroy(this Object target, float time)

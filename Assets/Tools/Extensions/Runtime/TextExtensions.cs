@@ -62,6 +62,7 @@ namespace JD
 				text.text = string.Format(format, score);
 				await Task.Delay(10);
 			}
+
 			text.text = string.Format(format, maxScore);
 		}
 
@@ -78,6 +79,7 @@ namespace JD
 				text.text = score.ToString("0");
 				await Task.Delay(10);
 			}
+
 			text.text = maxScore.ToString("0");
 		}
 	}

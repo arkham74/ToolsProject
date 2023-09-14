@@ -45,6 +45,7 @@ namespace JD
 			{
 				sum += span[i];
 			}
+
 			return sum;
 		}
 
@@ -56,6 +57,7 @@ namespace JD
 			{
 				max = Mathf.Max(max, span[i]);
 			}
+
 			return max;
 		}
 
@@ -67,6 +69,7 @@ namespace JD
 			{
 				min = Mathf.Min(min, span[i]);
 			}
+
 			return min;
 		}
 	}

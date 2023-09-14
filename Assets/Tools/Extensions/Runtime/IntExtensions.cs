@@ -10,6 +10,18 @@ namespace JD
 	public static class IntExtensions
 	{
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static void PrevModRef(ref this int value, int length)
+		{
+			value = (value - 1).Mod(length);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static void NextModRef(ref this int value, int length)
+		{
+			value = (value + 1).Mod(length);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int Clamp01(this int value)
 		{
 			return (int)Mathf.Clamp01(value);
@@ -84,17 +96,17 @@ namespace JD
 			return UnityEngine.Random.Range(0, value);
 		}
 
-		public readonly static Dictionary<int, string> intCache = new Dictionary<int, string>(10000);
+		public static readonly Dictionary<int, string> INTCache = new Dictionary<int, string>(10000);
 
 		public static string ToStringNonAlloc(this int value)
 		{
-			if (intCache.TryGetValue(value, out string str))
+			if (INTCache.TryGetValue(value, out string str))
 			{
 				return str;
 			}
 
 			str = value.ToString();
-			intCache.Add(value, str);
+			INTCache.Add(value, str);
 			return str;
 		}
 
@@ -114,8 +126,10 @@ namespace JD
 				{
 					bitCount++;
 				}
+
 				mask = mask >> 1;
 			}
+
 			return bitCount;
 		}
 
@@ -139,6 +153,7 @@ namespace JD
 				{
 					setBits[index++] = bitPosition;
 				}
+
 				mask = mask >> 1;
 				bitPosition *= 2;
 			}

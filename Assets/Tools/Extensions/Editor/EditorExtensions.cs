@@ -40,7 +40,9 @@ namespace JD.Editor
 		public static void OpenWithDefaultApp(this String param0) => EditorUtility.OpenWithDefaultApp(param0);
 		public static void SetCameraAnimateMaterials(this Camera param0, Boolean param1) => EditorUtility.SetCameraAnimateMaterials(param0, param1);
 		public static void SetCameraAnimateMaterialsTime(this Camera param0, Single param1) => EditorUtility.SetCameraAnimateMaterialsTime(param0, param1);
+
 		public static void UpdateGlobalShaderProperties(this Single param0) => EditorUtility.UpdateGlobalShaderProperties(param0);
+
 		// public static void set_audioMasterMute(this Boolean param0) => EditorUtility.set_audioMasterMute(param0);
 		public static Int32 GetDirtyCount(this Int32 param0) => EditorUtility.GetDirtyCount(param0);
 		public static Int32 GetDirtyCount(this Object param0) => EditorUtility.GetDirtyCount(param0);
@@ -59,7 +61,9 @@ namespace JD.Editor
 		public static Boolean DisplayDialog(this String param0, String param1, String param2, String param3, DialogOptOutDecisionType param4, String param5) => EditorUtility.DisplayDialog(param0, param1, param2, param3, param4, param5);
 		public static void DisplayPopupMenu(this Rect param0, String param1, MenuCommand param2) => EditorUtility.DisplayPopupMenu(param0, param1, param2);
 		public static void DisplayCustomMenu(this Rect param0, GUIContent[] param1, Int32 param2, SelectMenuItemFunction param3, Object param4) => EditorUtility.DisplayCustomMenu(param0, param1, param2, param3, param4);
+
 		public static void DisplayCustomMenu(this Rect param0, GUIContent[] param1, Int32 param2, SelectMenuItemFunction param3, Object param4, Boolean param5) => EditorUtility.DisplayCustomMenu(param0, param1, param2, param3, param4, param5);
+
 		// public static void DisplayCustomMenu(this Rect param0, GUIContent[] param1, Func`2 param2, Int32 param3, SelectMenuItemFunction param4, Object param5, Boolean param6) => EditorUtility.DisplayCustomMenu(param0, param1, param2, param3, param4, param5, param6);
 		public static String FormatBytes(this Int32 param0) => EditorUtility.FormatBytes(param0);
 		public static GameObject CreateGameObjectWithHideFlags(this String param0, HideFlags param1, Type[] param2) => EditorUtility.CreateGameObjectWithHideFlags(param0, param1, param2);
