@@ -8,6 +8,11 @@ namespace JD
 {
 	public static class IEnumerableExtensions
 	{
+		public static IEnumerable<T> Page<T>(this IEnumerable<T> collection, int page, int pageSize)
+		{
+			return collection.Skip(page * pageSize).Take(pageSize);
+		}
+		
 		public static string Join<T>(this IEnumerable<T> collection, Func<T, string> selector, string separator = ", ")
 		{
 			return string.Join(separator, collection.Select(selector));
