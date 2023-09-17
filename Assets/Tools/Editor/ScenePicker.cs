@@ -1,3 +1,4 @@
+#if TOOLS_TOOLBAR
 using System.Collections.Generic;
 using UnityEngine;
 using UnityToolbarExtender;
@@ -90,3 +91,4 @@ namespace JD.Editor
 		}
 	}
 }
+#endif
