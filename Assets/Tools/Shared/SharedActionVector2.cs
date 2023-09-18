@@ -3,7 +3,7 @@
 namespace JD.Shared
 {
 	[CreateAssetMenu]
-	public class SharedActionFloat : SharedAction<float>
+	public class SharedActionVector2 : SharedAction<Vector2>
 	{
 	}
 }

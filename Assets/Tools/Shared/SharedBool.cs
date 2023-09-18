@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace JD.Shared
 {
-	[CreateAssetMenu(menuName = "ScriptableObject/SharedBool")]
+	[CreateAssetMenu]
 	public class SharedBool : Shared<bool>
 	{
 	}

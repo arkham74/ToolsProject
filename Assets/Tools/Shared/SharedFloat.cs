@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace JD.Shared
 {
-	[CreateAssetMenu(menuName = "ScriptableObject/SharedFloat")]
+	[CreateAssetMenu]
 	public class SharedFloat : Shared<float>
 	{
 	}

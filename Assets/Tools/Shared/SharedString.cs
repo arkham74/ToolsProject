@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace JD.Shared
 {
-	[CreateAssetMenu(menuName = "ScriptableObject/SharedString")]
+	[CreateAssetMenu]
 	public class SharedString : Shared<string>
 	{
 	}

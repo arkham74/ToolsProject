@@ -3,7 +3,7 @@
 namespace JD.Shared
 {
 	[CreateAssetMenu]
-	public class SharedActionFloat : SharedAction<float>
+	public class SharedContactPoint2D : Shared<ContactPoint2D>
 	{
 	}
 }
