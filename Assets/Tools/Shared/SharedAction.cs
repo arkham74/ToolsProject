@@ -9,10 +9,19 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-namespace JD.SharedVar
+#if TOOLS_NAUATTR
+using NaughtyAttributes;
+#endif
+
+namespace JD.Shared
 {
-	[CreateAssetMenu(menuName = "ScriptableObject/SharedInt")]
-	public class SharedInt : Shared<int>
+	public abstract class SharedAction<T> : ScriptableObject
 	{
+		public event Action<T> OnValueChanged = delegate { };
+
+		public void Invoke(T value)
+		{
+			OnValueChanged.Invoke(value);
+		}
 	}
 }

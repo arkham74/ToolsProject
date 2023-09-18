@@ -9,10 +9,10 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-namespace JD.SharedVar
+namespace JD.Shared
 {
-	[CreateAssetMenu(menuName = "ScriptableObject/SharedFloat")]
-	public class SharedFloat : Shared<float>
+	[CreateAssetMenu(menuName = "ScriptableObject/SharedInt")]
+	public class SharedInt : Shared<int>
 	{
 	}
 }

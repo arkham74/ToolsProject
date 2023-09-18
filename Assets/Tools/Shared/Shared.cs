@@ -13,14 +13,15 @@ using Random = UnityEngine.Random;
 using NaughtyAttributes;
 #endif
 
-namespace JD.SharedVar
+namespace JD.Shared
 {
 	public abstract class Shared<T> : ScriptableObject
 	{
-#if TOOLS_NAUATTR
+		#if TOOLS_NAUATTR
 		[ShowNonSerializedField]
-#endif
+		#endif
 		private T value;
+
 		public event Action<T> OnValueChanged;
 
 		public T Value
@@ -41,11 +42,11 @@ namespace JD.SharedVar
 			}
 		}
 
-		public static implicit operator T(Shared<T> shared) => shared.value;
-
 		public override string ToString()
 		{
 			return Value.ToString();
 		}
+
+		public static implicit operator T(Shared<T> shared) => shared.value;
 	}
 }
