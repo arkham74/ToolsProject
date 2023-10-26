@@ -23,10 +23,10 @@ namespace JD
 			text.SetText(localizedString);
 		}
 
-		public static void SetLocalizedText(this TMP_Text text, string localeKey, string format = "{0}")
+		public static void SetLocalizedText(this TMP_Text text, string tableKey, string localeKey, string format = "{0}")
 		{
 			LocalizedStringDatabase stringDatabase = LocalizationSettings.StringDatabase;
-			string localizedString = stringDatabase.GetLocalizedString(localeKey);
+			string localizedString = stringDatabase.GetLocalizedString(tableKey, localeKey);
 			text.SetText(string.Format(format, localizedString));
 		}
 
