@@ -26,11 +26,11 @@ namespace JD
 		public static void SetLocalizedText(this TMP_Text text, string localeKey, string format = "{0}")
 		{
 			LocalizedStringDatabase stringDatabase = LocalizationSettings.StringDatabase;
-			string localizedString = stringDatabase.GetLocalizedString(tableKey, localeKey);
+			string localizedString = stringDatabase.GetLocalizedString(localeKey);
 			text.SetText(string.Format(format, localizedString));
 		}
 
-		public static void SetLocalizedTextFallback(this TMP_Text text, string localeKey, string fallback, string format = "{0}")
+		public static void SetLocalizedTextFallback(this TMP_Text text, string tableKey, string localeKey, string fallback, string format = "{0}")
 		{
 			var result = LocalizationSettings.StringDatabase.GetTableEntry(tableKey, localeKey);
 			string localizedString = result.Entry != null ? result.Entry.GetLocalizedString() : fallback;
