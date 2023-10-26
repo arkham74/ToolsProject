@@ -23,28 +23,14 @@ namespace JD
 			text.SetText(localizedString);
 		}
 
-		public static void SetLocalizedText(this TMP_Text text, string tableKey, string localeKey)
-		{
-			LocalizedStringDatabase stringDatabase = LocalizationSettings.StringDatabase;
-			string localizedString = stringDatabase.GetLocalizedString(tableKey, localeKey);
-			text.SetText(localizedString);
-		}
-
-		public static void SetLocalizedText(this TMP_Text text, string tableKey, string localeKey, params object[] args)
-		{
-			LocalizedStringDatabase stringDatabase = LocalizationSettings.StringDatabase;
-			string localizedString = stringDatabase.GetLocalizedString(tableKey, localeKey, args);
-			text.SetText(localizedString);
-		}
-
-		public static void SetLocalizedText(this TMP_Text text, string tableKey, string localeKey, string format = "{0}")
+		public static void SetLocalizedText(this TMP_Text text, string localeKey, string format = "{0}")
 		{
 			LocalizedStringDatabase stringDatabase = LocalizationSettings.StringDatabase;
 			string localizedString = stringDatabase.GetLocalizedString(tableKey, localeKey);
 			text.SetText(string.Format(format, localizedString));
 		}
 
-		public static void SetLocalizedTextFallback(this TMP_Text text, string tableKey, string localeKey, string fallback, string format = "{0}")
+		public static void SetLocalizedTextFallback(this TMP_Text text, string localeKey, string fallback, string format = "{0}")
 		{
 			var result = LocalizationSettings.StringDatabase.GetTableEntry(tableKey, localeKey);
 			string localizedString = result.Entry != null ? result.Entry.GetLocalizedString() : fallback;
