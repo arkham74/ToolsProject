@@ -15,5 +15,6 @@ namespace JD
 		MatureDLC = 2520150,
 		TheTrial = 594260,
 		Solcialists = 2628180,
+		StuntCoordinator = 1782980,
 	}
 }
