@@ -14,5 +14,6 @@ namespace JD
 		Yosemite = 2480320,
 		MatureDLC = 2520150,
 		TheTrial = 594260,
+		Solcialists = 2628180,
 	}
 }
