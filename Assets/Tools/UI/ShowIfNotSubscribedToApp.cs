@@ -1,6 +1,6 @@
 using UnityEngine;
 using JD;
-using Steamworks;
+// using Steamworks;
 
 namespace JD
 {
@@ -10,8 +10,10 @@ namespace JD
 
 		private void Awake()
 		{
-			if (!Application.isEditor)
-				gameObject.SetActive(!SteamApps.IsSubscribedToApp((uint)appid));
+			// if (!Application.isEditor)
+			// {
+			// 	gameObject.SetActive(!SteamApps.IsSubscribedToApp((uint)appid));
+			// }
 		}
 	}
 }

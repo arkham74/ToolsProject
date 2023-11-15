@@ -12,17 +12,17 @@ using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using IngameDebugConsole;
 using UnityEngine.Scripting;
-using Steamworks;
+// using Steamworks;
 
 public class SteamCommands : MonoBehaviour
 {
-	[ConsoleMethod("steam.reset_all_stats", "Reset all user stats and achievements"), Preserve]
-	public static void SteamUserStatsResetAll()
-	{
-		if (SteamUserStats.ResetAll(true))
-		{
-			Debug.Log("Steam stats and achievements cleared");
-		}
-	}
+	// [ConsoleMethod("steam.reset_all_stats", "Reset all user stats and achievements"), Preserve]
+	// public static void SteamUserStatsResetAll()
+	// {
+	// 	if (SteamUserStats.ResetAll(true))
+	// 	{
+	// 		Debug.Log("Steam stats and achievements cleared");
+	// 	}
+	// }
 }
 #endif

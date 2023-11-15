@@ -1,7 +1,7 @@
 using UnityEngine;
 using JD;
 using UnityEngine.UI;
-using Steamworks;
+// using Steamworks;
 
 namespace JD
 {
@@ -17,7 +17,7 @@ namespace JD
 
 		private void Button_Open()
 		{
-			SteamFriends.OpenStoreOverlay((uint)appid);
+			// SteamFriends.OpenStoreOverlay((uint)appid);
 		}
 	}
 }
