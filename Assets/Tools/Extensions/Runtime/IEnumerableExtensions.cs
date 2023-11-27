@@ -9,6 +9,30 @@ namespace JD
 {
 	public static class IEnumerableExtensions
 	{
+		public static IEnumerable<TSource> Except<TSource>(this IEnumerable<TSource> first, TSource second)
+		{
+			foreach (TSource item in first)
+			{
+				if (item.Equals(second))
+				{
+					continue;
+				}
+				yield return item;
+			}
+		}
+
+		public static IEnumerable<TSource> Except<TSource>(this IEnumerable<TSource> first, TSource second, IEqualityComparer<TSource> comparer)
+		{
+			foreach (TSource item in first)
+			{
+				if (comparer.Equals(item, second))
+				{
+					continue;
+				}
+				yield return item;
+			}
+		}
+
 		public static PooledObject<List<T>> AsList<T>(this IEnumerable<T> collection, out List<T> list)
 		{
 			PooledObject<List<T>> pooledObject = ListPool<T>.Get(out list);
