@@ -74,8 +74,8 @@ namespace Crosstales.TPB
 		/// <returns>True if the build was successful.</returns>
 		public static bool Build(BuildTarget target, string path = null, string name = null, params string[] scenes)
 		{
-			CTEditorPrefs.SetBool(Constants.KEY_BATCHMODE, false);
-			CTEditorPrefs.Save();
+			CTPrefs.SetBool(Constants.KEY_BATCHMODE, false);
+			CTPrefs.Save();
 
 			return build(false, path, name, new[] { Helper.GetBuildNameFromBuildTarget(target) }, scenes);
 		}
@@ -92,8 +92,8 @@ namespace Crosstales.TPB
 			if (!string.IsNullOrEmpty(Config.EXECUTE_METHOD_PRE_BUILD_ALL))
 				Helper.InvokeMethod(Config.EXECUTE_METHOD_PRE_BUILD_ALL.Substring(0, Config.EXECUTE_METHOD_PRE_BUILD_ALL.CTLastIndexOf(".")), Config.EXECUTE_METHOD_PRE_BUILD_ALL.Substring(Config.EXECUTE_METHOD_PRE_BUILD_ALL.CTLastIndexOf(".") + 1));
 
-			CTEditorPrefs.SetBool(Constants.KEY_BATCHMODE, false);
-			CTEditorPrefs.Save();
+			CTPrefs.SetBool(Constants.KEY_BATCHMODE, false);
+			CTPrefs.Save();
 
 			System.Collections.Generic.List<string> _targets = new System.Collections.Generic.List<string>();
 
@@ -115,8 +115,8 @@ namespace Crosstales.TPB
 		/// <summary>Builds all selected targets via CLI.</summary>
 		public static void BuildAllCLI()
 		{
-			CTEditorPrefs.SetBool(Constants.KEY_BATCHMODE, true);
-			CTEditorPrefs.Save();
+			CTPrefs.SetBool(Constants.KEY_BATCHMODE, true);
+			CTPrefs.Save();
 
 			System.Collections.Generic.List<string> _targets = new System.Collections.Generic.List<string>();
 
@@ -136,8 +136,8 @@ namespace Crosstales.TPB
 		/// <summary>Builds the targets via CLI.</summary>
 		public static void BuildCLI()
 		{
-			CTEditorPrefs.SetBool(Constants.KEY_BATCHMODE, true);
-			CTEditorPrefs.Save();
+			CTPrefs.SetBool(Constants.KEY_BATCHMODE, true);
+			CTPrefs.Save();
 
 			//TODO add parameters like "scenes"
 

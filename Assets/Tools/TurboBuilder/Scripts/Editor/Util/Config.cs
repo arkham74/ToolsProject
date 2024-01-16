@@ -299,26 +299,26 @@ namespace Crosstales.TPB.Util
 
 			setupPlatforms();
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_CUSTOM_PATH_BUILD))
-				CUSTOM_PATH_BUILD = CTEditorPrefs.GetBool(Constants.KEY_CUSTOM_PATH_BUILD);
+			if (CTPrefs.HasKey(Constants.KEY_CUSTOM_PATH_BUILD))
+				CUSTOM_PATH_BUILD = CTPrefs.GetBool(Constants.KEY_CUSTOM_PATH_BUILD);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_PATH_BUILD))
-				PATH_BUILD = CTEditorPrefs.GetString(Constants.KEY_PATH_BUILD);
+			if (CTPrefs.HasKey(Constants.KEY_PATH_BUILD))
+				PATH_BUILD = CTPrefs.GetString(Constants.KEY_PATH_BUILD);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_VCS))
-				VCS = CTEditorPrefs.GetInt(Constants.KEY_VCS);
+			if (CTPrefs.HasKey(Constants.KEY_VCS))
+				VCS = CTPrefs.GetInt(Constants.KEY_VCS);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_ADD_NAME_TO_PATH))
-				ADD_NAME_TO_PATH = CTEditorPrefs.GetBool(Constants.KEY_ADD_NAME_TO_PATH);
+			if (CTPrefs.HasKey(Constants.KEY_ADD_NAME_TO_PATH))
+				ADD_NAME_TO_PATH = CTPrefs.GetBool(Constants.KEY_ADD_NAME_TO_PATH);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_ADD_VERSION_TO_PATH))
-				ADD_VERSION_TO_PATH = CTEditorPrefs.GetBool(Constants.KEY_ADD_VERSION_TO_PATH);
+			if (CTPrefs.HasKey(Constants.KEY_ADD_VERSION_TO_PATH))
+				ADD_VERSION_TO_PATH = CTPrefs.GetBool(Constants.KEY_ADD_VERSION_TO_PATH);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_ADD_DATE_TO_PATH))
-				ADD_DATE_TO_PATH = CTEditorPrefs.GetBool(Constants.KEY_ADD_DATE_TO_PATH);
+			if (CTPrefs.HasKey(Constants.KEY_ADD_DATE_TO_PATH))
+				ADD_DATE_TO_PATH = CTPrefs.GetBool(Constants.KEY_ADD_DATE_TO_PATH);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_DATE_FORMAT))
-				DATE_FORMAT = CTEditorPrefs.GetString(Constants.KEY_DATE_FORMAT);
+			if (CTPrefs.HasKey(Constants.KEY_DATE_FORMAT))
+				DATE_FORMAT = CTPrefs.GetString(Constants.KEY_DATE_FORMAT);
 
 			/*
 			if (CTEditorPrefs.HasKey(Constants.KEY_BATCHMODE))
@@ -331,122 +331,122 @@ namespace Crosstales.TPB.Util
 					NO_GRAPHICS = CTEditorPrefs.GetBool(Constants.KEY_NO_GRAPHICS);
 			*/
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_EXECUTE_METHOD_PRE_BUILDING))
-				EXECUTE_METHOD_PRE_BUILDING = CTEditorPrefs.GetString(Constants.KEY_EXECUTE_METHOD_PRE_BUILDING);
+			if (CTPrefs.HasKey(Constants.KEY_EXECUTE_METHOD_PRE_BUILDING))
+				EXECUTE_METHOD_PRE_BUILDING = CTPrefs.GetString(Constants.KEY_EXECUTE_METHOD_PRE_BUILDING);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_EXECUTE_METHOD_POST_BUILDING))
-				EXECUTE_METHOD_POST_BUILDING = CTEditorPrefs.GetString(Constants.KEY_EXECUTE_METHOD_POST_BUILDING);
+			if (CTPrefs.HasKey(Constants.KEY_EXECUTE_METHOD_POST_BUILDING))
+				EXECUTE_METHOD_POST_BUILDING = CTPrefs.GetString(Constants.KEY_EXECUTE_METHOD_POST_BUILDING);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_EXECUTE_METHOD_PRE_BUILD))
-				EXECUTE_METHOD_PRE_BUILD = CTEditorPrefs.GetString(Constants.KEY_EXECUTE_METHOD_PRE_BUILD);
+			if (CTPrefs.HasKey(Constants.KEY_EXECUTE_METHOD_PRE_BUILD))
+				EXECUTE_METHOD_PRE_BUILD = CTPrefs.GetString(Constants.KEY_EXECUTE_METHOD_PRE_BUILD);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_EXECUTE_METHOD_POST_BUILD))
-				EXECUTE_METHOD_POST_BUILD = CTEditorPrefs.GetString(Constants.KEY_EXECUTE_METHOD_POST_BUILD);
+			if (CTPrefs.HasKey(Constants.KEY_EXECUTE_METHOD_POST_BUILD))
+				EXECUTE_METHOD_POST_BUILD = CTPrefs.GetString(Constants.KEY_EXECUTE_METHOD_POST_BUILD);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_EXECUTE_METHOD_PRE_BUILD_ALL))
-				EXECUTE_METHOD_PRE_BUILD_ALL = CTEditorPrefs.GetString(Constants.KEY_EXECUTE_METHOD_PRE_BUILD_ALL);
+			if (CTPrefs.HasKey(Constants.KEY_EXECUTE_METHOD_PRE_BUILD_ALL))
+				EXECUTE_METHOD_PRE_BUILD_ALL = CTPrefs.GetString(Constants.KEY_EXECUTE_METHOD_PRE_BUILD_ALL);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_EXECUTE_METHOD_POST_BUILD_ALL))
-				EXECUTE_METHOD_POST_BUILD_ALL = CTEditorPrefs.GetString(Constants.KEY_EXECUTE_METHOD_POST_BUILD_ALL);
+			if (CTPrefs.HasKey(Constants.KEY_EXECUTE_METHOD_POST_BUILD_ALL))
+				EXECUTE_METHOD_POST_BUILD_ALL = CTPrefs.GetString(Constants.KEY_EXECUTE_METHOD_POST_BUILD_ALL);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_DELETE_LOCKFILE))
-				DELETE_LOCKFILE = CTEditorPrefs.GetBool(Constants.KEY_DELETE_LOCKFILE);
+			if (CTPrefs.HasKey(Constants.KEY_DELETE_LOCKFILE))
+				DELETE_LOCKFILE = CTPrefs.GetBool(Constants.KEY_DELETE_LOCKFILE);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_CONFIRM_BUILD))
-				CONFIRM_BUILD = CTEditorPrefs.GetBool(Constants.KEY_CONFIRM_BUILD);
+			if (CTPrefs.HasKey(Constants.KEY_CONFIRM_BUILD))
+				CONFIRM_BUILD = CTPrefs.GetBool(Constants.KEY_CONFIRM_BUILD);
 
 			if (!Constants.DEV_DEBUG)
 			{
-				if (CTEditorPrefs.HasKey(Constants.KEY_DEBUG))
-					DEBUG = CTEditorPrefs.GetBool(Constants.KEY_DEBUG);
+				if (CTPrefs.HasKey(Constants.KEY_DEBUG))
+					DEBUG = CTPrefs.GetBool(Constants.KEY_DEBUG);
 			}
 			else
 			{
 				DEBUG = Constants.DEV_DEBUG;
 			}
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_UPDATE_CHECK))
-				UPDATE_CHECK = CTEditorPrefs.GetBool(Constants.KEY_UPDATE_CHECK);
+			if (CTPrefs.HasKey(Constants.KEY_UPDATE_CHECK))
+				UPDATE_CHECK = CTPrefs.GetBool(Constants.KEY_UPDATE_CHECK);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_COMPILE_DEFINES))
-				COMPILE_DEFINES = CTEditorPrefs.GetBool(Constants.KEY_COMPILE_DEFINES);
+			if (CTPrefs.HasKey(Constants.KEY_COMPILE_DEFINES))
+				COMPILE_DEFINES = CTPrefs.GetBool(Constants.KEY_COMPILE_DEFINES);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_PLATFORM_WINDOWS))
-				PLATFORM_WINDOWS = CTEditorPrefs.GetBool(Constants.KEY_PLATFORM_WINDOWS);
+			if (CTPrefs.HasKey(Constants.KEY_PLATFORM_WINDOWS))
+				PLATFORM_WINDOWS = CTPrefs.GetBool(Constants.KEY_PLATFORM_WINDOWS);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_PLATFORM_MAC))
-				PLATFORM_MAC = CTEditorPrefs.GetBool(Constants.KEY_PLATFORM_MAC);
+			if (CTPrefs.HasKey(Constants.KEY_PLATFORM_MAC))
+				PLATFORM_MAC = CTPrefs.GetBool(Constants.KEY_PLATFORM_MAC);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_PLATFORM_LINUX))
-				PLATFORM_LINUX = CTEditorPrefs.GetBool(Constants.KEY_PLATFORM_LINUX);
+			if (CTPrefs.HasKey(Constants.KEY_PLATFORM_LINUX))
+				PLATFORM_LINUX = CTPrefs.GetBool(Constants.KEY_PLATFORM_LINUX);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_PLATFORM_ANDROID))
-				PLATFORM_ANDROID = CTEditorPrefs.GetBool(Constants.KEY_PLATFORM_ANDROID);
+			if (CTPrefs.HasKey(Constants.KEY_PLATFORM_ANDROID))
+				PLATFORM_ANDROID = CTPrefs.GetBool(Constants.KEY_PLATFORM_ANDROID);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_PLATFORM_IOS))
-				PLATFORM_IOS = CTEditorPrefs.GetBool(Constants.KEY_PLATFORM_IOS);
+			if (CTPrefs.HasKey(Constants.KEY_PLATFORM_IOS))
+				PLATFORM_IOS = CTPrefs.GetBool(Constants.KEY_PLATFORM_IOS);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_PLATFORM_WSA))
-				PLATFORM_WSA = CTEditorPrefs.GetBool(Constants.KEY_PLATFORM_WSA);
+			if (CTPrefs.HasKey(Constants.KEY_PLATFORM_WSA))
+				PLATFORM_WSA = CTPrefs.GetBool(Constants.KEY_PLATFORM_WSA);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_PLATFORM_WEBGL))
-				PLATFORM_WEBGL = CTEditorPrefs.GetBool(Constants.KEY_PLATFORM_WEBGL);
+			if (CTPrefs.HasKey(Constants.KEY_PLATFORM_WEBGL))
+				PLATFORM_WEBGL = CTPrefs.GetBool(Constants.KEY_PLATFORM_WEBGL);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_PLATFORM_TVOS))
-				PLATFORM_TVOS = CTEditorPrefs.GetBool(Constants.KEY_PLATFORM_TVOS);
+			if (CTPrefs.HasKey(Constants.KEY_PLATFORM_TVOS))
+				PLATFORM_TVOS = CTPrefs.GetBool(Constants.KEY_PLATFORM_TVOS);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_PLATFORM_PS4))
-				PLATFORM_PS4 = CTEditorPrefs.GetBool(Constants.KEY_PLATFORM_PS4);
+			if (CTPrefs.HasKey(Constants.KEY_PLATFORM_PS4))
+				PLATFORM_PS4 = CTPrefs.GetBool(Constants.KEY_PLATFORM_PS4);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_PLATFORM_XBOXONE))
-				PLATFORM_XBOXONE = CTEditorPrefs.GetBool(Constants.KEY_PLATFORM_XBOXONE);
+			if (CTPrefs.HasKey(Constants.KEY_PLATFORM_XBOXONE))
+				PLATFORM_XBOXONE = CTPrefs.GetBool(Constants.KEY_PLATFORM_XBOXONE);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_PLATFORM_SWITCH))
-				PLATFORM_SWITCH = CTEditorPrefs.GetBool(Constants.KEY_PLATFORM_SWITCH);
+			if (CTPrefs.HasKey(Constants.KEY_PLATFORM_SWITCH))
+				PLATFORM_SWITCH = CTPrefs.GetBool(Constants.KEY_PLATFORM_SWITCH);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_ARCH_WINDOWS))
-				ARCH_WINDOWS = CTEditorPrefs.GetInt(Constants.KEY_ARCH_WINDOWS);
+			if (CTPrefs.HasKey(Constants.KEY_ARCH_WINDOWS))
+				ARCH_WINDOWS = CTPrefs.GetInt(Constants.KEY_ARCH_WINDOWS);
 
 			/*
-									if (CTEditorPrefs.HasKey(Constants.KEY_ARCH_MAC))
+									if (CTPrefs.HasKey(Constants.KEY_ARCH_MAC))
 									{
-											ARCH_MAC = CTEditorPrefs.GetInt(Constants.KEY_ARCH_MAC);
+											ARCH_MAC = CTPrefs.GetInt(Constants.KEY_ARCH_MAC);
 									}
 			*/
-			if (CTEditorPrefs.HasKey(Constants.KEY_ARCH_LINUX))
-				ARCH_LINUX = CTEditorPrefs.GetInt(Constants.KEY_ARCH_LINUX);
+			if (CTPrefs.HasKey(Constants.KEY_ARCH_LINUX))
+				ARCH_LINUX = CTPrefs.GetInt(Constants.KEY_ARCH_LINUX);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_TEX_ANDROID))
-				TEX_ANDROID = CTEditorPrefs.GetInt(Constants.KEY_TEX_ANDROID);
+			if (CTPrefs.HasKey(Constants.KEY_TEX_ANDROID))
+				TEX_ANDROID = CTPrefs.GetInt(Constants.KEY_TEX_ANDROID);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_BO_SHOW_BUILT_PLAYER))
-				BO_SHOW_BUILT_PLAYER = CTEditorPrefs.GetBool(Constants.KEY_BO_SHOW_BUILT_PLAYER);
+			if (CTPrefs.HasKey(Constants.KEY_BO_SHOW_BUILT_PLAYER))
+				BO_SHOW_BUILT_PLAYER = CTPrefs.GetBool(Constants.KEY_BO_SHOW_BUILT_PLAYER);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_BO_DEVELOPMENT))
-				BO_DEVELOPMENT = CTEditorPrefs.GetBool(Constants.KEY_BO_DEVELOPMENT);
+			if (CTPrefs.HasKey(Constants.KEY_BO_DEVELOPMENT))
+				BO_DEVELOPMENT = CTPrefs.GetBool(Constants.KEY_BO_DEVELOPMENT);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_BO_PROFILER))
-				BO_PROFILER = CTEditorPrefs.GetBool(Constants.KEY_BO_PROFILER);
+			if (CTPrefs.HasKey(Constants.KEY_BO_PROFILER))
+				BO_PROFILER = CTPrefs.GetBool(Constants.KEY_BO_PROFILER);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_BO_SCRIPTDEBUG))
-				BO_SCRIPTDEBUG = CTEditorPrefs.GetBool(Constants.KEY_BO_SCRIPTDEBUG);
+			if (CTPrefs.HasKey(Constants.KEY_BO_SCRIPTDEBUG))
+				BO_SCRIPTDEBUG = CTPrefs.GetBool(Constants.KEY_BO_SCRIPTDEBUG);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_BO_COMPRESS))
-				BO_COMPRESS = CTEditorPrefs.GetBool(Constants.KEY_BO_COMPRESS);
+			if (CTPrefs.HasKey(Constants.KEY_BO_COMPRESS))
+				BO_COMPRESS = CTPrefs.GetBool(Constants.KEY_BO_COMPRESS);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_SHOW_COLUMN_PLATFORM))
-				SHOW_COLUMN_PLATFORM = CTEditorPrefs.GetBool(Constants.KEY_SHOW_COLUMN_PLATFORM);
+			if (CTPrefs.HasKey(Constants.KEY_SHOW_COLUMN_PLATFORM))
+				SHOW_COLUMN_PLATFORM = CTPrefs.GetBool(Constants.KEY_SHOW_COLUMN_PLATFORM);
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_SHOW_COLUMN_ARCHITECTURE))
-				SHOW_COLUMN_ARCHITECTURE = CTEditorPrefs.GetBool(Constants.KEY_SHOW_COLUMN_ARCHITECTURE);
+			if (CTPrefs.HasKey(Constants.KEY_SHOW_COLUMN_ARCHITECTURE))
+				SHOW_COLUMN_ARCHITECTURE = CTPrefs.GetBool(Constants.KEY_SHOW_COLUMN_ARCHITECTURE);
 
 			/*
-			if (CTEditorPrefs.HasKey(Constants.KEY_SHOW_COLUMN_TEXTURE))
-					SHOW_COLUMN_TEXTURE = CTEditorPrefs.GetBool(Constants.KEY_SHOW_COLUMN_TEXTURE);
+			if (CTPrefs.HasKey(Constants.KEY_SHOW_COLUMN_TEXTURE))
+					SHOW_COLUMN_TEXTURE = CTPrefs.GetBool(Constants.KEY_SHOW_COLUMN_TEXTURE);
 			*/
 
-			if (CTEditorPrefs.HasKey(Constants.KEY_AUTO_SAVE))
-				AUTO_SAVE = CTEditorPrefs.GetBool(Constants.KEY_AUTO_SAVE);
+			if (CTPrefs.HasKey(Constants.KEY_AUTO_SAVE))
+				AUTO_SAVE = CTPrefs.GetBool(Constants.KEY_AUTO_SAVE);
 
 			isLoaded = true;
 		}
@@ -454,65 +454,65 @@ namespace Crosstales.TPB.Util
 		/// <summary>Saves the all changeable variables.</summary>
 		public static void Save()
 		{
-			CTEditorPrefs.SetBool(Constants.KEY_CUSTOM_PATH_BUILD, CUSTOM_PATH_BUILD);
-			CTEditorPrefs.SetString(Constants.KEY_PATH_BUILD, PATH_BUILD);
-			CTEditorPrefs.SetInt(Constants.KEY_VCS, VCS);
-			CTEditorPrefs.SetBool(Constants.KEY_ADD_NAME_TO_PATH, ADD_NAME_TO_PATH);
-			CTEditorPrefs.SetBool(Constants.KEY_ADD_VERSION_TO_PATH, ADD_VERSION_TO_PATH);
-			CTEditorPrefs.SetBool(Constants.KEY_ADD_DATE_TO_PATH, ADD_DATE_TO_PATH);
-			CTEditorPrefs.SetString(Constants.KEY_DATE_FORMAT, DATE_FORMAT);
+			CTPrefs.SetBool(Constants.KEY_CUSTOM_PATH_BUILD, CUSTOM_PATH_BUILD);
+			CTPrefs.SetString(Constants.KEY_PATH_BUILD, PATH_BUILD);
+			CTPrefs.SetInt(Constants.KEY_VCS, VCS);
+			CTPrefs.SetBool(Constants.KEY_ADD_NAME_TO_PATH, ADD_NAME_TO_PATH);
+			CTPrefs.SetBool(Constants.KEY_ADD_VERSION_TO_PATH, ADD_VERSION_TO_PATH);
+			CTPrefs.SetBool(Constants.KEY_ADD_DATE_TO_PATH, ADD_DATE_TO_PATH);
+			CTPrefs.SetString(Constants.KEY_DATE_FORMAT, DATE_FORMAT);
 
 			/*
-			CTEditorPrefs.SetBool(Constants.KEY_BATCHMODE, BATCHMODE);
-			CTEditorPrefs.SetBool(Constants.KEY_QUIT, QUIT);
-			CTEditorPrefs.SetBool(Constants.KEY_NO_GRAPHICS, NO_GRAPHICS);
+			CTPrefs.SetBool(Constants.KEY_BATCHMODE, BATCHMODE);
+			CTPrefs.SetBool(Constants.KEY_QUIT, QUIT);
+			CTPrefs.SetBool(Constants.KEY_NO_GRAPHICS, NO_GRAPHICS);
 			*/
 
-			CTEditorPrefs.SetString(Constants.KEY_EXECUTE_METHOD_PRE_BUILDING, EXECUTE_METHOD_PRE_BUILDING);
-			CTEditorPrefs.SetString(Constants.KEY_EXECUTE_METHOD_POST_BUILDING, EXECUTE_METHOD_POST_BUILDING);
-			CTEditorPrefs.SetString(Constants.KEY_EXECUTE_METHOD_PRE_BUILD, EXECUTE_METHOD_PRE_BUILD);
-			CTEditorPrefs.SetString(Constants.KEY_EXECUTE_METHOD_POST_BUILD, EXECUTE_METHOD_POST_BUILD);
-			CTEditorPrefs.SetString(Constants.KEY_EXECUTE_METHOD_PRE_BUILD_ALL, EXECUTE_METHOD_PRE_BUILD_ALL);
-			CTEditorPrefs.SetString(Constants.KEY_EXECUTE_METHOD_POST_BUILD_ALL, EXECUTE_METHOD_POST_BUILD_ALL);
-			CTEditorPrefs.SetBool(Constants.KEY_DELETE_LOCKFILE, DELETE_LOCKFILE);
-			CTEditorPrefs.SetBool(Constants.KEY_CONFIRM_BUILD, CONFIRM_BUILD);
+			CTPrefs.SetString(Constants.KEY_EXECUTE_METHOD_PRE_BUILDING, EXECUTE_METHOD_PRE_BUILDING);
+			CTPrefs.SetString(Constants.KEY_EXECUTE_METHOD_POST_BUILDING, EXECUTE_METHOD_POST_BUILDING);
+			CTPrefs.SetString(Constants.KEY_EXECUTE_METHOD_PRE_BUILD, EXECUTE_METHOD_PRE_BUILD);
+			CTPrefs.SetString(Constants.KEY_EXECUTE_METHOD_POST_BUILD, EXECUTE_METHOD_POST_BUILD);
+			CTPrefs.SetString(Constants.KEY_EXECUTE_METHOD_PRE_BUILD_ALL, EXECUTE_METHOD_PRE_BUILD_ALL);
+			CTPrefs.SetString(Constants.KEY_EXECUTE_METHOD_POST_BUILD_ALL, EXECUTE_METHOD_POST_BUILD_ALL);
+			CTPrefs.SetBool(Constants.KEY_DELETE_LOCKFILE, DELETE_LOCKFILE);
+			CTPrefs.SetBool(Constants.KEY_CONFIRM_BUILD, CONFIRM_BUILD);
 
 			if (!Constants.DEV_DEBUG)
-				CTEditorPrefs.SetBool(Constants.KEY_DEBUG, DEBUG);
+				CTPrefs.SetBool(Constants.KEY_DEBUG, DEBUG);
 
-			CTEditorPrefs.SetBool(Constants.KEY_UPDATE_CHECK, UPDATE_CHECK);
-			CTEditorPrefs.SetBool(Constants.KEY_COMPILE_DEFINES, COMPILE_DEFINES);
+			CTPrefs.SetBool(Constants.KEY_UPDATE_CHECK, UPDATE_CHECK);
+			CTPrefs.SetBool(Constants.KEY_COMPILE_DEFINES, COMPILE_DEFINES);
 
-			CTEditorPrefs.SetBool(Constants.KEY_PLATFORM_WINDOWS, PLATFORM_WINDOWS);
-			CTEditorPrefs.SetBool(Constants.KEY_PLATFORM_MAC, PLATFORM_MAC);
-			CTEditorPrefs.SetBool(Constants.KEY_PLATFORM_LINUX, PLATFORM_LINUX);
-			CTEditorPrefs.SetBool(Constants.KEY_PLATFORM_ANDROID, PLATFORM_ANDROID);
-			CTEditorPrefs.SetBool(Constants.KEY_PLATFORM_IOS, PLATFORM_IOS);
-			CTEditorPrefs.SetBool(Constants.KEY_PLATFORM_WSA, PLATFORM_WSA);
-			CTEditorPrefs.SetBool(Constants.KEY_PLATFORM_WEBGL, PLATFORM_WEBGL);
-			CTEditorPrefs.SetBool(Constants.KEY_PLATFORM_TVOS, PLATFORM_TVOS);
-			CTEditorPrefs.SetBool(Constants.KEY_PLATFORM_PS4, PLATFORM_PS4);
-			CTEditorPrefs.SetBool(Constants.KEY_PLATFORM_XBOXONE, PLATFORM_XBOXONE);
-			CTEditorPrefs.SetBool(Constants.KEY_PLATFORM_SWITCH, PLATFORM_SWITCH);
+			CTPrefs.SetBool(Constants.KEY_PLATFORM_WINDOWS, PLATFORM_WINDOWS);
+			CTPrefs.SetBool(Constants.KEY_PLATFORM_MAC, PLATFORM_MAC);
+			CTPrefs.SetBool(Constants.KEY_PLATFORM_LINUX, PLATFORM_LINUX);
+			CTPrefs.SetBool(Constants.KEY_PLATFORM_ANDROID, PLATFORM_ANDROID);
+			CTPrefs.SetBool(Constants.KEY_PLATFORM_IOS, PLATFORM_IOS);
+			CTPrefs.SetBool(Constants.KEY_PLATFORM_WSA, PLATFORM_WSA);
+			CTPrefs.SetBool(Constants.KEY_PLATFORM_WEBGL, PLATFORM_WEBGL);
+			CTPrefs.SetBool(Constants.KEY_PLATFORM_TVOS, PLATFORM_TVOS);
+			CTPrefs.SetBool(Constants.KEY_PLATFORM_PS4, PLATFORM_PS4);
+			CTPrefs.SetBool(Constants.KEY_PLATFORM_XBOXONE, PLATFORM_XBOXONE);
+			CTPrefs.SetBool(Constants.KEY_PLATFORM_SWITCH, PLATFORM_SWITCH);
 
-			CTEditorPrefs.SetInt(Constants.KEY_ARCH_WINDOWS, ARCH_WINDOWS);
-			//CTEditorPrefs.SetInt(Constants.KEY_ARCH_MAC, ARCH_MAC);
-			CTEditorPrefs.SetInt(Constants.KEY_ARCH_LINUX, ARCH_LINUX);
-			CTEditorPrefs.SetInt(Constants.KEY_TEX_ANDROID, TEX_ANDROID);
+			CTPrefs.SetInt(Constants.KEY_ARCH_WINDOWS, ARCH_WINDOWS);
+			//CTPrefs.SetInt(Constants.KEY_ARCH_MAC, ARCH_MAC);
+			CTPrefs.SetInt(Constants.KEY_ARCH_LINUX, ARCH_LINUX);
+			CTPrefs.SetInt(Constants.KEY_TEX_ANDROID, TEX_ANDROID);
 
-			CTEditorPrefs.SetBool(Constants.KEY_BO_SHOW_BUILT_PLAYER, BO_SHOW_BUILT_PLAYER);
-			CTEditorPrefs.SetBool(Constants.KEY_BO_DEVELOPMENT, BO_DEVELOPMENT);
-			CTEditorPrefs.SetBool(Constants.KEY_BO_PROFILER, BO_PROFILER);
-			CTEditorPrefs.SetBool(Constants.KEY_BO_SCRIPTDEBUG, BO_SCRIPTDEBUG);
-			CTEditorPrefs.SetBool(Constants.KEY_BO_COMPRESS, BO_COMPRESS);
+			CTPrefs.SetBool(Constants.KEY_BO_SHOW_BUILT_PLAYER, BO_SHOW_BUILT_PLAYER);
+			CTPrefs.SetBool(Constants.KEY_BO_DEVELOPMENT, BO_DEVELOPMENT);
+			CTPrefs.SetBool(Constants.KEY_BO_PROFILER, BO_PROFILER);
+			CTPrefs.SetBool(Constants.KEY_BO_SCRIPTDEBUG, BO_SCRIPTDEBUG);
+			CTPrefs.SetBool(Constants.KEY_BO_COMPRESS, BO_COMPRESS);
 
-			CTEditorPrefs.SetBool(Constants.KEY_SHOW_COLUMN_PLATFORM, SHOW_COLUMN_PLATFORM);
-			CTEditorPrefs.SetBool(Constants.KEY_SHOW_COLUMN_ARCHITECTURE, SHOW_COLUMN_ARCHITECTURE);
-			//CTEditorPrefs.SetBool(Constants.KEY_SHOW_COLUMN_TEXTURE, SHOW_COLUMN_TEXTURE);
+			CTPrefs.SetBool(Constants.KEY_SHOW_COLUMN_PLATFORM, SHOW_COLUMN_PLATFORM);
+			CTPrefs.SetBool(Constants.KEY_SHOW_COLUMN_ARCHITECTURE, SHOW_COLUMN_ARCHITECTURE);
+			//CTPrefs.SetBool(Constants.KEY_SHOW_COLUMN_TEXTURE, SHOW_COLUMN_TEXTURE);
 
-			CTEditorPrefs.SetBool(Constants.KEY_AUTO_SAVE, AUTO_SAVE);
+			CTPrefs.SetBool(Constants.KEY_AUTO_SAVE, AUTO_SAVE);
 
-			CTEditorPrefs.Save();
+			CTPrefs.Save();
 		}
 
 		#endregion
