@@ -198,7 +198,7 @@ namespace Crosstales.TPB.EditorIntegration
 				Config.CUSTOM_PATH_BUILD = EditorGUILayout.Toggle(new GUIContent("Custom Build Path", "Enable or disable a custom build path (default: " + Constants.DEFAULT_CUSTOM_PATH_BUILD + ")."), Config.CUSTOM_PATH_BUILD);
 				GUI.enabled = Config.CUSTOM_PATH_BUILD;
 				EditorGUILayout.LabelField(Config.PATH_BUILD);
-				if (GUILayout.Button(new GUIContent("Select", Helper.Icon_Folder, "Select path for the builds")))
+				if (GUILayout.Button(new GUIContent("Select", "Select path for the builds")))
 				{
 					string path = EditorUtility.OpenFolderPanel("Select path for the builds", Config.PATH_BUILD.Substring(0, Config.PATH_BUILD.Length - (Constants.BUILD_DIRNAME.Length + 1)), "");
 					if (!string.IsNullOrEmpty(path))

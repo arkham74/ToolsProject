@@ -96,8 +96,6 @@ namespace Crosstales.Common.EditorUtil
 
 		public static Texture2D Icon_Delete => EditorGUIUtility.IconContent("TreeEditor.Trash").image as Texture2D;
 
-		public static Texture2D Icon_Folder => EditorGUIUtility.IconContent("d_FolderOpened Icon").image as Texture2D;
-
 		public static Texture2D Icon_Plus => EditorGUIUtility.IconContent("d_UnityLogo").image as Texture2D;
 
 		public static Texture2D Icon_Minus => EditorGUIUtility.IconContent("d_UnityLogo").image as Texture2D;
