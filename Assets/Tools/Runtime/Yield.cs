@@ -24,7 +24,7 @@ namespace JD
 			}
 		}
 
-		public static async void WaitForEndOfFrameAsync(int frames = 1)
+		public static async Task WaitForEndOfFrameAsync(int frames = 1)
 		{
 			for (int i = 0; i < frames; i++)
 			{
