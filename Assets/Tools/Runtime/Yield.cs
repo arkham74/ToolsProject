@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace JD
@@ -20,6 +21,14 @@ namespace JD
 			for (int i = 0; i < frames; i++)
 			{
 				yield return waitForEndOfFrame;
+			}
+		}
+
+		public static async Task WaitForEndOfFrameAsync(int frames = 1)
+		{
+			for (int i = 0; i < frames; i++)
+			{
+				await Task.Yield();
 			}
 		}
 
