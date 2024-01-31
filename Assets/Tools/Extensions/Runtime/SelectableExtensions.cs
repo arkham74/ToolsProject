@@ -29,7 +29,7 @@ namespace JD
 			selectable.SetRight(selectable.FindSelectableOnRight());
 		}
 
-		public static void SetUp<T>(this T button, T selectable, Navigation.Mode mode = Navigation.Mode.Explicit) where T : Selectable
+		public static void SetUp<T0, T1>(this T0 button, T1 selectable, Navigation.Mode mode = Navigation.Mode.Explicit) where T0 : Selectable where T1 : Selectable
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.selectOnUp = selectable;
@@ -37,7 +37,7 @@ namespace JD
 			button.navigation = navdisplay;
 		}
 
-		public static void SetDown<T>(this T button, T selectable, Navigation.Mode mode = Navigation.Mode.Explicit) where T : Selectable
+		public static void SetDown<T0, T1>(this T0 button, T1 selectable, Navigation.Mode mode = Navigation.Mode.Explicit) where T0 : Selectable where T1 : Selectable
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.selectOnDown = selectable;
@@ -45,7 +45,7 @@ namespace JD
 			button.navigation = navdisplay;
 		}
 
-		public static void SetLeft<T>(this T button, T selectable, Navigation.Mode mode = Navigation.Mode.Explicit) where T : Selectable
+		public static void SetLeft<T0, T1>(this T0 button, T1 selectable, Navigation.Mode mode = Navigation.Mode.Explicit) where T0 : Selectable where T1 : Selectable
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.selectOnLeft = selectable;
@@ -53,7 +53,7 @@ namespace JD
 			button.navigation = navdisplay;
 		}
 
-		public static void SetRight<T>(this T button, T selectable, Navigation.Mode mode = Navigation.Mode.Explicit) where T : Selectable
+		public static void SetRight<T0, T1>(this T0 button, T1 selectable, Navigation.Mode mode = Navigation.Mode.Explicit) where T0 : Selectable where T1 : Selectable
 		{
 			Navigation navdisplay = button.navigation;
 			navdisplay.selectOnRight = selectable;
