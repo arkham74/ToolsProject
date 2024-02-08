@@ -696,21 +696,22 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    Android: CT_TPB
-    CloudRendering: CT_TPB
-    EmbeddedLinux: CT_TPB
-    GameCoreXboxOne: CT_TPB
-    Lumin: CT_TPB
-    Nintendo Switch: CT_TPB
-    PS4: CT_TPB
-    PS5: CT_TPB
-    Stadia: CT_TPB
-    Standalone: DOTWEEN_ENABLED;CT_TPB
-    WebGL: CT_TPB
-    Windows Store Apps: CT_TPB
-    XboxOne: CT_TPB
-    iPhone: CT_TPB
-    tvOS: CT_TPB
+    Android: CT_TPB;DOTWEEN
+    CloudRendering: CT_TPB;DOTWEEN
+    EmbeddedLinux: CT_TPB;DOTWEEN
+    GameCoreScarlett: DOTWEEN
+    GameCoreXboxOne: CT_TPB;DOTWEEN
+    Lumin: CT_TPB;DOTWEEN
+    Nintendo Switch: CT_TPB;DOTWEEN
+    PS4: CT_TPB;DOTWEEN
+    PS5: CT_TPB;DOTWEEN
+    Stadia: CT_TPB;DOTWEEN
+    Standalone: DOTWEEN_ENABLED;CT_TPB;DOTWEEN
+    WebGL: CT_TPB;DOTWEEN
+    Windows Store Apps: CT_TPB;DOTWEEN
+    XboxOne: CT_TPB;DOTWEEN
+    iPhone: CT_TPB;DOTWEEN
+    tvOS: CT_TPB;DOTWEEN
   additionalCompilerArguments:
     Standalone: []
   platformArchitecture: {}
