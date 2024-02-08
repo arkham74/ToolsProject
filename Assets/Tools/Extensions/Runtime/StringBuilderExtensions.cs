@@ -136,5 +136,37 @@ namespace JD
 			stringBuilder.Append(value);
 			stringBuilder.AppendLine();
 		}
+
+		public static void ToLower(this StringBuilder stringBuilder)
+		{
+			for (int i = 0; i < stringBuilder.Length; i++)
+			{
+				stringBuilder[i] = char.ToLower(stringBuilder[i]);
+			}
+		}
+
+		public static void ToUpper(this StringBuilder stringBuilder)
+		{
+			for (int i = 0; i < stringBuilder.Length; i++)
+			{
+				stringBuilder[i] = char.ToUpper(stringBuilder[i]);
+			}
+		}
+
+		public static void ToLowerInvariant(this StringBuilder stringBuilder)
+		{
+			for (int i = 0; i < stringBuilder.Length; i++)
+			{
+				stringBuilder[i] = char.ToLowerInvariant(stringBuilder[i]);
+			}
+		}
+
+		public static void ToUpperInvariant(this StringBuilder stringBuilder)
+		{
+			for (int i = 0; i < stringBuilder.Length; i++)
+			{
+				stringBuilder[i] = char.ToUpperInvariant(stringBuilder[i]);
+			}
+		}
 	}
 }

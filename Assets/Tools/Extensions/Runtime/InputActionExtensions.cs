@@ -24,7 +24,7 @@ namespace JD
 
 		public static int GetBindingIndexByID(this InputAction action, string id)
 		{
-			return action.bindings.IndexOf(e => e.id.ToString() == id);
+			return action.bindings.IndexOf(e => e.id == Guid.Parse(id));
 		}
 	}
 }

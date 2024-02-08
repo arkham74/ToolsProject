@@ -6,15 +6,15 @@ namespace JD
 {
 	public static class SliderExtensions
 	{
-		public static void ReplaceListener(this Slider slider, UnityAction<float> func)
+		public static void ReplaceListener(this Slider slider, UnityAction<float> call)
 		{
 			slider.onValueChanged.RemoveAllListeners();
-			slider.onValueChanged.AddListener(func);
+			slider.onValueChanged.AddListener(call);
 		}
 
-		public static void AddListener(this Slider slider, UnityAction<float> func)
+		public static void AddListener(this Slider slider, UnityAction<float> call)
 		{
-			slider.onValueChanged.AddListener(func);
+			slider.onValueChanged.AddListener(call);
 		}
 
 		public static void SetNormalizedValueWithoutNotify(this Slider slider, float normalized)
