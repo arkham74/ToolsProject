@@ -85,5 +85,13 @@ namespace JD
 			RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, screenPoint, cam, out Vector2 localPoint);
 			return localPoint;
 		}
+
+		public static void FitToParent(this RectTransform rectTransform)
+		{
+			rectTransform.anchorMin = Vector2.zero;
+			rectTransform.anchorMax = Vector2.one;
+			rectTransform.offsetMax = Vector2.zero;
+			rectTransform.offsetMin = Vector2.zero;
+		}
 	}
 }
