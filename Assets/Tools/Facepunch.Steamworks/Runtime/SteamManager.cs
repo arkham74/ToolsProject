@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using JD;
 using Steamworks;
 using UnityEditor;
 using UnityEngine;
@@ -14,7 +15,6 @@ namespace Steamworks
 	{
 		public static Action<bool> OnPaused = delegate { };
 
-		public const uint APP_ID_SPACEWAR = 480;
 		private const string playTimeKey = "play_time";
 
 		public static int PlayTime
@@ -23,36 +23,33 @@ namespace Steamworks
 			set => SteamUserStats.SetStat(playTimeKey, value);
 		}
 
-		public static void Init(uint appID, bool inEditor = true)
+		public static void Init(uint appID)
 		{
-			if (!Application.isEditor || inEditor)
+			try
 			{
-				try
+				bool hasSteamAcces = !SteamClient.RestartAppIfNecessary(appID);
+				if (Debug.isDebugBuild || appID == (uint)SteamAppIds.SpaceWar || hasSteamAcces)
 				{
-					if (!Debug.isDebugBuild && appID != APP_ID_SPACEWAR)
-					{
-						if (SteamClient.RestartAppIfNecessary(appID))
-						{
-							Debug.LogWarning("Game is not launched through steam or steam is not running");
-							Application.Quit();
-							return;
-						}
-					}
-
 					SteamClient.Init(appID);
 					SteamUserStats.RequestCurrentStats();
-//					Debug.Log("Steam Manager Initialized");
+					// Debug.Log("Steam Manager Initialized");
 					SteamManager instance = Instantiate(Resources.Load<SteamManager>("Managers/SteamManager"));
 					instance.name = "Steam Manager";
 					DontDestroyOnLoad(instance);
 					SteamFriends.OnGameOverlayActivated += OnOverlayActivated;
 					SteamUtils.OnSteamShutdown += Quit;
 				}
-				catch (Exception e)
+				else
 				{
-					Debug.LogError(e);
-					Quit();
+					Debug.LogWarning("Game is not launched through steam or steam is not running");
+					Application.Quit();
+					return;
 				}
+			}
+			catch (Exception e)
+			{
+				Debug.LogError(e);
+				Quit();
 			}
 		}
 
