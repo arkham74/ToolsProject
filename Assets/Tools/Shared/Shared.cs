@@ -15,28 +15,23 @@ using NaughtyAttributes;
 
 namespace JD.Shared
 {
-	public abstract class Shared<T> : ScriptableObject
+	public class Shared<T> : ScriptableObject
 	{
-		#if TOOLS_NAUATTR
+#if TOOLS_NAUATTR
 		[ShowNonSerializedField]
-		#endif
+#endif
 		private T value;
 
-		public event Action<T> OnValueChanged;
+		public event Action<T> OnValueChanged = delegate { };
 
 		public T Value
 		{
 			get => value;
 			set
 			{
-				if (value.Equals(this.value))
+				if (!value.Equals(this.value))
 				{
-					return;
-				}
-
-				this.value = value;
-				if (OnValueChanged != null)
-				{
+					this.value = value;
 					OnValueChanged(Value);
 				}
 			}

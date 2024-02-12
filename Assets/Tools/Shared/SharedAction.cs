@@ -15,7 +15,7 @@ using NaughtyAttributes;
 
 namespace JD.Shared
 {
-	public abstract class SharedAction<T> : ScriptableObject
+	public class SharedAction<T> : ScriptableObject
 	{
 		public event Action<T> OnValueChanged = delegate { };
 
