@@ -12,7 +12,7 @@ namespace JD
 
 		public static string GetLocalizedString(string key, params object[] args)
 		{
-			return LocalizationSettings.StringDatabase.GetLocalizedString(key, args);
+			return LocalizationSettings.StringDatabase.GetLocalizedString(key, arguments: args);
 		}
 	}
 }

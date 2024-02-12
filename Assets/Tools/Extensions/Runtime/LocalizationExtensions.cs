@@ -21,7 +21,7 @@ namespace JD
 		public static void SetLocalizedText(this TMP_Text text, string localeKey, params object[] args)
 		{
 			LocalizedStringDatabase stringDatabase = LocalizationSettings.StringDatabase;
-			string localizedString = stringDatabase.GetLocalizedString(localeKey, args);
+			string localizedString = stringDatabase.GetLocalizedString(localeKey, arguments: args);
 			text.SetText(localizedString);
 		}
 
