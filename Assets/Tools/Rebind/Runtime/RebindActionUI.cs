@@ -174,7 +174,7 @@ namespace UnityEngine.InputSystem
 				});
 
 #if TOOLS_LOCALIZATION
-			bindingText.SetLocalizedText(tableKey, waitInfo, bindingFormat);
+			bindingText.SetLocalizedTextFormat(tableKey, waitInfo, bindingFormat);
 #else
 			bindingText.SetText(string.Format(bindingFormat, waitInfo));
 #endif
@@ -240,7 +240,7 @@ namespace UnityEngine.InputSystem
 				}
 				else
 				{
-					text.SetLocalizedText(tableKey, key, format);
+					text.SetLocalizedTextFormat(tableKey, key, format);
 				}
 			}
 			else
