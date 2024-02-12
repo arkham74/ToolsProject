@@ -25,6 +25,13 @@ namespace JD
 			text.SetText(localizedString);
 		}
 
+		[Obsolete("'SetLocalizedText(TMP_Text,string,string,string)' is obsolete use 'SetLocalizedTextFormat'")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public static void SetLocalizedText(this TMP_Text text, string tableKey, string localeKey, string format = "{0}")
+		{
+			SetLocalizedTextFormat(text, tableKey, localeKey, format);
+		}
+
 		public static void SetLocalizedTextFormat(this TMP_Text text, string tableKey, string localeKey, string format = "{0}")
 		{
 			LocalizedStringDatabase stringDatabase = LocalizationSettings.StringDatabase;
