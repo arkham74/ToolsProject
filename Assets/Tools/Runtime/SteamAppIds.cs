@@ -16,5 +16,6 @@ namespace JD
 		TheTrial = 594260,
 		Solcialists = 2628180,
 		StuntCoordinator = 1782980,
+		SpaceWar = 480,
 	}
 }
