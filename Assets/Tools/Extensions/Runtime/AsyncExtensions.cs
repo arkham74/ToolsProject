@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using Redcode.Awaiting;
 
 namespace JD
 {
@@ -9,7 +10,7 @@ namespace JD
 		{
 			while (!handle.isDone)
 			{
-				await Task.Yield();
+				await Yield.WaitForEndOfFrame();
 			}
 		}
 	}
