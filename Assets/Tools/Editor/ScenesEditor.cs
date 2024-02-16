@@ -1,5 +1,12 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 namespace JD.Editor
 {
@@ -10,11 +17,14 @@ namespace JD.Editor
 
 		private static void OpenScene(int offset)
 		{
-			EditorSceneManager.SaveOpenScenes();
-			EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
-			int index = EditorSceneManager.GetActiveScene().buildIndex;
-			string path = scenes.Repeat(index + offset).path;
-			EditorSceneManager.OpenScene(path);
+			if (!Application.isPlaying)
+			{
+				EditorSceneManager.SaveOpenScenes();
+				EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
+				int index = EditorSceneManager.GetActiveScene().buildIndex;
+				string path = scenes.Repeat(index + offset).path;
+				EditorSceneManager.OpenScene(path);
+			}
 		}
 	}
 }
