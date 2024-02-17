@@ -8,7 +8,7 @@ namespace JD.Editor
 {
 	public static class DeleteLocalSave
 	{
-		[MenuItem("Tools/Saves/Open Local Save")]
+		[MenuItem("Tools/Saves/Open Local Save", priority = 0)]
 		public static void LocalSaveOpen()
 		{
 			string path = Path.GetDirectoryName(Application.persistentDataPath);
@@ -22,7 +22,20 @@ namespace JD.Editor
 			Process.Start(startInfo);
 		}
 
-		[MenuItem("Tools/Saves/Delete Persistent Data")]
+		[MenuItem("Tools/Saves/Delete All", priority = 1)]
+		public static void DeleteAll()
+		{
+			string path = Application.persistentDataPath;
+			if (EditorUtility.DisplayDialog("Delete All", "Delete All?", "Yes", "No"))
+			{
+				EditorPrefs.DeleteAll();
+				PlayerPrefs.DeleteAll();
+				if (Directory.Exists(path))
+					Directory.Delete(path, true);
+			}
+		}
+
+		[MenuItem("Tools/Saves/Delete Persistent Data", priority = 2)]
 		public static void DeletePersistentData()
 		{
 			string path = Application.persistentDataPath;
@@ -35,7 +48,7 @@ namespace JD.Editor
 			}
 		}
 
-		[MenuItem("Tools/Saves/Delete Player Prefs")]
+		[MenuItem("Tools/Saves/Delete Player Prefs", priority = 3)]
 		public static void DeletePlayerPrefs()
 		{
 			if (EditorUtility.DisplayDialog("Delete Player Prefs", "Delete Player Prefs?", "Yes", "No"))
@@ -44,7 +57,7 @@ namespace JD.Editor
 			}
 		}
 
-		[MenuItem("Tools/Saves/Delete Editor Prefs")]
+		[MenuItem("Tools/Saves/Delete Editor Prefs", priority = 4)]
 		public static void DeleteEditorPrefs()
 		{
 			if (EditorUtility.DisplayDialog("Delete Editor Prefs", "Delete Editor Prefs?", "Yes", "No"))
