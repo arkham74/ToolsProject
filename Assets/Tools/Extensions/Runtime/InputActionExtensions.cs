@@ -2,11 +2,22 @@
 using System;
 using System.Linq;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 namespace JD
 {
 	public static class InputActionExtensions
 	{
+		public static InputBinding GetBindingForGroup(this InputAction action, InputBinding currentScheme)
+		{
+			return GetBindingsForGroup(action, currentScheme).FirstOrDefault();
+		}
+
+		public static IEnumerable<InputBinding> GetBindingsForGroup(this InputAction action, InputBinding group)
+		{
+			return action.bindings.Where(e => group.Matches(e));
+		}
+
 		public static InputBinding GetActiveBinding(this InputAction action)
 		{
 			return action.GetBindingForControl(action.activeControl).Value;

@@ -22,18 +22,34 @@ namespace JD.Editor
 			Process.Start(startInfo);
 		}
 
-		[MenuItem("Tools/Saves/Delete Local Save")]
-		public static void LocalSaveDelete()
+		[MenuItem("Tools/Saves/Delete Persistent Data")]
+		public static void DeletePersistentData()
 		{
 			string path = Application.persistentDataPath;
 			if (Directory.Exists(path))
 			{
-				if (EditorUtility.DisplayDialog("Delete save", "Delete local save?", "Yes", "No"))
+				if (EditorUtility.DisplayDialog("Delete Persistent Data", "Delete Persistent Data?", "Yes", "No"))
 				{
 					Directory.Delete(path, true);
-					PlayerPrefs.DeleteAll();
-					// EditorPrefs.DeleteAll();
 				}
+			}
+		}
+
+		[MenuItem("Tools/Saves/Delete Player Prefs")]
+		public static void DeletePlayerPrefs()
+		{
+			if (EditorUtility.DisplayDialog("Delete Player Prefs", "Delete Player Prefs?", "Yes", "No"))
+			{
+				PlayerPrefs.DeleteAll();
+			}
+		}
+
+		[MenuItem("Tools/Saves/Delete Editor Prefs")]
+		public static void DeleteEditorPrefs()
+		{
+			if (EditorUtility.DisplayDialog("Delete Editor Prefs", "Delete Editor Prefs?", "Yes", "No"))
+			{
+				EditorPrefs.DeleteAll();
 			}
 		}
 	}
