@@ -32,6 +32,10 @@ namespace JD
 		private void LateUpdate()
 		{
 			target.SetText(parent.text);
+			target.fontSize = parent.fontSize;
+			target.alignment = parent.alignment;
+			// target.verticalAlignment = parent.verticalAlignment;
+			// target.horizontalAlignment = parent.horizontalAlignment;
 		}
 	}
 }
