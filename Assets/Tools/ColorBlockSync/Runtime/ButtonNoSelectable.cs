@@ -16,10 +16,13 @@ namespace JD
 {
 	public class ButtonNoSelectable : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 	{
+		[SerializeField] private bool _interactable = true;
 		[SerializeField] private Graphic target;
 		[SerializeField] private ColorBlockData colors;
 		[SerializeField] private UnityEvent onClick;
-		[SerializeField] private bool _interactable = true;
+		[SerializeField] private bool ignoreTimeScale = true;
+		[SerializeField] private bool useRGB = true;
+		[SerializeField] private bool useAlpha = true;
 
 		private bool hover;
 
@@ -29,6 +32,15 @@ namespace JD
 		{
 			get => _interactable;
 			set => SetInteractable(value);
+		}
+
+		private void OnDisable()
+		{
+			hover = false;
+			// if (target)
+			// {
+			// 	target.CrossFadeColor(colors.colorBlock.normalColor, 0, true, true, true);
+			// }
 		}
 
 #if UNITY_EDITOR
@@ -81,20 +93,29 @@ namespace JD
 
 		public void ReplaceListener(UnityAction action)
 		{
-			onClick.RemoveAllListeners();
-			onClick.AddListener(action);
+			if (onClick != null)
+			{
+				onClick.RemoveAllListeners();
+				onClick.AddListener(action);
+			}
 		}
 
 		public void AddListener(UnityAction action)
 		{
-			onClick.AddListener(action);
+			if (onClick != null)
+			{
+				onClick.AddListener(action);
+			}
 		}
 
 		public void OnPointerDown(PointerEventData eventData)
 		{
 			if (interactable)
 			{
-				onClick.Invoke();
+				if (onClick != null)
+				{
+					onClick.Invoke();
+				}
 			}
 		}
 
@@ -126,17 +147,32 @@ namespace JD
 
 		private void Hover()
 		{
-			target.color = colors.colorBlock.highlightedColor;
+			if (target)
+			{
+				ColorBlock colorBlock = colors.colorBlock;
+				float fadeDuration = colorBlock.fadeDuration;
+				target.CrossFadeColor(colorBlock.highlightedColor, fadeDuration, ignoreTimeScale, useAlpha, useRGB);
+			}
 		}
 
 		private void Normal()
 		{
-			target.color = colors.colorBlock.normalColor;
+			if (target)
+			{
+				ColorBlock colorBlock = colors.colorBlock;
+				float fadeDuration = colorBlock.fadeDuration;
+				target.CrossFadeColor(colorBlock.normalColor, fadeDuration, ignoreTimeScale, useAlpha, useRGB);
+			}
 		}
 
 		private void Disable()
 		{
-			target.color = colors.colorBlock.disabledColor;
+			if (target)
+			{
+				ColorBlock colorBlock = colors.colorBlock;
+				float fadeDuration = colorBlock.fadeDuration;
+				target.CrossFadeColor(colorBlock.disabledColor, fadeDuration, ignoreTimeScale, useAlpha, useRGB);
+			}
 		}
 	}
 }

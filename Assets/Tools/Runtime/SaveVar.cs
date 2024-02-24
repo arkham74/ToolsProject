@@ -1,11 +1,11 @@
 using System;
 using UnityEditor;
 using UnityEngine;
-#if UNITY_EDITOR
-using Prefs = UnityEngine.PlayerPrefs;
-#else
+// #if UNITY_EDITOR
+// using Prefs = UnityEngine.PlayerPrefs;
+// #else
 using Prefs = FileBasedPrefs;
-#endif
+// #endif
 
 namespace JD
 {
@@ -13,13 +13,13 @@ namespace JD
 	{
 		public static void DeleteKey(string key) => Prefs.DeleteKey(key);
 
-#if UNITY_EDITOR
-		public static bool GetBool(string key, bool defaultValue) => Convert.ToBoolean(Prefs.GetInt(key, Convert.ToInt32(defaultValue)));
-		public static void SetBool(string key, bool value) => Prefs.SetInt(key, Convert.ToInt32(value));
-#else
-	public static bool GetBool(string key, bool defaultValue) => Prefs.GetBool(key, defaultValue);
-	public static void SetBool(string key, bool value) => Prefs.SetBool(key, value);
-#endif
+		// #if UNITY_EDITOR
+		// 		public static bool GetBool(string key, bool defaultValue) => Convert.ToBoolean(Prefs.GetInt(key, Convert.ToInt32(defaultValue)));
+		// 		public static void SetBool(string key, bool value) => Prefs.SetInt(key, Convert.ToInt32(value));
+		// #else
+		public static bool GetBool(string key, bool defaultValue) => Prefs.GetBool(key, defaultValue);
+		public static void SetBool(string key, bool value) => Prefs.SetBool(key, value);
+		// #endif
 
 		public static int GetInt(string key, int defaultValue) => Prefs.GetInt(key, defaultValue);
 		public static void SetInt(string key, int value) => Prefs.SetInt(key, value);
