@@ -37,10 +37,11 @@ namespace JD
 		private void OnDisable()
 		{
 			hover = false;
-			// if (target)
-			// {
-			// 	target.CrossFadeColor(colors.colorBlock.normalColor, 0, true, true, true);
-			// }
+		}
+
+		private void OnEnable()
+		{
+			Refresh();
 		}
 
 #if UNITY_EDITOR
@@ -52,28 +53,18 @@ namespace JD
 
 		private void OnValidate()
 		{
-			if (interactable)
-			{
-				if (hover)
-				{
-					Hover();
-				}
-				else
-				{
-					Normal();
-				}
-			}
-			else
-			{
-				Disable();
-			}
+			Refresh();
 		}
 #endif
 
 		private void SetInteractable(bool value)
 		{
 			_interactable = value;
+			Refresh();
+		}
 
+		private void Refresh()
+		{
 			if (interactable)
 			{
 				if (hover)
