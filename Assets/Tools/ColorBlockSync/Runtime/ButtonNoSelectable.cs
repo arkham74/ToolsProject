@@ -11,6 +11,7 @@ using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using UnityEngine.EventSystems;
 using System.Text;
+using JD.DataSync;
 
 namespace JD
 {
@@ -18,11 +19,8 @@ namespace JD
 	{
 		[SerializeField] private bool _interactable = true;
 		[SerializeField] private Graphic target;
-		[SerializeField] private ColorBlockData colors;
+		[SerializeField] private SyncData colors;
 		[SerializeField] private UnityEvent onClick;
-		[SerializeField] private bool ignoreTimeScale = true;
-		[SerializeField] private bool useRGB = true;
-		[SerializeField] private bool useAlpha = true;
 
 		private bool hover;
 
@@ -140,9 +138,7 @@ namespace JD
 		{
 			if (target)
 			{
-				ColorBlock colorBlock = colors.colorBlock;
-				float fadeDuration = colorBlock.fadeDuration;
-				target.CrossFadeColor(colorBlock.highlightedColor, fadeDuration, ignoreTimeScale, useAlpha, useRGB);
+				colors.Highlight(target);
 			}
 		}
 
@@ -150,9 +146,7 @@ namespace JD
 		{
 			if (target)
 			{
-				ColorBlock colorBlock = colors.colorBlock;
-				float fadeDuration = colorBlock.fadeDuration;
-				target.CrossFadeColor(colorBlock.normalColor, fadeDuration, ignoreTimeScale, useAlpha, useRGB);
+				colors.Normal(target);
 			}
 		}
 
@@ -160,9 +154,7 @@ namespace JD
 		{
 			if (target)
 			{
-				ColorBlock colorBlock = colors.colorBlock;
-				float fadeDuration = colorBlock.fadeDuration;
-				target.CrossFadeColor(colorBlock.disabledColor, fadeDuration, ignoreTimeScale, useAlpha, useRGB);
+				colors.Disabled(target);
 			}
 		}
 	}

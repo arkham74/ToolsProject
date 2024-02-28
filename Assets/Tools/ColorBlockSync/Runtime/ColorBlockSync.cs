@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using JD.DataSync;
+
 #if TOOLS_NAUATTR
 using NaughtyAttributes;
 #endif
@@ -10,9 +12,9 @@ namespace JD
 	public class ColorBlockSync : MonoBehaviour
 	{
 		public Selectable selectable;
-		#if TOOLS_NAUATTR
+#if TOOLS_NAUATTR
 		[Expandable]
-		#endif
+#endif
 		public ColorBlockData data;
 
 		private void Start()
@@ -20,19 +22,19 @@ namespace JD
 			Sync();
 		}
 
-		#if UNITY_EDITOR
+#if UNITY_EDITOR
 		private void Reset()
 		{
 			selectable = GetComponent<Selectable>();
 			data = AssetTools.FindAssetByType<ColorBlockData>();
 		}
-		#endif
+#endif
 
 		public void Sync()
 		{
 			if (selectable)
 			{
-				selectable.colors = data.colorBlock;
+				selectable.colors = data.ColorBlock;
 				selectable.MarkDirty();
 			}
 		}
