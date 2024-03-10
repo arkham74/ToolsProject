@@ -93,5 +93,29 @@ namespace JD
 			rectTransform.offsetMax = Vector2.zero;
 			rectTransform.offsetMin = Vector2.zero;
 		}
+
+		public static void SetSizeY(this RectTransform rectTransform, float size)
+		{
+			Vector2 sizeDelta = rectTransform.sizeDelta;
+			sizeDelta.y = size;
+			rectTransform.sizeDelta = sizeDelta;
+		}
+
+		public static void SetSizeX(this RectTransform rectTransform, float size)
+		{
+			Vector2 sizeDelta = rectTransform.sizeDelta;
+			sizeDelta.x = size;
+			rectTransform.sizeDelta = sizeDelta;
+		}
+
+		public static void AddSizeY(this RectTransform rectTransform, float size)
+		{
+			rectTransform.SetSizeY(rectTransform.sizeDelta.y + size);
+		}
+
+		public static void AddSizeX(this RectTransform rectTransform, float size)
+		{
+			rectTransform.SetSizeX(rectTransform.sizeDelta.x + size);
+		}
 	}
 }
