@@ -2,20 +2,21 @@ namespace JD
 {
 	public enum SteamAppIds
 	{
-		WorldOfArt = 1303670,
-		Jigtris = 1765650,
-		WorldOfArt3D = 2282040,
-		SearchAndRescue = 1911420,
-		PrincipleOfKarma = 1985160,
-		JetSetCorps = 1376290,
 		Champions = 1613220,
-		Swarm = 2263740,
-		Pixels = 2480140,
-		Yosemite = 2480320,
-		MatureDLC = 2520150,
-		TheTrial = 594260,
+		DLCDogs = 2891890,
+		DLCJigtris = 1765650,
+		DLCMature = 2520150,
+		DLCPixels = 2480140,
+		DLCWorldOfArt3D = 2282040,
+		DLCYosemite = 2480320,
+		JetSetCorps = 1376290,
+		PrincipleOfKarma = 1985160,
+		SearchAndRescue = 1911420,
 		Solcialists = 2628180,
-		StuntCoordinator = 1782980,
 		SpaceWar = 480,
+		StuntCoordinator = 1782980,
+		Swarm = 2263740,
+		TheTrial = 594260,
+		WorldOfArt = 1303670,
 	}
 }
