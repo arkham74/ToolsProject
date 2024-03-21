@@ -1,10 +1,7 @@
 using UnityEngine;
 using System.Runtime.CompilerServices;
 
-#if ENABLE_INPUT_SYSTEM
-#endif
-
-namespace SAR
+namespace JD
 {
 	public static class ColorTools
 	{

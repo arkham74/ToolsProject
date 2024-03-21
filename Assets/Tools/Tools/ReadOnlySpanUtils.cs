@@ -1,3 +1,5 @@
+using System;
+
 namespace JD
 {
 	public static class ReadOnlySpanUtils
