@@ -7,6 +7,18 @@ namespace JD
 	public static class ColorExtensions
 	{
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static float DistanceRGB(this Color from, Color to) => ColorTools.DistanceRGB(from, to);
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static float DistanceRGBA(this Color from, Color to) => ColorTools.DistanceRGBA(from, to);
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static float DistanceRGB(this Color32 from, Color32 to) => ColorTools.DistanceRGB(from, to);
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static float DistanceRGBA(this Color32 from, Color32 to) => ColorTools.DistanceRGBA(from, to);
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ColorHSV ToHSV(this Color32 rgb32)
 		{
 			Color rgb = rgb32;
@@ -48,19 +60,13 @@ namespace JD
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static string ToHtml(this Color color)
+		public static string ToHexString(this Color32 color)
 		{
 			return ColorUtility.ToHtmlStringRGB(color);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static string ToHtml(this Color32 color)
-		{
-			return ColorUtility.ToHtmlStringRGB(color);
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Color FromHtml(this string html)
+		public static Color FromHexString(this string html)
 		{
 			if (ColorUtility.TryParseHtmlString(html, out Color color))
 			{
@@ -106,11 +112,13 @@ namespace JD
 			return colorBlock;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool EqualRGB(this Color32 a, Color32 b)
 		{
 			return a.r == b.r && a.g == b.g && a.b == b.b;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool EqualRGBA(this Color32 a, Color32 b)
 		{
 			return EqualRGB(a, b) && a.a == b.a;
